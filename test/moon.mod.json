@@ -1,0 +1,14 @@
+{
+  "name": "tonyfettes/c/test",
+  "version": "0.1.0",
+  "deps": {
+    "tonyfettes/c": {
+      "path": ".."
+    }
+  },
+  "readme": "README.md",
+  "repository": "",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "description": ""
+}
