@@ -13,6 +13,10 @@ uint64_t moonbit_c_ptr_to_uint64(void *ptr) { return (uint64_t)ptr; }
 void *moonbit_c_ptr_of_uint64(uint64_t ptr) { return (void *)ptr; }
 
 void *moonbit_c_malloc(uint64_t size) { return malloc(size); }
+void *moonbit_c_calloc(uint64_t num, uint64_t size) {
+  return calloc(num, size);
+}
+void *moonbit_c_realloc(void *ptr, uint64_t size) { return realloc(ptr, size); }
 void moonbit_c_free(void *ptr) { free(ptr); }
 
 char *moonbit_c_bytes_to_ntbs(struct moonbit_bytes *bytes) {

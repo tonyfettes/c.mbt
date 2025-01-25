@@ -35,22 +35,6 @@ pub fn is_null[T](self : Ptr[T]) -> Bool {
 fn identity[T, U](value : T) -> U = "%identity"
 
 ///|
-extern "c" fn _malloc(size : UInt64) -> Ptr[Unit] = "moonbit_c_malloc"
-
-///|
-pub fn malloc[T](size : UInt64) -> Ptr[T] {
-  identity(_malloc(size))
-}
-
-///|
-extern "c" fn _free(ptr : Ptr[Unit]) -> Unit = "moonbit_c_free"
-
-///|
-pub fn free[T](self : Ptr[T]) -> Unit {
-  _free(identity(self))
-}
-
-///|
 trait Deref {
   deref(Ptr[Self]) -> Self
 }
@@ -101,24 +85,34 @@ pub fn Ptr::write[T : Write](self : Ptr[T], value : T) -> Unit {
 }
 
 ///|
+type Type UInt64 derive(Eq, Hash)
+
+///|
+pub fn Type::op_get(self : Type, length : UInt64) -> Type = "%u64.mul"
+
+///|
+pub let int : Type = 4
+
+///|
+pub let float : Type = 4
+
+///|
+pub fn sizeof(type_ : Type) -> UInt64 = "%identity"
+
+///|
 pub(open) trait Sized {
   sizeof() -> UInt64
 }
 
 ///|
-pub impl Sized for Int with sizeof() -> UInt64 { 4 }
+pub impl Sized for Int with sizeof() -> UInt64 { sizeof(int) }
 
 ///|
-pub impl Sized for Float with sizeof() -> UInt64 { 4 }
+pub impl Sized for Float with sizeof() -> UInt64 { sizeof(float) }
 
 ///|
 pub(open) trait ToUInt64 {
   to_uint64(Self) -> UInt64
-}
-
-///|
-pub fn calloc[T : Sized](nmemb : UInt64) -> Ptr[T] {
-  malloc(nmemb * T::sizeof())
 }
 
 ///|
