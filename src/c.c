@@ -19,14 +19,10 @@ void *moonbit_c_calloc(uint64_t num, uint64_t size) {
 void *moonbit_c_realloc(void *ptr, uint64_t size) { return realloc(ptr, size); }
 void moonbit_c_free(void *ptr) { free(ptr); }
 
-char *moonbit_c_bytes_to_ntbs(struct moonbit_bytes *bytes) {
-  int len = Moonbit_array_length(bytes);
-  char *ptr = (char *)bytes->data;
-  char *str = malloc(len + 1);
-  memcpy(str, ptr, len);
-  str[len] = '\0';
-  return str;
+char *moonbit_c_bytes_data(struct moonbit_bytes *bytes) {
+  return (char *)bytes->data;
 }
+uint64_t moonbit_c_strlen(char *str) { return strlen(str); }
 
 FILE *moonbit_c_get_stdin() { return stdin; }
 FILE *moonbit_c_get_stdout() { return stdout; }
