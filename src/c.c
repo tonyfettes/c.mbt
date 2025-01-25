@@ -1,5 +1,6 @@
 #include <memory.h>
 #include <moonbit.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,9 +9,11 @@ int moonbit_c_deref_int(int *ptr) { return *ptr; }
 float moonbit_c_deref_float(float *ptr) { return *ptr; }
 void moonbit_c_write_int(int *ptr, int val) { *ptr = val; }
 void moonbit_c_write_float(float *ptr, float val) { *ptr = val; }
-void moonbit_c_free(void *ptr) { free(ptr); }
 uint64_t moonbit_c_ptr_to_uint64(void *ptr) { return (uint64_t)ptr; }
 void *moonbit_c_ptr_of_uint64(uint64_t ptr) { return (void *)ptr; }
+
+void *moonbit_c_malloc(uint64_t size) { return malloc(size); }
+void moonbit_c_free(void *ptr) { free(ptr); }
 
 char *moonbit_c_bytes_to_ntbs(struct moonbit_bytes *bytes) {
   int len = Moonbit_array_length(bytes);

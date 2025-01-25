@@ -35,7 +35,7 @@ pub fn is_null[T](self : Ptr[T]) -> Bool {
 fn identity[T, U](value : T) -> U = "%identity"
 
 ///|
-extern "c" fn _malloc(size : UInt64) -> Ptr[Unit] = "malloc"
+extern "c" fn _malloc(size : UInt64) -> Ptr[Unit] = "moonbit_c_malloc"
 
 ///|
 pub fn malloc[T](size : UInt64) -> Ptr[T] {
