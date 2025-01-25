@@ -1,0 +1,8 @@
+{
+  "is-main": true,
+  "import": [
+    "tonyfettes/c",
+    "tonyfettes/c/moonbit",
+    "moonbitlang/x/encoding"
+  ]
+}

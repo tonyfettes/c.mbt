@@ -5,7 +5,7 @@ type FILE
 pub extern "c" fn puts(str : Ptr[Byte]) -> Int = "moonbit_c_puts"
 
 ///|
-pub extern "c" fn fopen(filename : Ptr[Byte], mode : Ptr[Byte]) -> Ptr[FILE] = "fopen"
+pub extern "c" fn fopen(filename : Ptr[Byte], mode : Ptr[Byte]) -> Ptr[FILE] = "moonbit_c_fopen"
 
 ///|
 pub extern "c" fn freopen(
@@ -55,3 +55,12 @@ pub extern "c" fn get_eof() -> Int = "moonbit_c_get_eof"
 
 ///|
 pub let eof : Int = get_eof()
+
+///|
+pub extern "c" fn tmpnam(filename : Ptr[Byte]) -> Ptr[Byte] = "tmpnam"
+
+///|
+extern "c" fn get_l_tmpnam() -> UInt64 = "moonbit_c_get_l_tmpnam"
+
+///|
+pub let l_tmpnam : UInt64 = get_l_tmpnam()

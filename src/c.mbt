@@ -8,6 +8,12 @@ extern "c" fn ptr_to_uint64(ptr : Ptr[Unit]) -> UInt64 = "moonbit_c_ptr_to_uint6
 extern "c" fn ptr_of_uint64(value : UInt64) -> Ptr[Unit] = "moonbit_c_ptr_of_uint64"
 
 ///|
+fn identity[T, U](value : T) -> U = "%identity"
+
+///|
+pub fn Ptr::cast[T, U](self : Ptr[T]) -> Ptr[U] = "%identity"
+
+///|
 pub fn Ptr::to_uint64[T](ptr : Ptr[T]) -> UInt64 {
   ptr_to_uint64(identity(ptr))
 }
@@ -19,7 +25,7 @@ pub fn Ptr::of_uint64[T](address : UInt64) -> Ptr[T] {
 
 ///|
 pub fn Ptr::add[T : Sized](self : Ptr[T], offset : UInt64) -> Ptr[T] {
-  let address = self.to_uint64() + offset * T::sizeof()
+  let address = self.to_uint64() + offset * T::size()
   Ptr::of_uint64(address)
 }
 
@@ -32,7 +38,9 @@ pub fn is_null[T](self : Ptr[T]) -> Bool {
 }
 
 ///|
-fn identity[T, U](value : T) -> U = "%identity"
+pub fn null[T]() -> Ptr[T] {
+  identity(0)
+}
 
 ///|
 trait Deref {
@@ -101,14 +109,14 @@ pub fn sizeof(type_ : Type) -> UInt64 = "%identity"
 
 ///|
 pub(open) trait Sized {
-  sizeof() -> UInt64
+  size() -> UInt64
 }
 
 ///|
-pub impl Sized for Int with sizeof() -> UInt64 { sizeof(int) }
+pub impl Sized for Int with size() -> UInt64 { sizeof(int) }
 
 ///|
-pub impl Sized for Float with sizeof() -> UInt64 { sizeof(float) }
+pub impl Sized for Float with size() -> UInt64 { sizeof(float) }
 
 ///|
 pub(open) trait ToUInt64 {

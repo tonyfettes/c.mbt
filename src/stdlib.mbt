@@ -2,16 +2,16 @@
 extern "c" fn _malloc(size : UInt64) -> Ptr[Unit] = "moonbit_c_malloc"
 
 ///|
-pub fn malloc[T](size : UInt64) -> Ptr[T] {
-  identity(_malloc(size))
+pub fn malloc[T : Sized]() -> Ptr[T] {
+  identity(_malloc(T::size()))
 }
 
 ///|
 extern "c" fn _calloc(num : UInt64, size : UInt64) -> Ptr[Unit] = "moonbit_c_calloc"
 
 ///|
-pub fn calloc[T](num : UInt64, size : UInt64) -> Ptr[T] {
-  identity(_calloc(num, size))
+pub fn calloc[T : Sized](num : UInt64) -> Ptr[T] {
+  identity(_calloc(num, T::size()))
 }
 
 ///|
@@ -19,7 +19,7 @@ extern "c" fn _realloc(ptr : Ptr[Unit], size : UInt64) -> Ptr[Unit] = "moonbit_c
 
 ///|
 pub fn realloc[T : Sized](ptr : Ptr[T], size : UInt64) -> Ptr[T] {
-  identity(_realloc(identity(ptr), T::sizeof() * size))
+  identity(_realloc(identity(ptr), T::size() * size))
 }
 
 ///|
