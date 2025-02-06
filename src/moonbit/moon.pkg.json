@@ -1,5 +1,3 @@
 {
-  "import": [
-    "tonyfettes/c"
-  ]
+  "import": ["tonyfettes/c"]
 }
