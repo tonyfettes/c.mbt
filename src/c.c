@@ -25,7 +25,9 @@ void *moonbit_c_memcpy(void *dest, void *src, uint64_t count) {
 }
 
 char *moonbit_c_bytes_data(struct moonbit_bytes *bytes) {
-  return (char *)bytes->data;
+  char *data = (char *)bytes->data;
+  moonbit_decref(bytes);
+  return data;
 }
 uint64_t moonbit_c_strlen(char *str) { return strlen(str); }
 
