@@ -25,9 +25,11 @@ void *moonbit_c_memcpy(void *dest, void *src, uint64_t count) {
 }
 
 char *moonbit_c_bytes_data(struct moonbit_bytes *bytes) {
-  char *data = (char *)bytes->data;
+  return (char *)bytes->data;
+}
+void moonbit_c_bytes_decref(struct moonbit_bytes *bytes) {
   moonbit_decref(bytes);
-  return data;
+  moonbit_decref(bytes);
 }
 uint64_t moonbit_c_strlen(char *str) { return strlen(str); }
 
@@ -41,6 +43,7 @@ char *moonbit_c_strerror(int errnum) { return strerror(errnum); }
 FILE *moonbit_c_fopen(const char *filename, const char *mode) {
   return fopen(filename, mode);
 }
+int moonbit_c_fclose(FILE *stream) { return fclose(stream); }
 
 void moonbit_c_exit(int status) { exit(status); }
 int moonbit_c_get_exit_success() { return EXIT_SUCCESS; }

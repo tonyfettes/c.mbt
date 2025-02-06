@@ -15,7 +15,7 @@ pub extern "c" fn freopen(
 ) -> Ptr[FILE] = "freopen"
 
 ///|
-pub extern "c" fn fclose(stream : Ptr[FILE]) -> Int = "fclose"
+pub extern "c" fn fclose(stream : Ptr[FILE]) -> Int = "moonbit_c_fclose"
 
 ///|
 pub extern "c" fn remove(pathname : Ptr[Byte]) -> Int = "remove"
