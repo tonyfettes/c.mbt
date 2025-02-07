@@ -12,13 +12,13 @@ pub extern "c" fn freopen(
   filename : Ptr[Byte],
   mode : Ptr[Byte],
   stream : Ptr[FILE]
-) -> Ptr[FILE] = "freopen"
+) -> Ptr[FILE] = "moonbit_c_freopen"
 
 ///|
 pub extern "c" fn fclose(stream : Ptr[FILE]) -> Int = "moonbit_c_fclose"
 
 ///|
-pub extern "c" fn remove(pathname : Ptr[Byte]) -> Int = "remove"
+pub extern "c" fn remove(pathname : Ptr[Byte]) -> Int = "moonbit_c_remove"
 
 ///|
 extern "c" fn get_stdin() -> Ptr[FILE] = "moonbit_c_get_stdin"
@@ -39,16 +39,16 @@ extern "c" fn get_stderr() -> Ptr[FILE] = "moonit_c_get_stderr"
 pub let stderr : Ptr[FILE] = get_stderr()
 
 ///|
-pub extern "c" fn ftell(stream : Ptr[FILE]) -> Int = "ftell"
+pub extern "c" fn ftell(stream : Ptr[FILE]) -> Int = "moonbit_c_ftell"
 
 ///|
-pub extern "c" fn feof(stream : Ptr[FILE]) -> Int = "feof"
+pub extern "c" fn feof(stream : Ptr[FILE]) -> Int = "moonbit_c_feof"
 
 ///|
-pub extern "c" fn fputs(str : Ptr[Byte], stream : Ptr[FILE]) -> Int = "fputs"
+pub extern "c" fn fputs(str : Ptr[Byte], stream : Ptr[FILE]) -> Int = "moonbit_c_fputs"
 
 ///|
-pub extern "c" fn perror(s : Ptr[Byte]) -> Unit = "perror"
+pub extern "c" fn perror(s : Ptr[Byte]) -> Unit = "moonbit_c_perror"
 
 ///|
 pub extern "c" fn get_eof() -> Int = "moonbit_c_get_eof"
@@ -57,7 +57,7 @@ pub extern "c" fn get_eof() -> Int = "moonbit_c_get_eof"
 pub let eof : Int = get_eof()
 
 ///|
-pub extern "c" fn tmpnam(filename : Ptr[Byte]) -> Ptr[Byte] = "tmpnam"
+pub extern "c" fn tmpnam(filename : Ptr[Byte]) -> Ptr[Byte] = "moonbit_c_tmpnam"
 
 ///|
 extern "c" fn get_l_tmpnam() -> UInt64 = "moonbit_c_get_l_tmpnam"

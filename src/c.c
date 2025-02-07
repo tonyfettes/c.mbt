@@ -38,12 +38,23 @@ FILE *moonbit_c_get_stdout() { return stdout; }
 FILE *moonbit_c_get_stderr() { return stderr; }
 int moonbit_c_get_eof() { return EOF; }
 int moonbit_c_puts(const char *str) { return puts(str); }
+char *moonbit_c_tmpnam(char *str) { return tmpnam(str); }
 int moonbit_c_get_l_tmpnam() { return L_tmpnam; }
 char *moonbit_c_strerror(int errnum) { return strerror(errnum); }
 FILE *moonbit_c_fopen(const char *filename, const char *mode) {
   return fopen(filename, mode);
 }
+int moonbit_c_remove(const char *filename) { return remove(filename); }
+FILE *moonbit_c_freopen(const char *filename, const char *mode, FILE *stream) {
+  return freopen(filename, mode, stream);
+}
+int moonbit_c_ftell(FILE *stream) { return ftell(stream); }
+int moonbit_c_feof(FILE *stream) { return feof(stream); }
+int moonbit_c_fputs(const char *str, FILE *stream) {
+  return fputs(str, stream);
+}
 int moonbit_c_fclose(FILE *stream) { return fclose(stream); }
+void moonbit_c_perror(const char *str) { perror(str); }
 
 void moonbit_c_exit(int status) { exit(status); }
 int moonbit_c_get_exit_success() { return EXIT_SUCCESS; }
