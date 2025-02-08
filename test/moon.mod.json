@@ -5,7 +5,8 @@
     "tonyfettes/c": {
       "path": ".."
     },
-    "moonbitlang/x": "0.4.17"
+    "moonbitlang/x": "0.4.17",
+    "tonyfettes/memory": "0.2.3"
   },
   "readme": "README.md",
   "repository": "",

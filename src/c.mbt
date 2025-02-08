@@ -2,6 +2,9 @@
 type Ptr[_]
 
 ///|
+pub fn Ptr::of_memory[T](memory : @memory.Memory[T]) -> Ptr[T] = "%identity"
+
+///|
 extern "c" fn ptr_to_uint64(ptr : Ptr[Unit]) -> UInt64 = "moonbit_c_ptr_to_uint64"
 
 ///|
@@ -104,6 +107,9 @@ pub let int : Size = 4
 
 ///|
 pub let float : Size = 4
+
+///|
+pub let double : Size = 8
 
 ///|
 pub fn sizeof(type_ : Size) -> UInt64 = "%identity"

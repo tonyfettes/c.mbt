@@ -1,8 +1,9 @@
 ///|
 fn main {
-  let bytes = b"How many characters does this string contain?\x00"
-  let str = @moonbit.bytes_to_ntbs(bytes, append_null=false)
-  println("without null character: \{@c.strlen(str)}")
-  println("with null character: \{bytes.length()}")
-  @c.free(str)
+  let msg = b"How many characters does this string contain?\x00".to_fixedarray()
+  let msg_mem = @memory.Memory::of_array(msg)
+  let msg_ptr = @c.Ptr::of_memory(msg_mem)
+  println("without null character: \{@c.strlen(msg_ptr)}")
+  println("with null character: \{msg.length()}")
+  @memory.free(msg_mem)
 }

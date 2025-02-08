@@ -1,6 +1,6 @@
 ///|
 fn main {
-  let msg = b"stdout is printed to console" |> @moonbit.bytes_to_ntbs()
+  let msg = b"stdout is printed to console" |> @memory.of_array()
   @c.puts(msg) |> ignore()
   @c.free(msg)
   let path = b"redir.txt" |> @moonbit.bytes_to_ntbs()

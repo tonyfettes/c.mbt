@@ -48,6 +48,14 @@ pub extern "c" fn feof(stream : Ptr[FILE]) -> Int = "moonbit_c_feof"
 pub extern "c" fn fputs(str : Ptr[Byte], stream : Ptr[FILE]) -> Int = "moonbit_c_fputs"
 
 ///|
+pub extern "c" fn fwrite(
+  buffer : Ptr[Byte],
+  size : UInt64,
+  count : UInt64,
+  stream : Ptr[FILE]
+) -> UInt64 = "moonbit_c_fwrite"
+
+///|
 pub extern "c" fn perror(s : Ptr[Byte]) -> Unit = "moonbit_c_perror"
 
 ///|
