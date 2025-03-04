@@ -1,5 +1,6 @@
 {
   "import": [
     "tonyfettes/memory"
-  ]
+  ],
+  "native-stub": ["c.c"]
 }
