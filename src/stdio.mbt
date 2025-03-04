@@ -1,5 +1,5 @@
 ///|
-type FILE
+extern type FILE
 
 ///|
 pub extern "c" fn puts(str : Ptr[Byte]) -> Int = "moonbit_c_puts"

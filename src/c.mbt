@@ -1,5 +1,5 @@
 ///|
-type Ptr[_]
+extern type Ptr[_]
 
 ///|
 pub fn Ptr::of_memory[T](memory : @memory.Memory[T]) -> Ptr[T] = "%identity"
