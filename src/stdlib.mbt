@@ -10,8 +10,8 @@ pub fn malloc[T : Sized]() -> Ptr[T] {
 extern "c" fn _calloc(num : UInt64, size : UInt64) -> Ptr[Unit] = "moonbit_c_calloc"
 
 ///|
-pub fn calloc[T : Sized](num : UInt64) -> Ptr[T] {
-  identity(_calloc(num, T::size()))
+pub fn calloc[T : Sized, I : ToUInt64](num : I) -> Ptr[T] {
+  identity(_calloc(num.to_uint64(), T::size()))
 }
 
 ///|
