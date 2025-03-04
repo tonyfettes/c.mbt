@@ -1,11 +1,13 @@
 ///|
 fn main {
-  let msg = b"Hello, World" |> @moonbit.bytes_to_ntbs()
-  let rc = @c.puts(msg)
-  @c.free(msg)
+  let rc = {
+    b"Hello, World\x00"
+    |> @c.Pointer::of_bytes()
+    |> @c.puts()
+  }
   if rc == @c.eof {
-    let err_msg = b"puts() failed" |> @moonbit.bytes_to_ntbs()
-    @c.perror(err_msg)
-    @c.free(err_msg)
+    b"puts() failed\x00"
+    |> @c.Pointer::of_bytes()
+    |> @c.perror()
   }
 }

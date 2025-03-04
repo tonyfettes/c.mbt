@@ -1,6 +1,9 @@
 {
   "is-main": true,
-  "import": [
-    "tonyfettes/c"
-  ]
+  "import": ["tonyfettes/c"],
+  "link": {
+    "native": {
+      "cc-flags": "-g -fsanitize=address"
+    }
+  }
 }

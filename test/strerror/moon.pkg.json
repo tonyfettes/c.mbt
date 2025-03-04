@@ -2,7 +2,11 @@
   "is-main": true,
   "import": [
     "tonyfettes/c",
-    "moonbitlang/x/encoding",
-    "tonyfettes/memory"
-  ]
+    "moonbitlang/x/encoding"
+  ],
+  "link": {
+    "native": {
+      "cc-flags": "-g -fsanitize=address"
+    }
+  }
 }

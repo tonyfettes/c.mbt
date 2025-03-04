@@ -2,7 +2,10 @@
 extern type Pointer[_]
 
 ///|
-pub fn Pointer::of_memory[T](memory : @memory.Memory[T]) -> Pointer[T] = "%identity"
+pub fn Pointer::of_array[T](array : FixedArray[T]) -> Pointer[T] = "%identity"
+
+///|
+pub fn Pointer::of_bytes(bytes : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
 extern "c" fn ptr_to_uint64(ptr : Pointer[Unit]) -> UInt64 = "moonbit_c_ptr_to_uint64"
@@ -27,7 +30,10 @@ pub fn Pointer::of_uint64[T](address : UInt64) -> Pointer[T] {
 }
 
 ///|
-pub fn Pointer::add[T : Sized](self : Pointer[T], offset : UInt64) -> Pointer[T] {
+pub fn Pointer::add[T : Sized](
+  self : Pointer[T],
+  offset : UInt64
+) -> Pointer[T] {
   let address = self.to_uint64() + offset * T::size()
   Pointer::of_uint64(address)
 }
@@ -43,6 +49,12 @@ pub fn is_null[T](self : Pointer[T]) -> Bool {
 ///|
 pub fn null[T]() -> Pointer[T] {
   identity(0)
+}
+
+pub extern "c" fn Pointer::op_equal(self : Pointer[Unit], other : Pointer[Unit]) -> Bool = "moonbit_c_pointer_equal"
+
+pub impl[T] Eq for Pointer[T] with op_equal(self : Pointer[T], other : Pointer[T]) -> Bool {
+  self.cast().op_equal(other.cast())
 }
 
 ///|
@@ -178,6 +190,11 @@ pub impl Sized for Double with size() -> UInt64 {
 ///|
 trait ToUInt64 {
   to_uint64(Self) -> UInt64
+}
+
+///|
+pub impl ToUInt64 for Int64 with to_uint64(self : Int64) -> UInt64 {
+  self.reinterpret_as_uint64()
 }
 
 ///|

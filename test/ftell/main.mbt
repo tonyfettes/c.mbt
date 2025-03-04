@@ -1,40 +1,41 @@
-// fn main {
-//   try {
-//     // Prepare an array of FP values. */
-//     let a : FixedArray[Double] = [1.1, 2.0, 3.0, 4.0, 5.0]
+fn main {
+  try {
+    // Prepare an array of FP values. */
+    let a : FixedArray[Double] = [1.1, 2.0, 3.0, 4.0, 5.0]
+    let a_ptr = a |> @c.Pointer::of_array()
 
-//     // Write array to a file. */
-//     let fname = b"/tmp/test.bin" |> @moonbit.bytes_to_ntbs()
-//     let mode = b"wb" |> @moonbit.bytes_to_ntbs()
-//     let file = @c.fopen(fname, mode);
-//     @c.free(fname)
-//     @c.free(mode)
-//     assert_true!(not(file.is_null()))
+    // Write array to a file. */
+    let fname = b"test.bin\x00" |> @c.Pointer::of_bytes()
+    let mode = b"wb\x00" |> @c.Pointer::of_bytes()
+    let file = @c.fopen(fname, mode);
+    assert_false!(file.is_null())
 
-//     let write_count = @c.fwrite(a, @c.sizeof(@c.double), a.length(), file);
-//     check(write_count == SIZE, "fwrite()", __LINE__);
+    let write_count = @c.fwrite(a_ptr.cast(), @c.sizeof(@c.double), a.length(), file);
+    println("write_count: \{write_count}");
+    assert_eq!(write_count, a.length().to_uint64());
+    @c.fflush(file) |> ignore();
+    @c.fclose(file) |> ignore();
 
-//     fclose(file);
+    // Read the FP values into array B. */
+    let mode = b"rb\x00" |> @c.Pointer::of_bytes();
+    let b : @c.Pointer[Double] = @c.calloc(a.length());
+    let file = @c.fopen(fname, mode);
+    assert_false!(file.is_null());
 
-//     // Read the FP values into array B. */
-//     double B[SIZE];
-//     file = @c.fopen(fname, mode);
-//     check(file != NULL, "fopen()", __LINE__);
+    let pos = @c.ftell(file);
+    assert_not_eq!(pos, -1);
 
-//     long int pos = ftell(file); // position indicator at start of file */
-//     check(pos != -1L, "ftell()", __LINE__);
-//     printf("pos: %ld\n", pos);
+    let read_count = @c.fread(b.cast(), @c.sizeof(@c.double), 1, file);
+    assert_eq!(read_count, 1);
 
-//     const int read_count = fread(B, sizeof(double), 1, file); // read one FP value */
-//     check(read_count == 1, "fread()", __LINE__);
-
-//     pos = ftell(file); // position indicator after reading one FP value */
-//     check(pos != -1L, "ftell()", __LINE__);
-//     printf("pos: %ld\n", pos);
-//     printf("B[0]: %.1f\n", B[0]); // print one FP value */
-
-//     return EXIT_SUCCESS;
-//   } catch {
-//     _ => @c.exit(@c.exit_failure);
-//   }
-// }
+    let pos = @c.ftell(file);
+    assert_not_eq!(pos, -1);
+    println("pos: \{pos}");
+    println("b[0]: \{b[0]}");
+  } catch {
+    error => {
+      println("Error: \{error}");
+      @c.exit(@c.exit_failure);
+    }
+  }
+}
