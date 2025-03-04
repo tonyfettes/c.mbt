@@ -1,5 +1,5 @@
 ///|
-pub extern "c" fn setlocale(category : Int, locale : Ptr[Byte]) -> Ptr[Byte] = "moonbit_c_setlocale"
+pub extern "c" fn setlocale(category : Int, locale : Pointer[Byte]) -> Pointer[Byte] = "moonbit_c_setlocale"
 
 ///|
 extern "c" fn get_lc_all() -> Int = "moonbit_c_get_lc_all"
