@@ -24,13 +24,6 @@ void *moonbit_c_memcpy(void *dest, void *src, uint64_t count) {
   return memcpy(dest, src, count);
 }
 
-char *moonbit_c_bytes_data(struct moonbit_bytes *bytes) {
-  return (char *)bytes->data;
-}
-void moonbit_c_bytes_decref(struct moonbit_bytes *bytes) {
-  moonbit_decref(bytes);
-  moonbit_decref(bytes);
-}
 uint64_t moonbit_c_strlen(char *str) { return strlen(str); }
 
 FILE *moonbit_c_get_stdin() { return stdin; }
