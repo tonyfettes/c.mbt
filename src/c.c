@@ -38,8 +38,6 @@ FILE *moonbit_c_get_stdout() { return stdout; }
 FILE *moonbit_c_get_stderr() { return stderr; }
 int moonbit_c_get_eof() { return EOF; }
 int moonbit_c_puts(const char *str) { return puts(str); }
-char *moonbit_c_tmpnam(char *str) { return tmpnam(str); }
-int moonbit_c_get_l_tmpnam() { return L_tmpnam; }
 char *moonbit_c_strerror(int errnum) { return strerror(errnum); }
 FILE *moonbit_c_fopen(const char *filename, const char *mode) {
   return fopen(filename, mode);
