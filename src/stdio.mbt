@@ -63,12 +63,3 @@ pub extern "c" fn get_eof() -> Int = "moonbit_c_get_eof"
 
 ///|
 pub let eof : Int = get_eof()
-
-///|
-pub extern "c" fn tmpnam(filename : Ptr[Byte]) -> Ptr[Byte] = "moonbit_c_tmpnam"
-
-///|
-extern "c" fn get_l_tmpnam() -> UInt64 = "moonbit_c_get_l_tmpnam"
-
-///|
-pub let l_tmpnam : UInt64 = get_l_tmpnam()
