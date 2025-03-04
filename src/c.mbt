@@ -51,16 +51,36 @@ trait Load {
 }
 
 ///|
-extern "c" fn load_int(self : Ptr[Int]) -> Int = "moonbit_c_deref_int"
+extern "c" fn load_byte(self : Ptr[Byte]) -> Byte = "moonbit_c_load_char"
 
 ///|
-pub impl Load for Int with load(ptr : Ptr[Int]) -> Int { ptr.load_int() }
+extern "c" fn load_int(self : Ptr[Int]) -> Int = "moonbit_c_load_int"
 
 ///|
-extern "c" fn load_float(ptr : Ptr[Float]) -> Float = "moonbit_c_deref_float"
+extern "c" fn load_float(ptr : Ptr[Float]) -> Float = "moonbit_c_load_float"
 
 ///|
-pub impl Load for Float with load(ptr : Ptr[Float]) -> Float { load_float(ptr) }
+extern "c" fn load_double(ptr : Ptr[Double]) -> Double = "moonbit_c_load_double"
+
+///|
+pub impl Load for Byte with load(ptr : Ptr[Byte]) -> Byte {
+  ptr.load_byte()
+}
+
+///|
+pub impl Load for Int with load(ptr : Ptr[Int]) -> Int {
+  ptr.load_int()
+}
+
+///|
+pub impl Load for Float with load(ptr : Ptr[Float]) -> Float {
+  load_float(ptr)
+}
+
+///|
+pub impl Load for Double with load(ptr : Ptr[Double]) -> Double {
+  load_double(ptr)
+}
 
 ///|
 pub fn Ptr::load[T : Load](self : Ptr[T]) -> T {
@@ -73,19 +93,35 @@ trait Store {
 }
 
 ///|
-extern "c" fn write_int(ptr : Ptr[Int], value : Int) -> Unit = "moonbit_c_write_int"
+extern "c" fn store_byte(ptr : Ptr[Byte], value : Byte) -> Unit = "moonbit_c_store_char"
 
 ///|
-pub impl Store for Int with store(ptr : Ptr[Int], value : Int) -> Unit {
-  write_int(ptr, value)
+extern "c" fn store_int(ptr : Ptr[Int], value : Int) -> Unit = "moonbit_c_store_int"
+
+///|
+extern "c" fn store_float(ptr : Ptr[Float], value : Float) -> Unit = "moonbit_c_store_int"
+
+///|
+extern "c" fn store_double(ptr : Ptr[Double], value : Double) -> Unit = "moonbit_c_store_double"
+
+///|
+pub impl Store for Byte with store(ptr : Ptr[Byte], value : Byte) -> Unit {
+  store_byte(ptr, value)
 }
 
 ///|
-extern "c" fn write_float(ptr : Ptr[Float], value : Float) -> Unit = "moonbit_c_write_int"
+pub impl Store for Int with store(ptr : Ptr[Int], value : Int) -> Unit {
+  store_int(ptr, value)
+}
 
 ///|
-impl Store for Float with store(ptr : Ptr[Float], value : Float) -> Unit {
-  write_float(ptr, value)
+pub impl Store for Float with store(ptr : Ptr[Float], value : Float) -> Unit {
+  store_float(ptr, value)
+}
+
+///|
+pub impl Store for Double with store(ptr : Ptr[Double], value : Double) -> Unit {
+  store_double(ptr, value)
 }
 
 ///|
@@ -120,17 +156,38 @@ pub(open) trait Sized {
 }
 
 ///|
-pub impl Sized for Byte with size() -> UInt64 { sizeof(byte) }
+pub impl Sized for Byte with size() -> UInt64 {
+  sizeof(byte)
+}
 
 ///|
-pub impl Sized for Int with size() -> UInt64 { sizeof(int) }
+pub impl Sized for Int with size() -> UInt64 {
+  sizeof(int)
+}
 
 ///|
-pub impl Sized for Float with size() -> UInt64 { sizeof(float) }
+pub impl Sized for Float with size() -> UInt64 {
+  sizeof(float)
+}
 
 ///|
-pub(open) trait ToUInt64 {
+pub impl Sized for Double with size() -> UInt64 {
+  sizeof(double)
+}
+
+///|
+trait ToUInt64 {
   to_uint64(Self) -> UInt64
+}
+
+///|
+pub impl ToUInt64 for UInt64 with to_uint64(self : UInt64) -> UInt64 {
+  self
+}
+
+///|
+pub impl ToUInt64 for Int with to_uint64(self : Int) -> UInt64 {
+  self.to_uint64()
 }
 
 ///|

@@ -7,10 +7,14 @@
 #include <stdlib.h>
 
 int moonbit_c_is_null(void *ptr) { return ptr == NULL; }
-int moonbit_c_deref_int(int *ptr) { return *ptr; }
-float moonbit_c_deref_float(float *ptr) { return *ptr; }
-void moonbit_c_write_int(int *ptr, int val) { *ptr = val; }
-void moonbit_c_write_float(float *ptr, float val) { *ptr = val; }
+char moonbit_c_load_char(char *ptr) { return *ptr; }
+int moonbit_c_load_int(int *ptr) { return *ptr; }
+float moonbit_c_load_float(float *ptr) { return *ptr; }
+double moonbit_c_load_double(double *ptr) { return *ptr; }
+void moonbit_c_store_char(char *ptr, char val) { *ptr = val; }
+void moonbit_c_store_int(int *ptr, int val) { *ptr = val; }
+void moonbit_c_store_float(float *ptr, float val) { *ptr = val; }
+void moonbit_c_store_double(double *ptr, double val) { *ptr = val; }
 uint64_t moonbit_c_ptr_to_uint64(void *ptr) { return (uint64_t)ptr; }
 void *moonbit_c_ptr_of_uint64(uint64_t ptr) { return (void *)ptr; }
 
