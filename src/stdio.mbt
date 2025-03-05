@@ -5,10 +5,17 @@ extern type FILE
 pub extern "c" fn puts(str : Pointer[Byte]) -> Int = "moonbit_c_puts"
 
 ///|
-pub extern "c" fn fopen(
+extern "c" fn _fopen(
   filename : Pointer[Byte],
   mode : Pointer[Byte]
 ) -> Nullable[FILE] = "moonbit_c_fopen"
+
+///|
+pub fn fopen(filename : Bytes, mode : Bytes) -> FILE? {
+  let filename = [..filename, b'\x00'] |> Pointer::of_bytes
+  let mode = [..mode, b'\x00'] |> Pointer::of_bytes
+  _fopen(filename, mode).to()
+}
 
 ///|
 pub extern "c" fn freopen(

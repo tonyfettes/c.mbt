@@ -6,9 +6,8 @@ fn main {
     let a_ptr = a |> @c.Pointer::of_array()
 
     // Write array to a file. */
-    let fname = b"test.bin\x00" |> @c.Pointer::of_bytes()
-    let mode = b"wb\x00" |> @c.Pointer::of_bytes()
-    let file = @c.fopen(fname, mode).to()
+    let fname = b"test.bin"
+    let file = @c.fopen(fname, b"wb")
     guard file is Some(file)
     let write_count = @c.fwrite(
       a_ptr.cast(),
@@ -22,9 +21,8 @@ fn main {
     @c.fclose(file) |> ignore()
 
     // Read the FP values into array B. */
-    let mode = b"rb\x00" |> @c.Pointer::of_bytes()
     let b : @c.Pointer[Double] = @c.calloc(a.length())
-    let file = @c.fopen(fname, mode).to()
+    let file = @c.fopen(fname, b"rb")
     guard file is Some(file)
     let pos = @c.ftell(file)
     assert_not_eq!(pos, -1)
