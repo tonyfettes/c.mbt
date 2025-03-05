@@ -34,5 +34,3 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/c.mbt-config.cmake
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/c.mbt
 )
-
-add_moon_module(test)

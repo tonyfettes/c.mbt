@@ -8,47 +8,6 @@ pub fn Pointer::of_array[T](array : FixedArray[T]) -> Pointer[T] = "%identity"
 pub fn Pointer::of_bytes(bytes : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
-trait Memory {
-  pointer(Self) -> Pointer[Unit]
-  length(Self) -> UInt64
-  sizeof(Self) -> UInt64
-}
-
-///|
-pub impl[T : Sized] Memory for FixedArray[T] with pointer(self : FixedArray[T]) -> Pointer[
-  Unit,
-] {
-  Pointer::of_array(self).cast()
-}
-
-///|
-pub impl[T : Sized] Memory for FixedArray[T] with sizeof(self : FixedArray[T]) -> UInt64 {
-  ignore(self)
-  T::size()
-}
-
-///|
-pub impl[T : Sized] Memory for FixedArray[T] with length(self : FixedArray[T]) -> UInt64 {
-  self.length().to_uint64()
-}
-
-///|
-pub impl Memory for Bytes with pointer(self : Bytes) -> Pointer[Unit] {
-  Pointer::of_bytes(self).cast()
-}
-
-///|
-pub impl Memory for Bytes with sizeof(self : Bytes) -> UInt64 {
-  ignore(self)
-  Byte::size()
-}
-
-///|
-pub impl Memory for Bytes with length(self : Bytes) -> UInt64 {
-  self.length().to_uint64()
-}
-
-///|
 extern "c" fn ptr_to_uint64(ptr : Pointer[Unit]) -> UInt64 = "moonbit_c_ptr_to_uint64"
 
 ///|
