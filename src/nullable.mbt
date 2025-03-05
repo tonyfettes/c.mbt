@@ -1,8 +1,8 @@
 ///|
-extern type Nullable[_]
+pub extern type Nullable[_]
 
 ///|
-fn Nullable::some[T](value : T) -> Nullable[T] = "%identity"
+pub fn Nullable::some[T](value : T) -> Nullable[T] = "%identity"
 
 ///|
 fn Nullable::unwrap[T](self : Nullable[T]) -> T = "%identity"
@@ -14,7 +14,7 @@ fn Nullable::null() -> Nullable[Unit] = "moonbit_c_null"
 fn Nullable::cast[T, U](self : Nullable[T]) -> Nullable[U] = "%identity"
 
 ///|
-fn Nullable::none[T]() -> Nullable[T] {
+pub fn Nullable::none[T]() -> Nullable[T] {
   Nullable::null().cast()
 }
 
