@@ -1,2 +1,2 @@
-add_moon_executable(ftell)
-target_link_libraries(ftell PRIVATE c.mbt)
+add_moon_executable(malloc)
+target_link_libraries(malloc PRIVATE c.mbt)

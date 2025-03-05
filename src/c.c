@@ -2,10 +2,15 @@
 #include <locale.h>
 #include <memory.h>
 #include <moonbit.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+
+void *
+moonbit_ffi_make_closure(void *function, void *callback) {
+  return callback;
+}
 
 int
 moonbit_c_is_null(void *ptr) {
@@ -126,11 +131,21 @@ moonbit_c_setvbuf(FILE *stream, char *buf, int mode, size_t size) {
   return setvbuf(stream, buf, mode, size);
 }
 size_t
-moonbit_c_fread(void *restrict buffer, size_t size, size_t count, FILE *restrict stream) {
+moonbit_c_fread(
+  void *restrict buffer,
+  size_t size,
+  size_t count,
+  FILE *restrict stream
+) {
   return fread(buffer, size, count, stream);
 }
 size_t
-moonbit_c_fwrite(const void *restrict buffer, size_t size, size_t count, FILE *restrict stream) {
+moonbit_c_fwrite(
+  const void *restrict buffer,
+  size_t size,
+  size_t count,
+  FILE *restrict stream
+) {
   return fwrite(buffer, size, count, stream);
 }
 int

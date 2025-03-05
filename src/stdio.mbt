@@ -2,7 +2,12 @@
 extern type FILE
 
 ///|
-pub extern "c" fn puts(str : Pointer[Byte]) -> Int = "moonbit_c_puts"
+extern "c" fn _puts(str : Pointer[Byte]) -> Int = "moonbit_c_puts"
+
+pub fn puts(str : Bytes) -> Int {
+  let str = [..str, b'\x00'] |> Pointer::of_bytes
+  _puts(str)
+}
 
 ///|
 extern "c" fn _fopen(
@@ -18,14 +23,36 @@ pub fn fopen(filename : Bytes, mode : Bytes) -> FILE? {
 }
 
 ///|
-pub extern "c" fn freopen(
+pub fn FILE::open(filename : Bytes, mode : Bytes) -> FILE? {
+  fopen(filename, mode)
+}
+
+///|
+extern "c" fn _freopen(
   filename : Pointer[Byte],
   mode : Pointer[Byte],
   stream : FILE
 ) -> Nullable[FILE] = "moonbit_c_freopen"
 
 ///|
+pub fn freopen(filename : Bytes, mode : Bytes, stream : FILE) -> FILE? {
+  let filename = [..filename, b'\x00'] |> Pointer::of_bytes
+  let mode = [..mode, b'\x00'] |> Pointer::of_bytes
+  _freopen(filename, mode, stream).to()
+}
+
+///|
+pub fn FILE::reopen(self : FILE, filename : Bytes, mode : Bytes) -> FILE? {
+  freopen(filename, mode, self)
+}
+
+///|
 pub extern "c" fn fclose(stream : FILE) -> Int = "moonbit_c_fclose"
+
+///|
+pub fn FILE::close(self : FILE) -> Int {
+  fclose(self)
+}
 
 ///|
 pub extern "c" fn fflush(stream : FILE) -> Int = "moonbit_c_fflush"
@@ -62,42 +89,62 @@ pub extern "c" fn fputs(str : Pointer[Byte], stream : FILE) -> Int = "moonbit_c_
 
 ///|
 extern "c" fn _fwrite(
-  buffer : Pointer[Byte],
+  buffer : Pointer[Unit],
   size : UInt64,
   count : UInt64,
   stream : FILE
 ) -> UInt64 = "moonbit_c_fwrite"
 
 ///|
-pub fn fwrite[Size : ToUInt64, Count : ToUInt64](
-  buffer : Pointer[Byte],
-  size : Size,
-  count : Count,
+pub fn fwrite[Buffer : Memory](
+  buffer : Buffer,
+  length? : UInt64,
   stream : FILE
 ) -> UInt64 {
-  _fwrite(buffer, size.to_uint64(), count.to_uint64(), stream)
+  let length = match length {
+    None => buffer.length()
+    Some(length) => length
+  }
+  _fwrite(buffer.pointer(), buffer.sizeof(), length, stream)
+}
+
+///|
+pub fn FILE::write[Buffer : Memory](
+  self : FILE,
+  buffer : Buffer,
+  length? : UInt64
+) -> UInt64 {
+  fwrite(buffer, length?, self)
 }
 
 ///|
 extern "c" fn _fread(
-  buffer : Pointer[Byte],
+  buffer : Pointer[Unit],
   size : UInt64,
   count : UInt64,
   stream : FILE
 ) -> UInt64 = "moonbit_c_fread"
 
 ///|
-pub fn fread[Size : ToUInt64, Count : ToUInt64](
-  buffer : Pointer[Byte],
-  size : Size,
-  count : Count,
+pub fn fread[Buffer : Memory](
+  buffer : Buffer,
+  length? : UInt64,
   stream : FILE
 ) -> UInt64 {
-  _fread(buffer, size.to_uint64(), count.to_uint64(), stream)
+  let length = match length {
+    None => buffer.length()
+    Some(count) => count
+  }
+  _fread(buffer.pointer(), buffer.sizeof(), length, stream)
 }
 
 ///|
-pub extern "c" fn perror(s : Pointer[Byte]) -> Unit = "moonbit_c_perror"
+extern "c" fn _perror(s : Pointer[Byte]) -> Unit = "moonbit_c_perror"
+
+pub fn perror(s : Bytes) -> Unit {
+  let s = [..s, b'\x00'] |> Pointer::of_bytes
+  _perror(s)
+}
 
 ///|
 pub extern "c" fn get_eof() -> Int = "moonbit_c_get_eof"
