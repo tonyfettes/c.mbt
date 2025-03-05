@@ -18,41 +18,42 @@ function(setup_moonbit_module directory)
     set(MOON_CURRENT_TARGET_DIR ${MOON_CURRENT_SOURCE_DIR}/target)
   endif()
   set(MOON_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${MOON_CURRENT_SOURCE_DIR} PARENT_SCOPE)
-  cmake_print_variables(MOON_CURRENT_SOURCE_DIR)
   set(MOON_CURRENT_TARGET_DIR ${CMAKE_CURRENT_BINARY_DIR}/${MOON_CURRENT_TARGET_DIR} PARENT_SCOPE)
-  cmake_print_variables(MOON_CURRENT_TARGET_DIR)
 endfunction()
 
-setup_moonbit_module(.)
-
-add_library(moonbit INTERFACE)
-target_include_directories(moonbit INTERFACE "${MOON_HOME}/include")
+add_library(moonbit STATIC "${MOON_HOME}/lib/runtime.c")
+target_include_directories(moonbit PUBLIC "${MOON_HOME}/include")
 
 function(add_moon_executable target_name)
-  cmake_print_variables(MOON_CURRENT_SOURCE_DIR)
   file(RELATIVE_PATH MOON_CURRENT_PACKAGE ${MOON_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-  cmake_print_variables(MOON_CURRENT_PACKAGE)
-  add_moon_custom_target(${target_name})
+  add_moon_custom_target_native(${target_name})
   add_executable(
     ${target_name}
     ${MOON_CURRENT_TARGET_DIR}/native/release/build/${MOON_CURRENT_PACKAGE}/${target_name}.c)
   target_link_libraries(${target_name} PRIVATE moonbit)
-  install(TARGETS ${target_name} RUNTIME DESTINATION bin)
 endfunction()
 
-function(add_moon_custom_target target_name)
+function(add_moon_custom_target_native target_name)
   add_custom_target(
     ${target_name}-moon
     COMMAND moon build --target=native --directory ${MOON_CURRENT_SOURCE_DIR}
-      --target-dir ${MOON_CURRENT_TARGET_DIR}
+      --target-dir ${MOON_CURRENT_TARGET_DIR} || true
     BYPRODUCTS
       ${MOON_CURRENT_TARGET_DIR}/native/release/build/${MOON_CURRENT_PACKAGE}/${target_name}.c
       ${MOON_CURRENT_TARGET_DIR}/native/release/build/${MOON_CURRENT_PACKAGE}/${target_name}.exe)
 endfunction()
 
+function(add_moon_custom_target_wasm target_name)
+  add_custom_target(
+    ${target_name}-moon
+    COMMAND moon build --target=wasm --directory ${MOON_CURRENT_SOURCE_DIR}
+      --target-dir ${MOON_CURRENT_TARGET_DIR} || true
+    BYPRODUCTS
+      ${MOON_CURRENT_TARGET_DIR}/wasm/release/build/${MOON_CURRENT_PACKAGE}/${target_name}.wasm)
+endfunction()
+
 function(add_moon_module directory)
   setup_moonbit_module(${directory})
-  cmake_print_variables(MOON_CURRENT_SOURCE_DIR)
   add_subdirectory(${directory})
 endfunction()
 
