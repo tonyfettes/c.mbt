@@ -3,7 +3,7 @@ fn main {
   try {
     let path = b"non_existent_file.txt\x00" |> @c.Pointer::of_bytes()
     let mode = b"r\x00" |> @c.Pointer::of_bytes()
-    let fp : @c.Pointer[@c.FILE] = @c.fopen(path, mode)
+    let fp : @c.Nullable[@c.FILE] = @c.fopen(path, mode)
     if fp.is_null() {
       let error = @c.errno() |> @c.strerror()
       let error = Bytes::makei(@c.strlen(error).to_int(), fn(i) { error[i] })
