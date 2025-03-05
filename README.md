@@ -1,8 +1,33 @@
 # tonyfettes/c
 
-FFI Binding to C standard library.
+FFI Binding to C.
 
-Rather than providing a convient API for interfacing with C standard library,
-this library aims to truthfully reflect the C API into the MoonBit side. For
-example, all `char *` in C code is mapped to `Pointer[Byte]` in this library, not
-`Bytes`.
+## Usage
+
+1. Add this library using `moon add`:
+
+   ```bash
+   moon add tonyfettes/c
+   ```
+
+2. Import the library in your `moon.pkg.json`:
+
+   ```json
+   {
+     "import": [
+       "tonyfettes/c"
+     ]
+   }
+   ```
+
+3. Insert the following code anywhere in your MoonBit code:
+
+   ```moonbit
+   fn init {
+     ignore(@c.moonbit_ffi_make_closure)
+   }
+   ```
+
+   This prevents the closure help function from being eliminated by the MoonBit compiler.
+
+4. Use the library in your code.
