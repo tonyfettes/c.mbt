@@ -3,82 +3,32 @@ package tonyfettes/c
 // Values
 let byte : Size
 
-fn calloc[T : Sized, I : ToUInt64](I) -> Pointer[T]
-
 let double : Size
-
-let eof : Int
-
-fn errno(errno? : Int) -> Int
-
-fn exit(Int) -> Unit
-
-let exit_failure : Int
-
-let exit_success : Int
-
-fn fclose(Pointer[FILE]) -> Int
-
-fn feof(Pointer[FILE]) -> Int
-
-fn fflush(Pointer[FILE]) -> Int
 
 let float : Size
 
-fn fopen(Pointer[Byte], Pointer[Byte]) -> Pointer[FILE]
-
-fn fputs(Pointer[Byte], Pointer[FILE]) -> Int
-
-fn fread[Size : ToUInt64, Count : ToUInt64](Pointer[Byte], Size, Count, Pointer[FILE]) -> UInt64
-
-fn freopen(Pointer[Byte], Pointer[Byte], Pointer[FILE]) -> Pointer[FILE]
-
-fn ftell(Pointer[FILE]) -> Int
-
-fn fwrite[Size : ToUInt64, Count : ToUInt64](Pointer[Byte], Size, Count, Pointer[FILE]) -> UInt64
-
-fn get_eof() -> Int
-
 let int : Size
 
-let lc_all : Int
-
-fn malloc[T : Sized]() -> Pointer[T]
-
-fn memcpy(Pointer[Unit], Pointer[Unit], UInt64) -> Pointer[Unit]
+fn moonbit_ffi_make_closure(Nullable[Unit], Nullable[Unit]) -> Nullable[Unit]
 
 fn null[T]() -> Pointer[T]
 
-fn perror(Pointer[Byte]) -> Unit
-
-fn puts(Pointer[Byte]) -> Int
-
-fn realloc[T : Sized](Pointer[T], UInt64) -> Pointer[T]
-
-fn remove(Pointer[Byte]) -> Int
-
-fn setlocale(Int, Pointer[Byte]) -> Pointer[Byte]
-
 fn sizeof(Size) -> UInt64
 
-let stderr : Pointer[FILE]
-
-let stdin : Pointer[FILE]
-
-let stdout : Pointer[FILE]
-
-fn strerror(Int) -> Pointer[Byte]
-
-fn strlen(Pointer[Byte]) -> UInt64
-
 // Types and methods
-type FILE
+pub extern type Nullable[_]
+impl Nullable {
+  is_null[T](Self[T]) -> Bool
+  none[T]() -> Self[T]
+  of[T](T?) -> Self[T]
+  some[T](T) -> Self[T]
+  to[T](Self[T]) -> T?
+}
 
 type Pointer[_]
 impl Pointer {
   add[T : Sized](Self[T], UInt64) -> Self[T]
   cast[T, U](Self[T]) -> Self[U]
-  free[T](Self[T]) -> Unit
   is_null[T](Self[T]) -> Bool
   load[T : Load](Self[T]) -> T
   of_array[T](FixedArray[T]) -> Self[T]
