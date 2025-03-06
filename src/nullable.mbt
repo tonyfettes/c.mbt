@@ -8,7 +8,7 @@ pub fn Nullable::some[T](value : T) -> Nullable[T] = "%identity"
 fn Nullable::unwrap[T](self : Nullable[T]) -> T = "%identity"
 
 ///|
-fn Nullable::null() -> Nullable[Unit] = "moonbit_c_null"
+extern "c" fn Nullable::null() -> Nullable[Unit] = "moonbit_c_null"
 
 ///|
 fn Nullable::cast[T, U](self : Nullable[T]) -> Nullable[U] = "%identity"
