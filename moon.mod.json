@@ -1,11 +1,11 @@
 {
   "name": "tonyfettes/c",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "readme": "README.md",
   "repository": "https://github.com/tonyfettes/c.mbt",
   "license": "Apache-2.0",
   "keywords": [],
-  "description": "",
+  "description": "FFI Binding to C",
   "source": "src",
   "exclude": []
 }
