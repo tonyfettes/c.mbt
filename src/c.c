@@ -7,10 +7,16 @@ moonbit_ffi_make_closure(void *function, void *callback) {
   return callback;
 }
 
+void *
+moonbit_c_null() {
+  return NULL;
+}
+
 int
 moonbit_c_is_null(void *ptr) {
   return ptr == NULL;
 }
+
 char
 moonbit_c_load_char(char *ptr) {
   return *ptr;
