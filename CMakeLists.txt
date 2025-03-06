@@ -4,7 +4,7 @@ project(c.mbt LANGUAGES C)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE on)
 
-include(cmake/MoonBit.cmake)
+include(cmake/moonbit.cmake)
 
 setup_moonbit_module(.)
 
