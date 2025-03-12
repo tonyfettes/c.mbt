@@ -1,6 +1,7 @@
 #include <moonbit.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 void *
 moonbit_ffi_make_closure(void *function, void *callback) {
