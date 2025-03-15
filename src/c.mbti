@@ -9,11 +9,15 @@ let float : Size
 
 let int : Size
 
+fn is_null[T](Pointer[T]) -> Bool
+
 fn moonbit_ffi_make_closure(Nullable[Unit], Nullable[Unit]) -> Nullable[Unit]
 
 fn null[T]() -> Pointer[T]
 
 fn sizeof(Size) -> UInt64
+
+let uint64 : Size
 
 // Types and methods
 pub extern type Nullable[_]
@@ -27,18 +31,15 @@ impl Nullable {
 
 type Pointer[_]
 impl Pointer {
-  add[T : Sized](Self[T], UInt64) -> Self[T]
   cast[T, U](Self[T]) -> Self[U]
   is_null[T](Self[T]) -> Bool
-  load[T : Load](Self[T]) -> T
+  load[T : Sized](Self[T]) -> T
   of_array[T](FixedArray[T]) -> Self[T]
   of_bytes(Bytes) -> Self[Byte]
-  of_uint64[T](UInt64) -> Self[T]
   op_equal(Self[Unit], Self[Unit]) -> Bool
-  op_get[T : Sized + Load, I : ToUInt64](Self[T], I) -> T
-  op_set[T : Sized + Store, I : ToUInt64](Self[T], I, T) -> Unit
-  store[T : Store](Self[T], T) -> Unit
-  to_uint64[T](Self[T]) -> UInt64
+  op_get[T : Sized, I : ToInt](Self[T], I) -> T
+  op_set[T : Sized, I : ToInt](Self[T], I, T) -> Unit
+  store[T : Sized](Self[T], T) -> Unit
 }
 impl[T] Eq for Pointer[T]
 
@@ -52,28 +53,19 @@ impl Hash for Size
 // Type aliases
 
 // Traits
-trait Load
-impl Load for Byte
-impl Load for Int
-impl Load for Float
-impl Load for Double
-
 pub(open) trait Sized {
   size() -> UInt64
 }
 impl Sized for Byte
 impl Sized for Int
+impl Sized for UInt64
 impl Sized for Float
 impl Sized for Double
 
-trait Store
-impl Store for Byte
-impl Store for Int
-impl Store for Float
-impl Store for Double
-
-trait ToUInt64
-impl ToUInt64 for Int
-impl ToUInt64 for Int64
-impl ToUInt64 for UInt64
+pub(open) trait ToInt {
+  to_int(Self) -> Int
+}
+impl ToInt for Int
+impl ToInt for UInt
+impl ToInt for UInt64
 

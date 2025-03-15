@@ -8,7 +8,22 @@ pub fn Size::op_get(self : Size, length : UInt64) -> Size = "%u64.mul"
 pub let byte : Size = 1
 
 ///|
+pub let int16 : Size = 2
+
+///|
+pub let uint16 : Size = 2
+
+///|
 pub let int : Size = 4
+
+///|
+pub let uint : Size = 4
+
+///|
+pub let int64 : Size = 8
+
+///|
+pub let uint64 : Size = 8
 
 ///|
 pub let float : Size = 4
@@ -30,8 +45,33 @@ pub impl Sized for Byte with size() -> UInt64 {
 }
 
 ///|
+pub impl Sized for Int16 with size() -> UInt64 {
+  sizeof(int16)
+}
+
+///|
+pub impl Sized for UInt16 with size() -> UInt64 {
+  sizeof(uint16)
+}
+
+///|
 pub impl Sized for Int with size() -> UInt64 {
   sizeof(int)
+}
+
+///|
+pub impl Sized for UInt with size() -> UInt64 {
+  sizeof(uint)
+}
+
+///|
+pub impl Sized for Int64 with size() -> UInt64 {
+  sizeof(int64)
+}
+
+///|
+pub impl Sized for UInt64 with size() -> UInt64 {
+  sizeof(uint64)
 }
 
 ///|
@@ -45,38 +85,21 @@ pub impl Sized for Double with size() -> UInt64 {
 }
 
 ///|
-trait ToUInt64 {
-  to_uint64(Self) -> UInt64
+pub(open) trait ToInt {
+  to_int(Self) -> Int
 }
 
 ///|
-pub impl ToUInt64 for Int64 with to_uint64(self : Int64) -> UInt64 {
-  self.reinterpret_as_uint64()
-}
-
-///|
-pub impl ToUInt64 for UInt64 with to_uint64(self : UInt64) -> UInt64 {
+pub impl ToInt for Int with to_int(self : Int) -> Int {
   self
 }
 
 ///|
-pub impl ToUInt64 for Int with to_uint64(self : Int) -> UInt64 {
-  self.to_uint64()
+pub impl ToInt for UInt with to_int(self : UInt) -> Int {
+  self.reinterpret_as_int()
 }
 
 ///|
-pub fn Pointer::op_get[T : Sized + Load, I : ToUInt64](
-  self : Pointer[T],
-  index : I
-) -> T {
-  self.add(index.to_uint64()).load()
-}
-
-///|
-pub fn op_set[T : Sized + Store, I : ToUInt64](
-  self : Pointer[T],
-  index : I,
-  value : T
-) -> Unit {
-  self.add(index.to_uint64()).store(value)
+pub impl ToInt for UInt64 with to_int(self : UInt64) -> Int {
+  self.to_int()
 }
