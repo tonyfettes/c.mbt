@@ -1,0 +1,15 @@
+{
+  "name": "tonyfettes/c/test",
+  "version": "0.1.6",
+  "deps": {
+    "tonyfettes/c": {
+      "path": ".."
+    }
+  },
+  "readme": "README.md",
+  "repository": "https://github.com/tonyfettes/c.mbt",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "description": "",
+  "exclude": []
+}

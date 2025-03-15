@@ -1,0 +1,9 @@
+{
+  "is-main": true,
+  "import": ["tonyfettes/c"],
+  "link": {
+    "native": {
+      "cc": "echo"
+    }
+  }
+}

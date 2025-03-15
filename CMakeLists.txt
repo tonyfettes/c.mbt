@@ -11,6 +11,9 @@ setup_moonbit_module(.)
 
 option(C_MBT_BUILD_TESTS "Build tests" OFF)
 
+include(CTest)
+enable_testing()
+
 add_library(c.mbt::moonbit ALIAS moonbit)
 add_library(c.mbt STATIC src/c.c)
 add_library(c.mbt::c.mbt ALIAS c.mbt)
