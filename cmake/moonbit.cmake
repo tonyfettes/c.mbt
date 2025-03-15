@@ -12,6 +12,9 @@ else()
 endif()
 cmake_print_variables(MOON_HOME)
 
+add_library(moonbit STATIC "${MOON_HOME}/lib/runtime.c")
+target_include_directories(moonbit PUBLIC "${MOON_HOME}/include")
+
 function(setup_moonbit_module directory)
   file(READ ${CMAKE_CURRENT_SOURCE_DIR}/${directory}/moon.mod.json MOON_MOD_JSON)
   string(JSON
@@ -24,16 +27,13 @@ function(setup_moonbit_module directory)
   string(JSON
     MOON_CURRENT_TARGET_DIR
     ERROR_VARIABLE MOON_CURRENT_TARGET_DIR_ERROR
-    GET ${MOON_MOD_JSON} source)
+    GET ${MOON_MOD_JSON} target)
   if(NOT MOON_CURRENT_TARGET_DIR_ERROR STREQUAL NOTFOUND)
     set(MOON_CURRENT_TARGET_DIR ${MOON_CURRENT_SOURCE_DIR}/target)
   endif()
   set(MOON_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${MOON_CURRENT_SOURCE_DIR} PARENT_SCOPE)
   set(MOON_CURRENT_TARGET_DIR ${CMAKE_CURRENT_BINARY_DIR}/${MOON_CURRENT_TARGET_DIR} PARENT_SCOPE)
 endfunction()
-
-add_library(moonbit STATIC "${MOON_HOME}/lib/runtime.c")
-target_include_directories(moonbit PUBLIC "${MOON_HOME}/include")
 
 function(add_moon_executable target_name)
   file(RELATIVE_PATH MOON_CURRENT_PACKAGE ${MOON_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

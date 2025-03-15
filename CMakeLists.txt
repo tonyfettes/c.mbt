@@ -3,10 +3,13 @@ project(c.mbt LANGUAGES C)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE on)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address -Wmissing-field-initializers")
 
 include(cmake/moonbit.cmake)
 
 setup_moonbit_module(.)
+
+option(C_MBT_BUILD_TESTS "Build tests" OFF)
 
 add_library(c.mbt::moonbit ALIAS moonbit)
 add_library(c.mbt STATIC src/c.c)
@@ -34,3 +37,7 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/c.mbt-config.cmake
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/c.mbt
 )
+
+if(C_MBT_BUILD_TESTS)
+  add_moon_module(test)
+endif()
