@@ -1,5 +1,9 @@
 include(CMakePrintHelpers)
-set(MOON_HOME "$ENV{MOON_HOME}")
+if(NOT DEFINED ENV{MOON_HOME})
+  set(MOON_HOME "$ENV{HOME}/.moon")
+else()
+  set(MOON_HOME "$ENV{MOON_HOME}")
+endif()
 
 function(setup_moonbit_module directory)
   file(READ ${CMAKE_CURRENT_SOURCE_DIR}/${directory}/moon.mod.json MOON_MOD_JSON)
