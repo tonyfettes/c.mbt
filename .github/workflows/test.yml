@@ -1,4 +1,4 @@
-name: CMake Build
+name: CTest
 
 on:
   push:
@@ -8,7 +8,7 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build:
+  test:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
