@@ -23,6 +23,6 @@ moonbit_c_pointer_equal(void *ptr1, void *ptr2) {
 }
 
 void *
-moonbit_c_malloc(uint64_t size) {
-  return malloc(size);
+moonbit_c_identity(void *pointer) {
+  return pointer;
 }

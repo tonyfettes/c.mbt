@@ -2,16 +2,34 @@
 pub extern type Nullable[_]
 
 ///|
-pub fn Nullable::some[T](value : T) -> Nullable[T] = "%identity"
+fn Nullable::_some[T](value : T) -> Nullable[T] = "%identity"
 
 ///|
-fn Nullable::unwrap[T](self : Nullable[T]) -> T = "%identity"
+pub fn Nullable::some[T](value : T) -> Nullable[T] {
+  Nullable::some(value).cast()
+}
+
+///|
+fn Nullable::_unwrap[T](self : Nullable[T]) -> T = "%identity"
+
+///|
+fn Nullable::unwrap[T](self : Nullable[T]) -> T {
+  self.cast()._unwrap()
+}
 
 ///|
 extern "c" fn Nullable::_none() -> Nullable[Unit] = "moonbit_c_null"
 
 ///|
-fn Nullable::cast[T, U](self : Nullable[T]) -> Nullable[U] = "%identity"
+fn Nullable::_type_cast[T, U](self : Nullable[T]) -> Nullable[U] = "%identity"
+
+///|
+extern "c" fn Nullable::_impl_cast(self : Nullable[Unit]) -> Nullable[Unit] = "moonbit_c_identity"
+
+///|
+fn Nullable::cast[T, U](self : Nullable[T]) -> Nullable[U] {
+  self._type_cast()._impl_cast()._type_cast()
+}
 
 ///|
 pub fn Nullable::none[T]() -> Nullable[T] {
