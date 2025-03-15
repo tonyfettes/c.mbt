@@ -20,7 +20,7 @@ FFI Binding to C.
    }
    ```
 
-3. Insert the following code anywhere in your MoonBit code:
+3. Insert the following code somewhere in your MoonBit code:
 
    ```moonbit
    fn init {
@@ -28,6 +28,7 @@ FFI Binding to C.
    }
    ```
 
-   This prevents the closure help function from being eliminated by the MoonBit compiler.
+   This prevents the closure help function from being eliminated by the MoonBit
+   compiler.
 
 4. Use the library in your code.
