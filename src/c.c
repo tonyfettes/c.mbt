@@ -1,5 +1,4 @@
 #include <moonbit.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 void *
@@ -17,7 +16,7 @@ moonbit_c_is_null(void *ptr) {
   return ptr == NULL;
 }
 
-bool
+int
 moonbit_c_pointer_equal(void *ptr1, void *ptr2) {
   return ptr1 == ptr2;
 }
