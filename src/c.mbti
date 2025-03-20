@@ -1,25 +1,21 @@
 package tonyfettes/c
 
 // Values
-let byte : Size
-
-let double : Size
-
-let float : Size
-
-let int : Size
-
 fn is_null[T](Pointer[T]) -> Bool
 
 fn moonbit_ffi_make_closure(Nullable[Unit], Nullable[Unit]) -> Nullable[Unit]
 
+fn none[T]() -> Nullable[T]
+
 fn null[T]() -> Pointer[T]
 
-fn sizeof(Size) -> UInt64
-
-let uint64 : Size
-
 // Types and methods
+type Memory[T]
+impl Memory {
+  load[T : Sized](Self[T], Int) -> T
+  store[T : Sized](Self[T], Int, T) -> Unit
+}
+
 pub extern type Nullable[_]
 impl Nullable {
   is_null[T](Self[T]) -> Bool
@@ -33,39 +29,41 @@ type Pointer[_]
 impl Pointer {
   cast[T, U](Self[T]) -> Self[U]
   is_null[T](Self[T]) -> Bool
-  load[T : Sized](Self[T]) -> T
-  of_array[T](FixedArray[T]) -> Self[T]
-  of_bytes(Bytes) -> Self[Byte]
+  load[T : Load](Self[T], offset~ : Int = ..) -> T
+  null[T]() -> Self[T]
   op_equal(Self[Unit], Self[Unit]) -> Bool
-  op_get[T : Sized, I : ToInt](Self[T], I) -> T
-  op_set[T : Sized, I : ToInt](Self[T], I, T) -> Unit
-  store[T : Sized](Self[T], T) -> Unit
+  op_get[T : Load](Self[T], Int) -> T
+  op_set[T : Store](Self[T], Int, T) -> Unit
+  store[T : Store](Self[T], offset~ : Int = .., T) -> Unit
 }
 impl[T] Eq for Pointer[T]
-
-type Size
-impl Size {
-  op_get(Self, UInt64) -> Self
-}
-impl Eq for Size
-impl Hash for Size
 
 // Type aliases
 
 // Traits
-pub(open) trait Sized {
-  size() -> UInt64
-}
-impl Sized for Byte
-impl Sized for Int
-impl Sized for UInt64
-impl Sized for Float
-impl Sized for Double
+trait Load
+impl Load for Byte
+impl Load for Int
+impl Load for Int16
+impl Load for Int64
+impl Load for UInt
+impl Load for UInt16
+impl Load for UInt64
+impl Load for Float
+impl Load for Double
 
-pub(open) trait ToInt {
-  to_int(Self) -> Int
+pub(open) trait Sized {
+  sizeof() -> Int
 }
-impl ToInt for Int
-impl ToInt for UInt
-impl ToInt for UInt64
+
+trait Store
+impl Store for Byte
+impl Store for Int
+impl Store for Int16
+impl Store for Int64
+impl Store for UInt
+impl Store for UInt16
+impl Store for UInt64
+impl Store for Float
+impl Store for Double
 

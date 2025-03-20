@@ -2,13 +2,7 @@
 extern type Pointer[_]
 
 ///|
-pub fn Pointer::of_array[T](array : FixedArray[T]) -> Pointer[T] = "%identity"
-
-///|
 fn Pointer::to_array[T](self : Pointer[T]) -> FixedArray[T] = "%identity"
-
-///|
-pub fn Pointer::of_bytes(bytes : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
 pub fn Pointer::cast[T, U](self : Pointer[T]) -> Pointer[U] = "%identity"
@@ -52,36 +46,189 @@ pub impl[T] Eq for Pointer[T] with op_equal(
 fn array_unsafe_get[T](array : FixedArray[T], index : Int) -> T = "%fixedarray.unsafe_get"
 
 ///|
-pub fn Pointer::op_get[T : Sized, I : ToInt](self : Pointer[T], index : I) -> T {
-  let array = self.to_array()
-  let value = array_unsafe_get(array, index.to_int())
-  array_incref(array)
-  value
-}
-
-///|
 fn array_unsafe_set[T](array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"
 
 ///|
 fn array_incref[T](ptr : FixedArray[T]) -> Unit = "%identity"
 
 ///|
-pub fn Pointer::op_set[T : Sized, I : ToInt](
+pub fn Pointer::op_get[T : Load](self : Pointer[T], index : Int) -> T {
+  T::load(self, index)
+}
+
+///|
+pub fn Pointer::op_set[T : Store](
   self : Pointer[T],
-  index : I,
+  index : Int,
   value : T
 ) -> Unit {
+  T::store(self, index, value)
+}
+
+///|
+fn Pointer::unsafe_load[T](self : Pointer[T], offset : Int) -> T {
   let array = self.to_array()
-  array_unsafe_set(array, index.to_int(), value)
+  let value = array_unsafe_get(array, offset)
+  array_incref(array)
+  value
+}
+
+///|
+fn Pointer::unsafe_store[T](self : Pointer[T], offset : Int, value : T) -> Unit {
+  let array = self.to_array()
+  array_unsafe_set(array, offset, value)
   array_incref(array)
 }
 
 ///|
-pub fn Pointer::load[T : Sized](self : Pointer[T]) -> T {
-  self[0]
+pub fn Pointer::load[T : Load](self : Pointer[T], offset~ : Int = 0) -> T {
+  T::load(self, offset)
 }
 
 ///|
-pub fn Pointer::store[T : Sized](self : Pointer[T], value : T) -> Unit {
-  self[0] = value
+pub fn Pointer::store[T : Store](
+  self : Pointer[T],
+  offset~ : Int = 0,
+  value : T
+) -> Unit {
+  T::store(self, offset, value)
+}
+
+///|
+trait Load {
+  load(Pointer[Self], Int) -> Self
+}
+
+///|
+fn Pointer::as_nullable[T](self : Pointer[T]) -> Nullable[T] = "%identity"
+
+///|
+pub impl Load for Byte with load(pointer : Pointer[Byte], offset : Int) -> Byte {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for Int16 with load(pointer : Pointer[Int16], offset : Int) -> Int16 {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for UInt16 with load(pointer : Pointer[UInt16], offset : Int) -> UInt16 {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for Int with load(pointer : Pointer[Int], offset : Int) -> Int {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for UInt with load(pointer : Pointer[UInt], offset : Int) -> UInt {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for Int64 with load(pointer : Pointer[Int64], offset : Int) -> Int64 {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for UInt64 with load(pointer : Pointer[UInt64], offset : Int) -> UInt64 {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for Float with load(pointer : Pointer[Float], offset : Int) -> Float {
+  pointer.unsafe_load(offset)
+}
+
+///|
+pub impl Load for Double with load(pointer : Pointer[Double], offset : Int) -> Double {
+  pointer.unsafe_load(offset)
+}
+
+///|
+trait Store {
+  store(Pointer[Self], Int, Self) -> Unit
+}
+
+///|
+pub impl Store for Byte with store(
+  pointer : Pointer[Byte],
+  offset : Int,
+  value : Byte
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for Int16 with store(
+  pointer : Pointer[Int16],
+  offset : Int,
+  value : Int16
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for UInt16 with store(
+  pointer : Pointer[UInt16],
+  offset : Int,
+  value : UInt16
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for Int with store(
+  pointer : Pointer[Int],
+  offset : Int,
+  value : Int
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for UInt with store(
+  pointer : Pointer[UInt],
+  offset : Int,
+  value : UInt
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for Int64 with store(
+  pointer : Pointer[Int64],
+  offset : Int,
+  value : Int64
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for UInt64 with store(
+  pointer : Pointer[UInt64],
+  offset : Int,
+  value : UInt64
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for Float with store(
+  pointer : Pointer[Float],
+  offset : Int,
+  value : Float
+) -> Unit {
+  pointer.unsafe_store(offset, value)
+}
+
+///|
+pub impl Store for Double with store(
+  pointer : Pointer[Double],
+  offset : Int,
+  value : Double
+) -> Unit {
+  pointer.unsafe_store(offset, value)
 }

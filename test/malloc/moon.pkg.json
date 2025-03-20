@@ -1,9 +1,5 @@
 {
   "is-main": true,
   "import": ["tonyfettes/c"],
-  "link": {
-    "native": {
-      "cc": "echo"
-    }
-  }
+  "native-stub": ["malloc.c"]
 }
