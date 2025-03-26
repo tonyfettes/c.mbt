@@ -34,12 +34,10 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/c.mbt-config.cmake
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/c.mbt
-)
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/c.mbt)
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/c.mbt-config.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/c.mbt
-)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/c.mbt)
 
 if(C_MBT_BUILD_TESTS)
   add_moon_module(test)

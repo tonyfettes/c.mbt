@@ -1,10 +1,22 @@
 {
   "targets": {
-    "closure.mbt": ["native"],
-    "nullable.mbt": ["native"],
-    "pointer.mbt": ["native"],
-    "c.mbt": ["native"]
+    "closure.mbt": [
+      "native"
+    ],
+    "nullable.mbt": [
+      "native"
+    ],
+    "pointer.mbt": [
+      "native"
+    ],
+    "c.mbt": [
+      "native"
+    ]
   },
-  "native-stub": ["c.c"],
-  "supported-targets": ["native"]
+  "native-stub": [
+    "c.c"
+  ],
+  "supported-targets": [
+    "native"
+  ]
 }
