@@ -1,4 +1,4 @@
-package tonyfettes/c
+package "tonyfettes/c"
 
 // Values
 fn is_null[T](Pointer[T]) -> Bool
@@ -25,7 +25,7 @@ impl Nullable {
   to[T](Self[T]) -> T?
 }
 
-type Pointer[_]
+pub extern type Pointer[_]
 impl Pointer {
   cast[T, U](Self[T]) -> Self[U]
   is_null[T](Self[T]) -> Bool
