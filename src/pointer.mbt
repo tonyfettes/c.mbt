@@ -1,5 +1,5 @@
 ///|
-extern type Pointer[_]
+pub extern type Pointer[_]
 
 ///|
 fn Pointer::to_array[T](self : Pointer[T]) -> FixedArray[T] = "%identity"
