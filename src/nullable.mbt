@@ -1,6 +1,7 @@
 ///|
 pub extern type Nullable[_]
 
+///|
 fn Nullable::as_pointer[T](self : Nullable[T]) -> Pointer[T] = "%identity"
 
 ///|
@@ -8,7 +9,7 @@ fn Nullable::_some[T](value : T) -> Nullable[T] = "%identity"
 
 ///|
 pub fn Nullable::some[T](value : T) -> Nullable[T] {
-  Nullable::some(value).cast()
+  Nullable::_some(value).cast()
 }
 
 ///|
