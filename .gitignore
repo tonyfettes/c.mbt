@@ -4,3 +4,4 @@ target/
 # cmake
 /build/
 /install/
+compile_flags.txt
