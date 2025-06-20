@@ -2,7 +2,7 @@
 type Memory[T]
 
 ///|
-fn Memory::as_pointer[T : Sized](self : Memory[T]) -> Pointer[Byte] = "%identity"
+fn[T : Sized] Memory::as_pointer(self : Memory[T]) -> Pointer[Byte] = "%identity"
 
 ///|
 pub(open) trait Sized {
@@ -13,7 +13,7 @@ pub(open) trait Sized {
 fn moonbit_malloc(size : Int) -> Pointer[Unit] = "$moonbit.malloc"
 
 ///|
-pub fn Memory::load[T : Sized](memory : Memory[T], offset : Int) -> T {
+pub fn[T : Sized] Memory::load(memory : Memory[T], offset : Int) -> T {
   let self : Pointer[Byte] = moonbit_malloc(T::sizeof()).cast()
   let pointer : Pointer[Byte] = memory.as_pointer().cast()
   let offset = offset * T::sizeof()
@@ -24,7 +24,7 @@ pub fn Memory::load[T : Sized](memory : Memory[T], offset : Int) -> T {
 }
 
 ///|
-pub fn Memory::store[T : Sized](
+pub fn[T : Sized] Memory::store(
   memory : Memory[T],
   offset : Int,
   value : T

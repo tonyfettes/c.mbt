@@ -1,17 +1,18 @@
 ///|
-pub extern type Pointer[_]
+#external
+pub type Pointer[_]
 
 ///|
-fn Pointer::to_array[T](self : Pointer[T]) -> FixedArray[T] = "%identity"
+fn[T] Pointer::to_array(self : Pointer[T]) -> FixedArray[T] = "%identity"
 
 ///|
-pub fn Pointer::cast[T, U](self : Pointer[T]) -> Pointer[U] = "%identity"
+pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
 
 ///|
 extern "c" fn Pointer::_is_null(ptr : Pointer[Unit]) -> Bool = "moonbit_c_is_null"
 
 ///|
-pub fn is_null[T](self : Pointer[T]) -> Bool {
+pub fn[T] is_null(self : Pointer[T]) -> Bool {
   self.cast()._is_null()
 }
 
@@ -19,12 +20,12 @@ pub fn is_null[T](self : Pointer[T]) -> Bool {
 extern "c" fn Pointer::_null() -> Pointer[Unit] = "moonbit_c_null"
 
 ///|
-pub fn Pointer::null[T]() -> Pointer[T] {
+pub fn[T] Pointer::null() -> Pointer[T] {
   Pointer::_null().cast()
 }
 
 ///|
-pub fn null[T]() -> Pointer[T] {
+pub fn[T] null() -> Pointer[T] {
   Pointer::_null().cast()
 }
 
@@ -43,21 +44,21 @@ pub impl[T] Eq for Pointer[T] with op_equal(
 }
 
 ///|
-fn array_unsafe_get[T](array : FixedArray[T], index : Int) -> T = "%fixedarray.unsafe_get"
+fn[T] array_unsafe_get(array : FixedArray[T], index : Int) -> T = "%fixedarray.unsafe_get"
 
 ///|
-fn array_unsafe_set[T](array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"
+fn[T] array_unsafe_set(array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"
 
 ///|
-fn array_incref[T](ptr : FixedArray[T]) -> Unit = "%identity"
+fn[T] array_incref(ptr : FixedArray[T]) -> Unit = "%identity"
 
 ///|
-pub fn Pointer::op_get[T : Load](self : Pointer[T], index : Int) -> T {
+pub fn[T : Load] Pointer::op_get(self : Pointer[T], index : Int) -> T {
   T::load(self, index)
 }
 
 ///|
-pub fn Pointer::op_set[T : Store](
+pub fn[T : Store] Pointer::op_set(
   self : Pointer[T],
   index : Int,
   value : T
@@ -66,7 +67,7 @@ pub fn Pointer::op_set[T : Store](
 }
 
 ///|
-fn Pointer::unsafe_load[T](self : Pointer[T], offset : Int) -> T {
+fn[T] Pointer::unsafe_load(self : Pointer[T], offset : Int) -> T {
   let array = self.to_array()
   let value = array_unsafe_get(array, offset)
   array_incref(array)
@@ -74,19 +75,19 @@ fn Pointer::unsafe_load[T](self : Pointer[T], offset : Int) -> T {
 }
 
 ///|
-fn Pointer::unsafe_store[T](self : Pointer[T], offset : Int, value : T) -> Unit {
+fn[T] Pointer::unsafe_store(self : Pointer[T], offset : Int, value : T) -> Unit {
   let array = self.to_array()
   array_unsafe_set(array, offset, value)
   array_incref(array)
 }
 
 ///|
-pub fn Pointer::load[T : Load](self : Pointer[T], offset~ : Int = 0) -> T {
+pub fn[T : Load] Pointer::load(self : Pointer[T], offset~ : Int = 0) -> T {
   T::load(self, offset)
 }
 
 ///|
-pub fn Pointer::store[T : Store](
+pub fn[T : Store] Pointer::store(
   self : Pointer[T],
   offset~ : Int = 0,
   value : T
@@ -95,12 +96,12 @@ pub fn Pointer::store[T : Store](
 }
 
 ///|
-trait Load {
+pub(open) trait Load {
   load(Pointer[Self], Int) -> Self
 }
 
 ///|
-fn Pointer::as_nullable[T](self : Pointer[T]) -> Nullable[T] = "%identity"
+fn[T] Pointer::as_nullable(self : Pointer[T]) -> Nullable[T] = "%identity"
 
 ///|
 pub impl Load for Byte with load(pointer : Pointer[Byte], offset : Int) -> Byte {

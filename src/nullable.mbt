@@ -1,22 +1,23 @@
 ///|
-pub extern type Nullable[_]
+#external
+pub type Nullable[_]
 
 ///|
-fn Nullable::as_pointer[T](self : Nullable[T]) -> Pointer[T] = "%identity"
+fn[T] Nullable::as_pointer(self : Nullable[T]) -> Pointer[T] = "%identity"
 
 ///|
-fn Nullable::_some[T](value : T) -> Nullable[T] = "%identity"
+fn[T] Nullable::_some(value : T) -> Nullable[T] = "%identity"
 
 ///|
-pub fn Nullable::some[T](value : T) -> Nullable[T] {
+pub fn[T] Nullable::some(value : T) -> Nullable[T] {
   Nullable::_some(value).cast()
 }
 
 ///|
-fn Nullable::_unwrap[T](self : Nullable[T]) -> T = "%identity"
+fn[T] Nullable::_unwrap(self : Nullable[T]) -> T = "%identity"
 
 ///|
-fn Nullable::unwrap[T](self : Nullable[T]) -> T {
+fn[T] Nullable::unwrap(self : Nullable[T]) -> T {
   self.cast()._unwrap()
 }
 
@@ -24,23 +25,23 @@ fn Nullable::unwrap[T](self : Nullable[T]) -> T {
 extern "c" fn Nullable::_none() -> Nullable[Unit] = "moonbit_c_null"
 
 ///|
-fn Nullable::_type_cast[T, U](self : Nullable[T]) -> Nullable[U] = "%identity"
+fn[T, U] Nullable::_type_cast(self : Nullable[T]) -> Nullable[U] = "%identity"
 
 ///|
 extern "c" fn Nullable::_impl_cast(self : Nullable[Unit]) -> Nullable[Unit] = "moonbit_c_identity"
 
 ///|
-fn Nullable::cast[T, U](self : Nullable[T]) -> Nullable[U] {
+fn[T, U] Nullable::cast(self : Nullable[T]) -> Nullable[U] {
   self._type_cast()._impl_cast()._type_cast()
 }
 
 ///|
-pub fn Nullable::none[T]() -> Nullable[T] {
+pub fn[T] Nullable::none() -> Nullable[T] {
   Nullable::_none().cast()
 }
 
 ///|
-pub fn none[T]() -> Nullable[T] {
+pub fn[T] none() -> Nullable[T] {
   Nullable::_none().cast()
 }
 
@@ -48,12 +49,12 @@ pub fn none[T]() -> Nullable[T] {
 extern "c" fn Nullable::_is_null(self : Nullable[Unit]) -> Bool = "moonbit_c_is_null"
 
 ///|
-pub fn Nullable::is_null[T](self : Nullable[T]) -> Bool {
+pub fn[T] Nullable::is_null(self : Nullable[T]) -> Bool {
   self.cast()._is_null()
 }
 
 ///|
-pub fn Nullable::of[T](option : T?) -> Nullable[T] {
+pub fn[T] Nullable::of(option : T?) -> Nullable[T] {
   match option {
     Some(value) => Nullable::some(value)
     None => Nullable::none()
@@ -61,7 +62,7 @@ pub fn Nullable::of[T](option : T?) -> Nullable[T] {
 }
 
 ///|
-pub fn Nullable::to[T](self : Nullable[T]) -> T? {
+pub fn[T] Nullable::to(self : Nullable[T]) -> T? {
   if self.is_null() {
     return None
   } else {
