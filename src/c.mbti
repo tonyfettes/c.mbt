@@ -1,47 +1,43 @@
 package "tonyfettes/c"
 
 // Values
-fn is_null[T](Pointer[T]) -> Bool
-
 fn moonbit_ffi_make_closure(Nullable[Unit], Nullable[Unit]) -> Nullable[Unit]
 
-fn none[T]() -> Nullable[T]
+fn[T] none() -> Nullable[T]
 
-fn null[T]() -> Pointer[T]
+fn[T] null() -> Pointer[T]
 
 // Types and methods
 type Memory[T]
-impl Memory {
-  load[T : Sized](Self[T], Int) -> T
-  store[T : Sized](Self[T], Int, T) -> Unit
-}
+fn[T : Sized] Memory::load(Self[T], Int) -> T
+fn[T : Sized] Memory::store(Self[T], Int, T) -> Unit
 
-pub extern type Nullable[_]
-impl Nullable {
-  is_null[T](Self[T]) -> Bool
-  none[T]() -> Self[T]
-  of[T](T?) -> Self[T]
-  some[T](T) -> Self[T]
-  to[T](Self[T]) -> T?
-}
+#external
+pub type Nullable[_]
+fn[T] Nullable::is_null(Self[T]) -> Bool
+fn[T] Nullable::none() -> Self[T]
+fn[T] Nullable::of(T?) -> Self[T]
+fn[T] Nullable::some(T) -> Self[T]
+fn[T] Nullable::to(Self[T]) -> T?
 
-pub extern type Pointer[_]
-impl Pointer {
-  cast[T, U](Self[T]) -> Self[U]
-  is_null[T](Self[T]) -> Bool
-  load[T : Load](Self[T], offset~ : Int = ..) -> T
-  null[T]() -> Self[T]
-  op_equal(Self[Unit], Self[Unit]) -> Bool
-  op_get[T : Load](Self[T], Int) -> T
-  op_set[T : Store](Self[T], Int, T) -> Unit
-  store[T : Store](Self[T], offset~ : Int = .., T) -> Unit
-}
+#external
+pub type Pointer[_]
+fn[T, U] Pointer::cast(Self[T]) -> Self[U]
+fn[T] Pointer::is_null(Self[T]) -> Bool
+fn[T : Load] Pointer::load(Self[T], offset~ : Int = ..) -> T
+fn[T] Pointer::null() -> Self[T]
+fn Pointer::op_equal(Self[Unit], Self[Unit]) -> Bool
+fn[T : Load] Pointer::op_get(Self[T], Int) -> T
+fn[T : Store] Pointer::op_set(Self[T], Int, T) -> Unit
+fn[T : Store] Pointer::store(Self[T], offset~ : Int = .., T) -> Unit
 impl[T] Eq for Pointer[T]
 
 // Type aliases
 
 // Traits
-trait Load
+pub(open) trait Load {
+  load(Pointer[Self], Int) -> Self
+}
 impl Load for Byte
 impl Load for Int
 impl Load for Int16
