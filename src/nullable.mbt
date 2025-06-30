@@ -3,9 +3,6 @@
 pub type Nullable[_]
 
 ///|
-fn[T] Nullable::as_pointer(self : Nullable[T]) -> Pointer[T] = "%identity"
-
-///|
 fn[T] Nullable::_some(value : T) -> Nullable[T] = "%identity"
 
 ///|

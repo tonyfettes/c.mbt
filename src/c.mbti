@@ -1,17 +1,11 @@
 package "tonyfettes/c"
 
 // Values
-fn moonbit_ffi_make_closure(Nullable[Unit], Nullable[Unit]) -> Nullable[Unit]
-
 fn[T] none() -> Nullable[T]
 
 fn[T] null() -> Pointer[T]
 
 // Types and methods
-type Memory[T]
-fn[T : Sized] Memory::load(Self[T], Int) -> T
-fn[T : Sized] Memory::store(Self[T], Int, T) -> Unit
-
 #external
 pub type Nullable[_]
 fn[T] Nullable::is_null(Self[T]) -> Bool
@@ -47,10 +41,6 @@ impl Load for UInt16
 impl Load for UInt64
 impl Load for Float
 impl Load for Double
-
-pub(open) trait Sized {
-  sizeof() -> Int
-}
 
 trait Store
 impl Store for Byte

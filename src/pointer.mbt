@@ -3,9 +3,6 @@
 pub type Pointer[_]
 
 ///|
-fn[T] Pointer::to_array(self : Pointer[T]) -> FixedArray[T] = "%identity"
-
-///|
 pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
 
 ///|
@@ -44,15 +41,6 @@ pub impl[T] Eq for Pointer[T] with op_equal(
 }
 
 ///|
-fn[T] array_unsafe_get(array : FixedArray[T], index : Int) -> T = "%fixedarray.unsafe_get"
-
-///|
-fn[T] array_unsafe_set(array : FixedArray[T], index : Int, value : T) -> Unit = "%fixedarray.unsafe_set"
-
-///|
-fn[T] array_incref(ptr : FixedArray[T]) -> Unit = "%identity"
-
-///|
 pub fn[T : Load] Pointer::op_get(self : Pointer[T], index : Int) -> T {
   T::load(self, index)
 }
@@ -64,21 +52,6 @@ pub fn[T : Store] Pointer::op_set(
   value : T
 ) -> Unit {
   T::store(self, index, value)
-}
-
-///|
-fn[T] Pointer::unsafe_load(self : Pointer[T], offset : Int) -> T {
-  let array = self.to_array()
-  let value = array_unsafe_get(array, offset)
-  array_incref(array)
-  value
-}
-
-///|
-fn[T] Pointer::unsafe_store(self : Pointer[T], offset : Int, value : T) -> Unit {
-  let array = self.to_array()
-  array_unsafe_set(array, offset, value)
-  array_incref(array)
 }
 
 ///|
@@ -101,52 +74,163 @@ pub(open) trait Load {
 }
 
 ///|
-fn[T] Pointer::as_nullable(self : Pointer[T]) -> Nullable[T] = "%identity"
+extern "c" fn moonbit_c_load_byte(
+  pointer : Pointer[Byte],
+  offset : Int
+) -> Byte = "moonbit_c_load_byte"
+
+///|
+extern "c" fn moonbit_c_load_int16(
+  pointer : Pointer[Int16],
+  offset : Int
+) -> Int16 = "moonbit_c_load_int16"
+
+///|
+extern "c" fn moonbit_c_load_uint16(
+  pointer : Pointer[UInt16],
+  offset : Int
+) -> UInt16 = "moonbit_c_load_uint16"
+
+///|
+extern "c" fn moonbit_c_load_int(pointer : Pointer[Int], offset : Int) -> Int = "moonbit_c_load_int"
+
+///|
+extern "c" fn moonbit_c_load_uint(
+  pointer : Pointer[UInt],
+  offset : Int
+) -> UInt = "moonbit_c_load_uint"
+
+///|
+extern "c" fn moonbit_c_load_int64(
+  pointer : Pointer[Int64],
+  offset : Int
+) -> Int64 = "moonbit_c_load_int64"
+
+///|
+extern "c" fn moonbit_c_load_uint64(
+  pointer : Pointer[UInt64],
+  offset : Int
+) -> UInt64 = "moonbit_c_load_uint64"
+
+///|
+extern "c" fn moonbit_c_load_float(
+  pointer : Pointer[Float],
+  offset : Int
+) -> Float = "moonbit_c_load_float"
+
+///|
+extern "c" fn moonbit_c_load_double(
+  pointer : Pointer[Double],
+  offset : Int
+) -> Double = "moonbit_c_load_double"
 
 ///|
 pub impl Load for Byte with load(pointer : Pointer[Byte], offset : Int) -> Byte {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_byte(pointer, offset)
 }
 
 ///|
 pub impl Load for Int16 with load(pointer : Pointer[Int16], offset : Int) -> Int16 {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_int16(pointer, offset)
 }
 
 ///|
 pub impl Load for UInt16 with load(pointer : Pointer[UInt16], offset : Int) -> UInt16 {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_uint16(pointer, offset)
 }
 
 ///|
 pub impl Load for Int with load(pointer : Pointer[Int], offset : Int) -> Int {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_int(pointer, offset)
 }
 
 ///|
 pub impl Load for UInt with load(pointer : Pointer[UInt], offset : Int) -> UInt {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_uint(pointer, offset)
 }
 
 ///|
 pub impl Load for Int64 with load(pointer : Pointer[Int64], offset : Int) -> Int64 {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_int64(pointer, offset)
 }
 
 ///|
 pub impl Load for UInt64 with load(pointer : Pointer[UInt64], offset : Int) -> UInt64 {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_uint64(pointer, offset)
 }
 
 ///|
 pub impl Load for Float with load(pointer : Pointer[Float], offset : Int) -> Float {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_float(pointer, offset)
 }
 
 ///|
 pub impl Load for Double with load(pointer : Pointer[Double], offset : Int) -> Double {
-  pointer.unsafe_load(offset)
+  moonbit_c_load_double(pointer, offset)
 }
+
+///|
+extern "c" fn moonbit_c_store_byte(
+  pointer : Pointer[Byte],
+  offset : Int,
+  value : Byte
+) -> Unit = "moonbit_c_store_byte"
+
+///|
+extern "c" fn moonbit_c_store_int16(
+  pointer : Pointer[Int16],
+  offset : Int,
+  value : Int16
+) -> Unit = "moonbit_c_store_int16"
+
+///|
+extern "c" fn moonbit_c_store_uint16(
+  pointer : Pointer[UInt16],
+  offset : Int,
+  value : UInt16
+) -> Unit = "moonbit_c_store_uint16"
+
+///|
+extern "c" fn moonbit_c_store_int(
+  pointer : Pointer[Int],
+  offset : Int,
+  value : Int
+) -> Unit = "moonbit_c_store_int"
+
+///|
+extern "c" fn moonbit_c_store_uint(
+  pointer : Pointer[UInt],
+  offset : Int,
+  value : UInt
+) -> Unit = "moonbit_c_store_uint"
+
+///|
+extern "c" fn moonbit_c_store_int64(
+  pointer : Pointer[Int64],
+  offset : Int,
+  value : Int64
+) -> Unit = "moonbit_c_store_int64"
+
+///|
+extern "c" fn moonbit_c_store_uint64(
+  pointer : Pointer[UInt64],
+  offset : Int,
+  value : UInt64
+) -> Unit = "moonbit_c_store_uint64"
+
+///|
+extern "c" fn moonbit_c_store_float(
+  pointer : Pointer[Float],
+  offset : Int,
+  value : Float
+) -> Unit = "moonbit_c_store_float"
+
+///|
+extern "c" fn moonbit_c_store_double(
+  pointer : Pointer[Double],
+  offset : Int,
+  value : Double
+) -> Unit = "moonbit_c_store_double"
 
 ///|
 trait Store {
@@ -159,7 +243,7 @@ pub impl Store for Byte with store(
   offset : Int,
   value : Byte
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_byte(pointer, offset, value)
 }
 
 ///|
@@ -168,7 +252,7 @@ pub impl Store for Int16 with store(
   offset : Int,
   value : Int16
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_int16(pointer, offset, value)
 }
 
 ///|
@@ -177,7 +261,7 @@ pub impl Store for UInt16 with store(
   offset : Int,
   value : UInt16
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_uint16(pointer, offset, value)
 }
 
 ///|
@@ -186,7 +270,7 @@ pub impl Store for Int with store(
   offset : Int,
   value : Int
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_int(pointer, offset, value)
 }
 
 ///|
@@ -195,7 +279,7 @@ pub impl Store for UInt with store(
   offset : Int,
   value : UInt
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_uint(pointer, offset, value)
 }
 
 ///|
@@ -204,7 +288,7 @@ pub impl Store for Int64 with store(
   offset : Int,
   value : Int64
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_int64(pointer, offset, value)
 }
 
 ///|
@@ -213,7 +297,7 @@ pub impl Store for UInt64 with store(
   offset : Int,
   value : UInt64
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_uint64(pointer, offset, value)
 }
 
 ///|
@@ -222,7 +306,7 @@ pub impl Store for Float with store(
   offset : Int,
   value : Float
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_float(pointer, offset, value)
 }
 
 ///|
@@ -231,5 +315,5 @@ pub impl Store for Double with store(
   offset : Int,
   value : Double
 ) -> Unit {
-  pointer.unsafe_store(offset, value)
+  moonbit_c_store_double(pointer, offset, value)
 }
