@@ -1,0 +1,11 @@
+package "tonyfettes/c/stdlib"
+
+// Values
+fn atexit(FuncRef[() -> Unit]) -> Int
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

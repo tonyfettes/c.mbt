@@ -1,6 +1,5 @@
 #include "moonbit.h"
 #include <stdint.h>
-#include <stdlib.h>
 
 MOONBIT_FFI_EXPORT
 void *
