@@ -1,3 +1,6 @@
 {
+  "targets": {
+    "errno.mbt": ["native", "llvm"]
+  },
   "native-stub": ["errno.c"]
 }

@@ -1,10 +1,12 @@
 {
   "targets": {
+    "fflush.mbt": ["native", "llvm"],
     "fgetc.mbt": ["native", "llvm"],
+    "fgets.mbt": ["native", "llvm"],
     "FILE.mbt": ["native", "llvm"],
     "getchar_test.mbt": ["native", "llvm"],
     "getchar.mbt": ["native", "llvm"],
-    "stdin.mbt": ["native", "llvm"]
+    "stdio.mbt": ["native", "llvm"]
   },
   "import": ["tonyfettes/c"],
   "native-stub": ["stdio.c"]
