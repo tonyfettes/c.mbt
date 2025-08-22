@@ -1,1 +1,9 @@
-{}
+{
+  "targets": {
+    "fgetc.mbt": ["native", "llvm"],
+    "FILE.mbt": ["native", "llvm"],
+    "getchar_test.mbt": ["native", "llvm"],
+    "getchar.mbt": ["native", "llvm"],
+    "stdin.mbt": ["native", "llvm"]
+  }
+}
