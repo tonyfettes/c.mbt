@@ -1,3 +1,4 @@
+///|
 pub let value : Ref[Int] = Ref::new(-1)
 
 ///|

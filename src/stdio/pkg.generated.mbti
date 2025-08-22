@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/stdio"
+
+import(
+  "moonbitlang/core/bytes"
+  "tonyfettes/c"
+)
+
+// Values
+let eof : Int
+
+fn[T : ToNullableFILE] fflush(T) -> Int
+
+fn fgetc(FILE) -> Int
+
+fn fgets(@bytes.View, FILE) -> Bool
+
+fn getchar() -> Int
+
+let stderr : FILE
+
+let stdin : FILE
+
+let stdout : FILE
+
+// Errors
+
+// Types and methods
+type FILE
+impl ToNullableFILE for FILE
+
+// Type aliases
+
+// Traits
+trait ToNullableFILE
+impl ToNullableFILE for @c.Null
+

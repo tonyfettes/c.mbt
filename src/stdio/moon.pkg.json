@@ -5,5 +5,7 @@
     "getchar_test.mbt": ["native", "llvm"],
     "getchar.mbt": ["native", "llvm"],
     "stdin.mbt": ["native", "llvm"]
-  }
+  },
+  "import": ["tonyfettes/c"],
+  "native-stub": ["stdio.c"]
 }

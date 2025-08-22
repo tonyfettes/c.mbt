@@ -66,3 +66,13 @@ pub fn[T] Nullable::to(self : Nullable[T]) -> T? {
     return Some(self.unwrap())
   }
 }
+
+///|
+#external
+pub type Null
+
+///|
+extern "c" fn c_null() -> Null = "moonbit_c_null"
+
+///|
+pub let null : Null = c_null()

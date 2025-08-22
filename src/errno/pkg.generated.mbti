@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/errno"
+
+// Values
+fn get() -> Int
+
+fn set(Int) -> Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
