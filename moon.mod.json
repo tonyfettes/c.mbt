@@ -7,5 +7,12 @@
   "keywords": [],
   "description": "FFI Binding to C",
   "source": "src",
-  "exclude": []
+  "exclude": [
+    ".cache",
+    ".github",
+    ".vscode",
+    ".mooncakes",
+    "compile_flags.txt",
+    ".clang-format"
+  ]
 }
