@@ -2,7 +2,6 @@
 package "tonyfettes/c/stdio"
 
 import(
-  "moonbitlang/core/bytes"
   "tonyfettes/c"
 )
 
@@ -13,7 +12,9 @@ fn[T : ToNullableFILE] fflush(T) -> Int
 
 fn fgetc(FILE) -> Int
 
-fn fgets(@bytes.View, FILE) -> Bool
+fn fgets(Bytes, FILE) -> Bool
+
+fn fputs(Bytes, FILE) -> Int
 
 fn getchar() -> Int
 

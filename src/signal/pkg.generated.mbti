@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/signal"
+
+// Values
+let sig_dfl : FuncRef[(Int) -> Unit]
+
+let sig_err : FuncRef[(Int) -> Unit]
+
+let sig_ign : FuncRef[(Int) -> Unit]
+
+let sigabrt : Int
+
+let sigfpe : Int
+
+let sigill : Int
+
+let sigint : Int
+
+fn signal(Int, FuncRef[(Int) -> Unit]) -> FuncRef[(Int) -> Unit]
+
+let sigsegv : Int
+
+let sigterm : Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
