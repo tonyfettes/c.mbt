@@ -1,6 +1,6 @@
 ///|
 #borrow(data)
-pub extern "c" fn fgets(data : Bytes, stream : FILE) -> Bool = "moonbit_c_fgets"
+pub extern "c" fn fgets(data : FixedArray[Byte], stream : FILE) -> Bool = "moonbit_c_fgets"
 
 ///|
 #borrow(data)
