@@ -3,5 +3,8 @@
     "atexit_test.mbt": ["native", "llvm"],
     "atexit.mbt": ["native", "llvm"],
     "exit.mbt": ["native", "llvm"]
-  }
+  },
+  "import": [
+    "tonyfettes/c"
+  ]
 }

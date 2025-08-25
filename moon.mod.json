@@ -14,5 +14,6 @@
     ".mooncakes",
     "compile_flags.txt",
     ".clang-format"
-  ]
+  ],
+  "preferred-target": "native"
 }
