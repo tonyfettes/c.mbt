@@ -1,1 +1,5 @@
-{}
+{
+  "targets": {
+    "signal.mbt": ["native", "llvm"]
+  }
+}
