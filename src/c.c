@@ -14,13 +14,19 @@ moonbit_c_null() {
 }
 
 MOONBIT_FFI_EXPORT
-int
+int32_t
 moonbit_c_is_null(void *ptr) {
   return ptr == NULL;
 }
 
 MOONBIT_FFI_EXPORT
-int
+int32_t
+moonbit_c_not_null(void *ptr) {
+  return ptr != NULL;
+}
+
+MOONBIT_FFI_EXPORT
+int32_t
 moonbit_c_pointer_equal(void *ptr1, void *ptr2) {
   return ptr1 == ptr2;
 }
