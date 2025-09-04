@@ -28,10 +28,7 @@ pub extern "c" fn Pointer::op_equal(
 ) -> Bool = "moonbit_c_pointer_equal"
 
 ///|
-pub impl[T] Eq for Pointer[T] with op_equal(
-  self : Pointer[T],
-  other : Pointer[T],
-) -> Bool {
+pub impl[T] Eq for Pointer[T] with equal(self : Pointer[T], other : Pointer[T]) -> Bool {
   self.cast().op_equal(other.cast())
 }
 
