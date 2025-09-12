@@ -1,10 +1,20 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/stdlib"
 
+import(
+  "tonyfettes/c"
+)
+
 // Values
 fn atexit(FuncRef[() -> Unit]) -> Int
 
 fn[T] exit(Int) -> T
+
+fn[T] free(@c.Pointer[T]) -> Unit
+
+fn[T] malloc(UInt64) -> @c.Pointer[T]
+
+fn memcpy(@c.Pointer[Byte], @c.Pointer[Byte], UInt64) -> Unit
 
 // Errors
 

@@ -12,7 +12,7 @@ fn[T : ToNullableFILE] fflush(T) -> Int
 
 fn fgetc(FILE) -> Int
 
-fn fgets(Bytes, FILE) -> Bool
+fn fgets(FixedArray[Byte], FILE) -> Bool
 
 fn fputs(Bytes, FILE) -> Int
 
