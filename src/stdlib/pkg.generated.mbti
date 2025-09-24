@@ -16,6 +16,10 @@ fn[T] malloc(UInt64) -> @c.Pointer[T]
 
 fn memcpy(@c.Pointer[Byte], @c.Pointer[Byte], UInt64) -> Unit
 
+fn memcpy_from_bytes(@c.Pointer[Byte], Bytes, UInt64) -> Unit
+
+fn memcpy_to_bytes(Bytes, @c.Pointer[Byte], UInt64) -> Unit
+
 // Errors
 
 // Types and methods

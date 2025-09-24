@@ -1,5 +1,6 @@
 ///|
 #external
+#deprecated("Nullable[T] can leak memory if T is a managed type. Define a null value for type `T` yourself instead.")
 pub type Nullable[_]
 
 ///|
