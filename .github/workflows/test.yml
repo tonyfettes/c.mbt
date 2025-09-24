@@ -1,11 +1,10 @@
-name: CTest
+name: AddressSanitizer Tests
 
 on:
   push:
     branches: ["main"]
-
-env:
-  BUILD_TYPE: Release
+  pull_request:
+    branches: ["main"]
 
 jobs:
   test:
