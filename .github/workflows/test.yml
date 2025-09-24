@@ -1,4 +1,4 @@
-name: AddressSanitizer Tests
+name: ci
 
 on:
   push:
@@ -31,6 +31,10 @@ jobs:
       - name: Inspect MoonBit version
         run: |
           moon version --all
+
+      - name: Setup MSVC
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Test
         run: python3 scripts/test.py --package tonyfettes/c/stdlib
