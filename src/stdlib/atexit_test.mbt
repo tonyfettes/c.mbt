@@ -2,7 +2,10 @@
 pub let value : Ref[Int] = Ref::new(-1)
 
 ///|
-test {
-  assert_eq(@stdlib.atexit(() => println("atexit called: \{value.val}")), 0)
+test "atexit" {
+  assert_eq(
+    @stdlib.atexit(() => if value.val != 42 { abort("Expected value to be 42") }),
+    0,
+  )
   value.val = 42
 }
