@@ -1,9 +1,9 @@
 ///|
 test "memcpy_from_bytes" {
   let bytes : Bytes = Bytes::makei(8, i => i.to_byte())
-  let ptr : @c.Pointer[Byte] = @stdlib.malloc(8)
-  defer @stdlib.free(ptr)
-  @stdlib.memcpy_from_bytes(ptr, bytes, 8)
+  let ptr : @c.Pointer[Byte] = @c.malloc(8)
+  defer @c.free(ptr)
+  @c.memcpy_from_bytes(ptr, bytes, 8)
   @json.inspect(ptr[0], content=0)
   @json.inspect(ptr[1], content=1)
   @json.inspect(ptr[2], content=2)
@@ -17,8 +17,8 @@ test "memcpy_from_bytes" {
 ///|
 test "memcpy_to_bytes" {
   let bytes = Bytes::make(8, 0)
-  let ptr : @c.Pointer[Byte] = @stdlib.malloc(8)
-  defer @stdlib.free(ptr)
+  let ptr : @c.Pointer[Byte] = @c.malloc(8)
+  defer @c.free(ptr)
   ptr[0] = 0
   ptr[1] = 1
   ptr[2] = 2
@@ -27,5 +27,5 @@ test "memcpy_to_bytes" {
   ptr[5] = 5
   ptr[6] = 6
   ptr[7] = 7
-  @stdlib.memcpy_to_bytes(bytes, ptr, 8)
+  @c.memcpy_to_bytes(bytes, ptr, 8)
 }
