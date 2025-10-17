@@ -27,7 +27,8 @@ let stdout : FILE
 // Errors
 
 // Types and methods
-type FILE
+#external
+pub type FILE
 impl ToNullableFILE for FILE
 
 // Type aliases

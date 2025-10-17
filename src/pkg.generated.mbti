@@ -36,40 +36,30 @@ fn[T] Nullable::to(Self[T]) -> T?
 
 #external
 pub type Pointer[_]
+fn[T : Size] Pointer::add(Self[T], UInt64) -> Self[T]
 fn[T, U] Pointer::cast(Self[T]) -> Self[U]
+fn[T] Pointer::compare(Self[T], Self[T]) -> Int // from trait `Compare`
+fn[T] Pointer::equal(Self[T], Self[T]) -> Bool // from trait `Eq`
 fn[T] Pointer::is_null(Self[T]) -> Bool
-fn[T : Load] Pointer::load(Self[T], offset? : Int) -> T
+fn[T : Load] Pointer::load(Self[T]) -> T
 fn[T] Pointer::null() -> Self[T]
-fn Pointer::op_equal(Self[Unit], Self[Unit]) -> Bool
-fn[T : Load] Pointer::op_get(Self[T], Int) -> T
-fn[T : Store] Pointer::op_set(Self[T], Int, T) -> Unit
-fn[T : Store] Pointer::store(Self[T], offset? : Int, T) -> Unit
+#deprecated
+fn[T] Pointer::op_equal(Self[T], Self[T]) -> Bool // from trait `Eq`
+fn[T : Load + Size] Pointer::op_get(Self[T], UInt64) -> T
+fn[T : Store + Size] Pointer::op_set(Self[T], UInt64, T) -> Unit
+fn[T] Pointer::size() -> UInt64 // from trait `Size`
+fn[T : Store] Pointer::store(Self[T], T) -> Unit
+fn[T : Size] Pointer::sub(Self[T], Self[T]) -> UInt64
+impl[T] Compare for Pointer[T]
 impl[T] Eq for Pointer[T]
-
-type UIntPtr
-fn UIntPtr::from_byte(Byte) -> Self
-fn UIntPtr::from_int(Int) -> Self
-fn UIntPtr::from_int16(Int16) -> Self
-fn UIntPtr::from_int64(Int64) -> Self
-fn[T] UIntPtr::from_pointer(Pointer[T]) -> Self
-fn UIntPtr::from_uint(UInt) -> Self
-fn UIntPtr::from_uint16(UInt16) -> Self
-fn UIntPtr::from_uint64(UInt64) -> Self
-fn UIntPtr::to_byte(Self) -> Byte
-fn UIntPtr::to_int(Self) -> Int
-fn UIntPtr::to_int16(Self) -> Int16
-fn UIntPtr::to_int64(Self) -> Int64
-fn UIntPtr::to_uint(Self) -> Int
-fn UIntPtr::to_uint16(Self) -> UInt16
-fn UIntPtr::to_uint64(Self) -> Int64
-impl Show for UIntPtr
+impl[T] Size for Pointer[T]
 
 // Type aliases
 pub typealias Pointer as Ptr
 
 // Traits
 pub(open) trait Load {
-  load(Pointer[Self], Int) -> Self
+  load(Pointer[Self]) -> Self
 }
 impl Load for Byte
 impl Load for Int
@@ -80,6 +70,19 @@ impl Load for UInt16
 impl Load for UInt64
 impl Load for Float
 impl Load for Double
+
+pub(open) trait Size {
+  size() -> UInt64
+}
+impl Size for Byte
+impl Size for Int
+impl Size for Int16
+impl Size for Int64
+impl Size for UInt
+impl Size for UInt16
+impl Size for UInt64
+impl Size for Float
+impl Size for Double
 
 trait Store
 impl Store for Byte
