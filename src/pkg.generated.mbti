@@ -20,6 +20,8 @@ fn[T] none() -> Nullable[T]
 
 let null : Null
 
+fn[T : Sizeof] sizeof(T) -> UInt64
+
 // Errors
 
 // Types and methods
@@ -36,23 +38,29 @@ fn[T] Nullable::to(Self[T]) -> T?
 
 #external
 pub type Pointer[_]
-fn[T : Size] Pointer::add(Self[T], UInt64) -> Self[T]
+fn[T : Sizeof] Pointer::add(Self[T], UInt64) -> Self[T]
 fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 fn[T] Pointer::compare(Self[T], Self[T]) -> Int // from trait `Compare`
 fn[T] Pointer::equal(Self[T], Self[T]) -> Bool // from trait `Eq`
+fn[T] Pointer::is_not_null(Self[T]) -> Bool
 fn[T] Pointer::is_null(Self[T]) -> Bool
 fn[T : Load] Pointer::load(Self[T]) -> T
 fn[T] Pointer::null() -> Self[T]
+fn[T : Sizeof] Pointer::offset(Self[T], Int64) -> Self[T]
+fn[T : Sizeof] Pointer::offset_from(Self[T], Self[T]) -> Int64
 #deprecated
 fn[T] Pointer::op_equal(Self[T], Self[T]) -> Bool // from trait `Eq`
-fn[T : Load + Size] Pointer::op_get(Self[T], UInt64) -> T
-fn[T : Store + Size] Pointer::op_set(Self[T], UInt64, T) -> Unit
-fn[T] Pointer::size() -> UInt64 // from trait `Size`
+fn[T : Load + Sizeof] Pointer::op_get(Self[T], UInt64) -> T
+fn[T : Store + Sizeof] Pointer::op_set(Self[T], UInt64, T) -> Unit
+fn[T] Pointer::sizeof() -> UInt64 // from trait `Sizeof`
 fn[T : Store] Pointer::store(Self[T], T) -> Unit
-fn[T : Size] Pointer::sub(Self[T], Self[T]) -> UInt64
+fn[T : Sizeof] Pointer::sub(Self[T], UInt64) -> Self[T]
+fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 impl[T] Compare for Pointer[T]
 impl[T] Eq for Pointer[T]
-impl[T] Size for Pointer[T]
+impl[T] Load for Pointer[T]
+impl[T] Sizeof for Pointer[T]
+impl[T] Store for Pointer[T]
 
 // Type aliases
 pub typealias Pointer as Ptr
@@ -71,18 +79,18 @@ impl Load for UInt64
 impl Load for Float
 impl Load for Double
 
-pub(open) trait Size {
-  size() -> UInt64
+pub(open) trait Sizeof {
+  sizeof() -> UInt64
 }
-impl Size for Byte
-impl Size for Int
-impl Size for Int16
-impl Size for Int64
-impl Size for UInt
-impl Size for UInt16
-impl Size for UInt64
-impl Size for Float
-impl Size for Double
+impl Sizeof for Byte
+impl Sizeof for Int
+impl Sizeof for Int16
+impl Sizeof for Int64
+impl Sizeof for UInt
+impl Sizeof for UInt16
+impl Sizeof for UInt64
+impl Sizeof for Float
+impl Sizeof for Double
 
 trait Store
 impl Store for Byte

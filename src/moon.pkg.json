@@ -8,5 +8,14 @@
     "malloc.mbt": ["native", "llvm"],
     "memcpy.mbt": ["native", "llvm"]
   },
-  "native-stub": ["c.c", "atexit.c", "malloc.c", "memcpy.c", "uintptr.c"]
+  "native-stub": [
+    "c.c",
+    "atexit.c",
+    "malloc.c",
+    "memcpy.c",
+    "memset.c",
+    "pointer.c",
+    "load.c",
+    "store.c"
+  ]
 }

@@ -9,37 +9,7 @@ pub typealias Pointer as Ptr
 pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
 
 ///|
-extern "c" fn pointer_is_null(ptr : Pointer[Unit]) -> Bool = "moonbit_c_is_null"
-
-///|
-extern "c" fn pointer_add(
-  ptr : Pointer[Byte],
-  offset : UInt64,
-) -> Pointer[Byte] = "moonbit_c_pointer_add"
-
-///|
-pub fn[T : Size] Pointer::add(self : Pointer[T], offset : UInt64) -> Pointer[T] {
-  pointer_add(self.cast(), offset * T::size()).cast()
-}
-
-///|
-extern "c" fn pointer_sub(
-  upper : Pointer[Byte],
-  lower : Pointer[Byte],
-) -> UInt64 = "moonbit_c_pointer_sub"
-
-///|
-pub fn[T : Size] Pointer::sub(self : Pointer[T], other : Pointer[T]) -> UInt64 {
-  pointer_sub(self.cast(), other.cast()) / T::size()
-}
-
-///|
-pub fn[T] Pointer::is_null(self : Pointer[T]) -> Bool {
-  pointer_is_null(self.cast())
-}
-
-///|
-extern "c" fn pointer_null() -> Pointer[Unit] = "moonbit_c_null"
+extern "c" fn pointer_null() -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_null"
 
 ///|
 pub fn[T] Pointer::null() -> Pointer[T] {
@@ -47,10 +17,26 @@ pub fn[T] Pointer::null() -> Pointer[T] {
 }
 
 ///|
+extern "c" fn pointer_is_null(ptr : Pointer[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_null"
+
+///|
+pub fn[T] Pointer::is_null(self : Pointer[T]) -> Bool {
+  pointer_is_null(self.cast())
+}
+
+///|
+extern "c" fn pointer_is_not_null(ptr : Pointer[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_not_null"
+
+///|
+pub fn[T] Pointer::is_not_null(self : Pointer[T]) -> Bool {
+  pointer_is_not_null(self.cast())
+}
+
+///|
 extern "c" fn pointer_equal(
   self : Pointer[Unit],
   other : Pointer[Unit],
-) -> Bool = "moonbit_c_pointer_equal"
+) -> Bool = "moonbit_tonyfettes_c_pointer_equal"
 
 ///|
 pub impl[T] Eq for Pointer[T] with equal(self : Pointer[T], other : Pointer[T]) -> Bool {
@@ -59,25 +45,127 @@ pub impl[T] Eq for Pointer[T] with equal(self : Pointer[T], other : Pointer[T]) 
 
 ///|
 extern "c" fn pointer_compare(
-  self : Pointer[Unit],
-  other : Pointer[Unit],
-) -> Int = "moonbit_c_pointer_compare"
+  lower : Pointer[Byte],
+  upper : Pointer[Byte],
+) -> Int = "moonbit_tonyfettes_c_pointer_compare"
 
 ///|
 pub impl[T] Compare for Pointer[T] with compare(
   self : Pointer[T],
   other : Pointer[T],
 ) -> Int {
-  self.cast().pointer_compare(other.cast())
+  pointer_compare(self.cast(), other.cast())
 }
 
 ///|
-pub fn[T : Load + Size] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
+extern "c" fn pointer_sizeof() -> UInt64 = "moonbit_tonyfettes_c_pointer_sizeof"
+
+///|
+pub impl[T] Sizeof for Pointer[T] with sizeof() -> UInt64 {
+  pointer_sizeof()
+}
+
+///|
+extern "c" fn pointer_add(
+  pointer : Pointer[Byte],
+  offset : UInt64,
+) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_add"
+
+///|
+/// Adds an offset to a pointer and returns a new pointer.
+///
+/// Parameters:
+///
+/// - `pointer`: The original pointer.
+/// - `offset`: The offset to add, in number of elements of type `T`.
+///
+/// Returns a new pointer that is offset from the original pointer by the
+/// specified number of elements.
+///
+/// **Note**: The offset is subject to overflow.
+pub fn[T : Sizeof] Pointer::add(
+  self : Pointer[T],
+  offset : UInt64,
+) -> Pointer[T] {
+  pointer_add(self.cast(), offset * T::sizeof()).cast()
+}
+
+///|
+extern "c" fn pointer_sub(
+  pointer : Pointer[Byte],
+  offset : UInt64,
+) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_sub"
+
+///|
+/// Subtracts an offset from a pointer and returns a new pointer.
+///
+/// Parameters:
+///
+/// - `pointer`: The original pointer.
+/// - `offset`: The offset to subtract, in number of elements of type `T`.
+///
+/// Returns a new pointer that is offset from the original pointer by the
+/// specified number of elements.
+///
+/// **Note**: The offset is subject to overflow.
+pub fn[T : Sizeof] Pointer::sub(
+  self : Pointer[T],
+  offset : UInt64,
+) -> Pointer[T] {
+  pointer_sub(self.cast(), offset * T::sizeof()).cast()
+}
+
+///|
+extern "c" fn pointer_offset(
+  pointer : Pointer[Byte],
+  offset : Int64,
+) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_offset"
+
+///|
+/// Adds an offset to a pointer and returns a new pointer.
+///
+/// Parameters:
+///
+/// - `pointer`: The original pointer.
+/// - `offset`: The offset to add, in number of elements of type `T`.
+///
+/// Returns a new pointer that is offset from the original pointer by the
+/// specified number of elements.
+///
+/// **Note**: The offset is of type `Int64` and might be insufficient for very large
+/// offsets on some platforms.
+pub fn[T : Sizeof] Pointer::offset(
+  self : Pointer[T],
+  offset : Int64,
+) -> Pointer[T] {
+  pointer_offset(self.cast(), offset * T::sizeof().reinterpret_as_int64()).cast()
+}
+
+///|
+extern "c" fn pointer_offset_from(
+  upper : Pointer[Byte],
+  lower : Pointer[Byte],
+) -> Int64 = "moonbit_tonyfettes_c_pointer_offset_from"
+
+///|
+pub fn[T : Sizeof] Pointer::offset_from(
+  self : Pointer[T],
+  other : Pointer[T],
+) -> Int64 {
+  pointer_offset_from(self.cast(), other.cast()) /
+  T::sizeof().reinterpret_as_int64()
+}
+
+///|
+pub fn[T : Load + Sizeof] Pointer::op_get(
+  self : Pointer[T],
+  index : UInt64,
+) -> T {
   T::load(self.add(index))
 }
 
 ///|
-pub fn[T : Store + Size] Pointer::op_set(
+pub fn[T : Store + Sizeof] Pointer::op_set(
   self : Pointer[T],
   index : UInt64,
   value : T,
@@ -96,237 +184,9 @@ pub fn[T : Store] Pointer::store(self : Pointer[T], value : T) -> Unit {
 }
 
 ///|
-pub(open) trait Size {
-  size() -> UInt64
-}
+extern "c" fn pointer_to_uint64(pointer : Pointer[Unit]) -> UInt64 = "moonbit_tonyfettes_c_pointer_to_uint64"
 
 ///|
-pub impl Size for Byte with size() -> UInt64 {
-  1
-}
-
-///|
-pub impl Size for Int16 with size() -> UInt64 {
-  2
-}
-
-///|
-pub impl Size for UInt16 with size() -> UInt64 {
-  2
-}
-
-///|
-pub impl Size for Int with size() -> UInt64 {
-  4
-}
-
-///|
-pub impl Size for UInt with size() -> UInt64 {
-  4
-}
-
-///|
-pub impl Size for Int64 with size() -> UInt64 {
-  8
-}
-
-///|
-pub impl Size for UInt64 with size() -> UInt64 {
-  8
-}
-
-///|
-pub impl Size for Float with size() -> UInt64 {
-  4
-}
-
-///|
-pub impl Size for Double with size() -> UInt64 {
-  8
-}
-
-///|
-extern "c" fn moonbit_c_sizeof_pointer() -> UInt64 = "moonbit_c_sizeof_pointer"
-
-///|
-pub impl[T] Size for Pointer[T] with size() -> UInt64 {
-  moonbit_c_sizeof_pointer()
-}
-
-///|
-pub(open) trait Load {
-  load(Pointer[Self]) -> Self
-}
-
-///|
-extern "c" fn moonbit_c_load_byte(pointer : Pointer[Byte]) -> Byte = "moonbit_c_load_byte"
-
-///|
-extern "c" fn moonbit_c_load_int16(pointer : Pointer[Int16]) -> Int16 = "moonbit_c_load_int16"
-
-///|
-extern "c" fn moonbit_c_load_uint16(pointer : Pointer[UInt16]) -> UInt16 = "moonbit_c_load_uint16"
-
-///|
-extern "c" fn moonbit_c_load_int(pointer : Pointer[Int]) -> Int = "moonbit_c_load_int"
-
-///|
-extern "c" fn moonbit_c_load_uint(pointer : Pointer[UInt]) -> UInt = "moonbit_c_load_uint"
-
-///|
-extern "c" fn moonbit_c_load_int64(pointer : Pointer[Int64]) -> Int64 = "moonbit_c_load_int64"
-
-///|
-extern "c" fn moonbit_c_load_uint64(pointer : Pointer[UInt64]) -> UInt64 = "moonbit_c_load_uint64"
-
-///|
-extern "c" fn moonbit_c_load_float(pointer : Pointer[Float]) -> Float = "moonbit_c_load_float"
-
-///|
-extern "c" fn moonbit_c_load_double(pointer : Pointer[Double]) -> Double = "moonbit_c_load_double"
-
-///|
-pub impl Load for Byte with load(pointer : Pointer[Byte]) -> Byte {
-  moonbit_c_load_byte(pointer)
-}
-
-///|
-pub impl Load for Int16 with load(pointer : Pointer[Int16]) -> Int16 {
-  moonbit_c_load_int16(pointer)
-}
-
-///|
-pub impl Load for UInt16 with load(pointer : Pointer[UInt16]) -> UInt16 {
-  moonbit_c_load_uint16(pointer)
-}
-
-///|
-pub impl Load for Int with load(pointer : Pointer[Int]) -> Int {
-  moonbit_c_load_int(pointer)
-}
-
-///|
-pub impl Load for UInt with load(pointer : Pointer[UInt]) -> UInt {
-  moonbit_c_load_uint(pointer)
-}
-
-///|
-pub impl Load for Int64 with load(pointer : Pointer[Int64]) -> Int64 {
-  moonbit_c_load_int64(pointer)
-}
-
-///|
-pub impl Load for UInt64 with load(pointer : Pointer[UInt64]) -> UInt64 {
-  moonbit_c_load_uint64(pointer)
-}
-
-///|
-pub impl Load for Float with load(pointer : Pointer[Float]) -> Float {
-  moonbit_c_load_float(pointer)
-}
-
-///|
-pub impl Load for Double with load(pointer : Pointer[Double]) -> Double {
-  moonbit_c_load_double(pointer)
-}
-
-///|
-extern "c" fn moonbit_c_store_byte(
-  pointer : Pointer[Byte],
-  value : Byte,
-) -> Unit = "moonbit_c_store_byte"
-
-///|
-extern "c" fn moonbit_c_store_int16(
-  pointer : Pointer[Int16],
-  value : Int16,
-) -> Unit = "moonbit_c_store_int16"
-
-///|
-extern "c" fn moonbit_c_store_uint16(
-  pointer : Pointer[UInt16],
-  value : UInt16,
-) -> Unit = "moonbit_c_store_uint16"
-
-///|
-extern "c" fn moonbit_c_store_int(pointer : Pointer[Int], value : Int) -> Unit = "moonbit_c_store_int"
-
-///|
-extern "c" fn moonbit_c_store_uint(
-  pointer : Pointer[UInt],
-  value : UInt,
-) -> Unit = "moonbit_c_store_uint"
-
-///|
-extern "c" fn moonbit_c_store_int64(
-  pointer : Pointer[Int64],
-  value : Int64,
-) -> Unit = "moonbit_c_store_int64"
-
-///|
-extern "c" fn moonbit_c_store_uint64(
-  pointer : Pointer[UInt64],
-  value : UInt64,
-) -> Unit = "moonbit_c_store_uint64"
-
-///|
-extern "c" fn moonbit_c_store_float(
-  pointer : Pointer[Float],
-  value : Float,
-) -> Unit = "moonbit_c_store_float"
-
-///|
-extern "c" fn moonbit_c_store_double(
-  pointer : Pointer[Double],
-  value : Double,
-) -> Unit = "moonbit_c_store_double"
-
-///|
-trait Store {
-  store(Pointer[Self], Self) -> Unit
-}
-
-///|
-pub impl Store for Byte with store(pointer : Pointer[Byte], value : Byte) -> Unit {
-  moonbit_c_store_byte(pointer, value)
-}
-
-///|
-pub impl Store for Int16 with store(pointer : Pointer[Int16], value : Int16) -> Unit {
-  moonbit_c_store_int16(pointer, value)
-}
-
-///|
-pub impl Store for UInt16 with store(pointer : Pointer[UInt16], value : UInt16) -> Unit {
-  moonbit_c_store_uint16(pointer, value)
-}
-
-///|
-pub impl Store for Int with store(pointer : Pointer[Int], value : Int) -> Unit {
-  moonbit_c_store_int(pointer, value)
-}
-
-///|
-pub impl Store for UInt with store(pointer : Pointer[UInt], value : UInt) -> Unit {
-  moonbit_c_store_uint(pointer, value)
-}
-
-///|
-pub impl Store for Int64 with store(pointer : Pointer[Int64], value : Int64) -> Unit {
-  moonbit_c_store_int64(pointer, value)
-}
-
-///|
-pub impl Store for UInt64 with store(pointer : Pointer[UInt64], value : UInt64) -> Unit {
-  moonbit_c_store_uint64(pointer, value)
-}
-
-///|
-pub impl Store for Float with store(pointer : Pointer[Float], value : Float) -> Unit {
-  moonbit_c_store_float(pointer, value)
-}
-
-///|
-pub impl Store for Double with store(pointer : Pointer[Double], value : Double) -> Unit {
-  moonbit_c_store_double(pointer, value)
+pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
+  pointer_to_uint64(self.cast())
 }
