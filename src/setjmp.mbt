@@ -1,7 +1,7 @@
 ///|
-struct JmpBuf {
+struct JmpBuf[T] {
   env : Bytes
-  mut val : Int
+  mut val : T?
 }
 
 ///|
@@ -11,8 +11,8 @@ extern "c" fn c_sizeof_jmp_buf() -> UInt64 = "moonbit_tonyfettes_c_sizeof_jmp_bu
 let sizeof_jmp_buf : Int = c_sizeof_jmp_buf().to_int()
 
 ///|
-pub fn JmpBuf::new() -> JmpBuf {
-  JmpBuf::{ env: Bytes::make(sizeof_jmp_buf, 0), val: 0 }
+pub fn[T] JmpBuf::new() -> JmpBuf[T] {
+  JmpBuf::{ env: Bytes::make(sizeof_jmp_buf, 0), val: None }
 }
 
 ///|
@@ -20,10 +20,9 @@ pub fn JmpBuf::new() -> JmpBuf {
 extern "c" fn c_longjmp(env : Bytes, val : Int) = "moonbit_tonyfettes_c_longjmp"
 
 ///|
-pub fn[T] longjmp(env : JmpBuf, val : Int) -> T {
-  let val = if val == 0 { 1 } else { val }
-  env.val = val
-  c_longjmp(env.env, val)
+pub fn[T, X] longjmp(env : JmpBuf[T], val : T) -> X {
+  env.val = Some(val)
+  c_longjmp(env.env, 1)
   abort("longjmp should never return")
 }
 
@@ -31,22 +30,19 @@ pub fn[T] longjmp(env : JmpBuf, val : Int) -> T {
 #borrow(env)
 extern "c" fn c_setjmp(
   env : Bytes,
-  setjmp_func : FuncRef[(() -> Unit) -> Unit],
-  setjmp_data : () -> Unit,
-  longjmp_func : FuncRef[(() -> Unit) -> Unit],
-  longjmp_data : () -> Unit,
-) -> Int = "moonbit_tonyfettes_c_setjmp"
+  func : FuncRef[((Int) -> Unit, Int) -> Unit],
+  data : (Int) -> Unit,
+) = "moonbit_tonyfettes_c_setjmp"
 
 ///|
-pub fn setjmp(
-  env : JmpBuf,
-  setjmp~ : () -> Unit,
-  longjmp~ : (Int) -> Unit,
-) -> Int {
-  if c_setjmp(env.env, f => f(), setjmp, f => f(), () => longjmp(env.val)) == 0 {
-    0
-  } else {
-    println("setjmp returning with value \{env.val})")
-    env.val
-  }
+pub fn[T, U] setjmp(env : JmpBuf[T], cb : (T?) -> U) -> U {
+  let mut r = None
+  c_setjmp(env.env, (f, status) => f(status), (status) => {
+    if status == 0 {
+      r = Some(cb(None))
+    } else {
+      r = Some(cb(env.val))
+    }
+  })
+  r.unwrap()
 }
