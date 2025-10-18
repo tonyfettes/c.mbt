@@ -8,11 +8,15 @@ import(
 // Values
 let eof : Int
 
-fn[T : ToNullableFILE] fflush(T) -> Int
+fn fclose(FILE) -> Int
+
+fn[T : IsNullableFILE] fflush(T) -> Int
 
 fn fgetc(FILE) -> Int
 
 fn fgets(FixedArray[Byte], FILE) -> Bool
+
+fn[Path : @c.AsBytePtr, Mode : @c.AsBytePtr] fopen(Path, Mode) -> FILE
 
 fn fputs(Bytes, FILE) -> Int
 
@@ -29,11 +33,11 @@ let stdout : FILE
 // Types and methods
 #external
 pub type FILE
-impl ToNullableFILE for FILE
+impl IsNullableFILE for FILE
 
 // Type aliases
 
 // Traits
-trait ToNullableFILE
-impl ToNullableFILE for @c.Null
+trait IsNullableFILE
+impl IsNullableFILE for @c.Null
 

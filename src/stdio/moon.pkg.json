@@ -8,6 +8,9 @@
     "getchar.mbt": ["native", "llvm"],
     "stdio.mbt": ["native", "llvm"]
   },
-  "import": ["tonyfettes/c"],
+  "import": [
+    "tonyfettes/c",
+    "tonyfettes/c/errno"
+  ],
   "native-stub": ["stdio.c"]
 }

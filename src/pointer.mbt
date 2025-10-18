@@ -190,3 +190,50 @@ extern "c" fn pointer_to_uint64(pointer : Pointer[Unit]) -> UInt64 = "moonbit_to
 pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
   pointer_to_uint64(self.cast())
 }
+
+///|
+pub fn[T] Pointer::from_array(array : FixedArray[T]) -> Pointer[T] = "%identity"
+
+///|
+#borrow(bytes)
+extern "c" fn pointer_from_bytes(bytes : Bytes) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_from_bytes"
+
+///|
+pub fn Pointer::from_bytes(bytes : Bytes) -> Pointer[Byte] {
+  pointer_from_bytes(bytes)
+}
+
+///|
+pub trait AsBytePointer {
+  as_byte_ptr(self : Self) -> Pointer[Byte] = _
+  as_byte_pointer(self : Self) -> Pointer[Byte]
+}
+
+///|
+impl AsBytePtr with as_byte_ptr(self : Self) -> Pointer[Byte] {
+  return AsBytePointer::as_byte_pointer(self)
+}
+
+///|
+pub impl AsBytePointer for Pointer[Byte] with as_byte_pointer(
+  self : Pointer[Byte],
+) -> Pointer[Byte] {
+  return self
+}
+
+///|
+pub impl AsBytePointer for Bytes with as_byte_pointer(self : Bytes) -> Pointer[
+  Byte,
+] {
+  return Pointer::from_bytes(self)
+}
+
+///|
+pub impl AsBytePointer for FixedArray[Byte] with as_byte_pointer(
+  self : FixedArray[Byte],
+) -> Pointer[Byte] {
+  return Pointer::from_array(self)
+}
+
+///|
+pub traitalias AsBytePointer as AsBytePtr

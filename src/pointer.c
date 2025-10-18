@@ -71,3 +71,21 @@ uint64_t
 moonbit_tonyfettes_c_pointer_to_uint64(void *pointer) {
   return (uint64_t)(uintptr_t)pointer;
 }
+
+MOONBIT_FFI_EXPORT
+void *
+moonbit_tonyfettes_c_pointer_from_array(void *pointer) {
+  return pointer;
+}
+
+MOONBIT_FFI_EXPORT
+void *
+moonbit_tonyfettes_c_pointer_from_bytes(void *pointer) {
+  return pointer;
+}
+
+MOONBIT_FFI_EXPORT
+void *
+moonbit_tonyfettes_c_pointer_identity(void *pointer) {
+  return pointer;
+}

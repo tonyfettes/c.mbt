@@ -69,11 +69,17 @@ pub fn[T] Nullable::to(self : Nullable[T]) -> T? {
 }
 
 ///|
+pub(open) trait IsNullable {
+  null() -> Self
+  is_null(self : Self) -> Bool
+}
+
+///|
 #external
 pub type Null
 
 ///|
-extern "c" fn c_null() -> Null = "moonbit_c_null"
+extern "c" fn c_null() -> Null = "moonbit_tonyfettes_c_pointer_null"
 
 ///|
 pub let null : Null = c_null()

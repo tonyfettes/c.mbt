@@ -10,7 +10,7 @@ moonbit_c_errno_get() {
 
 MOONBIT_FFI_EXPORT
 int32_t
-moonbit_c_errno_set(int32_t err) {
-  errno = err;
+moonbit_c_errno_set(int32_t value) {
+  errno = value;
   return errno;
 }

@@ -2,11 +2,13 @@
 package "tonyfettes/c/signal"
 
 // Values
-let sig_dfl : FuncRef[(Int) -> Unit]
+fn handler(FuncRef[(Int) -> Unit]) -> Handler
 
-let sig_err : FuncRef[(Int) -> Unit]
+let sig_dfl : Handler
 
-let sig_ign : FuncRef[(Int) -> Unit]
+let sig_err : Handler
+
+let sig_ign : Handler
 
 let sigabrt : Int
 
@@ -16,7 +18,7 @@ let sigill : Int
 
 let sigint : Int
 
-fn signal(Int, FuncRef[(Int) -> Unit]) -> FuncRef[(Int) -> Unit]
+fn signal(Int, Handler) -> Handler
 
 let sigsegv : Int
 
@@ -25,6 +27,8 @@ let sigterm : Int
 // Errors
 
 // Types and methods
+#external
+pub type Handler
 
 // Type aliases
 
