@@ -11,6 +11,7 @@
   "native-stub": [
     "c.c",
     "atexit.c",
+    "exit.c",
     "malloc.c",
     "memcpy.c",
     "memset.c",

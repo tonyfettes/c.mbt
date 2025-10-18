@@ -6,6 +6,10 @@ fn atexit(FuncRef[() -> Unit]) -> Int
 
 fn[T] exit(Int) -> T
 
+let exit_failure : Int
+
+let exit_success : Int
+
 fn[T] free(Pointer[T]) -> Unit
 
 fn[T] malloc(UInt64) -> Pointer[T]
@@ -15,6 +19,8 @@ fn memcpy(Pointer[Byte], Pointer[Byte], UInt64) -> Unit
 fn memcpy_from_bytes(Pointer[Byte], Bytes, UInt64) -> Unit
 
 fn memcpy_to_bytes(Bytes, Pointer[Byte], UInt64) -> Unit
+
+fn memset(Pointer[Byte], Byte, UInt64) -> Unit
 
 fn[T] none() -> Nullable[T]
 
