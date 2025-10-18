@@ -17,6 +17,13 @@
     "memset.c",
     "pointer.c",
     "load.c",
+    "setjmp.c",
     "store.c"
-  ]
+  ],
+  "link": {
+    "native": {
+      "cc-flags": "-fsanitize=address -g",
+      "stub-cc-flags": "-fsanitize=address -g"
+    }
+  }
 }

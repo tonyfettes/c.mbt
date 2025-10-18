@@ -12,6 +12,8 @@ let exit_success : Int
 
 fn[T] free(Pointer[T]) -> Unit
 
+fn[T] longjmp(JmpBuf, Int) -> T
+
 fn[T] malloc(UInt64) -> Pointer[T]
 
 fn memcpy(Pointer[Byte], Pointer[Byte], UInt64) -> Unit
@@ -31,6 +33,9 @@ fn[T : Sizeof] sizeof(T) -> UInt64
 // Errors
 
 // Types and methods
+type JmpBuf
+fn JmpBuf::new() -> Self
+
 #external
 pub type Null
 

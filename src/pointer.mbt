@@ -58,11 +58,11 @@ pub impl[T] Compare for Pointer[T] with compare(
 }
 
 ///|
-extern "c" fn pointer_sizeof() -> UInt64 = "moonbit_tonyfettes_c_pointer_sizeof"
+extern "c" fn sizeof_pointer() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
 
 ///|
 pub impl[T] Sizeof for Pointer[T] with sizeof() -> UInt64 {
-  pointer_sizeof()
+  sizeof_pointer()
 }
 
 ///|

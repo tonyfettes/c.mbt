@@ -38,7 +38,7 @@ moonbit_tonyfettes_c_pointer_compare(uint8_t *ptr1, uint8_t *ptr2) {
 
 MOONBIT_FFI_EXPORT
 uint64_t
-moonbit_tonyfettes_c_pointer_sizeof() {
+moonbit_tonyfettes_c_sizeof_pointer() {
   return sizeof(void *);
 }
 
