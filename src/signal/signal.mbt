@@ -1,26 +1,35 @@
 ///|
-pub extern "c" fn signal(
-  sig : Int,
-  handler : FuncRef[(Int) -> Unit],
-) -> FuncRef[(Int) -> Unit] = "signal"
+#external
+pub type Handler
 
 ///|
-extern "c" fn c_sig_dfl() -> FuncRef[(Int) -> Unit] = "moonbit_c_SIG_DFL"
+pub fn handler(f : FuncRef[(Int) -> Unit]) -> Handler = "%identity"
 
 ///|
-pub let sig_dfl : FuncRef[(Int) -> Unit] = c_sig_dfl()
+extern "c" fn c_signal(sig : Int, handler : Handler) -> Handler = "signal"
 
 ///|
-extern "c" fn c_sig_ign() -> FuncRef[(Int) -> Unit] = "moonbit_c_SIG_IGN"
+pub fn signal(sig : Int, handler : Handler) -> Handler {
+  c_signal(sig, handler)
+}
 
 ///|
-pub let sig_ign : FuncRef[(Int) -> Unit] = c_sig_ign()
+extern "c" fn c_sig_dfl() -> Handler = "moonbit_c_SIG_DFL"
 
 ///|
-extern "c" fn c_sig_err() -> FuncRef[(Int) -> Unit] = "moonbit_c_SIG_ERR"
+pub let sig_dfl : Handler = c_sig_dfl()
 
 ///|
-pub let sig_err : FuncRef[(Int) -> Unit] = c_sig_err()
+extern "c" fn c_sig_ign() -> Handler = "moonbit_c_SIG_IGN"
+
+///|
+pub let sig_ign : Handler = c_sig_ign()
+
+///|
+extern "c" fn c_sig_err() -> Handler = "moonbit_c_SIG_ERR"
+
+///|
+pub let sig_err : Handler = c_sig_err()
 
 ///|
 extern "c" fn c_sigabrt() -> Int = "moonbit_c_SIGABRT"

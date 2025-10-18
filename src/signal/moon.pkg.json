@@ -1,5 +1,6 @@
 {
   "targets": {
     "signal.mbt": ["native", "llvm"]
-  }
+  },
+  "native-stub": ["signal.c"]
 }

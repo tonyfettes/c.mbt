@@ -14,28 +14,28 @@ test "setjmp" {
 }
 
 ///|
-let env : Ref[@c.JmpBuf[Error]?] = Ref::new(None)
+let env : Array[@c.JmpBuf[Error]] = []
 
 ///|
 fn[X] raises(e : Error) -> X {
-  guard env.val is Some(env) else { abort("raises called outside of catches") }
+  guard env.last() is Some(env) else {
+    abort("raises called outside of catches")
+  }
   @c.longjmp(env, e)
 }
 
 ///|
 fn[T] catches(f : () -> T) -> T raise {
-  let env = match env.val {
-    Some(env) => env
-    None => {
-      let jmp_buf = @c.JmpBuf::new()
-      env.val = Some(jmp_buf)
-      jmp_buf
-    }
-  }
-  @c.setjmp(env, status => match status {
+  let jmp_buf = @c.JmpBuf::new()
+  env.push(jmp_buf)
+  let result = @c.setjmp(jmp_buf, status => match status {
     None => Ok(f())
     Some(e) => Err(e)
-  }).unwrap_or_error()
+  })
+  guard env.pop() is Some(pop) && physical_equal(pop, jmp_buf) else {
+    abort("raises-catches stack corrupted")
+  }
+  result.unwrap_or_error()
 }
 
 ///|
@@ -46,6 +46,57 @@ test "unchecked-exception/raises-catches" {
   )
 }
 
+///|
+let abort_env : @c.JmpBuf[Error] = @c.JmpBuf::new()
+
+///|
+test "intercept abort" {
+  let sigabrt_handler = @signal.signal(
+    @signal.sigabrt,
+    @signal.handler(_ => @c.longjmp(abort_env, Failure("intercepted abort"))),
+  )
+  defer ignore(@signal.signal(@signal.sigabrt, sigabrt_handler))
+  @json.inspect(
+    @c.setjmp(abort_env, status => match status {
+      None => {
+        abort("This abort should be intercepted")
+        Ok(())
+      }
+      Some(error) => Err(error)
+    }),
+    content={ "Err": ["Failure", "intercepted abort"] },
+  )
+}
+
+///|
 test "unchecked-exception/raises-outside-of-catches" {
-  raises(Failure("raises called outside of catches"))
+  let sigabrt_handler = @signal.signal(
+    @signal.sigabrt,
+    @signal.handler(_ => @c.longjmp(abort_env, Failure("aborted"))),
+  )
+  defer ignore(@signal.signal(@signal.sigabrt, sigabrt_handler))
+  @json.inspect(
+    @c.setjmp(abort_env, status => match status {
+      None => {
+        raises(Failure("raises called outside of catches"))
+        Ok(())
+      }
+      Some(error) => Err(error)
+    }),
+    content={ "Err": ["Failure", "aborted"] },
+  )
+}
+
+///|
+test "unchecked-exception/nested-raises-catches" {
+  @json.inspect(
+    try? catches(() => catches(() => if true {
+      raises(Failure("nested"))
+    } else {
+      42
+    }) catch {
+      error => raises(error)
+    }),
+    content={ "Err": ["Failure", "nested"] },
+  )
 }

@@ -19,5 +19,8 @@
     "load.c",
     "setjmp.c",
     "store.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/signal"
   ]
 }
