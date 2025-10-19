@@ -20,7 +20,7 @@ test "atomic_fetch_add" {
   for i in 0UL..<n_threads {
     @thrd.join(threads.add(i), @c.Pointer::null()) |> ignore()
   }
-  @json.inspect(counter.load() < 101000, content=true)
+  @json.inspect(counter.load() < 10000, content=true)
   let atomic_counter : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
   @atomic.init_(atomic_counter, 0)
   for i in 0UL..<n_threads {
