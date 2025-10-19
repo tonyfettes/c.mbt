@@ -1,0 +1,40 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/ctype"
+
+// Values
+fn isalnum(Byte) -> Bool
+
+fn isalpha(Byte) -> Bool
+
+fn isblank(Byte) -> Bool
+
+fn iscntrl(Byte) -> Bool
+
+fn isdigit(Byte) -> Bool
+
+fn isgraph(Byte) -> Bool
+
+fn islower(Byte) -> Bool
+
+fn isprint(Byte) -> Bool
+
+fn ispunct(Byte) -> Bool
+
+fn isspace(Byte) -> Bool
+
+fn isupper(Byte) -> Bool
+
+fn isxdigit(Byte) -> Bool
+
+fn tolower(Byte) -> Byte
+
+fn toupper(Byte) -> Byte
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

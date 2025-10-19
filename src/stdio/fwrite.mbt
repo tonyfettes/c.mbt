@@ -4,7 +4,7 @@ extern "c" fn c_fwrite(
   size : UInt64,
   n : UInt64,
   stream : FILE,
-) -> UInt64 = "fwrite"
+) -> UInt64 = "moonbit_tonyfettes_c_stdio_fwrite"
 
 ///|
 trait Fwrite {

@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <moonbit.h>
 #include <stdint.h>
+#include <string.h>
 
 MOONBIT_FFI_EXPORT
 int32_t
@@ -25,4 +26,10 @@ MOONBIT_FFI_EXPORT
 int32_t
 moonbit_tonyfettes_c_errno_erange() {
   return ERANGE;
+}
+
+MOONBIT_FFI_EXPORT
+void *
+moonbit_tonyfettes_c_errno_strerror(int32_t errnum) {
+  return (void *)strerror(errnum);
 }

@@ -1,8 +1,14 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/signal"
 
+import(
+  "tonyfettes/c/errno"
+)
+
 // Values
 fn handler(FuncRef[(Int) -> Unit]) -> Handler
+
+fn raise_(Int) -> Unit raise @errno.Errno
 
 let sig_dfl : Handler
 
@@ -29,6 +35,10 @@ let sigterm : Int
 // Types and methods
 #external
 pub type Handler
+fn Handler::equal(Self, Self) -> Bool // from trait `Eq`
+#deprecated
+fn Handler::op_equal(Self, Self) -> Bool // from trait `Eq`
+impl Eq for Handler
 
 // Type aliases
 

@@ -1,10 +1,10 @@
 ///|
-extern "c" fn c_fread(
+extern "c" fn stdio_fread(
   ptr : @c.Pointer[Unit],
   size : UInt64,
   n : UInt64,
   stream : FILE,
-) -> UInt64 = "fread"
+) -> UInt64 = "moonbit_tonyfettes_c_stdio_fread"
 
 ///|
 trait Fread {
@@ -17,7 +17,7 @@ pub impl[T : @c.Sizeof] Fread for FixedArray[T] with fread(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  @c.borrow_array(self, ptr => c_fread(ptr.cast(), T::sizeof(), n, stream))
+  @c.borrow_array(self, ptr => stdio_fread(ptr.cast(), T::sizeof(), n, stream))
 }
 
 ///|
@@ -26,7 +26,7 @@ pub impl[T : @c.Sizeof] Fread for @c.Pointer[T] with fread(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  c_fread(ptr.cast(), T::sizeof(), n, stream)
+  stdio_fread(ptr.cast(), T::sizeof(), n, stream)
 }
 
 ///|

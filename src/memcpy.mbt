@@ -1,22 +1,17 @@
 ///|
-pub extern "c" fn memcpy(
-  dest : Pointer[Byte],
+extern "c" fn c_memcpy(
+  dst : Pointer[Byte],
   src : Pointer[Byte],
   len : UInt64,
 ) -> Unit = "moonbit_c_memcpy"
 
 ///|
-#borrow(source)
-pub extern "c" fn memcpy_from_bytes(
-  dest : Pointer[Byte],
-  source : Bytes,
-  length : UInt64,
-) -> Unit = "moonbit_c_memcpy"
-
-///|
-#borrow(dest)
-pub extern "c" fn memcpy_to_bytes(
-  dest : Bytes,
-  source : Pointer[Byte],
-  length : UInt64,
-) -> Unit = "moonbit_c_memcpy"
+#alias(memcpy_to_bytes)
+#alias(memcpy_from_bytes)
+pub fn[Dst : BytesLike, Src : BytesLike] memcpy(
+  dst : Dst,
+  src : Src,
+  len : UInt64,
+) -> Unit {
+  borrow_bytes_2(dst, src, (dst, src) => c_memcpy(dst, src, len))
+}

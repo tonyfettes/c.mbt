@@ -1,6 +1,6 @@
 ///|
 #borrow(path, mode)
-extern "c" fn c_fopen(path : @c.Pointer[Byte], mode : @c.Pointer[Byte]) -> FILE = "fopen"
+extern "c" fn c_fopen(path : @c.Pointer[Byte], mode : @c.Pointer[Byte]) -> FILE = "moonbit_tonyfettes_c_stdio_fopen"
 
 ///|
 pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] fopen(

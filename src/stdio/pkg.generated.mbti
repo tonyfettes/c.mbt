@@ -3,24 +3,39 @@ package "tonyfettes/c/stdio"
 
 import(
   "tonyfettes/c"
+  "tonyfettes/c/errno"
 )
 
 // Values
 let eof : Int
 
-fn fclose(FILE) -> Int
+fn fclose(FILE) -> Unit raise @errno.Errno
 
-fn[T : IsNullableFILE] fflush(T) -> Int
+fn feof(FILE) -> Bool
+
+fn ferror(FILE) -> Bool
+
+fn fflush(FILE) -> Unit raise @errno.Errno
 
 fn fgetc(FILE) -> Int
 
-fn fgets(FixedArray[Byte], FILE) -> Bool
+fn[Data : @c.BytesLike] fgets(Data, Int, FILE) -> Data?
 
-fn[Path : @c.AsBytePtr, Mode : @c.AsBytePtr] fopen(Path, Mode) -> FILE
+fn[Path : @c.BytesLike, Mode : @c.BytesLike] fopen(Path, Mode) -> FILE raise @errno.Errno
 
-fn fputs(Bytes, FILE) -> Int
+fn[Data : @c.BytesLike] fputs(Data, FILE) -> Int
+
+fn[T : Fread] fread(T, UInt64, FILE) -> UInt64
+
+fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
+
+fn[T : Fwrite] fwrite(T, UInt64, FILE) -> UInt64
 
 fn getchar() -> Int
+
+fn[S : @c.BytesLike] perror(S) -> Unit
+
+fn[Path : @c.BytesLike] remove(Path) -> Unit raise @errno.Errno
 
 let stderr : FILE
 
@@ -33,11 +48,17 @@ let stdout : FILE
 // Types and methods
 #external
 pub type FILE
-impl IsNullableFILE for FILE
+fn FILE::null() -> Self
 
 // Type aliases
 
 // Traits
-trait IsNullableFILE
-impl IsNullableFILE for @c.Null
+trait Fread
+impl[T : @c.Sizeof] Fread for FixedArray[T]
+impl[T : @c.Sizeof] Fread for @c.Pointer[T]
+
+trait Fwrite
+impl[T : @c.Sizeof] Fwrite for FixedArray[T]
+impl Fwrite for Bytes
+impl[T : @c.Sizeof] Fwrite for @c.Pointer[T]
 

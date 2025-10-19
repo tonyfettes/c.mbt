@@ -8,7 +8,7 @@ pub extern "c" fn set(value : Int) = "moonbit_tonyfettes_c_errno_set"
 pub(all) suberror Errno Int
 
 ///|
-pub extern "c" fn strerror(value : Int) -> @c.Pointer[Byte] = "strerror"
+pub extern "c" fn strerror(value : Int) -> @c.Pointer[Byte] = "moonbit_tonyfettes_c_errno_strerror"
 
 ///|
 pub extern "c" fn errno_edom() -> Int = "moonbit_tonyfettes_c_errno_edom"

@@ -4,6 +4,14 @@ package "tonyfettes/c"
 // Values
 fn atexit(FuncRef[() -> Unit]) -> Int
 
+fn[T, R] borrow_array(FixedArray[T], (Pointer[T]) -> R) -> R
+
+fn[T : BytesLike, R] borrow_bytes(T, (Pointer[Byte]) -> R) -> R
+
+fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(A, B, (Pointer[Byte], Pointer[Byte]) -> R) -> R
+
+fn[T : Decref] decref(T) -> Unit
+
 fn[T] exit(Int) -> T
 
 let exit_failure : Int
@@ -11,8 +19,6 @@ let exit_failure : Int
 let exit_success : Int
 
 fn[T] free(Pointer[T]) -> Unit
-
-fn[T, X] longjmp(JmpBuf[T], T) -> X
 
 fn[T] malloc(UInt64) -> Pointer[T]
 
@@ -28,16 +34,11 @@ fn[T] none() -> Nullable[T]
 
 let null : Null
 
-fn[T, U] setjmp(JmpBuf[T], (T?) -> U) -> U
-
 fn[T : Sizeof] sizeof(T) -> UInt64
 
 // Errors
 
 // Types and methods
-type JmpBuf[T]
-fn[T] JmpBuf::new() -> Self[T]
-
 #external
 pub type Null
 
@@ -52,7 +53,6 @@ fn[T] Nullable::to(Self[T]) -> T?
 #external
 pub type Pointer[_]
 fn[T : Sizeof] Pointer::add(Self[T], UInt64) -> Self[T]
-fn Pointer::as_byte_ptr(Self[Byte]) -> Self[Byte] // from trait `AsBytePtr`
 fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 fn[T] Pointer::compare(Self[T], Self[T]) -> Int // from trait `Compare`
 fn[T] Pointer::equal(Self[T], Self[T]) -> Bool // from trait `Eq`
@@ -72,7 +72,7 @@ fn[T : Sizeof] Pointer::sub(Self[T], UInt64) -> Self[T]
 fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 impl[T] Compare for Pointer[T]
 impl[T] Eq for Pointer[T]
-impl AsBytePtr for Pointer[Byte]
+impl BytesLike for Pointer[Byte]
 impl[T] Load for Pointer[T]
 impl[T] Sizeof for Pointer[T]
 impl[T] Store for Pointer[T]
@@ -81,11 +81,13 @@ impl[T] Store for Pointer[T]
 pub typealias Pointer as Ptr
 
 // Traits
-pub trait AsBytePtr {
-  as_byte_ptr(Self) -> Pointer[Byte]
-}
-impl AsBytePtr for FixedArray[Byte]
-impl AsBytePtr for Bytes
+trait BytesLike
+impl BytesLike for FixedArray[Byte]
+impl BytesLike for Bytes
+
+trait Decref
+impl[T] Decref for FixedArray[T]
+impl Decref for Bytes
 
 pub(open) trait IsNullable {
   null() -> Self

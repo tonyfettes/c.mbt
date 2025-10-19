@@ -1,12 +1,32 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/errno"
 
+import(
+  "tonyfettes/c"
+)
+
 // Values
+let edom : Int
+
+let erange : Int
+
+fn errno_edom() -> Int
+
+fn errno_erange() -> Int
+
 fn get() -> Int
 
-fn set(Int) -> Int
+fn set(Int) -> Unit
+
+fn strerror(Int) -> @c.Pointer[Byte]
 
 // Errors
+pub(all) suberror Errno Int
+fn Errno::output(Self, &Logger) -> Unit // from trait `Show`
+fn Errno::to_json(Self) -> Json // from trait `ToJson`
+fn Errno::to_string(Self) -> String // from trait `Show`
+impl Show for Errno
+impl ToJson for Errno
 
 // Types and methods
 
