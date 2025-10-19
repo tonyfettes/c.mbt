@@ -204,36 +204,36 @@ pub fn Pointer::from_bytes(bytes : Bytes) -> Pointer[Byte] {
 }
 
 ///|
-pub trait AsBytePointer {
-  as_byte_ptr(self : Self) -> Pointer[Byte] = _
-  as_byte_pointer(self : Self) -> Pointer[Byte]
+pub trait AsBytePtr {
+  as_byte_ptr(self : Self) -> Pointer[Byte]
+  as_byte_pointer(self : Self) -> Pointer[Byte] = _
 }
 
 ///|
-impl AsBytePtr with as_byte_ptr(self : Self) -> Pointer[Byte] {
-  return AsBytePointer::as_byte_pointer(self)
+impl AsBytePtr with as_byte_pointer(self : Self) -> Pointer[Byte] {
+  return AsBytePtr::as_byte_ptr(self)
 }
 
 ///|
-pub impl AsBytePointer for Pointer[Byte] with as_byte_pointer(
+pub impl AsBytePtr for Pointer[Byte] with as_byte_ptr(
   self : Pointer[Byte],
 ) -> Pointer[Byte] {
   return self
 }
 
 ///|
-pub impl AsBytePointer for Bytes with as_byte_pointer(self : Bytes) -> Pointer[
+pub impl AsBytePtr for Bytes with as_byte_ptr(self : Bytes) -> Pointer[
   Byte,
 ] {
   return Pointer::from_bytes(self)
 }
 
 ///|
-pub impl AsBytePointer for FixedArray[Byte] with as_byte_pointer(
+pub impl AsBytePtr for FixedArray[Byte] with as_byte_ptr(
   self : FixedArray[Byte],
 ) -> Pointer[Byte] {
   return Pointer::from_array(self)
 }
 
 ///|
-pub traitalias AsBytePointer as AsBytePtr
+pub traitalias AsBytePtr as AsBytePointer

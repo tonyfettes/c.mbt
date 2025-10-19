@@ -5,25 +5,25 @@
 
 MOONBIT_FFI_EXPORT
 int32_t
-moonbit_c_EOF() {
+moonbit_tonyfettes_c_stdio_EOF() {
   return EOF;
 }
 
 MOONBIT_FFI_EXPORT
 FILE *
-moonbit_c_stdin() {
+moonbit_tonyfettes_c_stdio_stdin() {
   return stdin;
 }
 
 MOONBIT_FFI_EXPORT
 FILE *
-moonbit_c_stdout() {
+moonbit_tonyfettes_c_stdio_stdout() {
   return stdout;
 }
 
 MOONBIT_FFI_EXPORT
 FILE *
-moonbit_c_stderr() {
+moonbit_tonyfettes_c_stdio_stderr() {
   return stderr;
 }
 

@@ -15,3 +15,10 @@ test "freopen" {
   @stdio.fclose(file)
   @stdio.remove(path)
 }
+
+///|
+test "freopen/non-existent" {
+  let path = b"non_existent_freopen_test.txt"
+  let result = try? @stdio.freopen(path, b"r", @stdio.stderr)
+  @json.inspect(result is Err(_), content=true)
+}
