@@ -1,0 +1,7 @@
+{
+  "native-stub": [
+    "max.c",
+    "rand.c",
+    "srand.c"
+  ]
+}
