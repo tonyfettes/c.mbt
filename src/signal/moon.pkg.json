@@ -2,5 +2,10 @@
   "targets": {
     "signal.mbt": ["native", "llvm"]
   },
-  "native-stub": ["signal.c"]
+  "native-stub": [
+    "signal.c"
+  ],
+  "import": [
+    "tonyfettes/c/errno"
+  ]
 }

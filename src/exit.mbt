@@ -2,6 +2,7 @@
 extern "c" fn _exit(status : Int) = "exit"
 
 ///|
+#coverage.skip
 pub fn[T] exit(status : Int) -> T {
   _exit(status)
   abort("exit should never return")

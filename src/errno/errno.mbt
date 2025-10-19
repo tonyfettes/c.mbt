@@ -1,19 +1,31 @@
 ///|
-pub extern "c" fn get() -> Int = "moonbit_c_errno_get"
+pub extern "c" fn get() -> Int = "moonbit_tonyfettes_c_errno_get"
 
 ///|
-pub extern "c" fn set(value : Int) = "moonbit_c_errno_set"
+pub extern "c" fn set(value : Int) = "moonbit_tonyfettes_c_errno_set"
 
 ///|
 pub(all) suberror Errno Int
 
 ///|
-extern "c" fn c_strerror(value : Int) -> @c.Pointer[Byte] = "strerror"
+pub extern "c" fn strerror(value : Int) -> @c.Pointer[Byte] = "strerror"
+
+///|
+pub extern "c" fn errno_edom() -> Int = "moonbit_tonyfettes_c_errno_edom"
+
+///|
+pub let edom : Int = errno_edom()
+
+///|
+pub extern "c" fn errno_erange() -> Int = "moonbit_tonyfettes_c_errno_erange"
+
+///|
+pub let erange : Int = errno_erange()
 
 ///|
 pub impl Show for Errno with output(self : Errno, logger : &Logger) -> Unit {
   let Errno(value) = self
-  let str = c_strerror(value)
+  let str = strerror(value)
   let mut len = 0
   while str[len.to_uint64()] != 0 {
     len += 1
