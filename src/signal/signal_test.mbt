@@ -25,3 +25,13 @@ test "signal" {
   ignore(@signal.signal(@signal.sigint, @signal.sig_dfl))
   @json.inspect(last_signal.val == @signal.sigint, content=true)
 }
+
+///|
+test "signal/values" {
+  @json.inspect(@signal.sigabrt > 0, content=true)
+  @json.inspect(@signal.sigfpe > 0, content=true)
+  @json.inspect(@signal.sigill > 0, content=true)
+  @json.inspect(@signal.sigint > 0, content=true)
+  @json.inspect(@signal.sigsegv > 0, content=true)
+  @json.inspect(@signal.sigterm > 0, content=true)
+}

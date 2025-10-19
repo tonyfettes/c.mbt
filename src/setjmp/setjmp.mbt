@@ -16,11 +16,6 @@ pub fn[T] JmpBuf::new() -> JmpBuf[T] {
 }
 
 ///|
-pub fn[T] JmpBuf::get(self : JmpBuf[T]) -> T? {
-  self.val
-}
-
-///|
 #owned(env)
 extern "c" fn c_longjmp(env : Bytes, val : Int) = "moonbit_tonyfettes_c_longjmp"
 
