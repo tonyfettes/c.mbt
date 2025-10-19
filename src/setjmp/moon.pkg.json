@@ -1,0 +1,11 @@
+{
+  "native-stub": [
+    "setjmp.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/signal"
+  ],
+  "import": [
+    "tonyfettes/c"
+  ]
+}

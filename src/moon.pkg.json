@@ -17,10 +17,6 @@
     "memset.c",
     "pointer.c",
     "load.c",
-    "setjmp.c",
     "store.c"
-  ],
-  "test-import": [
-    "tonyfettes/c/signal"
   ]
 }

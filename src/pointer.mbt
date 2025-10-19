@@ -282,3 +282,27 @@ pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(
   ignore(B::return_(ptr_b))
   result
 }
+
+///|
+trait Decref {
+  decref(self : Self) -> Unit
+}
+
+///|
+pub impl[T] Decref for FixedArray[T] with decref(self : FixedArray[T]) -> Unit {
+  let ptr = array_as_pointer(self)
+  ignore(pointer_as_array(ptr))
+  ignore(pointer_as_array(ptr))
+}
+
+///|
+pub fn[T : Decref] decref(value : T) -> Unit {
+  value.decref()
+}
+
+///|
+pub impl Decref for Bytes with decref(self : Bytes) -> Unit {
+  let ptr = bytes_as_pointer(self)
+  ignore(pointer_as_bytes(ptr))
+  ignore(pointer_as_bytes(ptr))
+}

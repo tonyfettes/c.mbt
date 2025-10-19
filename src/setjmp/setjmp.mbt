@@ -16,7 +16,12 @@ pub fn[T] JmpBuf::new() -> JmpBuf[T] {
 }
 
 ///|
-#borrow(env)
+pub fn[T] JmpBuf::get(self : JmpBuf[T]) -> T? {
+  self.val
+}
+
+///|
+#owned(env)
 extern "c" fn c_longjmp(env : Bytes, val : Int) = "moonbit_tonyfettes_c_longjmp"
 
 ///|
@@ -35,14 +40,14 @@ extern "c" fn c_setjmp(
 ) = "moonbit_tonyfettes_c_setjmp"
 
 ///|
-pub fn[T, U] setjmp(env : JmpBuf[T], cb : (T?) -> U) -> U {
-  let mut r = None
-  c_setjmp(env.env, (f, status) => f(status), (status) => {
-    if status == 0 {
-      r = Some(cb(None))
-    } else {
-      r = Some(cb(env.val))
-    }
+pub fn[T, R] setjmp(env : JmpBuf[T], cb : (T?) -> R) -> R {
+  let r : FixedArray[R?] = [None]
+  c_setjmp(env.env, (f, status) => f(status), status => if status == 0 {
+    r[0] = Some(cb(None))
+  } else {
+    @c.decref(env.env)
+    @c.decref(r)
+    r[0] = Some(cb(env.val))
   })
-  r.unwrap()
+  r[0].unwrap()
 }
