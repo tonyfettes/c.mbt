@@ -1,4 +1,11 @@
 {
   "import": ["tonyfettes/c"],
-  "native-stub": ["free.c", "malloc.c", "memcpy.c", "memset.c"]
+  "native-stub": [
+    "calloc.c",
+    "free.c",
+    "malloc.c",
+    "memcpy.c",
+    "memset.c",
+    "realloc.c"
+  ]
 }

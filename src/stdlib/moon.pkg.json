@@ -1,6 +1,5 @@
 {
   "import": [
-    "tonyfettes/c",
     "tonyfettes/c/exit",
     "tonyfettes/c/memory"
   ]
