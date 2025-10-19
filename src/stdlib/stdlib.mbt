@@ -5,10 +5,10 @@ pub fnalias @c.malloc
 pub fnalias @c.free
 
 ///|
-pub fnalias @c.exit
+pub fnalias @exit.exit
 
 ///|
-pub fnalias @c.atexit
+pub fnalias @exit.atexit
 
 ///|
 pub fnalias @c.memcpy

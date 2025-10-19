@@ -1,0 +1,6 @@
+{
+  "native-stub": [
+    "exit.c",
+    "atexit.c"
+  ]
+}

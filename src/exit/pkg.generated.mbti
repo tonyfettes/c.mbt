@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/exit"
+
+// Values
+fn atexit(FuncRef[() -> Unit]) -> Int
+
+fn[T] exit(Int) -> T
+
+let failure : Int
+
+let success : Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -2,8 +2,6 @@
 package "tonyfettes/c"
 
 // Values
-fn atexit(FuncRef[() -> Unit]) -> Int
-
 fn[T, R] borrow_array(FixedArray[T], (Pointer[T]) -> R) -> R
 
 fn[T : BytesLike, R] borrow_bytes(T, (Pointer[Byte]) -> R) -> R
@@ -12,21 +10,13 @@ fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(A, B, (Pointer[Byte], Pointer
 
 fn[T : Decref] decref(T) -> Unit
 
-fn[T] exit(Int) -> T
-
-let exit_failure : Int
-
-let exit_success : Int
-
 fn[T] free(Pointer[T]) -> Unit
 
 fn[T] malloc(UInt64) -> Pointer[T]
 
-fn memcpy(Pointer[Byte], Pointer[Byte], UInt64) -> Unit
-
-fn memcpy_from_bytes(Pointer[Byte], Bytes, UInt64) -> Unit
-
-fn memcpy_to_bytes(Bytes, Pointer[Byte], UInt64) -> Unit
+#alias(memcpy_from_bytes)
+#alias(memcpy_to_bytes)
+fn[Dst : BytesLike, Src : BytesLike] memcpy(Dst, Src, UInt64) -> Unit
 
 fn memset(Pointer[Byte], Byte, UInt64) -> Unit
 
