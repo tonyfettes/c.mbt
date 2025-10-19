@@ -1,0 +1,92 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/atomic"
+
+import(
+  "tonyfettes/c"
+)
+
+// Values
+fn[T : FetchAdd] fetch_add(@c.Pointer[Atomic[T]], T) -> T
+
+fn[T : Init] init_(@c.Pointer[Atomic[T]], T) -> Unit
+
+fn[T : Load] load(@c.Pointer[Atomic[T]]) -> T
+
+// Errors
+
+// Types and methods
+#external
+pub type Atomic[_]
+fn[T : Sizeof] Atomic::sizeof() -> UInt64 // from trait `@c.Sizeof`
+impl[T : Sizeof] @c.Sizeof for Atomic[T]
+
+pub(all) enum MemoryOrder {
+  Relaxed
+  Consume
+  Acquire
+  Release
+  AcqRel
+  SeqCst
+}
+
+// Type aliases
+
+// Traits
+pub(open) trait CompareExchangeStrong {
+  compare_exchange_strong(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self) -> Bool = _
+  compare_exchange_strong_explicit(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
+}
+
+pub(open) trait CompareExchangeWeak {
+  compare_exchange_weak(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self) -> Bool = _
+  compare_exchange_weak_explicit(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
+}
+
+pub(open) trait Exchange {
+  exchange(@c.Pointer[Atomic[Self]], Self) -> Self = _
+  exchange_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
+}
+
+pub(open) trait FetchAdd {
+  fetch_add(@c.Pointer[Atomic[Self]], Self) -> Self = _
+  fetch_add_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
+}
+impl FetchAdd for Int
+
+pub(open) trait FetchAnd {
+  fetch_and(@c.Pointer[Atomic[Self]], Self) -> Self = _
+  fetch_and_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
+}
+
+pub(open) trait FetchOr {
+  fetch_or(@c.Pointer[Atomic[Self]], Self) -> Self = _
+  fetch_or_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
+}
+
+pub(open) trait FetchSub {
+  fetch_sub(@c.Pointer[Atomic[Self]], Self) -> Self = _
+  fetch_sub_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
+}
+
+pub(open) trait Init {
+  init(@c.Pointer[Atomic[Self]], Self) -> Unit
+}
+impl Init for Int
+
+pub(open) trait Load {
+  load(@c.Pointer[Atomic[Self]]) -> Self = _
+  load_explicit(@c.Pointer[Atomic[Self]], MemoryOrder) -> Self
+}
+impl Load for Int
+
+pub(open) trait Sizeof {
+  sizeof() -> UInt64
+}
+impl Sizeof for Int
+
+pub(open) trait Store {
+  store(@c.Pointer[Atomic[Self]], Self) -> Unit = _
+  store_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Unit
+}
+impl Store for Int
+

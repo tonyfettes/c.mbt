@@ -48,6 +48,8 @@ let stdout : FILE
 // Types and methods
 #external
 pub type FILE
+fn FILE::is_not_null(Self) -> Bool
+fn FILE::is_null(Self) -> Bool
 fn FILE::null() -> Self
 
 // Type aliases

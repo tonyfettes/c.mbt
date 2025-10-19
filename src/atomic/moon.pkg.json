@@ -1,0 +1,12 @@
+{
+  "import": [
+    "tonyfettes/c"
+  ],
+  "native-stub": [
+    "atomic.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/memory",
+    "tonyfettes/c/thrd"
+  ]
+}

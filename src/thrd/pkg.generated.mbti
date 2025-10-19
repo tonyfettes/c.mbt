@@ -1,0 +1,33 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/thrd"
+
+import(
+  "tonyfettes/c"
+)
+
+// Values
+let busy : Int
+
+fn[T] create(@c.Pointer[Thrd], FuncRef[(@c.Pointer[T]) -> Int], @c.Pointer[T]) -> Int
+
+let error : Int
+
+fn join(@c.Pointer[Thrd], @c.Pointer[Int]) -> Int
+
+let nomem : Int
+
+let success : Int
+
+let timedout : Int
+
+// Errors
+
+// Types and methods
+type Thrd
+fn Thrd::sizeof() -> UInt64 // from trait `@c.Sizeof`
+impl @c.Sizeof for Thrd
+
+// Type aliases
+
+// Traits
+
