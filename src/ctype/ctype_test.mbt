@@ -1,5 +1,5 @@
 ///|
-test "ctype" {
+test "ctype/is" {
   let table : FixedArray[Byte] = FixedArray::makei(128, i => i.to_byte())
   let results : Array[(FixedArray[Int], (Byte, Byte))] = []
   for byte in table {
@@ -40,4 +40,16 @@ test "ctype" {
     [[0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], [123, 126]],
     [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [127, 127]],
   ])
+}
+
+///|
+test "ctype/to" {
+  let lower = b"abcdefghijklmnopqrstuvwxyz"
+  let upper = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  for i, byte in lower {
+    @json.inspect(@ctype.toupper(byte), content=upper[i].to_json())
+  }
+  for i, byte in upper {
+    @json.inspect(@ctype.tolower(byte), content=lower[i].to_json())
+  }
 }
