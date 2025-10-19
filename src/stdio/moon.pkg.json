@@ -9,5 +9,13 @@
     "stdio.mbt": ["native", "llvm"]
   },
   "import": ["tonyfettes/c", "tonyfettes/c/errno"],
-  "native-stub": ["stdio.c", "fopen.c", "fread.c", "fwrite.c"]
+  "native-stub": [
+    "stdio.c",
+    "fopen.c",
+    "fread.c",
+    "fwrite.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/memory"
+  ]
 }

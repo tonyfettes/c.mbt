@@ -12,8 +12,8 @@ test "fread[FixedArray[_]]" {
 ///|
 test "fread[@c.Pointer[_]]" {
   let file = @stdio.fopen(b"moon.mod.json", b"r")
-  let buf : @c.Pointer[Byte] = @c.malloc(1024)
-  defer @c.free(buf)
+  let buf : @c.Pointer[Byte] = @memory.malloc(1024)
+  defer @memory.free(buf)
   let n = @stdio.fread(buf, 1024, file)
   @json.inspect(n, content="391")
   @json.inspect(@stdio.feof(file), content=true)

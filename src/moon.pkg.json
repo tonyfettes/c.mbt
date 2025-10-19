@@ -10,11 +10,13 @@
   },
   "native-stub": [
     "c.c",
-    "malloc.c",
     "memcpy.c",
     "memset.c",
     "pointer.c",
     "load.c",
     "store.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/memory"
   ]
 }

@@ -1,8 +1,8 @@
 ///|
-pub fnalias @c.malloc
+pub fnalias @memory.malloc
 
 ///|
-pub fnalias @c.free
+pub fnalias @memory.free
 
 ///|
 pub fnalias @exit.exit
