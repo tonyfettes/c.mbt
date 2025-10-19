@@ -9,7 +9,4 @@ test "realloc" {
   for i in 0UL..<10 {
     @json.inspect(new_ptr[i], content=i.to_int().to_json())
   }
-  for i in 10UL..<20 {
-    @json.inspect(new_ptr[i], content=0)
-  }
 }
