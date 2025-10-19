@@ -17,7 +17,7 @@ pub impl[T : @c.Sizeof] Fwrite for FixedArray[T] with fwrite(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  return c_fwrite(@c.Ptr::from_array(self).cast(), T::sizeof(), n, stream)
+  @c.borrow_array(self, ptr => c_fwrite(ptr.cast(), T::sizeof(), n, stream))
 }
 
 ///|
@@ -31,7 +31,7 @@ pub impl[T : @c.Sizeof] Fwrite for @c.Pointer[T] with fwrite(
 
 ///|
 pub impl Fwrite for Bytes with fwrite(self : Bytes, n : UInt64, stream : FILE) -> UInt64 {
-  return c_fwrite(@c.Pointer::from_bytes(self).cast(), 1, n, stream)
+  @c.borrow_bytes(self, ptr => c_fwrite(ptr.cast(), 1, n, stream))
 }
 
 ///|

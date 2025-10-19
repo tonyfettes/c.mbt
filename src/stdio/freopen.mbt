@@ -6,12 +6,14 @@ extern "c" fn c_freopen(
 ) -> FILE = "freopen"
 
 ///|
-pub fn[Path : @c.AsBytePtr, Mode : @c.AsBytePtr] freopen(
+pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(
   path : Path,
   mode : Mode,
   stream : FILE,
 ) -> FILE raise @errno.Errno {
-  let file = c_freopen(path.as_byte_ptr(), mode.as_byte_ptr(), stream)
+  let file = @c.borrow_bytes_2(path, mode, (path, mode) => c_freopen(
+    path, mode, stream,
+  ))
   if file.is_null() {
     raise @errno.Errno(@errno.get())
   } else {

@@ -17,7 +17,7 @@ pub impl[T : @c.Sizeof] Fread for FixedArray[T] with fread(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  return c_fread(@c.Ptr::from_array(self).cast(), T::sizeof(), n, stream)
+  @c.borrow_array(self, ptr => c_fread(ptr.cast(), T::sizeof(), n, stream))
 }
 
 ///|
@@ -26,7 +26,7 @@ pub impl[T : @c.Sizeof] Fread for @c.Pointer[T] with fread(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  return c_fread(ptr.cast(), T::sizeof(), n, stream)
+  c_fread(ptr.cast(), T::sizeof(), n, stream)
 }
 
 ///|

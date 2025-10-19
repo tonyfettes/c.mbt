@@ -192,48 +192,93 @@ pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
 }
 
 ///|
-pub fn[T] Pointer::from_array(array : FixedArray[T]) -> Pointer[T] = "%identity"
+fn[T] array_as_pointer(array : FixedArray[T]) -> Pointer[T] = "%identity"
 
 ///|
-#borrow(bytes)
-extern "c" fn pointer_from_bytes(bytes : Bytes) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_from_bytes"
+fn[T] pointer_as_array(pointer : Pointer[T]) -> FixedArray[T] = "%identity"
 
 ///|
-pub fn Pointer::from_bytes(bytes : Bytes) -> Pointer[Byte] {
-  pointer_from_bytes(bytes)
+#locals(f)
+pub fn[T, R] borrow_array(array : FixedArray[T], f : (Pointer[T]) -> R) -> R {
+  let ptr = array_as_pointer(array)
+  let result = f(ptr)
+  ignore(pointer_as_array(ptr))
+  result
 }
 
 ///|
-pub trait AsBytePtr {
-  as_byte_ptr(self : Self) -> Pointer[Byte]
-  as_byte_pointer(self : Self) -> Pointer[Byte] = _
+fn bytes_as_pointer(bytes : Bytes) -> Pointer[Byte] = "%identity"
+
+///|
+fn pointer_as_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
+
+///|
+trait BytesLike {
+  borrow(self : Self) -> Pointer[Byte]
+  return_(self : Pointer[Byte]) -> Self
 }
 
 ///|
-impl AsBytePtr with as_byte_pointer(self : Self) -> Pointer[Byte] {
-  return AsBytePtr::as_byte_ptr(self)
+pub impl BytesLike for Bytes with borrow(self : Bytes) -> Pointer[Byte] {
+  bytes_as_pointer(self)
 }
 
 ///|
-pub impl AsBytePtr for Pointer[Byte] with as_byte_ptr(
-  self : Pointer[Byte],
-) -> Pointer[Byte] {
-  return self
+pub impl BytesLike for Bytes with return_(self : Pointer[Byte]) -> Bytes {
+  pointer_as_bytes(self)
 }
 
 ///|
-pub impl AsBytePtr for Bytes with as_byte_ptr(self : Bytes) -> Pointer[
+pub impl BytesLike for FixedArray[Byte] with borrow(self : FixedArray[Byte]) -> Pointer[
   Byte,
 ] {
-  return Pointer::from_bytes(self)
+  array_as_pointer(self)
 }
 
 ///|
-pub impl AsBytePtr for FixedArray[Byte] with as_byte_ptr(
-  self : FixedArray[Byte],
-) -> Pointer[Byte] {
-  return Pointer::from_array(self)
+pub impl BytesLike for FixedArray[Byte] with return_(self : Pointer[Byte]) -> FixedArray[
+  Byte,
+] {
+  pointer_as_array(self)
 }
 
 ///|
-pub traitalias AsBytePtr as AsBytePointer
+pub impl BytesLike for Pointer[Byte] with borrow(self : Pointer[Byte]) -> Pointer[
+  Byte,
+] {
+  self
+}
+
+///|
+pub impl BytesLike for Pointer[Byte] with return_(self : Pointer[Byte]) -> Pointer[
+  Byte,
+] {
+  self
+}
+
+///|
+#locals(f)
+pub fn[T : BytesLike, R] borrow_bytes(
+  byte_pointer : T,
+  f : (Pointer[Byte]) -> R,
+) -> R {
+  let ptr = T::borrow(byte_pointer)
+  let result = f(ptr)
+  ignore(T::return_(ptr))
+  result
+}
+
+///|
+#locals(f)
+pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(
+  a : A,
+  b : B,
+  f : (Pointer[Byte], Pointer[Byte]) -> R,
+) -> R {
+  let ptr_a = A::borrow(a)
+  let ptr_b = B::borrow(b)
+  let result = f(ptr_a, ptr_b)
+  ignore(A::return_(ptr_a))
+  ignore(B::return_(ptr_b))
+  result
+}

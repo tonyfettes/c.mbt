@@ -5,8 +5,8 @@ extern "c" fn c_fgets(
 ) -> @c.Pointer[Byte] = "fgets"
 
 ///|
-pub fn[Data : @c.AsBytePtr] fgets(data : Data, stream : FILE) -> Data? {
-  let result = c_fgets(data.as_byte_ptr(), stream)
+pub fn[Data : @c.BytesLike] fgets(data : Data, stream : FILE) -> Data? {
+  let result = @c.borrow_bytes(data, data => c_fgets(data, stream))
   if result.is_null() {
     None
   } else {
@@ -19,6 +19,6 @@ pub fn[Data : @c.AsBytePtr] fgets(data : Data, stream : FILE) -> Data? {
 extern "c" fn c_fputs(data : @c.Pointer[Byte], stream : FILE) -> Int = "fputs"
 
 ///|
-pub fn[Data : @c.AsBytePtr] fputs(data : Data, stream : FILE) -> Int {
-  c_fputs(data.as_byte_ptr(), stream)
+pub fn[Data : @c.BytesLike] fputs(data : Data, stream : FILE) -> Int {
+  @c.borrow_bytes(data, data => c_fputs(data, stream))
 }
