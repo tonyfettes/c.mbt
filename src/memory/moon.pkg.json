@@ -4,6 +4,8 @@
   ],
   "native-stub": [
     "free.c",
-    "malloc.c"
+    "malloc.c",
+    "memcpy.c",
+    "memset.c"
   ]
 }

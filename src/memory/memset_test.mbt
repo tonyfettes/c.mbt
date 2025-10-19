@@ -4,7 +4,7 @@ test "memset" {
   let len : UInt64 = 16
   let ptr : @c.Ptr[Byte] = @memory.malloc(@c.sizeof(val) * len)
   defer @memory.free(ptr)
-  @c.memset(ptr, val, len)
+  @memory.memset(ptr, val, len)
   for i in 0UL..<len {
     @json.inspect(ptr[i], content=val.to_json())
   }
