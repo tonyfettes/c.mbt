@@ -1,6 +1,8 @@
 #include <moonbit.h>
-#include <stdatomic.h>
 #include <stdint.h>
+
+#ifndef __STDC_NO_ATOMICS__
+#include <stdatomic.h>
 
 MOONBIT_FFI_EXPORT
 int32_t
@@ -29,3 +31,33 @@ moonbit_tonyfettes_c_atomic_compare_exchange_weak_explicit_int(
     object, expected, desired, succ, fail
   );
 }
+
+#else
+
+#include <assert.h>
+
+MOONBIT_FFI_EXPORT
+int32_t
+moonbit_tonyfettes_c_atomic_compare_exchange_strong_explicit_int(
+  void *object,
+  int32_t *expected,
+  int32_t desired,
+  int32_t succ,
+  int32_t fail
+) {
+  assert(0 && "<stdatomic.h> is not available on this platform");
+}
+
+MOONBIT_FFI_EXPORT
+int32_t
+moonbit_tonyfettes_c_atomic_compare_exchange_weak_explicit_int(
+  void *object,
+  int32_t *expected,
+  int32_t desired,
+  int32_t succ,
+  int32_t fail
+) {
+  assert(0 && "<stdatomic.h> is not available on this platform");
+}
+
+#endif

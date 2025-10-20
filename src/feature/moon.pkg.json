@@ -1,5 +1,6 @@
 {
   "native-stub": [
+    "atomics.c",
     "threads.c"
   ]
 }

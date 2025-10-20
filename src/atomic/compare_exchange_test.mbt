@@ -1,5 +1,8 @@
 ///|
 test "compare_exchange_strong" {
+  if @feature.no_atomics {
+    return
+  }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
   @atomic.init_(object, 1)
   let expected : @c.Pointer[Int] = @memory.calloc(1)
@@ -19,6 +22,9 @@ test "compare_exchange_strong" {
 
 ///|
 test "compare_exchange_weak" {
+  if @feature.no_atomics {
+    return
+  }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
   @atomic.init_(object, 1)
   let expected : @c.Pointer[Int] = @memory.calloc(1)

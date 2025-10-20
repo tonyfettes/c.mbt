@@ -1,5 +1,8 @@
 ///|
 test "fetch_add" {
+  if @feature.no_atomics {
+    return
+  }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
   @atomic.init_(object, 0)
   @json.inspect(@atomic.fetch_add(object, 1), content=0)
@@ -8,6 +11,9 @@ test "fetch_add" {
 
 ///|
 test "fetch_add/concurrent" {
+  if @feature.no_atomics {
+    return
+  }
   if !@feature.no_threads {
     let counter : @c.Pointer[Int] = @memory.calloc(1)
     counter.store(0)

@@ -1,5 +1,8 @@
 ///|
 test "fetch_sub" {
+  if @feature.no_atomics {
+    return
+  }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
   @atomic.init_(object, 3)
   @json.inspect(@atomic.fetch_sub(object, 1), content=3)

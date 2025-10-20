@@ -14,6 +14,7 @@ test "Errno/Show" {
   @json.inspect(error.to_string().length() > 0, content=true)
 }
 
+///|
 test "Errno/ToJson" {
   let error = @errno.Errno(@errno.edom)
   let json = error.to_json()
