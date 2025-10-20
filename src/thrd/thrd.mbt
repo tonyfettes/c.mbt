@@ -2,7 +2,7 @@
 type Thrd
 
 ///|
-extern "c" fn sizeof_thrd() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd_t"
+extern "c" fn sizeof_thrd() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd"
 
 ///|
 pub impl @c.Sizeof for Thrd with sizeof() -> UInt64 {
