@@ -1,4 +1,5 @@
 #include <moonbit.h>
+#include <stdlib.h>
 
 MOONBIT_FFI_EXPORT
 int64_t
