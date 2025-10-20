@@ -1,7 +1,7 @@
 #include <moonbit.h>
 #include <stdint.h>
 
-#ifndef __STDC_NO_ATOMICS__
+#if !defined(__STDC_NO_ATOMICS__) && __STDC_VERSION__ >= 201112L
 
 #include <stdatomic.h>
 
