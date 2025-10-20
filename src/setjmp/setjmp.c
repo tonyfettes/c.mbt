@@ -16,7 +16,6 @@
 
 #include <moonbit.h>
 #include <setjmp.h>
-#include <stdio.h>
 
 MOONBIT_FFI_EXPORT
 int32_t
