@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <moonbit.h>
 
-#ifndef __STDC_NO_THREADS__
+#if !defined(__STDC_NO_THREADS__) && __STDC_VERSION__ >= 201112L
 
 #include <threads.h>
 
