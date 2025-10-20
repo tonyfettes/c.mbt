@@ -1,6 +1,6 @@
 ///|
 test "load" {
-  if @feature.no_atomics {
+  if !supports_atomics {
     return
   }
   let ptr : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)

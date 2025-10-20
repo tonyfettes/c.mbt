@@ -1,6 +1,3 @@
 {
-  "native-stub": [
-    "atomics.c",
-    "threads.c"
-  ]
+  "native-stub": ["atomics.c", "threads.c", "version.c"]
 }

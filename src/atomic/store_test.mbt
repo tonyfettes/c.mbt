@@ -1,6 +1,6 @@
 ///|
 test "store" {
-  if @feature.no_atomics {
+  if !supports_atomics {
     return
   }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)

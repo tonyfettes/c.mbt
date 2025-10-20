@@ -1,6 +1,6 @@
 ///|
 test "fetch_add" {
-  if @feature.no_atomics {
+  if !supports_atomics {
     return
   }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
@@ -11,7 +11,7 @@ test "fetch_add" {
 
 ///|
 test "fetch_add/concurrent" {
-  if @feature.no_atomics {
+  if !supports_atomics {
     return
   }
   if !@feature.no_threads {
