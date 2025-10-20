@@ -6,11 +6,25 @@ import(
 )
 
 // Values
+fn[T : CompareExchangeStrong] compare_exchange_strong(@c.Pointer[Atomic[T]], @c.Pointer[T], T) -> Bool
+
+fn[T : CompareExchangeWeak] compare_exchange_weak(@c.Pointer[Atomic[T]], @c.Pointer[T], T) -> Bool
+
+fn[T : Exchange] exchange(@c.Pointer[Atomic[T]], T) -> T
+
 fn[T : FetchAdd] fetch_add(@c.Pointer[Atomic[T]], T) -> T
+
+fn[T : FetchAnd] fetch_and(@c.Pointer[Atomic[T]], T) -> T
+
+fn[T : FetchOr] fetch_or(@c.Pointer[Atomic[T]], T) -> T
+
+fn[T : FetchSub] fetch_sub(@c.Pointer[Atomic[T]], T) -> T
 
 fn[T : Init] init_(@c.Pointer[Atomic[T]], T) -> Unit
 
 fn[T : Load] load(@c.Pointer[Atomic[T]]) -> T
+
+fn[T : Store] store(@c.Pointer[Atomic[T]], T) -> Unit
 
 // Errors
 
@@ -36,16 +50,19 @@ pub(open) trait CompareExchangeStrong {
   compare_exchange_strong(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self) -> Bool = _
   compare_exchange_strong_explicit(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
 }
+impl CompareExchangeStrong for Int
 
 pub(open) trait CompareExchangeWeak {
   compare_exchange_weak(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self) -> Bool = _
   compare_exchange_weak_explicit(@c.Pointer[Atomic[Self]], @c.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
 }
+impl CompareExchangeWeak for Int
 
 pub(open) trait Exchange {
   exchange(@c.Pointer[Atomic[Self]], Self) -> Self = _
   exchange_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
 }
+impl Exchange for Int
 
 pub(open) trait FetchAdd {
   fetch_add(@c.Pointer[Atomic[Self]], Self) -> Self = _
@@ -57,16 +74,19 @@ pub(open) trait FetchAnd {
   fetch_and(@c.Pointer[Atomic[Self]], Self) -> Self = _
   fetch_and_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
 }
+impl FetchAnd for Int
 
 pub(open) trait FetchOr {
   fetch_or(@c.Pointer[Atomic[Self]], Self) -> Self = _
   fetch_or_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
 }
+impl FetchOr for Int
 
 pub(open) trait FetchSub {
   fetch_sub(@c.Pointer[Atomic[Self]], Self) -> Self = _
   fetch_sub_explicit(@c.Pointer[Atomic[Self]], Self, MemoryOrder) -> Self
 }
+impl FetchSub for Int
 
 pub(open) trait Init {
   init(@c.Pointer[Atomic[Self]], Self) -> Unit
