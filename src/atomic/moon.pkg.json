@@ -3,7 +3,16 @@
     "tonyfettes/c"
   ],
   "native-stub": [
-    "atomic.c"
+    "compare_exchange.c",
+    "exchange.c",
+    "fetch_add.c",
+    "fetch_and.c",
+    "fetch_or.c",
+    "fetch_sub.c",
+    "init.c",
+    "load.c",
+    "sizeof.c",
+    "store.c"
   ],
   "test-import": [
     "tonyfettes/c/memory",

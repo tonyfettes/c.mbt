@@ -14,6 +14,11 @@ impl FetchAdd with fetch_add(ptr : @c.Pointer[Atomic[Self]], value : Self) -> Se
 }
 
 ///|
+pub fn[T : FetchAdd] fetch_add(ptr : @c.Pointer[Atomic[T]], value : T) -> T {
+  T::fetch_add(ptr, value)
+}
+
+///|
 extern "c" fn atomic_fetch_add_explicit_int(
   object : @c.Pointer[Atomic[Int]],
   value : Int,

@@ -1,32 +1,9 @@
 ///|
-test "load" {
-  let ptr : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
-  @atomic.init_(ptr, 0)
-  @json.inspect(@atomic.load(ptr), content=0)
-}
-
-///|
-test "store" {
-  let ptr : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
-  @atomic.init_(ptr, 0)
-  @json.inspect(@atomic.load(ptr), content=0)
-  @atomic.store(ptr, 1)
-  @json.inspect(@atomic.load(ptr), content=1)
-}
-
-///|
-test "exchange" {
-  let ptr : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
-  @atomic.init_(ptr, 0)
-  @json.inspect(@atomic.exchange(ptr, 1), content=0)
-  @json.inspect(@atomic.load(ptr), content=1)
-}
-
-///|
 test "fetch_add" {
-  let atomic_counter : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
-  @atomic.init_(atomic_counter, 0)
-  @json.inspect(@atomic.fetch_add(atomic_counter, 1), content=0)
+  let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+  @atomic.init_(object, 0)
+  @json.inspect(@atomic.fetch_add(object, 1), content=0)
+  @json.inspect(@atomic.load(object), content=1)
 }
 
 ///|
