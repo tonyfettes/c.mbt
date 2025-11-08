@@ -1,20 +1,20 @@
 ///|
-pub fnalias @memory.malloc
+pub using @memory {malloc}
 
 ///|
-pub fnalias @memory.free
+pub using @memory {free}
 
 ///|
-pub fnalias @exit.exit
+pub using @exit {exit}
 
 ///|
-pub fnalias @exit.atexit
+pub using @exit {atexit}
 
 ///|
-pub fnalias @memory.memcpy
+pub using @memory {memcpy}
 
 ///|
-pub fnalias @memory.memcpy_from_bytes
+pub using @memory {memcpy_from_bytes}
 
 ///|
-pub fnalias @memory.memcpy_to_bytes
+pub using @memory {memcpy_to_bytes}

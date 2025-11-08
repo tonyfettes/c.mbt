@@ -33,7 +33,7 @@ pub fn[T] Pointer::is_not_null(self : Pointer[T]) -> Bool {
 }
 
 ///|
-extern "c" fn pointer_equal(
+extern "c" fn Pointer::pointer_equal(
   self : Pointer[Unit],
   other : Pointer[Unit],
 ) -> Bool = "moonbit_tonyfettes_c_pointer_equal"
