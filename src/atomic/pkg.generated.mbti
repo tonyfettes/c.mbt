@@ -31,7 +31,6 @@ fn[T : Store] store(@c.Pointer[Atomic[T]], T) -> Unit
 // Types and methods
 #external
 pub type Atomic[_]
-fn[T : Sizeof] Atomic::sizeof() -> UInt64 // from trait `@c.Sizeof`
 impl[T : Sizeof] @c.Sizeof for Atomic[T]
 
 pub(all) enum MemoryOrder {

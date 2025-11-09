@@ -18,14 +18,6 @@ fn[T] malloc(UInt64) -> @c.Pointer[T]
 #alias(memcpy_to_bytes)
 fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy(Dst, Src, UInt64) -> Unit
 
-#alias(memcpy_from_bytes)
-#alias(memcpy_to_bytes)
-fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy_from_bytes(Dst, Src, UInt64) -> Unit
-
-#alias(memcpy_from_bytes)
-#alias(memcpy_to_bytes)
-fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy_to_bytes(Dst, Src, UInt64) -> Unit
-
 // Errors
 
 // Types and methods

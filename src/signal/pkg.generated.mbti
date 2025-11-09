@@ -35,9 +35,6 @@ let sigterm : Int
 // Types and methods
 #external
 pub type Handler
-fn Handler::equal(Self, Self) -> Bool // from trait `Eq`
-#deprecated
-fn Handler::op_equal(Self, Self) -> Bool // from trait `Eq`
 impl Eq for Handler
 
 // Type aliases

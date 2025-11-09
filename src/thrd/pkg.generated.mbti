@@ -24,7 +24,6 @@ let timedout : Int
 
 // Types and methods
 type Thrd
-fn Thrd::sizeof() -> UInt64 // from trait `@c.Sizeof`
 impl @c.Sizeof for Thrd
 
 // Type aliases

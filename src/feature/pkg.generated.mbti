@@ -6,6 +6,8 @@ let no_atomics : Bool
 
 let no_threads : Bool
 
+let version : Int64
+
 // Errors
 
 // Types and methods
