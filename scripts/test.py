@@ -180,22 +180,35 @@ def main():
     cli_args = parser.parse_args()
     if cli_args.package is None:
         for moon_pkg_path in src.rglob("moon.pkg.json"):
-            test_package(moon_pkg_path.parent, cli_args.target, None, None, None)
-    pkg_name = cli_args.package
-
-    if pkg_name == mod_name:
-        pkg_path = src
-    elif pkg_name.startswith(f"{mod_name}/"):
-        pkg_path = src / pkg_name.removeprefix(f"{mod_name}/")
+            moon_pkg_basename = moon_pkg_path.parent.relative_to(src).as_posix()
+            if moon_pkg_basename == ".":
+                moon_pkg_name = mod_name
+            else:
+                moon_pkg_name = f"{mod_name}/{moon_pkg_basename}"
+            print(f"Testing package: {moon_pkg_name}")
+            test_package(
+                moon_pkg_path.parent,
+                cli_args.target,
+                moon_pkg_name,
+                None,
+                None,
+            )
     else:
-        raise Exception(f"Package name must start with '{mod_name}/'")
-    test_package(
-        pkg_path,
-        cli_args.target,
-        pkg_name,
-        cli_args.file,
-        cli_args.index,
-    )
+        pkg_name = cli_args.package
+
+        if pkg_name == mod_name:
+            pkg_path = src
+        elif pkg_name.startswith(f"{mod_name}/"):
+            pkg_path = src / pkg_name.removeprefix(f"{mod_name}/")
+        else:
+            raise Exception(f"Package name must start with '{mod_name}/'")
+        test_package(
+            pkg_path,
+            cli_args.target,
+            pkg_name,
+            cli_args.file,
+            cli_args.index,
+        )
 
 
 if __name__ == "__main__":
