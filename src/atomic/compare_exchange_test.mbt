@@ -18,8 +18,10 @@ test "compare_exchange_strong" {
     return
   }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+  defer @memory.free(object)
   @atomic.init_(object, 1)
   let expected : @c.Pointer[Int] = @memory.calloc(1)
+  defer @memory.free(expected)
   expected.store(1)
   @json.inspect(
     @atomic.compare_exchange_strong(object, expected, 2),
@@ -40,8 +42,10 @@ test "compare_exchange_weak" {
     return
   }
   let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+  defer @memory.free(object)
   @atomic.init_(object, 1)
   let expected : @c.Pointer[Int] = @memory.calloc(1)
+  defer @memory.free(expected)
   expected.store(1)
   @json.inspect(
     @atomic.compare_exchange_weak(object, expected, 2),

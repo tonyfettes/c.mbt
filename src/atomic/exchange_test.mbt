@@ -18,6 +18,7 @@ test "exchange" {
     return
   }
   let ptr : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+  defer @memory.free(ptr)
   @atomic.init_(ptr, 0)
   @json.inspect(@atomic.exchange(ptr, 1), content=0)
   @json.inspect(@atomic.load(ptr), content=1)
