@@ -73,6 +73,68 @@ def modify_moon_pkg_json(moon_pkg_path: Path, flags: dict[str, str]) -> str:
     return moon_pkg_text
 
 
+def test_package(
+    pkg_path: Path,
+    target: str | None,
+    package: str | None,
+    file: str | None,
+    index: int | None,
+):
+    cmd = ["moon", "check"]
+    if target is not None:
+        cmd.append("--target")
+        cmd.append(target)
+
+    subprocess.run(cmd, check=True)
+
+    flags = None
+    if platform.system() == "Linux":
+        flags = linux_flags()
+    elif platform.system() == "Darwin":
+        flags = macos_flags()
+    elif platform.system() == "Windows":
+        flags = windows_flags()
+    if flags is None:
+        raise Exception("Unsupported platform")
+    moon_pkg_path = pkg_path / "moon.pkg.json"
+    moon_pkg_text = modify_moon_pkg_json(moon_pkg_path, flags)
+    print("==============================================")
+    print("Running test with the following configuration:")
+    print("----------------------------------------------")
+    print(json.dumps(flags, indent=2))
+    print("----------------------------------------------")
+    env = os.environ.copy()
+    if platform.system() != "Windows":
+        env["MOON_CC"] = flags["cc"] + " -g -fsanitize=address"
+        env["MOON_AR"] = "/usr/bin/ar"
+    if platform.system() != "Windows":
+        env["ASAN_OPTIONS"] = "detect_leaks=1"
+        if Path(".lsan-suppressions").exists():
+            lsan_suppressions = Path(".lsan-suppressions").resolve()
+            env["LSAN_OPTIONS"] = f"suppressions={lsan_suppressions}"
+    try:
+        cmd = ["moon", "test", "-v"]
+        if target is not None:
+            cmd.append("--target")
+            cmd.append(target)
+        if package is not None:
+            cmd.append("-p")
+            cmd.append(package)
+        if file is not None:
+            cmd.append("-f")
+            cmd.append(file)
+        if index is not None:
+            cmd.append("-i")
+            cmd.append(str(index))
+        subprocess.run(
+            cmd,
+            check=True,
+            env=env,
+        )
+    finally:
+        moon_pkg_path.write_text(moon_pkg_text)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Run MoonBit tests with specified target"
@@ -107,11 +169,6 @@ def main():
         help="Index of the test to run, if applicable",
     )
 
-    cli_args = parser.parse_args()
-    if cli_args.package is None:
-        raise Exception("--package/-p <pkg> is required")
-    pkg_name = cli_args.package
-
     moon_mod_path = Path("moon.mod.json")
     moon_mod_json = json.loads(moon_mod_path.read_text())
     if "source" in moon_mod_json:
@@ -120,66 +177,25 @@ def main():
         src = Path(".")
     mod_name = moon_mod_json["name"]
 
+    cli_args = parser.parse_args()
+    if cli_args.package is None:
+        for moon_pkg_path in src.rglob("moon.pkg.json"):
+            test_package(moon_pkg_path.parent, cli_args.target, None, None, None)
+    pkg_name = cli_args.package
+
     if pkg_name == mod_name:
         pkg_path = src
     elif pkg_name.startswith(f"{mod_name}/"):
         pkg_path = src / pkg_name.removeprefix(f"{mod_name}/")
     else:
         raise Exception(f"Package name must start with '{mod_name}/'")
-
-    cmd = ["moon", "check"]
-    if cli_args.target is not None:
-        cmd.append("--target")
-        cmd.append(cli_args.target)
-
-    subprocess.run(cmd, check=True)
-
-    flags = None
-    if platform.system() == "Linux":
-        flags = linux_flags()
-    elif platform.system() == "Darwin":
-        flags = macos_flags()
-    elif platform.system() == "Windows":
-        flags = windows_flags()
-    if flags is None:
-        raise Exception("Unsupported platform")
-    moon_pkg_path = pkg_path / "moon.pkg.json"
-    moon_pkg_text = modify_moon_pkg_json(moon_pkg_path, flags)
-    print("==============================================")
-    print("Running test with the following configuration:")
-    print("----------------------------------------------")
-    print(json.dumps(flags, indent=2))
-    print("----------------------------------------------")
-    env = os.environ.copy()
-    if platform.system() != "Windows":
-        env["MOON_CC"] = flags["cc"] + " -g -fsanitize=address"
-        env["MOON_AR"] = "/usr/bin/ar"
-    if platform.system() != "Windows":
-        env["ASAN_OPTIONS"] = "detect_leaks=1"
-        if Path(".lsan-suppressions").exists():
-            lsan_suppressions = Path(".lsan-suppressions").resolve()
-            env["LSAN_OPTIONS"] = f"suppressions={lsan_suppressions}"
-    try:
-        cmd = ["moon", "test", "-v"]
-        if cli_args.target is not None:
-            cmd.append("--target")
-            cmd.append(cli_args.target)
-        if cli_args.package is not None:
-            cmd.append("-p")
-            cmd.append(cli_args.package)
-        if cli_args.file is not None:
-            cmd.append("-f")
-            cmd.append(cli_args.file)
-        if cli_args.index is not None:
-            cmd.append("-i")
-            cmd.append(str(cli_args.index))
-        subprocess.run(
-            cmd,
-            check=True,
-            env=env,
-        )
-    finally:
-        moon_pkg_path.write_text(moon_pkg_text)
+    test_package(
+        pkg_path,
+        cli_args.target,
+        pkg_name,
+        cli_args.file,
+        cli_args.index,
+    )
 
 
 if __name__ == "__main__":
