@@ -1,0 +1,45 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/time"
+
+import(
+  "tonyfettes/c"
+)
+
+// Values
+fn clock() -> Clock
+
+fn difftime(Time, Time) -> Double
+
+fn gmtime(Time) -> Tm
+
+fn localtime(Time) -> Tm
+
+fn mktime(Tm) -> Time
+
+fn[T : @c.BytesLike, F : @c.BytesLike] strftime(T, Int, F, Tm) -> UInt64
+
+fn time() -> Time
+
+// Errors
+
+// Types and methods
+type Clock
+fn Clock::to_seconds(Self) -> Double
+
+type Time
+
+type Tm
+fn Tm::hour(Self) -> Int
+fn Tm::isdst(Self) -> Int
+fn Tm::mday(Self) -> Int
+fn Tm::min(Self) -> Int
+fn Tm::mon(Self) -> Int
+fn Tm::sec(Self) -> Int
+fn Tm::wday(Self) -> Int
+fn Tm::yday(Self) -> Int
+fn Tm::year(Self) -> Int
+
+// Type aliases
+
+// Traits
+
