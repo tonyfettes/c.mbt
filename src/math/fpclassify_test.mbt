@@ -18,8 +18,12 @@ test "fpclassify[Float]" {
   @json.inspect(fpclassify(1.0), content="Normal")
 }
 
+///|
 test "is_nan" {
+
 }
 
+///|
 test "is_normal" {
+
 }

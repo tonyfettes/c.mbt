@@ -1,0 +1,44 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/sizeof"
+
+// Values
+const Byte : UInt64 = 1
+
+const Double : UInt64 = 8
+
+const Float : UInt64 = 4
+
+const Int : UInt64 = 4
+
+const Int16 : UInt64 = 2
+
+const Int64 : UInt64 = 8
+
+const UInt : UInt64 = 4
+
+const UInt16 : UInt64 = 2
+
+const UInt64 : UInt64 = 8
+
+fn[T : Sizeof] sizeof(T) -> UInt64
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+pub(open) trait Sizeof {
+  sizeof() -> UInt64
+}
+impl Sizeof for Byte
+impl Sizeof for Int
+impl Sizeof for Int16
+impl Sizeof for Int64
+impl Sizeof for UInt
+impl Sizeof for UInt16
+impl Sizeof for UInt64
+impl Sizeof for Float
+impl Sizeof for Double
+

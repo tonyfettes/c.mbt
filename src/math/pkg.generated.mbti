@@ -2,9 +2,49 @@
 package "tonyfettes/c/math"
 
 // Values
+fn acos(Double) -> Double
+
+fn acosf(Float) -> Float
+
+fn asin(Double) -> Double
+
+fn asinf(Float) -> Float
+
+fn atan(Double) -> Double
+
+fn atan2(Double, Double) -> Double
+
+fn atan2f(Float, Float) -> Float
+
+fn atanf(Float) -> Float
+
+fn ceil(Double) -> Double
+
+fn ceilf(Float) -> Float
+
+fn cos(Double) -> Double
+
+fn cosf(Float) -> Float
+
+fn cosh(Double) -> Double
+
+fn coshf(Float) -> Float
+
+fn exp(Double) -> Double
+
+fn expf(Float) -> Float
+
 fn fabs(Double) -> Double
 
 fn fabsf(Float) -> Float
+
+fn floor(Double) -> Double
+
+fn floorf(Float) -> Float
+
+fn fmod(Double, Double) -> Double
+
+fn fmodf(Float, Float) -> Float
 
 let fp_infinite : Int
 
@@ -24,9 +64,49 @@ fn[T : IsInf] is_inf(T) -> Bool
 
 fn[T : IsNaN] is_nan(T) -> Bool
 
+fn ldexp(Double, Int) -> Double
+
+fn ldexpf(Float, Int) -> Float
+
+fn log(Double) -> Double
+
+fn log10(Double) -> Double
+
+fn log10f(Float) -> Float
+
+fn logf(Float) -> Float
+
+fn nan(Bytes) -> Double
+
+fn nanf(Bytes) -> Float
+
 fn pow(Double, Double) -> Double
 
 fn powf(Float, Float) -> Float
+
+fn round(Double) -> Double
+
+fn roundf(Float) -> Float
+
+fn sin(Double) -> Double
+
+fn sinf(Float) -> Float
+
+fn sinh(Double) -> Double
+
+fn sinhf(Float) -> Float
+
+fn sqrt(Double) -> Double
+
+fn sqrtf(Float) -> Float
+
+fn tan(Double) -> Double
+
+fn tanf(Float) -> Float
+
+fn tanh(Double) -> Double
+
+fn tanhf(Float) -> Float
 
 // Errors
 
