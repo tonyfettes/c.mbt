@@ -6,6 +6,7 @@
     "strlen.c"
   ],
   "test-import": [
-    "tonyfettes/c/memory"
+    "tonyfettes/c/memory",
+    "tonyfettes/c/sizeof"
   ]
 }

@@ -9,5 +9,7 @@
     "memcpy.mbt": ["native", "llvm"]
   },
   "native-stub": ["c.c", "pointer.c", "load.c", "store.c"],
-  "test-import": ["tonyfettes/c/memory"]
+  "test-import": [
+    "tonyfettes/c/memory"
+  ]
 }
