@@ -1,0 +1,62 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/math"
+
+// Values
+fn fabs(Double) -> Double
+
+fn fabsf(Float) -> Float
+
+let fp_infinite : Int
+
+let fp_nan : Int
+
+let fp_normal : Int
+
+let fp_subnormal : Int
+
+let fp_zero : Int
+
+fn[T : FpClassify] fpclassify(T) -> FpCategory
+
+fn[T : IsFinite] is_finite(T) -> Bool
+
+fn[T : IsInf] is_inf(T) -> Bool
+
+fn[T : IsNaN] is_nan(T) -> Bool
+
+fn pow(Double, Double) -> Double
+
+fn powf(Float, Float) -> Float
+
+// Errors
+
+// Types and methods
+pub enum FpCategory {
+  Normal
+  Subnormal
+  Zero
+  Infinite
+  Nan
+  Unknown(Int)
+}
+impl ToJson for FpCategory
+
+// Type aliases
+
+// Traits
+trait FpClassify
+impl FpClassify for Float
+impl FpClassify for Double
+
+trait IsFinite
+impl IsFinite for Float
+impl IsFinite for Double
+
+trait IsInf
+impl IsInf for Float
+impl IsInf for Double
+
+trait IsNaN
+impl IsNaN for Float
+impl IsNaN for Double
+
