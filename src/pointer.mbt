@@ -298,6 +298,20 @@ pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(
 }
 
 ///|
+#locals(f)
+pub fn[A : BytesLike, R] borrow_bytes_n(
+  array : FixedArray[A],
+  f : (FixedArray[Pointer[Byte]]) -> R,
+) -> R {
+  let ptr = FixedArray::makei(array.length(), i => A::borrow(array[i]))
+  let result = f(ptr)
+  for p in ptr {
+    ignore(A::return_(p))
+  }
+  result
+}
+
+///|
 trait Decref {
   decref(self : Self) -> Unit
 }
