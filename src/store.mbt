@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-trait Store {
+pub(open) trait Store {
   store(Pointer[Self], Self) -> Unit
 }
 
