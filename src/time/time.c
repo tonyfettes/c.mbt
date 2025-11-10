@@ -1,7 +1,7 @@
 
 #include "moonbit.h"
 #include <time.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 MOONBIT_FFI_EXPORT
 uint64_t
