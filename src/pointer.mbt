@@ -14,10 +14,8 @@
 
 ///|
 #external
+#alias(Ptr)
 pub type Pointer[_]
-
-///|
-pub typealias Pointer as Ptr
 
 ///|
 pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
