@@ -60,7 +60,7 @@ test "Pointer::offset_from" {
 ///|
 test "Pointer[Byte]" {
   let val : Byte = 0x42
-  let ptr : @c.Ptr[Byte] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[Byte] = @memory.malloc(@c.sizeof((ignore : (Byte) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -69,7 +69,7 @@ test "Pointer[Byte]" {
 ///|
 test "Pointer[Int16]" {
   let val : Int16 = 0x1234
-  let ptr : @c.Ptr[Int16] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[Int16] = @memory.malloc(@c.sizeof((ignore : (Int16) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -78,7 +78,7 @@ test "Pointer[Int16]" {
 ///|
 test "Pointer[UInt16]" {
   let val : UInt16 = 0x1234
-  let ptr : @c.Ptr[UInt16] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[UInt16] = @memory.malloc(@c.sizeof((ignore : (UInt16) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -87,7 +87,7 @@ test "Pointer[UInt16]" {
 ///|
 test "Pointer[Int]" {
   let val : Int = 0x12345678
-  let ptr : @c.Ptr[Int] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[Int] = @memory.malloc(@c.sizeof((ignore : (Int) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -96,7 +96,7 @@ test "Pointer[Int]" {
 ///|
 test "Pointer[UInt]" {
   let val : UInt = 0x12345678
-  let ptr : @c.Ptr[UInt] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[UInt] = @memory.malloc(@c.sizeof((ignore : (UInt) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -105,7 +105,7 @@ test "Pointer[UInt]" {
 ///|
 test "Pointer[Int64]" {
   let val : Int64 = 0x1234567890abcdef
-  let ptr : @c.Ptr[Int64] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[Int64] = @memory.malloc(@c.sizeof((ignore : (Int64) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -114,7 +114,7 @@ test "Pointer[Int64]" {
 ///|
 test "Pointer[UInt64]" {
   let val : UInt64 = 0x1234567890abcdef
-  let ptr : @c.Ptr[UInt64] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[UInt64] = @memory.malloc(@c.sizeof((ignore : (UInt64) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -123,7 +123,7 @@ test "Pointer[UInt64]" {
 ///|
 test "Pointer[Float]" {
   let val : Float = 3.14159
-  let ptr : @c.Ptr[Float] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[Float] = @memory.malloc(@c.sizeof((ignore : (Float) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -132,7 +132,7 @@ test "Pointer[Float]" {
 ///|
 test "Pointer[Double]" {
   let val : Double = 3.141592653589793
-  let ptr : @c.Ptr[Double] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[Double] = @memory.malloc(@c.sizeof((ignore : (Double) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load(), content=val.to_json())
@@ -142,7 +142,7 @@ test "Pointer[Double]" {
 test "Pointer[Pointer[_]]" {
   let val : @c.Ptr[Byte] = @memory.malloc(16)
   defer @memory.free(val)
-  let ptr : @c.Ptr[@c.Ptr[Byte]] = @memory.malloc(@c.sizeof(val))
+  let ptr : @c.Ptr[@c.Ptr[Byte]] = @memory.malloc(@c.sizeof((ignore : (@c.Ptr[Byte]) -> Unit)))
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load() == val, content=true)

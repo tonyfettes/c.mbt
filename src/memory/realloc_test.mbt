@@ -14,11 +14,13 @@
 
 ///|
 test "realloc" {
-  let ptr : @c.Pointer[Int] = @memory.malloc(10 * @c.sizeof(Int::default()))
+  let ptr : @c.Pointer[Int] = @memory.malloc(
+    10 * @c.sizeof((ignore : (Int) -> Unit)),
+  )
   for i in 0UL..<10 {
     ptr[i] = i.to_int()
   }
-  let new_ptr = @memory.realloc(ptr, 20 * @c.sizeof(Int::default()))
+  let new_ptr = @memory.realloc(ptr, 20 * @c.sizeof((ignore : (Int) -> Unit)))
   defer @memory.free(new_ptr)
   for i in 0UL..<10 {
     @json.inspect(new_ptr[i], content=i.to_int().to_json())

@@ -63,6 +63,6 @@ pub impl Sizeof for Double with sizeof() -> UInt64 {
 }
 
 ///|
-pub fn[T : Sizeof] sizeof(_ : T) -> UInt64 {
+pub fn[T : Sizeof] sizeof(_ : (T) -> Unit) -> UInt64 {
   T::sizeof()
 }
