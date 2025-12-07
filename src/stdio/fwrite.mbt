@@ -31,7 +31,12 @@ pub impl[T : @c.Sizeof] Fwrite for FixedArray[T] with fwrite(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  @c.borrow_array(self, ptr => c_fwrite(ptr.cast(), T::sizeof(), n, stream))
+  @c.with_array_borrowed(self, ptr => c_fwrite(
+    ptr.cast(),
+    T::sizeof(),
+    n,
+    stream,
+  ))
 }
 
 ///|

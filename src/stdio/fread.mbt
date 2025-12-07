@@ -31,7 +31,12 @@ pub impl[T : @c.Sizeof] Fread for FixedArray[T] with fread(
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  @c.borrow_array(self, ptr => stdio_fread(ptr.cast(), T::sizeof(), n, stream))
+  @c.with_array_borrowed(self, ptr => stdio_fread(
+    ptr.cast(),
+    T::sizeof(),
+    n,
+    stream,
+  ))
 }
 
 ///|

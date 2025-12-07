@@ -204,19 +204,42 @@ pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
 }
 
 ///|
-fn[T] array_as_pointer(array : FixedArray[T]) -> Pointer[T] = "%identity"
+pub fn[T] borrow_array(array : FixedArray[T]) -> Pointer[T] = "%identity"
 
 ///|
-fn[T] pointer_as_array(pointer : Pointer[T]) -> FixedArray[T] = "%identity"
+pub fn[T] return_array(pointer : Pointer[T]) -> FixedArray[T] = "%identity"
 
 ///|
 #locals(f)
-pub fn[T, R] borrow_array(array : FixedArray[T], f : (Pointer[T]) -> R) -> R {
-  let ptr = array_as_pointer(array)
+pub fn[T, R] with_array_borrowed(
+  array : FixedArray[T],
+  f : (Pointer[T]) -> R,
+) -> R {
+  let ptr = borrow_array(array)
   let result = f(ptr)
-  ignore(pointer_as_array(ptr))
+  ignore(return_array(ptr))
   result
 }
+
+///|
+pub fn[T] borrow_ref(r : Ref[T]) -> Pointer[T] = "%identity"
+
+///|
+pub fn[T] return_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
+
+///|
+pub fn[T, R] with_ref_borrowed(r : Ref[T], f : (Pointer[T]) -> R) -> R {
+  let ptr = borrow_ref(r)
+  let result = f(ptr)
+  ignore(return_ref(ptr))
+  result
+}
+
+///|
+pub fn[T] unsafe_borrow(r : T) -> Pointer[Unit] = "%identity"
+
+///|
+pub fn[T] unsafe_return(ptr : Pointer[Unit]) -> T = "%identity"
 
 ///|
 fn bytes_as_pointer(bytes : Bytes) -> Pointer[Byte] = "%identity"
@@ -244,14 +267,14 @@ pub impl BytesLike for Bytes with return_(self : Pointer[Byte]) -> Bytes {
 pub impl BytesLike for FixedArray[Byte] with borrow(self : FixedArray[Byte]) -> Pointer[
   Byte,
 ] {
-  array_as_pointer(self)
+  borrow_array(self)
 }
 
 ///|
 pub impl BytesLike for FixedArray[Byte] with return_(self : Pointer[Byte]) -> FixedArray[
   Byte,
 ] {
-  pointer_as_array(self)
+  return_array(self)
 }
 
 ///|
@@ -316,9 +339,9 @@ trait Decref {
 
 ///|
 pub impl[T] Decref for FixedArray[T] with decref(self : FixedArray[T]) -> Unit {
-  let ptr = array_as_pointer(self)
-  ignore(pointer_as_array(ptr))
-  ignore(pointer_as_array(ptr))
+  let ptr = borrow_array(self)
+  ignore(return_array(ptr))
+  ignore(return_array(ptr))
 }
 
 ///|
