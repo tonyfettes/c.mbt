@@ -6,19 +6,19 @@ import(
 )
 
 // Values
-fn[T : @c.Sizeof] calloc(UInt64, size? : UInt64) -> @c.Pointer[T]
+pub fn[T : @c.Sizeof] calloc(UInt64, size? : UInt64) -> @c.Pointer[T]
 
-fn[T] free(@c.Pointer[T]) -> Unit
+pub fn[T] free(@c.Pointer[T]) -> Unit
 
-fn[T] malloc(UInt64) -> @c.Pointer[T]
+pub fn[T] malloc(UInt64) -> @c.Pointer[T]
 
 #alias(memcpy_from_bytes)
 #alias(memcpy_to_bytes)
-fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy(Dst, Src, UInt64) -> Unit
+pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy(Dst, Src, UInt64) -> Unit
 
-fn[Dst : @c.BytesLike] memset(Dst, Byte, UInt64) -> Unit
+pub fn[Dst : @c.BytesLike] memset(Dst, Byte, UInt64) -> Unit
 
-fn[T] realloc(@c.Pointer[T], UInt64) -> @c.Pointer[T]
+pub fn[T] realloc(@c.Pointer[T], UInt64) -> @c.Pointer[T]
 
 // Errors
 

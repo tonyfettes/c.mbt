@@ -6,38 +6,38 @@ import(
 )
 
 // Values
-fn clock() -> Clock
+pub fn clock() -> Clock
 
-fn difftime(Time, Time) -> Double
+pub fn difftime(Time, Time) -> Double
 
-fn gmtime(Time) -> Tm
+pub fn gmtime(Time) -> Tm
 
-fn localtime(Time) -> Tm
+pub fn localtime(Time) -> Tm
 
-fn mktime(Tm) -> Time
+pub fn mktime(Tm) -> Time
 
-fn[T : @c.BytesLike, F : @c.BytesLike] strftime(T, Int, F, Tm) -> UInt64
+pub fn[T : @c.BytesLike, F : @c.BytesLike] strftime(T, Int, F, Tm) -> UInt64
 
-fn time() -> Time
+pub fn time() -> Time
 
 // Errors
 
 // Types and methods
 type Clock
-fn Clock::to_seconds(Self) -> Double
+pub fn Clock::to_seconds(Self) -> Double
 
 type Time
 
 type Tm
-fn Tm::hour(Self) -> Int
-fn Tm::isdst(Self) -> Int
-fn Tm::mday(Self) -> Int
-fn Tm::min(Self) -> Int
-fn Tm::mon(Self) -> Int
-fn Tm::sec(Self) -> Int
-fn Tm::wday(Self) -> Int
-fn Tm::yday(Self) -> Int
-fn Tm::year(Self) -> Int
+pub fn Tm::hour(Self) -> Int
+pub fn Tm::isdst(Self) -> Int
+pub fn Tm::mday(Self) -> Int
+pub fn Tm::min(Self) -> Int
+pub fn Tm::mon(Self) -> Int
+pub fn Tm::sec(Self) -> Int
+pub fn Tm::wday(Self) -> Int
+pub fn Tm::yday(Self) -> Int
+pub fn Tm::year(Self) -> Int
 
 // Type aliases
 

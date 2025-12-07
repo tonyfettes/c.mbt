@@ -2,11 +2,11 @@
 package "tonyfettes/c/feature"
 
 // Values
-let no_atomics : Bool
+pub let no_atomics : Bool
 
-let no_threads : Bool
+pub let no_threads : Bool
 
-let version : Int64
+pub let version : Int64
 
 // Errors
 

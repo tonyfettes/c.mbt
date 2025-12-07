@@ -2,15 +2,15 @@
 package "tonyfettes/c/setjmp"
 
 // Values
-fn[T, X] longjmp(JmpBuf[T], T) -> X
+pub fn[T, X] longjmp(JmpBuf[T], T) -> X
 
-fn[T, R] setjmp(JmpBuf[T], (T?) -> R) -> R
+pub fn[T, R] setjmp(JmpBuf[T], (T?) -> R) -> R
 
 // Errors
 
 // Types and methods
 type JmpBuf[T]
-fn[T] JmpBuf::new() -> Self[T]
+pub fn[T] JmpBuf::new() -> Self[T]
 
 // Type aliases
 

@@ -6,36 +6,36 @@ import(
 )
 
 // Values
-fn handler(FuncRef[(Int) -> Unit]) -> Handler
+pub fn handler(FuncRef[(Int) -> Unit]) -> Handler
 
-fn raise_(Int) -> Unit raise @errno.Errno
+pub fn raise_(Int) -> Unit raise @errno.Errno
 
-let sig_dfl : Handler
+pub let sig_dfl : Handler
 
-let sig_err : Handler
+pub let sig_err : Handler
 
-let sig_ign : Handler
+pub let sig_ign : Handler
 
-let sigabrt : Int
+pub let sigabrt : Int
 
-let sigfpe : Int
+pub let sigfpe : Int
 
-let sigill : Int
+pub let sigill : Int
 
-let sigint : Int
+pub let sigint : Int
 
-fn signal(Int, Handler) -> Handler
+pub fn signal(Int, Handler) -> Handler
 
-let sigsegv : Int
+pub let sigsegv : Int
 
-let sigterm : Int
+pub let sigterm : Int
 
 // Errors
 
 // Types and methods
 #external
 pub type Handler
-impl Eq for Handler
+pub impl Eq for Handler
 
 // Type aliases
 

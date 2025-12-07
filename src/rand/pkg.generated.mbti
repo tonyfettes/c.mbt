@@ -2,11 +2,11 @@
 package "tonyfettes/c/rand"
 
 // Values
-let max : Int
+pub let max : Int
 
-fn rand() -> Int
+pub fn rand() -> Int
 
-fn srand(UInt) -> Unit
+pub fn srand(UInt) -> Unit
 
 // Errors
 

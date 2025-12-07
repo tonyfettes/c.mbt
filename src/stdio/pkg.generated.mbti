@@ -7,60 +7,60 @@ import(
 )
 
 // Values
-let eof : Int
+pub let eof : Int
 
-fn fclose(FILE) -> Unit raise @errno.Errno
+pub fn fclose(FILE) -> Unit raise @errno.Errno
 
-fn feof(FILE) -> Bool
+pub fn feof(FILE) -> Bool
 
-fn ferror(FILE) -> Bool
+pub fn ferror(FILE) -> Bool
 
-fn fflush(FILE) -> Unit raise @errno.Errno
+pub fn fflush(FILE) -> Unit raise @errno.Errno
 
-fn fgetc(FILE) -> Int
+pub fn fgetc(FILE) -> Int
 
-fn[Data : @c.BytesLike] fgets(Data, Int, FILE) -> Data?
+pub fn[Data : @c.BytesLike] fgets(Data, Int, FILE) -> Data?
 
-fn[Path : @c.BytesLike, Mode : @c.BytesLike] fopen(Path, Mode) -> FILE raise @errno.Errno
+pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] fopen(Path, Mode) -> FILE raise @errno.Errno
 
-fn[Data : @c.BytesLike] fputs(Data, FILE) -> Int
+pub fn[Data : @c.BytesLike] fputs(Data, FILE) -> Int
 
-fn[T : Fread] fread(T, UInt64, FILE) -> UInt64
+pub fn[T : Fread] fread(T, UInt64, FILE) -> UInt64
 
-fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
+pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
 
-fn[T : Fwrite] fwrite(T, UInt64, FILE) -> UInt64
+pub fn[T : Fwrite] fwrite(T, UInt64, FILE) -> UInt64
 
-fn getchar() -> Int
+pub fn getchar() -> Int
 
-fn[S : @c.BytesLike] perror(S) -> Unit
+pub fn[S : @c.BytesLike] perror(S) -> Unit
 
-fn[Path : @c.BytesLike] remove(Path) -> Unit raise @errno.Errno
+pub fn[Path : @c.BytesLike] remove(Path) -> Unit raise @errno.Errno
 
-let stderr : FILE
+pub let stderr : FILE
 
-let stdin : FILE
+pub let stdin : FILE
 
-let stdout : FILE
+pub let stdout : FILE
 
 // Errors
 
 // Types and methods
 #external
 pub type FILE
-fn FILE::is_not_null(Self) -> Bool
-fn FILE::is_null(Self) -> Bool
-fn FILE::null() -> Self
+pub fn FILE::is_not_null(Self) -> Bool
+pub fn FILE::is_null(Self) -> Bool
+pub fn FILE::null() -> Self
 
 // Type aliases
 
 // Traits
 trait Fread
-impl[T : @c.Sizeof] Fread for FixedArray[T]
-impl[T : @c.Sizeof] Fread for @c.Pointer[T]
+pub impl[T : @c.Sizeof] Fread for FixedArray[T]
+pub impl[T : @c.Sizeof] Fread for @c.Pointer[T]
 
 trait Fwrite
-impl[T : @c.Sizeof] Fwrite for FixedArray[T]
-impl Fwrite for Bytes
-impl[T : @c.Sizeof] Fwrite for @c.Pointer[T]
+pub impl[T : @c.Sizeof] Fwrite for FixedArray[T]
+pub impl Fwrite for Bytes
+pub impl[T : @c.Sizeof] Fwrite for @c.Pointer[T]
 

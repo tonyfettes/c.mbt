@@ -2,33 +2,33 @@
 package "tonyfettes/c/ctype"
 
 // Values
-fn isalnum(Byte) -> Bool
+pub fn isalnum(Byte) -> Bool
 
-fn isalpha(Byte) -> Bool
+pub fn isalpha(Byte) -> Bool
 
-fn isblank(Byte) -> Bool
+pub fn isblank(Byte) -> Bool
 
-fn iscntrl(Byte) -> Bool
+pub fn iscntrl(Byte) -> Bool
 
-fn isdigit(Byte) -> Bool
+pub fn isdigit(Byte) -> Bool
 
-fn isgraph(Byte) -> Bool
+pub fn isgraph(Byte) -> Bool
 
-fn islower(Byte) -> Bool
+pub fn islower(Byte) -> Bool
 
-fn isprint(Byte) -> Bool
+pub fn isprint(Byte) -> Bool
 
-fn ispunct(Byte) -> Bool
+pub fn ispunct(Byte) -> Bool
 
-fn isspace(Byte) -> Bool
+pub fn isspace(Byte) -> Bool
 
-fn isupper(Byte) -> Bool
+pub fn isupper(Byte) -> Bool
 
-fn isxdigit(Byte) -> Bool
+pub fn isxdigit(Byte) -> Bool
 
-fn tolower(Byte) -> Byte
+pub fn tolower(Byte) -> Byte
 
-fn toupper(Byte) -> Byte
+pub fn toupper(Byte) -> Byte
 
 // Errors
 

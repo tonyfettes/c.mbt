@@ -2,13 +2,13 @@
 package "tonyfettes/c/exit"
 
 // Values
-fn atexit(FuncRef[() -> Unit]) -> Int
+pub fn atexit(FuncRef[() -> Unit]) -> Int
 
-fn[T] exit(Int) -> T
+pub fn[T] exit(Int) -> T
 
-let failure : Int
+pub let failure : Int
 
-let success : Int
+pub let success : Int
 
 // Errors
 

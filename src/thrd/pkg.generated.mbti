@@ -6,25 +6,25 @@ import(
 )
 
 // Values
-let busy : Int
+pub let busy : Int
 
-fn[T] create(@c.Pointer[Thrd], FuncRef[(@c.Pointer[T]) -> Int], @c.Pointer[T]) -> Int
+pub fn[T] create(@c.Pointer[Thrd], FuncRef[(@c.Pointer[T]) -> Int], @c.Pointer[T]) -> Int
 
-let error : Int
+pub let error : Int
 
-fn join(@c.Pointer[Thrd], @c.Pointer[Int]) -> Int
+pub fn join(@c.Pointer[Thrd], @c.Pointer[Int]) -> Int
 
-let nomem : Int
+pub let nomem : Int
 
-let success : Int
+pub let success : Int
 
-let timedout : Int
+pub let timedout : Int
 
 // Errors
 
 // Types and methods
 type Thrd
-impl @c.Sizeof for Thrd
+pub impl @c.Sizeof for Thrd
 
 // Type aliases
 

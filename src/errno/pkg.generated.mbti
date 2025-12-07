@@ -6,24 +6,24 @@ import(
 )
 
 // Values
-let edom : Int
+pub let edom : Int
 
-let erange : Int
+pub let erange : Int
 
-fn errno_edom() -> Int
+pub fn errno_edom() -> Int
 
-fn errno_erange() -> Int
+pub fn errno_erange() -> Int
 
-fn get() -> Int
+pub fn get() -> Int
 
-fn set(Int) -> Unit
+pub fn set(Int) -> Unit
 
-fn strerror(Int) -> @c.Pointer[Byte]
+pub fn strerror(Int) -> @c.Pointer[Byte]
 
 // Errors
 pub(all) suberror Errno Int
-impl Show for Errno
-impl ToJson for Errno
+pub impl Show for Errno
+pub impl ToJson for Errno
 
 // Types and methods
 
