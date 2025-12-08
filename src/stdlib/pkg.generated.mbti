@@ -12,6 +12,8 @@ pub fn[T] exit(Int) -> T
 
 pub fn[T] free(@c.Pointer[T]) -> Unit
 
+pub fn[T : @c.BytesLike] getenv(T) -> @c.Pointer[Byte]
+
 pub fn[T] malloc(UInt64) -> @c.Pointer[T]
 
 pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy(Dst, Src, UInt64) -> Unit
@@ -19,6 +21,8 @@ pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy(Dst, Src, UInt64) -> Unit
 pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy_from_bytes(Dst, Src, UInt64) -> Unit
 
 pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy_to_bytes(Dst, Src, UInt64) -> Unit
+
+pub fn[T : @c.BytesLike] system(T) -> Int
 
 // Errors
 

@@ -22,7 +22,7 @@ pub fn[T] return_array(Pointer[T]) -> FixedArray[T]
 
 pub fn[T] return_ref(Pointer[T]) -> Ref[T]
 
-pub fn[T : Sizeof] sizeof(T) -> UInt64
+pub fn[T : Sizeof] sizeof((T) -> Unit) -> UInt64
 
 pub fn[T] unsafe_borrow(T) -> Pointer[Unit]
 

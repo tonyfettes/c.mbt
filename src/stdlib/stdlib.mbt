@@ -32,3 +32,19 @@ pub using @memory {memcpy_from_bytes}
 
 ///|
 pub using @memory {memcpy_to_bytes}
+
+///|
+extern "c" fn c_getenv(name : @c.Pointer[Byte]) -> @c.Pointer[Byte] = "getenv"
+
+///|
+pub fn[T : @c.BytesLike] getenv(name : T) -> @c.Pointer[Byte] {
+  @c.borrow_bytes(name, ptr => c_getenv(ptr))
+}
+
+///|
+extern "c" fn c_system(command : @c.Pointer[Byte]) -> Int = "system"
+
+///|
+pub fn[T : @c.BytesLike] system(command : T) -> Int {
+  @c.borrow_bytes(command, ptr => c_system(ptr))
+}
