@@ -14,7 +14,7 @@
 
 ///|
 #external
-#deprecated("Nullable[T] can leak memory if T is a managed type. Define a null value for type `T` yourself instead.")
+#deprecated("Nullable[T] can leak memory if T is a managed type. Define a null value for type `T` yourself instead.", skip_current_package=true)
 pub type Nullable[_]
 
 ///|

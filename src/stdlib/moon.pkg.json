@@ -3,8 +3,5 @@
     "tonyfettes/c/exit",
     "tonyfettes/c/memory",
     "tonyfettes/c"
-  ],
-  "test-import": [
-    "tonyfettes/c/string"
   ]
 }
