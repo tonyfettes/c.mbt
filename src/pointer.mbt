@@ -242,6 +242,15 @@ pub fn[T] unsafe_borrow(r : T) -> Pointer[Unit] = "%identity"
 pub fn[T] unsafe_return(ptr : Pointer[Unit]) -> T = "%identity"
 
 ///|
+pub fn[T, R] with_unsafe_borrowed(r : T, f : (Pointer[Unit]) -> R) -> R {
+  let ptr = unsafe_borrow(r)
+  let result = f(ptr)
+  let val : T = unsafe_return(ptr)
+  ignore(val)
+  result
+}
+
+///|
 fn bytes_as_pointer(bytes : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
