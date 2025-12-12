@@ -56,11 +56,11 @@ pub fn FILE::null() -> Self
 
 // Traits
 trait Fread
-pub impl[T : @c.Sizeof] Fread for FixedArray[T]
-pub impl[T : @c.Sizeof] Fread for @c.Pointer[T]
+pub impl[T] Fread for FixedArray[T]
+pub impl[T] Fread for @c.Ptr[T]
 
 trait Fwrite
-pub impl[T : @c.Sizeof] Fwrite for FixedArray[T]
+pub impl[T] Fwrite for FixedArray[T]
 pub impl Fwrite for Bytes
-pub impl[T : @c.Sizeof] Fwrite for @c.Pointer[T]
+pub impl[T] Fwrite for @c.Ptr[T]
 

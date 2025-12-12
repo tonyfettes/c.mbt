@@ -14,7 +14,7 @@
 
 ///|
 extern "c" fn c_fwrite(
-  ptr : @c.Pointer[Unit],
+  ptr : @c.Ptr[Unit],
   size : UInt64,
   n : UInt64,
   stream : FILE,
@@ -26,26 +26,26 @@ trait Fwrite {
 }
 
 ///|
-pub impl[T : @c.Sizeof] Fwrite for FixedArray[T] with fwrite(
+pub impl[T] Fwrite for FixedArray[T] with fwrite(
   self : FixedArray[T],
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
   @c.with_array_borrowed(self, ptr => c_fwrite(
     ptr.cast(),
-    T::sizeof(),
+    @c.sizeof((ignore : (T) -> Unit)),
     n,
     stream,
   ))
 }
 
 ///|
-pub impl[T : @c.Sizeof] Fwrite for @c.Pointer[T] with fwrite(
-  ptr : @c.Pointer[T],
+pub impl[T] Fwrite for @c.Ptr[T] with fwrite(
+  ptr : @c.Ptr[T],
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  return c_fwrite(ptr.cast(), T::sizeof(), n, stream)
+  return c_fwrite(ptr.cast(), @c.sizeof((ignore : (T) -> Unit)), n, stream)
 }
 
 ///|

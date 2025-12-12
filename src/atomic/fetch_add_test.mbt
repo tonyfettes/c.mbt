@@ -17,7 +17,10 @@ test "fetch_add" {
   if !supports_atomics {
     return
   }
-  let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+  let object : @atomic.Atomic[Int] = @memory.calloc(
+    1,
+    @atomic.sizeof((ignore : (Int) -> Unit)),
+  )
   defer @memory.free(object)
   @atomic.init_(object, 0)
   @json.inspect(@atomic.fetch_add(object, 1), content=0)
@@ -25,22 +28,30 @@ test "fetch_add" {
 }
 
 ///|
+const NThreads = 10
+
+///|
+const NIncrementsPerThread = 1000
+
+///|
 test "fetch_add/concurrent" {
   if !supports_atomics {
     return
   }
   if !@feature.no_threads {
-    let counter : @c.Pointer[Int] = @memory.calloc(1)
+    let counter : @c.Ptr[Int] = @memory.calloc(
+      1,
+      @c.sizeof((ignore : (Int) -> Unit)),
+    )
     defer @memory.free(counter)
     counter.store(0)
-    let n_threads : UInt64 = 10
-    let threads : @c.Pointer[@thrd.Thrd] = @memory.calloc(n_threads)
-    defer @memory.free(threads)
-    for i in 0UL..<n_threads {
+    let n_threads = NThreads
+    let threads : FixedArray[@thrd.Thrd] = FixedArray::makei(n_threads, _ => {
+      let thread : @thrd.Thrd = @memory.calloc(1, @thrd.Thrd::sizeof())
       @thrd.create(
-        threads.add(i),
-        (counter : @c.Pointer[Int]) => {
-          for _ in 0..<1000 {
+        thread,
+        counter => {
+          for _ in 0..<NIncrementsPerThread {
             counter.store(counter.load() + 1)
           }
           0
@@ -48,28 +59,39 @@ test "fetch_add/concurrent" {
         counter,
       )
       |> ignore()
+      thread
+    })
+    defer (for thread in threads {
+      @memory.free(thread)
+    })
+    for thread in threads {
+      @thrd.join(thread, @c.Ptr::null()) |> ignore()
     }
-    for i in 0UL..<n_threads {
-      @thrd.join(threads.add(i), @c.Pointer::null()) |> ignore()
-    }
-    @json.inspect(counter.load() < 10000, content=true)
-    let atomic_counter : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+    println(counter.load())
+    @json.inspect(
+      counter.load() < NThreads * NIncrementsPerThread,
+      content=true,
+    )
+    let atomic_counter : @atomic.Atomic[Int] = @memory.calloc(
+      1,
+      @atomic.sizeof((ignore : (Int) -> Unit)),
+    )
     @atomic.init_(atomic_counter, 0)
-    for i in 0UL..<n_threads {
+    for thread in threads {
       @thrd.create(
-        threads.add(i),
-        (atomic_counter : @c.Pointer[@atomic.Atomic[Int]]) => {
-          for _ in 0..<1000 {
+        thread,
+        atomic_counter => {
+          for _ in 0..<NIncrementsPerThread {
             @atomic.fetch_add(atomic_counter, 1) |> ignore()
           }
           0
         },
-        atomic_counter,
+        atomic_counter.0,
       )
       |> ignore()
     }
-    for i in 0UL..<n_threads {
-      @thrd.join(threads.add(i), @c.Pointer::null()) |> ignore()
+    for i in 0..<n_threads {
+      @thrd.join(threads[i], @c.Ptr::null()) |> ignore()
     }
     @json.inspect(@atomic.load(atomic_counter), content=10000)
   }

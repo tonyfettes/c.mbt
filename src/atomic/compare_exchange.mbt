@@ -15,13 +15,13 @@
 ///|
 pub(open) trait CompareExchangeStrong {
   compare_exchange_strong(
-    ptr : @c.Pointer[Atomic[Self]],
-    expected : @c.Pointer[Self],
+    ptr : Atomic[Self],
+    expected : @c.Ptr[Self],
     desired : Self,
   ) -> Bool = _
   compare_exchange_strong_explicit(
-    ptr : @c.Pointer[Atomic[Self]],
-    expected : @c.Pointer[Self],
+    ptr : Atomic[Self],
+    expected : @c.Ptr[Self],
     desired : Self,
     success_order : MemoryOrder,
     failure_order : MemoryOrder,
@@ -30,8 +30,8 @@ pub(open) trait CompareExchangeStrong {
 
 ///|
 impl CompareExchangeStrong with compare_exchange_strong(
-  ptr : @c.Pointer[Atomic[Self]],
-  expected : @c.Pointer[Self],
+  ptr : Atomic[Self],
+  expected : @c.Ptr[Self],
   desired : Self,
 ) -> Bool {
   CompareExchangeStrong::compare_exchange_strong_explicit(
@@ -45,8 +45,8 @@ impl CompareExchangeStrong with compare_exchange_strong(
 
 ///|
 pub fn[T : CompareExchangeStrong] compare_exchange_strong(
-  object : @c.Pointer[Atomic[T]],
-  expected : @c.Pointer[T],
+  object : Atomic[T],
+  expected : @c.Ptr[T],
   desired : T,
 ) -> Bool {
   CompareExchangeStrong::compare_exchange_strong(object, expected, desired)
@@ -54,8 +54,8 @@ pub fn[T : CompareExchangeStrong] compare_exchange_strong(
 
 ///|
 extern "c" fn atomic_compare_exchange_strong_explicit_int(
-  object : @c.Pointer[Atomic[Int]],
-  expected : @c.Pointer[Int],
+  object : Atomic[Int],
+  expected : @c.Ptr[Int],
   desired : Int,
   success : MemoryOrder,
   failure : MemoryOrder,
@@ -63,8 +63,8 @@ extern "c" fn atomic_compare_exchange_strong_explicit_int(
 
 ///|
 pub impl CompareExchangeStrong for Int with compare_exchange_strong_explicit(
-  object : @c.Pointer[Atomic[Int]],
-  expected : @c.Pointer[Int],
+  object : Atomic[Int],
+  expected : @c.Ptr[Int],
   desired : Int,
   success : MemoryOrder,
   failure : MemoryOrder,
@@ -78,13 +78,13 @@ pub impl CompareExchangeStrong for Int with compare_exchange_strong_explicit(
 ///|
 pub(open) trait CompareExchangeWeak {
   compare_exchange_weak(
-    ptr : @c.Pointer[Atomic[Self]],
-    expected : @c.Pointer[Self],
+    ptr : Atomic[Self],
+    expected : @c.Ptr[Self],
     desired : Self,
   ) -> Bool = _
   compare_exchange_weak_explicit(
-    ptr : @c.Pointer[Atomic[Self]],
-    expected : @c.Pointer[Self],
+    ptr : Atomic[Self],
+    expected : @c.Ptr[Self],
     desired : Self,
     success_order : MemoryOrder,
     failure_order : MemoryOrder,
@@ -93,8 +93,8 @@ pub(open) trait CompareExchangeWeak {
 
 ///|
 impl CompareExchangeWeak with compare_exchange_weak(
-  ptr : @c.Pointer[Atomic[Self]],
-  expected : @c.Pointer[Self],
+  ptr : Atomic[Self],
+  expected : @c.Ptr[Self],
   desired : Self,
 ) -> Bool {
   CompareExchangeWeak::compare_exchange_weak_explicit(
@@ -108,8 +108,8 @@ impl CompareExchangeWeak with compare_exchange_weak(
 
 ///|
 pub fn[T : CompareExchangeWeak] compare_exchange_weak(
-  object : @c.Pointer[Atomic[T]],
-  expected : @c.Pointer[T],
+  object : Atomic[T],
+  expected : @c.Ptr[T],
   desired : T,
 ) -> Bool {
   CompareExchangeWeak::compare_exchange_weak(object, expected, desired)
@@ -117,8 +117,8 @@ pub fn[T : CompareExchangeWeak] compare_exchange_weak(
 
 ///|
 extern "c" fn atomic_compare_exchange_weak_explicit_int(
-  object : @c.Pointer[Atomic[Int]],
-  expected : @c.Pointer[Int],
+  object : Atomic[Int],
+  expected : @c.Ptr[Int],
   desired : Int,
   success : MemoryOrder,
   failure : MemoryOrder,
@@ -126,8 +126,8 @@ extern "c" fn atomic_compare_exchange_weak_explicit_int(
 
 ///|
 pub impl CompareExchangeWeak for Int with compare_exchange_weak_explicit(
-  object : @c.Pointer[Atomic[Int]],
-  expected : @c.Pointer[Int],
+  object : Atomic[Int],
+  expected : @c.Ptr[Int],
   desired : Int,
   success : MemoryOrder,
   failure : MemoryOrder,

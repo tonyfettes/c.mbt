@@ -34,15 +34,15 @@ pub using @memory {memcpy_from_bytes}
 pub using @memory {memcpy_to_bytes}
 
 ///|
-extern "c" fn c_getenv(name : @c.Pointer[Byte]) -> @c.Pointer[Byte] = "getenv"
+extern "c" fn c_getenv(name : @c.Ptr[Byte]) -> @c.Ptr[Byte] = "getenv"
 
 ///|
-pub fn[T : @c.BytesLike] getenv(name : T) -> @c.Pointer[Byte] {
+pub fn[T : @c.BytesLike] getenv(name : T) -> @c.Ptr[Byte] {
   @c.borrow_bytes(name, ptr => c_getenv(ptr))
 }
 
 ///|
-extern "c" fn c_system(command : @c.Pointer[Byte]) -> Int = "system"
+extern "c" fn c_system(command : @c.Ptr[Byte]) -> Int = "system"
 
 ///|
 pub fn[T : @c.BytesLike] system(command : T) -> Int {

@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn join(thr : @c.Pointer[Thrd], res : @c.Pointer[Int]) -> Int = "moonbit_tonyfettes_c_thrd_join"
+pub extern "c" fn join(thr : Thrd, res : @c.Ptr[Int]) -> Int = "moonbit_tonyfettes_c_thrd_join"

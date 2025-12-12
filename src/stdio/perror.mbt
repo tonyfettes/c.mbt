@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_perror(s : @c.Pointer[Byte]) = "perror"
+extern "c" fn c_perror(s : @c.Ptr[Byte]) = "perror"
 
 ///|
 pub fn[S : @c.BytesLike] perror(s : S) -> Unit {

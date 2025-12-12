@@ -14,10 +14,10 @@
 
 ///|
 extern "c" fn c_fgets(
-  data : @c.Pointer[Byte],
+  data : @c.Ptr[Byte],
   size : Int,
   stream : FILE,
-) -> @c.Pointer[Byte] = "fgets"
+) -> @c.Ptr[Byte] = "fgets"
 
 ///|
 pub fn[Data : @c.BytesLike] fgets(

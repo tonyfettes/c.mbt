@@ -14,8 +14,8 @@
 
 ///|
 extern "c" fn c_memcpy(
-  dst : @c.Pointer[Byte],
-  src : @c.Pointer[Byte],
+  dst : @c.Ptr[Byte],
+  src : @c.Ptr[Byte],
   len : UInt64,
 ) -> Unit = "moonbit_tonyfettes_c_memory_memcpy"
 

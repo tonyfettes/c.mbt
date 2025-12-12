@@ -14,7 +14,7 @@
 
 ///|
 extern "c" fn stdio_fread(
-  ptr : @c.Pointer[Unit],
+  ptr : @c.Ptr[Unit],
   size : UInt64,
   n : UInt64,
   stream : FILE,
@@ -26,26 +26,26 @@ trait Fread {
 }
 
 ///|
-pub impl[T : @c.Sizeof] Fread for FixedArray[T] with fread(
+pub impl[T] Fread for FixedArray[T] with fread(
   self : FixedArray[T],
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
   @c.with_array_borrowed(self, ptr => stdio_fread(
     ptr.cast(),
-    T::sizeof(),
+    @c.sizeof((ignore : (T) -> Unit)),
     n,
     stream,
   ))
 }
 
 ///|
-pub impl[T : @c.Sizeof] Fread for @c.Pointer[T] with fread(
-  ptr : @c.Pointer[T],
+pub impl[T] Fread for @c.Ptr[T] with fread(
+  ptr : @c.Ptr[T],
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  stdio_fread(ptr.cast(), T::sizeof(), n, stream)
+  stdio_fread(ptr.cast(), @c.sizeof((ignore : (T) -> Unit)), n, stream)
 }
 
 ///|

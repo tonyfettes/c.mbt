@@ -49,9 +49,9 @@ pub extern "c" fn mktime(tm : Tm) -> Time = "moonbit_tonyfettes_c_mktime"
 
 ///|
 extern "c" fn c_strftime(
-  str : @c.Pointer[Byte],
+  str : @c.Ptr[Byte],
   len : Int,
-  format : @c.Pointer[Byte],
+  format : @c.Ptr[Byte],
   tm : Tm,
 ) -> UInt64 = "moonbit_tonyfettes_c_strftime"
 

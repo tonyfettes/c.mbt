@@ -2,73 +2,62 @@
 package "tonyfettes/c"
 
 // Values
-pub fn[T] borrow_array(FixedArray[T]) -> Pointer[T]
+pub fn[T] borrow_array(FixedArray[T]) -> Ptr[T]
 
-pub fn[T : BytesLike, R] borrow_bytes(T, (Pointer[Byte]) -> R) -> R
+pub fn[T : BytesLike, R] borrow_bytes(T, (Ptr[Byte]) -> R) -> R
 
-pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(A, B, (Pointer[Byte], Pointer[Byte]) -> R) -> R
+pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(A, B, (Ptr[Byte], Ptr[Byte]) -> R) -> R
 
-pub fn[A : BytesLike, R] borrow_bytes_n(FixedArray[A], (FixedArray[Pointer[Byte]]) -> R) -> R
+pub fn[A : BytesLike, R] borrow_bytes_n(FixedArray[A], (FixedArray[Ptr[Byte]]) -> R) -> R
 
-pub fn[T] borrow_ref(Ref[T]) -> Pointer[T]
+pub fn[T] borrow_ref(Ref[T]) -> Ptr[T]
 
 pub fn[T : Decref] decref(T) -> Unit
 
-pub fn[T] none() -> Nullable[T]
+pub let null : Ptr[Unit]
 
-pub let null : Null
+pub fn[T] return_array(Ptr[T]) -> FixedArray[T]
 
-pub fn[T] return_array(Pointer[T]) -> FixedArray[T]
+pub fn[T] return_ref(Ptr[T]) -> Ref[T]
 
-pub fn[T] return_ref(Pointer[T]) -> Ref[T]
+pub fn[T] sizeof((T) -> Unit) -> UInt64
 
-pub fn[T : Sizeof] sizeof((T) -> Unit) -> UInt64
+pub fn[T] unsafe_borrow(T) -> Ptr[Unit]
 
-pub fn[T] unsafe_borrow(T) -> Pointer[Unit]
+pub fn[T] unsafe_return(Ptr[Unit]) -> T
 
-pub fn[T] unsafe_return(Pointer[Unit]) -> T
+pub fn[T, R] with_array_borrowed(FixedArray[T], (Ptr[T]) -> R) -> R
 
-pub fn[T, R] with_array_borrowed(FixedArray[T], (Pointer[T]) -> R) -> R
+pub fn[T, R] with_ref_borrowed(Ref[T], (Ptr[T]) -> R) -> R
 
-pub fn[T, R] with_ref_borrowed(Ref[T], (Pointer[T]) -> R) -> R
+pub fn[T, R] with_unsafe_borrowed(T, (Ptr[Unit]) -> R) -> R
 
 // Errors
 
 // Types and methods
+#alias(Pointer)
 #external
-pub type Null
-
-#deprecated
-#external
-pub type Nullable[_]
-pub fn[T] Nullable::is_null(Self[T]) -> Bool
-pub fn[T] Nullable::none() -> Self[T]
-pub fn[T] Nullable::of(T?) -> Self[T]
-pub fn[T] Nullable::some(T) -> Self[T]
-pub fn[T] Nullable::to(Self[T]) -> T?
-
-#alias(Ptr)
-#external
-pub type Pointer[_]
-pub fn[T : Sizeof] Pointer::add(Self[T], UInt64) -> Self[T]
-pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
-pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
-pub fn[T] Pointer::is_null(Self[T]) -> Bool
-pub fn[T] Pointer::load(Self[T]) -> T
-pub fn[T] Pointer::null() -> Self[T]
-pub fn[T : Sizeof] Pointer::offset(Self[T], Int64) -> Self[T]
-pub fn[T : Sizeof] Pointer::offset_from(Self[T], Self[T]) -> Int64
-pub fn[T] Pointer::op_get(Self[T], UInt64) -> T
-pub fn[T] Pointer::op_set(Self[T], UInt64, T) -> Unit
-pub fn[T] Pointer::store(Self[T], T) -> Unit
-pub fn[T : Sizeof] Pointer::sub(Self[T], UInt64) -> Self[T]
-pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
-pub impl[T] Compare for Pointer[T]
-pub impl[T] Eq for Pointer[T]
-pub impl BytesLike for Pointer[Byte]
-pub impl[T] Load for Pointer[T]
-pub impl[T] Sizeof for Pointer[T]
-pub impl[T] Store for Pointer[T]
+pub type Ptr[_]
+pub fn[T] Ptr::add(Self[T], UInt64) -> Self[T]
+pub fn[T] Ptr::byte_offset_from(Self[T], Self[T]) -> Int64
+pub fn[T, U] Ptr::cast(Self[T]) -> Self[U]
+pub fn[T] Ptr::is_not_null(Self[T]) -> Bool
+pub fn[T] Ptr::is_null(Self[T]) -> Bool
+pub fn[T] Ptr::load(Self[T]) -> T
+pub fn[T] Ptr::null() -> Self[T]
+pub fn[T] Ptr::offset(Self[T], Int64) -> Self[T]
+pub fn[T] Ptr::offset_from(Self[T], Self[T]) -> Int64
+pub fn[T] Ptr::op_get(Self[T], UInt64) -> T
+pub fn[T] Ptr::op_set(Self[T], UInt64, T) -> Unit
+pub fn Ptr::sizeof() -> UInt64
+pub fn[T] Ptr::store(Self[T], T) -> Unit
+pub fn[T] Ptr::sub(Self[T], UInt64) -> Self[T]
+pub fn[T] Ptr::to_uint64(Self[T]) -> UInt64
+pub impl[T] Compare for Ptr[T]
+pub impl[T] Eq for Ptr[T]
+pub impl BytesLike for Ptr[Byte]
+pub impl[T] FromPtr for Ptr[T]
+pub impl[T] ToPtr for Ptr[T]
 
 // Type aliases
 
@@ -81,47 +70,11 @@ trait Decref
 pub impl[T] Decref for FixedArray[T]
 pub impl Decref for Bytes
 
-pub(open) trait IsNullable {
-  null() -> Self
-  is_null(Self) -> Bool
+pub(open) trait FromPtr {
+  from_ptr(Ptr[Unit]) -> Self
 }
 
-pub(open) trait Load {
-  load(Pointer[Self]) -> Self
+pub(open) trait ToPtr {
+  to_ptr(Self) -> Ptr[Unit]
 }
-pub impl Load for Byte
-pub impl Load for Int
-pub impl Load for Int16
-pub impl Load for Int64
-pub impl Load for UInt
-pub impl Load for UInt16
-pub impl Load for UInt64
-pub impl Load for Float
-pub impl Load for Double
-
-pub(open) trait Sizeof {
-  sizeof() -> UInt64
-}
-pub impl Sizeof for Byte
-pub impl Sizeof for Int
-pub impl Sizeof for Int16
-pub impl Sizeof for Int64
-pub impl Sizeof for UInt
-pub impl Sizeof for UInt16
-pub impl Sizeof for UInt64
-pub impl Sizeof for Float
-pub impl Sizeof for Double
-
-pub(open) trait Store {
-  store(Pointer[Self], Self) -> Unit
-}
-pub impl Store for Byte
-pub impl Store for Int
-pub impl Store for Int16
-pub impl Store for Int64
-pub impl Store for UInt
-pub impl Store for UInt16
-pub impl Store for UInt64
-pub impl Store for Float
-pub impl Store for Double
 

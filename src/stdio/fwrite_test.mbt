@@ -42,7 +42,7 @@ test "fwrite[@c.Pointer]" {
   let path = b"fwrite.txt"
   let file = @stdio.fopen(path, b"w")
   let buf = b"Hello, world!"
-  let ptr : @c.Pointer[Byte] = @memory.malloc(13)
+  let ptr : @c.Ptr[Byte] = @memory.malloc(13)
   defer @memory.free(ptr)
   for i in 0..<buf.length() {
     ptr[i.to_uint64()] = buf[i]

@@ -17,7 +17,10 @@ test "store" {
   if !supports_atomics {
     return
   }
-  let object : @c.Pointer[@atomic.Atomic[Int]] = @memory.calloc(1)
+  let object : @atomic.Atomic[Int] = @memory.calloc(
+    1,
+    @atomic.sizeof((ignore : (Int) -> Unit)),
+  )
   defer @memory.free(object)
   @atomic.init_(object, 0)
   @json.inspect(@atomic.load(object), content=0)

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_remove(path : @c.Pointer[Byte]) -> Int = "remove"
+extern "c" fn c_remove(path : @c.Ptr[Byte]) -> Int = "remove"
 
 ///|
 pub fn[Path : @c.BytesLike] remove(path : Path) -> Unit raise @errno.Errno {

@@ -14,58 +14,49 @@
 
 ///|
 #external
-#alias(Ptr)
-pub type Pointer[_]
+#alias(Pointer)
+pub type Ptr[_]
 
 ///|
-pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
+pub fn[T, U] Ptr::cast(self : Ptr[T]) -> Ptr[U] = "%identity"
 
 ///|
-extern "c" fn pointer_null() -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_null"
+extern "c" fn pointer_null() -> Ptr[Unit] = "moonbit_tonyfettes_c_pointer_null"
 
 ///|
-pub fn[T] Pointer::null() -> Pointer[T] {
+pub fn[T] Ptr::null() -> Ptr[T] {
   pointer_null().cast()
 }
 
 ///|
-extern "c" fn pointer_is_null(ptr : Pointer[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_null"
+extern "c" fn pointer_is_null(ptr : Ptr[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_null"
 
 ///|
-pub fn[T] Pointer::is_null(self : Pointer[T]) -> Bool {
+pub fn[T] Ptr::is_null(self : Ptr[T]) -> Bool {
   pointer_is_null(self.cast())
 }
 
 ///|
-extern "c" fn pointer_is_not_null(ptr : Pointer[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_not_null"
+extern "c" fn pointer_is_not_null(ptr : Ptr[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_not_null"
 
 ///|
-pub fn[T] Pointer::is_not_null(self : Pointer[T]) -> Bool {
+pub fn[T] Ptr::is_not_null(self : Ptr[T]) -> Bool {
   pointer_is_not_null(self.cast())
 }
 
 ///|
-extern "c" fn Pointer::pointer_equal(
-  self : Pointer[Unit],
-  other : Pointer[Unit],
-) -> Bool = "moonbit_tonyfettes_c_pointer_equal"
+extern "c" fn Ptr::pointer_equal(self : Ptr[Unit], other : Ptr[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_equal"
 
 ///|
-pub impl[T] Eq for Pointer[T] with equal(self : Pointer[T], other : Pointer[T]) -> Bool {
+pub impl[T] Eq for Ptr[T] with equal(self : Ptr[T], other : Ptr[T]) -> Bool {
   self.cast().pointer_equal(other.cast())
 }
 
 ///|
-extern "c" fn pointer_compare(
-  lower : Pointer[Byte],
-  upper : Pointer[Byte],
-) -> Int = "moonbit_tonyfettes_c_pointer_compare"
+extern "c" fn pointer_compare(lower : Ptr[Byte], upper : Ptr[Byte]) -> Int = "moonbit_tonyfettes_c_pointer_compare"
 
 ///|
-pub impl[T] Compare for Pointer[T] with compare(
-  self : Pointer[T],
-  other : Pointer[T],
-) -> Int {
+pub impl[T] Compare for Ptr[T] with compare(self : Ptr[T], other : Ptr[T]) -> Int {
   pointer_compare(self.cast(), other.cast())
 }
 
@@ -73,15 +64,9 @@ pub impl[T] Compare for Pointer[T] with compare(
 extern "c" fn sizeof_pointer() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
 
 ///|
-pub impl[T] Sizeof for Pointer[T] with sizeof() -> UInt64 {
+pub fn Ptr::sizeof() -> UInt64 {
   sizeof_pointer()
 }
-
-///|
-extern "c" fn pointer_add(
-  pointer : Pointer[Byte],
-  offset : UInt64,
-) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_add"
 
 ///|
 /// Adds an offset to a pointer and returns a new pointer.
@@ -95,18 +80,10 @@ extern "c" fn pointer_add(
 /// specified number of elements.
 ///
 /// **Note**: The offset is subject to overflow.
-pub fn[T : Sizeof] Pointer::add(
-  self : Pointer[T],
-  offset : UInt64,
-) -> Pointer[T] {
-  pointer_add(self.cast(), offset * T::sizeof()).cast()
+pub fn[T] Ptr::add(self : Ptr[T], offset : UInt64) -> Ptr[T] {
+  let array = return_array(self)
+  borrow_array(array_offset(array, offset.reinterpret_as_int64()))
 }
-
-///|
-extern "c" fn pointer_sub(
-  pointer : Pointer[Byte],
-  offset : UInt64,
-) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_sub"
 
 ///|
 /// Subtracts an offset from a pointer and returns a new pointer.
@@ -120,18 +97,10 @@ extern "c" fn pointer_sub(
 /// specified number of elements.
 ///
 /// **Note**: The offset is subject to overflow.
-pub fn[T : Sizeof] Pointer::sub(
-  self : Pointer[T],
-  offset : UInt64,
-) -> Pointer[T] {
-  pointer_sub(self.cast(), offset * T::sizeof()).cast()
+pub fn[T] Ptr::sub(self : Ptr[T], offset : UInt64) -> Ptr[T] {
+  let array = return_array(self)
+  borrow_array(array_offset(array, -offset.reinterpret_as_int64()))
 }
-
-///|
-extern "c" fn pointer_offset(
-  pointer : Pointer[Byte],
-  offset : Int64,
-) -> Pointer[Byte] = "moonbit_tonyfettes_c_pointer_offset"
 
 ///|
 /// Adds an offset to a pointer and returns a new pointer.
@@ -146,30 +115,40 @@ extern "c" fn pointer_offset(
 ///
 /// **Note**: The offset is of type `Int64` and might be insufficient for very large
 /// offsets on some platforms.
-pub fn[T : Sizeof] Pointer::offset(
-  self : Pointer[T],
-  offset : Int64,
-) -> Pointer[T] {
-  pointer_offset(self.cast(), offset * T::sizeof().reinterpret_as_int64()).cast()
+pub fn[T] Ptr::offset(self : Ptr[T], offset : Int64) -> Ptr[T] {
+  if offset > 0 {
+    self.add(offset.reinterpret_as_uint64())
+  } else {
+    self.sub((-offset).reinterpret_as_uint64())
+  }
 }
 
 ///|
-extern "c" fn pointer_offset_from(
-  upper : Pointer[Byte],
-  lower : Pointer[Byte],
-) -> Int64 = "moonbit_tonyfettes_c_pointer_offset_from"
+fn[T] array_offset(array : FixedArray[T], offset : Int64) -> FixedArray[T] = "%i64_add"
 
 ///|
-pub fn[T : Sizeof] Pointer::offset_from(
-  self : Pointer[T],
-  other : Pointer[T],
-) -> Int64 {
-  pointer_offset_from(self.cast(), other.cast()) /
-  T::sizeof().reinterpret_as_int64()
+fn[T] array_offset_from(array : FixedArray[T], from : FixedArray[T]) -> Int64 = "%i64_sub"
+
+///|
+pub fn[T] Ptr::offset_from(self : Ptr[T], other : Ptr[T]) -> Int64 {
+  let self_array = return_array(self)
+  let other_array = return_array(other)
+  let offset = array_offset_from(self_array, other_array)
+  offset
 }
 
 ///|
-pub fn[T] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
+pub fn[T] Ptr::byte_offset_from(self : Ptr[T], other : Ptr[T]) -> Int64 {
+  let self_array = return_array(self)
+  let other_array = return_array(other)
+  let byte_self : Ptr[Byte] = borrow_array(self_array).cast()
+  let byte_other : Ptr[Byte] = borrow_array(other_array).cast()
+  let offset = byte_self.offset_from(byte_other)
+  offset
+}
+
+///|
+pub fn[T] Ptr::op_get(self : Ptr[T], index : UInt64) -> T {
   let array = return_array(self)
   let value = array.unsafe_get(index.to_int())
   ignore(borrow_array(array))
@@ -177,14 +156,14 @@ pub fn[T] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
 }
 
 ///|
-pub fn[T] Pointer::op_set(self : Pointer[T], index : UInt64, value : T) -> Unit {
+pub fn[T] Ptr::op_set(self : Ptr[T], index : UInt64, value : T) -> Unit {
   let array = return_array(self)
   array.unsafe_set(index.to_int(), value)
   ignore(borrow_array(array))
 }
 
 ///|
-pub fn[T] Pointer::load(self : Pointer[T]) -> T {
+pub fn[T] Ptr::load(self : Ptr[T]) -> T {
   let ref_ = return_ref(self)
   let value = ref_.val
   ignore(borrow_ref(ref_))
@@ -192,32 +171,29 @@ pub fn[T] Pointer::load(self : Pointer[T]) -> T {
 }
 
 ///|
-pub fn[T] Pointer::store(self : Pointer[T], value : T) -> Unit {
+pub fn[T] Ptr::store(self : Ptr[T], value : T) -> Unit {
   let ref_ = return_ref(self)
   ref_.val = value
   ignore(borrow_ref(ref_))
 }
 
 ///|
-extern "c" fn pointer_to_uint64(pointer : Pointer[Unit]) -> UInt64 = "moonbit_tonyfettes_c_pointer_to_uint64"
+extern "c" fn pointer_to_uint64(pointer : Ptr[Unit]) -> UInt64 = "moonbit_tonyfettes_c_pointer_to_uint64"
 
 ///|
-pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
+pub fn[T] Ptr::to_uint64(self : Ptr[T]) -> UInt64 {
   pointer_to_uint64(self.cast())
 }
 
 ///|
-pub fn[T] borrow_array(array : FixedArray[T]) -> Pointer[T] = "%identity"
+pub fn[T] borrow_array(array : FixedArray[T]) -> Ptr[T] = "%identity"
 
 ///|
-pub fn[T] return_array(pointer : Pointer[T]) -> FixedArray[T] = "%identity"
+pub fn[T] return_array(pointer : Ptr[T]) -> FixedArray[T] = "%identity"
 
 ///|
 #locals(f)
-pub fn[T, R] with_array_borrowed(
-  array : FixedArray[T],
-  f : (Pointer[T]) -> R,
-) -> R {
+pub fn[T, R] with_array_borrowed(array : FixedArray[T], f : (Ptr[T]) -> R) -> R {
   let ptr = borrow_array(array)
   let result = f(ptr)
   ignore(return_array(ptr))
@@ -225,13 +201,13 @@ pub fn[T, R] with_array_borrowed(
 }
 
 ///|
-pub fn[T] borrow_ref(r : Ref[T]) -> Pointer[T] = "%identity"
+pub fn[T] borrow_ref(r : Ref[T]) -> Ptr[T] = "%identity"
 
 ///|
-pub fn[T] return_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
+pub fn[T] return_ref(ptr : Ptr[T]) -> Ref[T] = "%identity"
 
 ///|
-pub fn[T, R] with_ref_borrowed(r : Ref[T], f : (Pointer[T]) -> R) -> R {
+pub fn[T, R] with_ref_borrowed(r : Ref[T], f : (Ptr[T]) -> R) -> R {
   let ptr = borrow_ref(r)
   let result = f(ptr)
   ignore(return_ref(ptr))
@@ -239,13 +215,13 @@ pub fn[T, R] with_ref_borrowed(r : Ref[T], f : (Pointer[T]) -> R) -> R {
 }
 
 ///|
-pub fn[T] unsafe_borrow(r : T) -> Pointer[Unit] = "%identity"
+pub fn[T] unsafe_borrow(r : T) -> Ptr[Unit] = "%identity"
 
 ///|
-pub fn[T] unsafe_return(ptr : Pointer[Unit]) -> T = "%identity"
+pub fn[T] unsafe_return(ptr : Ptr[Unit]) -> T = "%identity"
 
 ///|
-pub fn[T, R] with_unsafe_borrowed(r : T, f : (Pointer[Unit]) -> R) -> R {
+pub fn[T, R] with_unsafe_borrowed(r : T, f : (Ptr[Unit]) -> R) -> R {
   let ptr = unsafe_borrow(r)
   let result = f(ptr)
   let val : T = unsafe_return(ptr)
@@ -254,52 +230,48 @@ pub fn[T, R] with_unsafe_borrowed(r : T, f : (Pointer[Unit]) -> R) -> R {
 }
 
 ///|
-fn bytes_as_pointer(bytes : Bytes) -> Pointer[Byte] = "%identity"
+fn bytes_as_pointer(bytes : Bytes) -> Ptr[Byte] = "%identity"
 
 ///|
-fn pointer_as_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
+fn pointer_as_bytes(ptr : Ptr[Byte]) -> Bytes = "%identity"
 
 ///|
 trait BytesLike {
-  borrow(self : Self) -> Pointer[Byte]
-  return_(self : Pointer[Byte]) -> Self
+  borrow(self : Self) -> Ptr[Byte]
+  return_(self : Ptr[Byte]) -> Self
 }
 
 ///|
-pub impl BytesLike for Bytes with borrow(self : Bytes) -> Pointer[Byte] {
+pub impl BytesLike for Bytes with borrow(self : Bytes) -> Ptr[Byte] {
   bytes_as_pointer(self)
 }
 
 ///|
-pub impl BytesLike for Bytes with return_(self : Pointer[Byte]) -> Bytes {
+pub impl BytesLike for Bytes with return_(self : Ptr[Byte]) -> Bytes {
   pointer_as_bytes(self)
 }
 
 ///|
-pub impl BytesLike for FixedArray[Byte] with borrow(self : FixedArray[Byte]) -> Pointer[
+pub impl BytesLike for FixedArray[Byte] with borrow(self : FixedArray[Byte]) -> Ptr[
   Byte,
 ] {
   borrow_array(self)
 }
 
 ///|
-pub impl BytesLike for FixedArray[Byte] with return_(self : Pointer[Byte]) -> FixedArray[
+pub impl BytesLike for FixedArray[Byte] with return_(self : Ptr[Byte]) -> FixedArray[
   Byte,
 ] {
   return_array(self)
 }
 
 ///|
-pub impl BytesLike for Pointer[Byte] with borrow(self : Pointer[Byte]) -> Pointer[
-  Byte,
-] {
+pub impl BytesLike for Ptr[Byte] with borrow(self : Ptr[Byte]) -> Ptr[Byte] {
   self
 }
 
 ///|
-pub impl BytesLike for Pointer[Byte] with return_(self : Pointer[Byte]) -> Pointer[
-  Byte,
-] {
+pub impl BytesLike for Ptr[Byte] with return_(self : Ptr[Byte]) -> Ptr[Byte] {
   self
 }
 
@@ -307,7 +279,7 @@ pub impl BytesLike for Pointer[Byte] with return_(self : Pointer[Byte]) -> Point
 #locals(f)
 pub fn[T : BytesLike, R] borrow_bytes(
   byte_pointer : T,
-  f : (Pointer[Byte]) -> R,
+  f : (Ptr[Byte]) -> R,
 ) -> R {
   let ptr = T::borrow(byte_pointer)
   let result = f(ptr)
@@ -320,7 +292,7 @@ pub fn[T : BytesLike, R] borrow_bytes(
 pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(
   a : A,
   b : B,
-  f : (Pointer[Byte], Pointer[Byte]) -> R,
+  f : (Ptr[Byte], Ptr[Byte]) -> R,
 ) -> R {
   let ptr_a = A::borrow(a)
   let ptr_b = B::borrow(b)
@@ -334,7 +306,7 @@ pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(
 #locals(f)
 pub fn[A : BytesLike, R] borrow_bytes_n(
   array : FixedArray[A],
-  f : (FixedArray[Pointer[Byte]]) -> R,
+  f : (FixedArray[Ptr[Byte]]) -> R,
 ) -> R {
   let ptr = FixedArray::makei(array.length(), i => A::borrow(array[i]))
   let result = f(ptr)
@@ -366,4 +338,24 @@ pub impl Decref for Bytes with decref(self : Bytes) -> Unit {
   let ptr = bytes_as_pointer(self)
   ignore(pointer_as_bytes(ptr))
   ignore(pointer_as_bytes(ptr))
+}
+
+///|
+pub(open) trait ToPtr {
+  to_ptr(Self) -> Ptr[Unit]
+}
+
+///|
+pub impl[T] ToPtr for Ptr[T] with to_ptr(self : Ptr[T]) -> Ptr[Unit] {
+  self.cast()
+}
+
+///|
+pub(open) trait FromPtr {
+  from_ptr(Ptr[Unit]) -> Self
+}
+
+///|
+pub impl[T] FromPtr for Ptr[T] with from_ptr(self : Ptr[Unit]) -> Ptr[T] {
+  self.cast()
 }

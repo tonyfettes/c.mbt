@@ -14,7 +14,10 @@
 
 ///|
 test "calloc" {
-  let ptr : @c.Pointer[Int] = @memory.calloc(10)
+  let ptr : @c.Ptr[Int] = @memory.calloc(
+    10,
+    @c.sizeof((ignore : (Int) -> Unit)),
+  )
   defer @memory.free(ptr)
   for i in 0UL..<10 {
     @json.inspect(ptr[i], content=0)

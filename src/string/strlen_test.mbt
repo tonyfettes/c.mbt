@@ -22,7 +22,7 @@ test "strlen[Bytes]" {
 ///|
 test "strlen[Pointer[Byte]]" {
   let s : Bytes = b"Hello, World!\x00"
-  let ptr : @c.Pointer[Byte] = @memory.malloc(
+  let ptr : @c.Ptr[Byte] = @memory.malloc(
     @c.sizeof((ignore : (Byte) -> Unit)) * s.length().to_uint64(),
   )
   defer @memory.free(ptr)

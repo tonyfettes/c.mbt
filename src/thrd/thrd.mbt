@@ -13,15 +13,14 @@
 // limitations under the License.
 
 ///|
-type Thrd
+pub(all) struct Thrd(@c.Ptr[Unit])
 
-///|
-extern "c" fn sizeof_thrd() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd"
-
-///|
-pub impl @c.Sizeof for Thrd with sizeof() -> UInt64 {
-  sizeof_thrd()
+pub impl @c.ToPtr for Thrd with to_ptr(self : Thrd) -> @c.Ptr[Unit] {
+  self.0
 }
+
+///|
+pub extern "c" fn Thrd::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd"
 
 ///|
 extern "c" fn thrd_success() -> Int = "moonbit_tonyfettes_c_thrd_success"

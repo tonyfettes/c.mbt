@@ -14,7 +14,7 @@
 
 ///|
 test "realloc" {
-  let ptr : @c.Pointer[Int] = @memory.malloc(
+  let ptr : @c.Ptr[Int] = @memory.malloc(
     10 * @c.sizeof((ignore : (Int) -> Unit)),
   )
   for i in 0UL..<10 {

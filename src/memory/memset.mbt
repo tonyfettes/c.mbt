@@ -14,7 +14,7 @@
 
 ///|
 extern "c" fn memory_memset(
-  dst : @c.Pointer[Byte],
+  dst : @c.Ptr[Byte],
   val : Byte,
   len : UInt64,
 ) -> Unit = "moonbit_tonyfettes_c_memory_memset"

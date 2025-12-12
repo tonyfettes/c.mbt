@@ -26,6 +26,6 @@ pub impl Sizeof for Int with sizeof() -> UInt64 {
 }
 
 ///|
-pub impl[T : Sizeof] @c.Sizeof for Atomic[T] with sizeof() -> UInt64 {
+pub fn[T : Sizeof] sizeof(_ : (T) -> Unit) -> UInt64 {
   T::sizeof()
 }

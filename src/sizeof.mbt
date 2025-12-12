@@ -13,56 +13,8 @@
 // limitations under the License.
 
 ///|
-pub(open) trait Sizeof {
-  sizeof() -> UInt64
-}
-
-///|
-pub impl Sizeof for Byte with sizeof() -> UInt64 {
-  1
-}
-
-///|
-pub impl Sizeof for Int16 with sizeof() -> UInt64 {
-  2
-}
-
-///|
-pub impl Sizeof for UInt16 with sizeof() -> UInt64 {
-  2
-}
-
-///|
-pub impl Sizeof for Int with sizeof() -> UInt64 {
-  4
-}
-
-///|
-pub impl Sizeof for UInt with sizeof() -> UInt64 {
-  4
-}
-
-///|
-pub impl Sizeof for Int64 with sizeof() -> UInt64 {
-  8
-}
-
-///|
-pub impl Sizeof for UInt64 with sizeof() -> UInt64 {
-  8
-}
-
-///|
-pub impl Sizeof for Float with sizeof() -> UInt64 {
-  4
-}
-
-///|
-pub impl Sizeof for Double with sizeof() -> UInt64 {
-  8
-}
-
-///|
-pub fn[T : Sizeof] sizeof(_ : (T) -> Unit) -> UInt64 {
-  T::sizeof()
+pub fn[T] sizeof(_ : (T) -> Unit) -> UInt64 {
+  let ptr : Ptr[T] = Ptr::null()
+  let array = array_offset(return_array(ptr), 1)
+  borrow_array(array).byte_offset_from(ptr).reinterpret_as_uint64()
 }

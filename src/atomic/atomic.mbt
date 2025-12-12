@@ -13,8 +13,7 @@
 // limitations under the License.
 
 ///|
-#external
-pub type Atomic[_]
+pub(all) struct Atomic[T](@c.Ptr[T])
 
 ///|
 pub(all) enum MemoryOrder {

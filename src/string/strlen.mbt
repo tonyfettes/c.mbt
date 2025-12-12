@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn string_strlen(s : @c.Pointer[Byte]) -> UInt64 = "moonbit_tonyfettes_c_string_strlen"
+extern "c" fn string_strlen(s : @c.Ptr[Byte]) -> UInt64 = "moonbit_tonyfettes_c_string_strlen"
 
 ///|
 pub fn[Str : @c.BytesLike] strlen(s : Str) -> UInt64 {

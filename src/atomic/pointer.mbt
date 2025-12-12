@@ -13,24 +13,6 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_freopen(
-  path : @c.Ptr[Byte],
-  mode : @c.Ptr[Byte],
-  stream : FILE,
-) -> FILE = "freopen"
-
-///|
-pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(
-  path : Path,
-  mode : Mode,
-  stream : FILE,
-) -> FILE raise @errno.Errno {
-  let file = @c.borrow_bytes_2(path, mode, (path, mode) => c_freopen(
-    path, mode, stream,
-  ))
-  if file.is_null() {
-    raise @errno.Errno(@errno.get())
-  } else {
-    file
-  }
+pub impl[T] @c.ToPtr for Atomic[T] with to_ptr(self : Atomic[T]) -> @c.Ptr[Unit] {
+  self.0.cast()
 }
