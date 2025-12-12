@@ -54,13 +54,13 @@ pub fn[T : Sizeof] Pointer::add(Self[T], UInt64) -> Self[T]
 pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
-pub fn[T : Load] Pointer::load(Self[T]) -> T
+pub fn[T] Pointer::load(Self[T]) -> T
 pub fn[T] Pointer::null() -> Self[T]
 pub fn[T : Sizeof] Pointer::offset(Self[T], Int64) -> Self[T]
 pub fn[T : Sizeof] Pointer::offset_from(Self[T], Self[T]) -> Int64
-pub fn[T : Load + Sizeof] Pointer::op_get(Self[T], UInt64) -> T
-pub fn[T : Store + Sizeof] Pointer::op_set(Self[T], UInt64, T) -> Unit
-pub fn[T : Store] Pointer::store(Self[T], T) -> Unit
+pub fn[T] Pointer::op_get(Self[T], UInt64) -> T
+pub fn[T] Pointer::op_set(Self[T], UInt64, T) -> Unit
+pub fn[T] Pointer::store(Self[T], T) -> Unit
 pub fn[T : Sizeof] Pointer::sub(Self[T], UInt64) -> Self[T]
 pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 pub impl[T] Compare for Pointer[T]

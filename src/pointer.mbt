@@ -169,30 +169,33 @@ pub fn[T : Sizeof] Pointer::offset_from(
 }
 
 ///|
-pub fn[T : Load + Sizeof] Pointer::op_get(
-  self : Pointer[T],
-  index : UInt64,
-) -> T {
-  T::load(self.add(index))
+pub fn[T] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
+  let array = return_array(self)
+  let value = array.unsafe_get(index.to_int())
+  ignore(borrow_array(array))
+  value
 }
 
 ///|
-pub fn[T : Store + Sizeof] Pointer::op_set(
-  self : Pointer[T],
-  index : UInt64,
-  value : T,
-) -> Unit {
-  T::store(self.add(index), value)
+pub fn[T] Pointer::op_set(self : Pointer[T], index : UInt64, value : T) -> Unit {
+  let array = return_array(self)
+  array.unsafe_set(index.to_int(), value)
+  ignore(borrow_array(array))
 }
 
 ///|
-pub fn[T : Load] Pointer::load(self : Pointer[T]) -> T {
-  T::load(self)
+pub fn[T] Pointer::load(self : Pointer[T]) -> T {
+  let ref_ = return_ref(self)
+  let value = ref_.val
+  ignore(borrow_ref(ref_))
+  value
 }
 
 ///|
-pub fn[T : Store] Pointer::store(self : Pointer[T], value : T) -> Unit {
-  T::store(self, value)
+pub fn[T] Pointer::store(self : Pointer[T], value : T) -> Unit {
+  let ref_ = return_ref(self)
+  ref_.val = value
+  ignore(borrow_ref(ref_))
 }
 
 ///|
