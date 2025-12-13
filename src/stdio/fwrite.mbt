@@ -14,18 +14,18 @@
 
 ///|
 extern "c" fn c_fwrite(
-  ptr : @pointer.Pointer[Unit],
+  ptr : @pointer.Pointer[Byte],
   size : UInt64,
   n : UInt64,
   stream : FILE,
 ) -> UInt64 = "moonbit_tonyfettes_c_stdio_fwrite"
 
 ///|
-pub fn[T : @pointer.Borrow] fwrite(
+pub fn[T : @string.Borrow] fwrite(
   ptr : T,
   size : UInt64,
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  @pointer.borrow(ptr, ptr => c_fwrite(ptr, size, n, stream))
+  @string.borrow(ptr, ptr => c_fwrite(ptr, size, n, stream))
 }

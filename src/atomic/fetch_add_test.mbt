@@ -41,7 +41,7 @@ test "fetch_add/concurrent" {
   if !@feature.no_threads {
     let counter : @pointer.Pointer[Int] = @memory.calloc(
       1,
-      @pointer.sizeof((ignore : (Int) -> Unit)),
+      @sizeof.sizeof((ignore : (Int) -> Unit)),
     )
     defer @memory.free(counter)
     counter.store(0)

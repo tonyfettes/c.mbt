@@ -17,7 +17,6 @@ pub fn[Str : Borrow] strlen(Str) -> UInt64
 // Types and methods
 
 // Type aliases
-pub type String = @pointer.Ptr[Byte]
 
 // Traits
 trait Borrow

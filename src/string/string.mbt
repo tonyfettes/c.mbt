@@ -13,4 +13,3 @@
 // limitations under the License.
 
 ///|
-pub type String = @pointer.Pointer[Byte]

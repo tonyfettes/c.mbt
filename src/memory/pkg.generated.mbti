@@ -12,6 +12,7 @@ pub fn[T : @pointer.IntoPtr] free(T) -> Unit
 
 pub fn[T] malloc(UInt64) -> @pointer.Ptr[T]
 
+#alias(copy)
 #alias(memcpy_from_bytes)
 #alias(memcpy_to_bytes)
 pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit

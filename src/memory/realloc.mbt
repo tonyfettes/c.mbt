@@ -19,6 +19,9 @@ extern "c" fn memory_realloc(
 ) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_realloc"
 
 ///|
-pub fn[T] realloc(ptr : @pointer.Pointer[T], size : UInt64) -> @pointer.Pointer[T] {
+pub fn[T] realloc(
+  ptr : @pointer.Pointer[T],
+  size : UInt64,
+) -> @pointer.Pointer[T] {
   memory_realloc(ptr.cast(), size).cast()
 }

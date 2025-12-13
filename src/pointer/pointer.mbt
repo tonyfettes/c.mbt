@@ -79,48 +79,17 @@ pub fn Ptr::sizeof() -> UInt64 {
 /// Returns a new pointer that is offset from the original pointer by the
 /// specified number of elements.
 ///
-/// **Note**: The offset is subject to overflow.
-pub fn[T] Ptr::add(self : Ptr[T], offset : UInt64) -> Ptr[T] {
-  let array = move_into_array(self)
-  take_from_array(array_offset(array, offset.reinterpret_as_int64()))
-}
-
-///|
-/// Subtracts an offset from a pointer and returns a new pointer.
-///
-/// Parameters:
-///
-/// - `pointer`: The original pointer.
-/// - `offset`: The offset to subtract, in number of elements of type `T`.
-///
-/// Returns a new pointer that is offset from the original pointer by the
-/// specified number of elements.
-///
-/// **Note**: The offset is subject to overflow.
-pub fn[T] Ptr::sub(self : Ptr[T], offset : UInt64) -> Ptr[T] {
-  let array = move_into_array(self)
-  take_from_array(array_offset(array, -offset.reinterpret_as_int64()))
-}
-
-///|
-/// Adds an offset to a pointer and returns a new pointer.
-///
-/// Parameters:
-///
-/// - `pointer`: The original pointer.
-/// - `offset`: The offset to add, in number of elements of type `T`.
-///
-/// Returns a new pointer that is offset from the original pointer by the
-/// specified number of elements.
-///
 /// **Note**: The offset is of type `Int64` and might be insufficient for very large
 /// offsets on some platforms.
 pub fn[T] Ptr::offset(self : Ptr[T], offset : Int64) -> Ptr[T] {
-  if offset > 0 {
-    self.add(offset.reinterpret_as_uint64())
-  } else {
-    self.sub((-offset).reinterpret_as_uint64())
-  }
+  let array = move_into_array(self)
+  take_from_array(array_offset(array, offset))
+}
+
+///|
+pub fn[T] Ptr::byte_offset(self : Ptr[T], offset : Int64) -> Ptr[T] {
+  let byte_self : Ptr[Byte] = self.cast()
+  byte_self.offset(offset).cast()
 }
 
 ///|
@@ -203,12 +172,4 @@ pub(open) trait FromPtr {
 ///|
 pub impl[T] FromPtr for Ptr[T] with from_ptr(self : Ptr[Unit]) -> Ptr[T] {
   self.cast()
-}
-
-///|
-pub fn[T] decref(value : T) -> Unit {
-  let pointer = unsafe_take_from(value)
-  let _ : T = unsafe_move_into(pointer)
-  let _ : T = unsafe_move_into(pointer)
-  ()
 }

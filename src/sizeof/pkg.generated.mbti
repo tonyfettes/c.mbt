@@ -1,0 +1,15 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/sizeof"
+
+// Values
+pub fn[T] sizeof((T) -> Unit) -> UInt64
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+pub type Sizeof[T] = ((T) -> Unit) -> UInt64
+
+// Traits
+

@@ -13,18 +13,14 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_memcpy(
-  dst : @pointer.Pointer[Unit],
-  src : @pointer.Pointer[Unit],
-  len : UInt64,
-) -> Unit = "moonbit_tonyfettes_c_memory_memcpy"
+fn[T] array_offset(array : FixedArray[T], offset : Int64) -> FixedArray[T] = "%i64_add"
 
 ///|
-#alias(memcpy_to_bytes)
-#alias(memcpy_from_bytes)
-#alias(copy)
-pub fn[Dst, Src] memcpy(dst : Dst, src : Src, len : UInt64) -> Unit {
-  @pointer.unsafe_borrow(dst, dst => @pointer.unsafe_borrow(src, src => c_memcpy(
-    dst, src, len,
-  )))
+pub fn[T] sizeof(_ : (T) -> Unit) -> UInt64 {
+  let ptr : @pointer.Pointer[T] = @pointer.Pointer::null()
+  let array = array_offset(@pointer.move_into_array(ptr), 1)
+  @pointer.take_from_array(array).byte_offset_from(ptr).reinterpret_as_uint64()
 }
+
+///|
+pub type Sizeof[T] = ((T) -> Unit) -> UInt64

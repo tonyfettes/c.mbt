@@ -13,7 +13,10 @@
 // limitations under the License.
 
 ///|
-extern "c" fn memory_calloc(n : UInt64, size : UInt64) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_calloc"
+extern "c" fn memory_calloc(
+  n : UInt64,
+  size : UInt64,
+) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_calloc"
 
 ///|
 pub fn[T] calloc(n : UInt64, size : UInt64) -> @pointer.Pointer[T] {

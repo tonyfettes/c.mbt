@@ -2,13 +2,13 @@
 package "tonyfettes/c/pointer"
 
 // Values
-pub fn[T : Borrow, R] borrow(T, (Ptr[Unit]) -> R) -> R
+pub fn[T : Borrow, R] borrow(T, (Ptr[Unit]) -> R raise?) -> R raise?
 
-pub fn[T, R] borrow_array(FixedArray[T], (Ptr[T]) -> R) -> R
+pub fn[T, R] borrow_array(FixedArray[T], (Ptr[T]) -> R raise?) -> R raise?
 
-pub fn[R] borrow_bytes(Bytes, (Ptr[Byte]) -> R) -> R
+pub fn[R] borrow_bytes(Bytes, (Ptr[Byte]) -> R raise?) -> R raise?
 
-pub fn[T, R] borrow_ref(Ref[T], (Ptr[T]) -> R) -> R
+pub fn[T, R] borrow_ref(Ref[T], (Ptr[T]) -> R raise?) -> R raise?
 
 pub fn[T] decref(T) -> Unit
 
@@ -20,15 +20,13 @@ pub fn[T] move_into_ref(Ptr[T]) -> Ref[T]
 
 pub let null : Ptr[Unit]
 
-pub fn[T] sizeof((T) -> Unit) -> UInt64
-
 pub fn[T] take_from_array(FixedArray[T]) -> Ptr[T]
 
 pub fn take_from_bytes(Bytes) -> Ptr[Byte]
 
 pub fn[T] take_from_ref(Ref[T]) -> Ptr[T]
 
-pub fn[T, R] unsafe_borrow(T, (Ptr[Unit]) -> R) -> R
+pub fn[T, R] unsafe_borrow(T, (Ptr[Unit]) -> R raise?) -> R raise?
 
 pub fn[T] unsafe_move_into(Ptr[Unit]) -> T
 
@@ -40,7 +38,7 @@ pub fn[T] unsafe_take_from(T) -> Ptr[Unit]
 #alias(Pointer)
 #external
 pub type Ptr[_]
-pub fn[T] Ptr::add(Self[T], UInt64) -> Self[T]
+pub fn[T] Ptr::byte_offset(Self[T], Int64) -> Self[T]
 pub fn[T] Ptr::byte_offset_from(Self[T], Self[T]) -> Int64
 pub fn[T, U] Ptr::cast(Self[T]) -> Self[U]
 pub fn[T] Ptr::is_not_null(Self[T]) -> Bool
@@ -53,7 +51,6 @@ pub fn[T] Ptr::op_get(Self[T], UInt64) -> T
 pub fn[T] Ptr::op_set(Self[T], UInt64, T) -> Unit
 pub fn Ptr::sizeof() -> UInt64
 pub fn[T] Ptr::store(Self[T], T) -> Unit
-pub fn[T] Ptr::sub(Self[T], UInt64) -> Self[T]
 pub fn[T] Ptr::to_uint64(Self[T]) -> UInt64
 pub impl[T] Compare for Ptr[T]
 pub impl[T] Eq for Ptr[T]

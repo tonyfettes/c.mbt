@@ -13,25 +13,10 @@
 // limitations under the License.
 
 ///|
-pub using @memory {malloc}
+pub using @exit {exit, atexit}
 
 ///|
-pub using @memory {free}
-
-///|
-pub using @exit {exit}
-
-///|
-pub using @exit {atexit}
-
-///|
-pub using @memory {memcpy}
-
-///|
-pub using @memory {memcpy_from_bytes}
-
-///|
-pub using @memory {memcpy_to_bytes}
+pub using @memory {malloc, free, memcpy, memcpy_from_bytes, memcpy_to_bytes}
 
 ///|
 extern "c" fn c_getenv(name : @pointer.Pointer[Byte]) -> @pointer.Pointer[Byte] = "getenv"

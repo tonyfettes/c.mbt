@@ -23,15 +23,15 @@ test "Pointer::null" {
 test "Pointer::add" {
   let ptr : @pointer.Pointer[Byte] = @pointer.Pointer::null()
   @json.inspect(ptr.to_uint64(), content="0")
-  @json.inspect(ptr.add(0x10).to_uint64(), content="16")
-  @json.inspect(ptr.add(0x20).sub(0x10).to_uint64(), content="16")
+  @json.inspect(ptr.offset(0x10).to_uint64(), content="16")
+  @json.inspect(ptr.offset(0x20).offset(-0x10).to_uint64(), content="16")
 }
 
 ///|
 test "Pointer::equal" {
   let ptr1 : @pointer.Pointer[Byte] = @pointer.Pointer::null()
   let ptr2 : @pointer.Pointer[Byte] = @pointer.Pointer::null()
-  let ptr3 : @pointer.Pointer[Byte] = ptr1.add(0x10)
+  let ptr3 : @pointer.Pointer[Byte] = ptr1.offset(0x10)
   @json.inspect(ptr1.equal(ptr2), content=true)
   @json.inspect(ptr1.equal(ptr3), content=false)
 }
@@ -39,7 +39,7 @@ test "Pointer::equal" {
 ///|
 test "Pointer::compare" {
   let ptr1 : @pointer.Pointer[Byte] = @pointer.Pointer::null()
-  let ptr2 : @pointer.Pointer[Byte] = ptr1.add(0x10)
+  let ptr2 : @pointer.Pointer[Byte] = ptr1.offset(0x10)
   @json.inspect(ptr1.compare(ptr2), content=-1)
   @json.inspect(ptr2.compare(ptr1), content=1)
   @json.inspect(ptr1.compare(ptr1), content=0)
@@ -54,15 +54,15 @@ test "Pointer::offset" {
 ///|
 test "Pointer::offset_from" {
   let ptr : @pointer.Pointer[Byte] = @pointer.Pointer::null()
-  @json.inspect(ptr.add(0x30).offset_from(ptr.add(0x10)), content="32")
-  @json.inspect(ptr.add(0x10).offset_from(ptr.add(0x30)), content="-32")
+  @json.inspect(ptr.offset(0x30).offset_from(ptr.offset(0x10)), content="32")
+  @json.inspect(ptr.offset(0x10).offset_from(ptr.offset(0x30)), content="-32")
 }
 
 ///|
 test "Pointer[Byte]" {
   let val : Byte = 0x42
   let ptr : @pointer.Pointer[Byte] = @memory.malloc(
-    @pointer.sizeof((ignore : (Byte) -> Unit)),
+    @sizeof.sizeof((ignore : (Byte) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -73,7 +73,7 @@ test "Pointer[Byte]" {
 test "Pointer[Int16]" {
   let val : Int16 = 0x1234
   let ptr : @pointer.Pointer[Int16] = @memory.malloc(
-    @pointer.sizeof((ignore : (Int16) -> Unit)),
+    @sizeof.sizeof((ignore : (Int16) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -84,7 +84,7 @@ test "Pointer[Int16]" {
 test "Pointer[UInt16]" {
   let val : UInt16 = 0x1234
   let ptr : @pointer.Pointer[UInt16] = @memory.malloc(
-    @pointer.sizeof((ignore : (UInt16) -> Unit)),
+    @sizeof.sizeof((ignore : (UInt16) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -95,7 +95,7 @@ test "Pointer[UInt16]" {
 test "Pointer[Int]" {
   let val : Int = 0x12345678
   let ptr : @pointer.Pointer[Int] = @memory.malloc(
-    @pointer.sizeof((ignore : (Int) -> Unit)),
+    @sizeof.sizeof((ignore : (Int) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -106,7 +106,7 @@ test "Pointer[Int]" {
 test "Pointer[UInt]" {
   let val : UInt = 0x12345678
   let ptr : @pointer.Pointer[UInt] = @memory.malloc(
-    @pointer.sizeof((ignore : (UInt) -> Unit)),
+    @sizeof.sizeof((ignore : (UInt) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -117,7 +117,7 @@ test "Pointer[UInt]" {
 test "Pointer[Int64]" {
   let val : Int64 = 0x1234567890abcdef
   let ptr : @pointer.Pointer[Int64] = @memory.malloc(
-    @pointer.sizeof((ignore : (Int64) -> Unit)),
+    @sizeof.sizeof((ignore : (Int64) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -128,7 +128,7 @@ test "Pointer[Int64]" {
 test "Pointer[UInt64]" {
   let val : UInt64 = 0x1234567890abcdef
   let ptr : @pointer.Pointer[UInt64] = @memory.malloc(
-    @pointer.sizeof((ignore : (UInt64) -> Unit)),
+    @sizeof.sizeof((ignore : (UInt64) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -139,7 +139,7 @@ test "Pointer[UInt64]" {
 test "Pointer[Float]" {
   let val : Float = 3.14159
   let ptr : @pointer.Pointer[Float] = @memory.malloc(
-    @pointer.sizeof((ignore : (Float) -> Unit)),
+    @sizeof.sizeof((ignore : (Float) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -150,7 +150,7 @@ test "Pointer[Float]" {
 test "Pointer[Double]" {
   let val : Double = 3.141592653589793
   let ptr : @pointer.Pointer[Double] = @memory.malloc(
-    @pointer.sizeof((ignore : (Double) -> Unit)),
+    @sizeof.sizeof((ignore : (Double) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -162,9 +162,36 @@ test "Pointer[Pointer[_]]" {
   let val : @pointer.Pointer[Byte] = @memory.malloc(16)
   defer @memory.free(val)
   let ptr : @pointer.Pointer[@pointer.Pointer[Byte]] = @memory.malloc(
-    @pointer.sizeof((ignore : (@pointer.Pointer[Byte]) -> Unit)),
+    @sizeof.sizeof((ignore : (@pointer.Pointer[Byte]) -> Unit)),
   )
   defer @memory.free(ptr)
   ptr.store(val)
   @json.inspect(ptr.load() == val, content=true)
+}
+
+///|
+test "borrow_ref" {
+  let val : Ref[Int] = Ref::new(42)
+  @pointer.borrow_ref(val, ptr => @json.inspect(ptr.load(), content=42))
+}
+
+///|
+test "borrow_array" {
+  let arr : FixedArray[Int] = [1, 2, 3, 4, 5]
+  @pointer.borrow_array(arr, ptr => for i in 0UL..<arr.length().to_uint64() {
+    assert_eq(ptr[i], i.to_int() + 1)
+  })
+}
+
+///|
+test "borrow_bytes" {
+  let bytes = b"Hello"
+  @pointer.borrow_bytes(bytes, ptr => {
+    assert_eq(ptr[0], 'H')
+    assert_eq(ptr[1], 'e')
+    assert_eq(ptr[2], 'l')
+    assert_eq(ptr[3], 'l')
+    assert_eq(ptr[4], 'o')
+    assert_eq(ptr[5], 0)
+  })
 }

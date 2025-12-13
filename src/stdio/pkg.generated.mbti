@@ -3,7 +3,6 @@ package "tonyfettes/c/stdio"
 
 import(
   "tonyfettes/c/errno"
-  "tonyfettes/c/pointer"
   "tonyfettes/c/string"
 )
 
@@ -26,11 +25,11 @@ pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(Path, Mode) -> FILE r
 
 pub fn[Data : @string.Borrow] fputs(Data, FILE) -> Int
 
-pub fn[T : @pointer.Borrow] fread(T, UInt64, UInt64, FILE) -> UInt64
+pub fn[T : @string.Borrow] fread(T, UInt64, UInt64, FILE) -> UInt64
 
 pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
 
-pub fn[T : @pointer.Borrow] fwrite(T, UInt64, UInt64, FILE) -> UInt64
+pub fn[T : @string.Borrow] fwrite(T, UInt64, UInt64, FILE) -> UInt64
 
 pub fn getchar() -> Int
 

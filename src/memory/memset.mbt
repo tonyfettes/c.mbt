@@ -20,10 +20,6 @@ extern "c" fn memory_memset(
 ) -> Unit = "moonbit_tonyfettes_c_memory_memset"
 
 ///|
-pub fn[Dst] memset(
-  dst : Dst,
-  val : Byte,
-  len : UInt64,
-) -> Unit {
+pub fn[Dst] memset(dst : Dst, val : Byte, len : UInt64) -> Unit {
   @pointer.unsafe_borrow(dst, dst => memory_memset(dst, val, len))
 }

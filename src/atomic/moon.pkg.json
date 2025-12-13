@@ -15,6 +15,7 @@
   "test-import": [
     "tonyfettes/c/memory",
     "tonyfettes/c/thrd",
-    "tonyfettes/c/feature"
+    "tonyfettes/c/feature",
+    "tonyfettes/c/sizeof"
   ]
 }

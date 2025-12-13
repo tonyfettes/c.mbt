@@ -16,9 +16,7 @@
 extern "c" fn c_remove(path : @pointer.Pointer[Byte]) -> Int = "remove"
 
 ///|
-pub fn[Path : @string.Borrow] remove(
-  path : Path,
-) -> Unit raise @errno.Errno {
+pub fn[Path : @string.Borrow] remove(path : Path) -> Unit raise @errno.Errno {
   let result = @string.borrow(path, path => c_remove(path))
   if result != 0 {
     raise @errno.Errno(@errno.get())

@@ -9,5 +9,8 @@
     "memcpy.c",
     "memset.c",
     "realloc.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/sizeof"
   ]
 }

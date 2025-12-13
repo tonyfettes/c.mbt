@@ -1,5 +1,8 @@
 {
   "import": ["tonyfettes/c/pointer"],
   "native-stub": ["strlen.c"],
-  "test-import": ["tonyfettes/c/memory"]
+  "test-import": [
+    "tonyfettes/c/memory",
+    "tonyfettes/c/sizeof"
+  ]
 }

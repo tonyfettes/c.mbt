@@ -14,18 +14,18 @@
 
 ///|
 extern "c" fn stdio_fread(
-  ptr : @pointer.Pointer[Unit],
+  ptr : @pointer.Pointer[Byte],
   size : UInt64,
   n : UInt64,
   stream : FILE,
 ) -> UInt64 = "moonbit_tonyfettes_c_stdio_fread"
 
 ///|
-pub fn[T : @pointer.Borrow] fread(
+pub fn[T : @string.Borrow] fread(
   ptr : T,
   size : UInt64,
   n : UInt64,
   stream : FILE,
 ) -> UInt64 {
-  @pointer.borrow(ptr, ptr => stdio_fread(ptr, size, n, stream))
+  @string.borrow(ptr, ptr => stdio_fread(ptr, size, n, stream))
 }
