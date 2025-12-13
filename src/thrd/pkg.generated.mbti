@@ -8,11 +8,11 @@ import(
 // Values
 pub let busy : Int
 
-pub fn[T] create(Thrd, FuncRef[(@pointer.Ptr[T]) -> Int], @pointer.Ptr[T]) -> Int
+pub fn[T] create(Thrd, FuncRef[(@pointer.Pointer[T]) -> Int], @pointer.Pointer[T]) -> Int
 
 pub let error : Int
 
-pub fn join(Thrd, @pointer.Ptr[Int]) -> Int
+pub fn join(Thrd, @pointer.Pointer[Int]) -> Int
 
 pub let nomem : Int
 
@@ -23,11 +23,11 @@ pub let timedout : Int
 // Errors
 
 // Types and methods
-pub(all) struct Thrd(@pointer.Ptr[Unit])
+pub(all) struct Thrd(@pointer.Pointer[Unit])
 #deprecated
-pub fn Thrd::inner(Self) -> @pointer.Ptr[Unit]
+pub fn Thrd::inner(Self) -> @pointer.Pointer[Unit]
 pub fn Thrd::sizeof() -> UInt64
-pub impl @pointer.IntoPtr for Thrd
+pub fn Thrd::to_pointer(Self) -> @pointer.Pointer[Unit]
 
 // Type aliases
 

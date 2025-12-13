@@ -13,8 +13,6 @@
 // limitations under the License.
 
 ///|
-pub impl[T] @pointer.IntoPtr for Atomic[T] with into_ptr(self : Atomic[T]) -> @pointer.Pointer[
-  Unit,
-] {
+pub fn[T] Atomic::to_pointer(self : Atomic[T]) -> @pointer.Pointer[Unit] {
   self.0.cast()
 }

@@ -6,9 +6,9 @@ import(
 )
 
 // Values
-pub fn[T : Borrow, R] borrow(T, (@pointer.Ptr[Byte]) -> R) -> R
+pub fn[T : Borrow, R] borrow(T, (@pointer.Pointer[Byte]) -> R) -> R
 
-pub fn[A : Borrow, B : Borrow, R] borrow_2(A, B, (@pointer.Ptr[Byte], @pointer.Ptr[Byte]) -> R) -> R
+pub fn[A : Borrow, B : Borrow, R] borrow_2(A, B, (@pointer.Pointer[Byte], @pointer.Pointer[Byte]) -> R) -> R
 
 pub fn[Str : Borrow] strlen(Str) -> UInt64
 
@@ -22,5 +22,5 @@ pub fn[Str : Borrow] strlen(Str) -> UInt64
 trait Borrow
 pub impl Borrow for FixedArray[Byte]
 pub impl Borrow for Bytes
-pub impl Borrow for @pointer.Ptr[Byte]
+pub impl Borrow for @pointer.Pointer[Byte]
 

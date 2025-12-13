@@ -21,7 +21,7 @@ test "compare_exchange_strong" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(object)
+  defer @memory.free(object.to_pointer())
   @atomic.init_(object, 1)
   let expected : @pointer.Pointer[Int] = @memory.calloc(
     1,
@@ -51,7 +51,7 @@ test "compare_exchange_weak" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(object)
+  defer @memory.free(object.to_pointer())
   @atomic.init_(object, 1)
   let expected : @pointer.Pointer[Int] = @memory.calloc(
     1,

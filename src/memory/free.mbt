@@ -16,6 +16,6 @@
 extern "c" fn memory_free(ptr : @pointer.Pointer[Unit]) = "moonbit_tonyfettes_c_memory_free"
 
 ///|
-pub fn[T : @pointer.IntoPtr] free(ptr : T) -> Unit {
-  memory_free(ptr.into_ptr())
+pub fn[T] free(ptr : @pointer.Pointer[T]) -> Unit {
+  memory_free(ptr.cast())
 }

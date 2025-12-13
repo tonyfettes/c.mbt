@@ -21,7 +21,7 @@ test "load" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(ptr)
+  defer @memory.free(ptr.to_pointer())
   @atomic.init_(ptr, 0)
   @json.inspect(@atomic.load(ptr), content=0)
 }

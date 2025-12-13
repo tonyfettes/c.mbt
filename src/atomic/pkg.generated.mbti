@@ -6,9 +6,9 @@ import(
 )
 
 // Values
-pub fn[T : CompareExchangeStrong] compare_exchange_strong(Atomic[T], @pointer.Ptr[T], T) -> Bool
+pub fn[T : CompareExchangeStrong] compare_exchange_strong(Atomic[T], @pointer.Pointer[T], T) -> Bool
 
-pub fn[T : CompareExchangeWeak] compare_exchange_weak(Atomic[T], @pointer.Ptr[T], T) -> Bool
+pub fn[T : CompareExchangeWeak] compare_exchange_weak(Atomic[T], @pointer.Pointer[T], T) -> Bool
 
 pub fn[T : Exchange] exchange(Atomic[T], T) -> T
 
@@ -31,10 +31,10 @@ pub fn[T : Store] store(Atomic[T], T) -> Unit
 // Errors
 
 // Types and methods
-pub(all) struct Atomic[T](@pointer.Ptr[T])
+pub(all) struct Atomic[T](@pointer.Pointer[T])
 #deprecated
-pub fn[T] Atomic::inner(Self[T]) -> @pointer.Ptr[T]
-pub impl[T] @pointer.IntoPtr for Atomic[T]
+pub fn[T] Atomic::inner(Self[T]) -> @pointer.Pointer[T]
+pub fn[T] Atomic::to_pointer(Self[T]) -> @pointer.Pointer[Unit]
 
 pub(all) enum MemoryOrder {
   Relaxed
@@ -49,14 +49,14 @@ pub(all) enum MemoryOrder {
 
 // Traits
 pub(open) trait CompareExchangeStrong {
-  compare_exchange_strong(Atomic[Self], @pointer.Ptr[Self], Self) -> Bool = _
-  compare_exchange_strong_explicit(Atomic[Self], @pointer.Ptr[Self], Self, MemoryOrder, MemoryOrder) -> Bool
+  compare_exchange_strong(Atomic[Self], @pointer.Pointer[Self], Self) -> Bool = _
+  compare_exchange_strong_explicit(Atomic[Self], @pointer.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
 }
 pub impl CompareExchangeStrong for Int
 
 pub(open) trait CompareExchangeWeak {
-  compare_exchange_weak(Atomic[Self], @pointer.Ptr[Self], Self) -> Bool = _
-  compare_exchange_weak_explicit(Atomic[Self], @pointer.Ptr[Self], Self, MemoryOrder, MemoryOrder) -> Bool
+  compare_exchange_weak(Atomic[Self], @pointer.Pointer[Self], Self) -> Bool = _
+  compare_exchange_weak_explicit(Atomic[Self], @pointer.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
 }
 pub impl CompareExchangeWeak for Int
 

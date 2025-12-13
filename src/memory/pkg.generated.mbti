@@ -6,11 +6,11 @@ import(
 )
 
 // Values
-pub fn[T] calloc(UInt64, UInt64) -> @pointer.Ptr[T]
+pub fn[T] calloc(UInt64, UInt64) -> @pointer.Pointer[T]
 
-pub fn[T : @pointer.IntoPtr] free(T) -> Unit
+pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
-pub fn[T] malloc(UInt64) -> @pointer.Ptr[T]
+pub fn[T] malloc(UInt64) -> @pointer.Pointer[T]
 
 #alias(copy)
 #alias(memcpy_from_bytes)
@@ -19,7 +19,7 @@ pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 
 pub fn[Dst] memset(Dst, Byte, UInt64) -> Unit
 
-pub fn[T] realloc(@pointer.Ptr[T], UInt64) -> @pointer.Ptr[T]
+pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
 
 // Errors
 

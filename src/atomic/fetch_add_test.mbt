@@ -21,7 +21,7 @@ test "fetch_add" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(object)
+  defer @memory.free(object.to_pointer())
   @atomic.init_(object, 0)
   @json.inspect(@atomic.fetch_add(object, 1), content=0)
   @json.inspect(@atomic.load(object), content=1)
@@ -62,7 +62,7 @@ test "fetch_add/concurrent" {
       thread
     })
     defer (for thread in threads {
-      @memory.free(thread)
+      @memory.free(thread.to_pointer())
     })
     for thread in threads {
       @thrd.join(thread, @pointer.Pointer::null()) |> ignore()

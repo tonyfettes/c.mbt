@@ -16,9 +16,7 @@
 pub(all) struct Thrd(@pointer.Pointer[Unit])
 
 ///|
-pub impl @pointer.IntoPtr for Thrd with into_ptr(self : Thrd) -> @pointer.Pointer[
-  Unit,
-] {
+pub fn Thrd::to_pointer(self : Thrd) -> @pointer.Pointer[Unit] {
   self.0
 }
 

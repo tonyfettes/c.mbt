@@ -21,7 +21,7 @@ test "fetch_sub" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(object)
+  defer @memory.free(object.to_pointer())
   @atomic.init_(object, 3)
   @json.inspect(@atomic.fetch_sub(object, 1), content=3)
   @json.inspect(@atomic.load(object), content=2)

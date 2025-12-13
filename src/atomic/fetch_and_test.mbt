@@ -21,7 +21,7 @@ test "fetch_and" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(object)
+  defer @memory.free(object.to_pointer())
   @atomic.init_(object, 2)
   @json.inspect(@atomic.fetch_and(object, 1), content=2)
   @json.inspect(@atomic.load(object), content=0)

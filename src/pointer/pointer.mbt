@@ -13,50 +13,89 @@
 // limitations under the License.
 
 ///|
+/// A generic pointer type that wraps the underlying platform pointer type.
+///
+/// `Pointer[T]` represents a pointer to a value of type `T`. This type is used
+/// for low-level memory operations and interoperability with C code.
 #external
-#alias(Pointer)
-pub type Ptr[_]
+#alias(Ptr)
+pub type Pointer[_]
 
 ///|
-pub fn[T, U] Ptr::cast(self : Ptr[T]) -> Ptr[U] = "%identity"
+/// Casts a pointer from one type to another.
+///
+/// This is an unsafe operation that reinterprets the pointer without any type checking.
+///
+/// Parameters:
+/// - `self`: The pointer to cast
+///
+/// Returns a pointer to type `U`
+pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
 
 ///|
-extern "c" fn pointer_null() -> Ptr[Unit] = "moonbit_tonyfettes_c_pointer_null"
+extern "c" fn pointer_null() -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_null"
 
 ///|
-pub fn[T] Ptr::null() -> Ptr[T] {
+/// Creates a null pointer of type `T`.
+///
+/// Returns a null pointer that points to no valid memory location.
+pub fn[T] Pointer::null() -> Pointer[T] {
   pointer_null().cast()
 }
 
 ///|
-extern "c" fn pointer_is_null(ptr : Ptr[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_null"
+extern "c" fn pointer_is_null(ptr : Pointer[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_null"
 
 ///|
-pub fn[T] Ptr::is_null(self : Ptr[T]) -> Bool {
+/// Checks if the pointer is null.
+///
+/// Returns `true` if the pointer is null, `false` otherwise.
+pub fn[T] Pointer::is_null(self : Pointer[T]) -> Bool {
   pointer_is_null(self.cast())
 }
 
 ///|
-extern "c" fn pointer_is_not_null(ptr : Ptr[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_not_null"
+extern "c" fn pointer_is_not_null(ptr : Pointer[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_is_not_null"
 
 ///|
-pub fn[T] Ptr::is_not_null(self : Ptr[T]) -> Bool {
+/// Checks if the pointer is not null.
+///
+/// Returns `true` if the pointer is not null, `false` otherwise.
+pub fn[T] Pointer::is_not_null(self : Pointer[T]) -> Bool {
   pointer_is_not_null(self.cast())
 }
 
 ///|
-extern "c" fn Ptr::pointer_equal(self : Ptr[Unit], other : Ptr[Unit]) -> Bool = "moonbit_tonyfettes_c_pointer_equal"
+extern "c" fn Pointer::pointer_equal(
+  self : Pointer[Unit],
+  other : Pointer[Unit],
+) -> Bool = "moonbit_tonyfettes_c_pointer_equal"
 
 ///|
-pub impl[T] Eq for Ptr[T] with equal(self : Ptr[T], other : Ptr[T]) -> Bool {
+/// Implements equality comparison for pointers.
+///
+/// Two pointers are equal if they point to the same memory location.
+pub impl[T] Eq for Pointer[T] with equal(self : Pointer[T], other : Pointer[T]) -> Bool {
   self.cast().pointer_equal(other.cast())
 }
 
 ///|
-extern "c" fn pointer_compare(lower : Ptr[Byte], upper : Ptr[Byte]) -> Int = "moonbit_tonyfettes_c_pointer_compare"
+extern "c" fn pointer_compare(
+  lower : Pointer[Byte],
+  upper : Pointer[Byte],
+) -> Int = "moonbit_tonyfettes_c_pointer_compare"
 
 ///|
-pub impl[T] Compare for Ptr[T] with compare(self : Ptr[T], other : Ptr[T]) -> Int {
+/// Implements comparison for pointers.
+///
+/// Compares two pointers based on their memory addresses. Returns:
+/// - negative value if `self` < `other`
+/// - zero if `self` == `other`
+/// - positive value if `self` > `other`
+pub impl[T] Compare for Pointer[T] with compare(
+  self : Pointer[T],
+  other : Pointer[T],
+) -> Int {
   pointer_compare(self.cast(), other.cast())
 }
 
@@ -64,7 +103,10 @@ pub impl[T] Compare for Ptr[T] with compare(self : Ptr[T], other : Ptr[T]) -> In
 extern "c" fn sizeof_pointer() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
 
 ///|
-pub fn Ptr::sizeof() -> UInt64 {
+/// Returns the size of a pointer in bytes.
+///
+/// On most platforms, this returns 8 for 64-bit systems or 4 for 32-bit systems.
+pub fn Pointer::sizeof() -> UInt64 {
   sizeof_pointer()
 }
 
@@ -81,14 +123,24 @@ pub fn Ptr::sizeof() -> UInt64 {
 ///
 /// **Note**: The offset is of type `Int64` and might be insufficient for very large
 /// offsets on some platforms.
-pub fn[T] Ptr::offset(self : Ptr[T], offset : Int64) -> Ptr[T] {
+pub fn[T] Pointer::offset(self : Pointer[T], offset : Int64) -> Pointer[T] {
   let array = move_into_array(self)
   take_from_array(array_offset(array, offset))
 }
 
 ///|
-pub fn[T] Ptr::byte_offset(self : Ptr[T], offset : Int64) -> Ptr[T] {
-  let byte_self : Ptr[Byte] = self.cast()
+/// Adds a byte offset to a pointer and returns a new pointer.
+///
+/// This function interprets the pointer as a byte pointer, adds the specified
+/// byte offset, and returns the result cast back to the original type.
+///
+/// Parameters:
+/// - `offset`: The byte offset to add
+///
+/// Returns a new pointer that is offset from the original pointer by the
+/// specified number of bytes.
+pub fn[T] Pointer::byte_offset(self : Pointer[T], offset : Int64) -> Pointer[T] {
+  let byte_self : Pointer[Byte] = self.cast()
   byte_self.offset(offset).cast()
 }
 
@@ -99,7 +151,16 @@ fn[T] array_offset(array : FixedArray[T], offset : Int64) -> FixedArray[T] = "%i
 fn[T] array_offset_from(array : FixedArray[T], from : FixedArray[T]) -> Int64 = "%i64_sub"
 
 ///|
-pub fn[T] Ptr::offset_from(self : Ptr[T], other : Ptr[T]) -> Int64 {
+/// Calculates the offset between two pointers in elements.
+///
+/// Subtracts `other` from `self` to determine how many elements of type `T`
+/// are between the two pointers.
+///
+/// Parameters:
+/// - `other`: The pointer to subtract from this pointer
+///
+/// Returns the number of elements between the two pointers.
+pub fn[T] Pointer::offset_from(self : Pointer[T], other : Pointer[T]) -> Int64 {
   let self_array = move_into_array(self)
   let other_array = move_into_array(other)
   let offset = array_offset_from(self_array, other_array)
@@ -107,17 +168,37 @@ pub fn[T] Ptr::offset_from(self : Ptr[T], other : Ptr[T]) -> Int64 {
 }
 
 ///|
-pub fn[T] Ptr::byte_offset_from(self : Ptr[T], other : Ptr[T]) -> Int64 {
+/// Calculates the byte offset between two pointers.
+///
+/// Subtracts `other` from `self` to determine how many bytes are between
+/// the two pointers.
+///
+/// Parameters:
+/// - `other`: The pointer to subtract from this pointer
+///
+/// Returns the number of bytes between the two pointers.
+pub fn[T] Pointer::byte_offset_from(
+  self : Pointer[T],
+  other : Pointer[T],
+) -> Int64 {
   let self_array = move_into_array(self)
   let other_array = move_into_array(other)
-  let byte_self : Ptr[Byte] = take_from_array(self_array).cast()
-  let byte_other : Ptr[Byte] = take_from_array(other_array).cast()
+  let byte_self : Pointer[Byte] = take_from_array(self_array).cast()
+  let byte_other : Pointer[Byte] = take_from_array(other_array).cast()
   let offset = byte_self.offset_from(byte_other)
   offset
 }
 
 ///|
-pub fn[T] Ptr::op_get(self : Ptr[T], index : UInt64) -> T {
+/// Reads a value from the pointer at the specified index.
+///
+/// This is equivalent to the C operation `pointer[index]`.
+///
+/// Parameters:
+/// - `index`: The index to read from
+///
+/// Returns the value at the specified index.
+pub fn[T] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
   let array = move_into_array(self)
   let value = array.unsafe_get(index.to_int())
   ignore(take_from_array(array))
@@ -125,14 +206,26 @@ pub fn[T] Ptr::op_get(self : Ptr[T], index : UInt64) -> T {
 }
 
 ///|
-pub fn[T] Ptr::op_set(self : Ptr[T], index : UInt64, value : T) -> Unit {
+/// Writes a value to the pointer at the specified index.
+///
+/// This is equivalent to the C operation `pointer[index] = value`.
+///
+/// Parameters:
+/// - `index`: The index to write to
+/// - `value`: The value to write
+pub fn[T] Pointer::op_set(self : Pointer[T], index : UInt64, value : T) -> Unit {
   let array = move_into_array(self)
   array.unsafe_set(index.to_int(), value)
   ignore(take_from_array(array))
 }
 
 ///|
-pub fn[T] Ptr::load(self : Ptr[T]) -> T {
+/// Loads a value from the memory location pointed to by this pointer.
+///
+/// This is equivalent to dereferencing the pointer in C (`*pointer`).
+///
+/// Returns the value stored at this memory location.
+pub fn[T] Pointer::load(self : Pointer[T]) -> T {
   let ref_ : Ref[T] = move_into_ref(self)
   let value = ref_.val
   ignore(take_from_ref(ref_))
@@ -140,36 +233,27 @@ pub fn[T] Ptr::load(self : Ptr[T]) -> T {
 }
 
 ///|
-pub fn[T] Ptr::store(self : Ptr[T], value : T) -> Unit {
+/// Stores a value to the memory location pointed to by this pointer.
+///
+/// This is equivalent to the C operation `*pointer = value`.
+///
+/// Parameters:
+/// - `value`: The value to store
+pub fn[T] Pointer::store(self : Pointer[T], value : T) -> Unit {
   let ref_ : Ref[T] = move_into_ref(self)
   ref_.val = value
   ignore(take_from_ref(ref_))
 }
 
 ///|
-extern "c" fn pointer_to_uint64(pointer : Ptr[Unit]) -> UInt64 = "moonbit_tonyfettes_c_pointer_to_uint64"
+extern "c" fn pointer_to_uint64(pointer : Pointer[Unit]) -> UInt64 = "moonbit_tonyfettes_c_pointer_to_uint64"
 
 ///|
-pub fn[T] Ptr::to_uint64(self : Ptr[T]) -> UInt64 {
+/// Converts the pointer to a 64-bit unsigned integer.
+///
+/// This returns the numeric value of the pointer's address.
+///
+/// Returns the memory address as a `UInt64`.
+pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
   pointer_to_uint64(self.cast())
-}
-
-///|
-pub(open) trait IntoPtr {
-  into_ptr(Self) -> Ptr[Unit]
-}
-
-///|
-pub impl[T] IntoPtr for Ptr[T] with into_ptr(self : Ptr[T]) -> Ptr[Unit] {
-  self.cast()
-}
-
-///|
-pub(open) trait FromPtr {
-  from_ptr(Ptr[Unit]) -> Self
-}
-
-///|
-pub impl[T] FromPtr for Ptr[T] with from_ptr(self : Ptr[Unit]) -> Ptr[T] {
-  self.cast()
 }

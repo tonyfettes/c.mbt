@@ -13,4 +13,8 @@
 // limitations under the License.
 
 ///|
-pub let null : Ptr[Unit] = pointer_null()
+/// A null pointer constant of type `Pointer[Unit]`.
+///
+/// This provides a convenient way to reference a null pointer without
+/// calling `Pointer::null()` each time.
+pub let null : Pointer[Unit] = pointer_null()

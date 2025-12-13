@@ -20,10 +20,7 @@ test "realloc" {
   for i in 0UL..<10 {
     ptr[i] = i.to_int()
   }
-  let new_ptr = @memory.realloc(
-    ptr,
-    20 * @sizeof.sizeof((_ : Int) => ()),
-  )
+  let new_ptr = @memory.realloc(ptr, 20 * @sizeof.sizeof((_ : Int) => ()))
   defer @memory.free(new_ptr)
   for i in 0UL..<10 {
     @json.inspect(new_ptr[i], content=i.to_int().to_json())

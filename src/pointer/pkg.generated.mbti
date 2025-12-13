@@ -2,85 +2,75 @@
 package "tonyfettes/c/pointer"
 
 // Values
-pub fn[T : Borrow, R] borrow(T, (Ptr[Unit]) -> R raise?) -> R raise?
+pub fn[T : Borrow, R] borrow(T, (Pointer[Unit]) -> R raise?) -> R raise?
 
-pub fn[T, R] borrow_array(FixedArray[T], (Ptr[T]) -> R raise?) -> R raise?
+pub fn[T, R] borrow_array(FixedArray[T], (Pointer[T]) -> R raise?) -> R raise?
 
-pub fn[R] borrow_bytes(Bytes, (Ptr[Byte]) -> R raise?) -> R raise?
+pub fn[R] borrow_bytes(Bytes, (Pointer[Byte]) -> R raise?) -> R raise?
 
-pub fn[T, R] borrow_ref(Ref[T], (Ptr[T]) -> R raise?) -> R raise?
+pub fn[T, R] borrow_ref(Ref[T], (Pointer[T]) -> R raise?) -> R raise?
 
-pub fn[T] decref(T) -> Unit
+pub fn[T] move_into_array(Pointer[T]) -> FixedArray[T]
 
-pub fn[T] move_into_array(Ptr[T]) -> FixedArray[T]
+pub fn move_into_bytes(Pointer[Byte]) -> Bytes
 
-pub fn move_into_bytes(Ptr[Byte]) -> Bytes
+pub fn[T] move_into_ref(Pointer[T]) -> Ref[T]
 
-pub fn[T] move_into_ref(Ptr[T]) -> Ref[T]
+pub let null : Pointer[Unit]
 
-pub let null : Ptr[Unit]
+pub fn[T] take_from_array(FixedArray[T]) -> Pointer[T]
 
-pub fn[T] take_from_array(FixedArray[T]) -> Ptr[T]
+pub fn take_from_bytes(Bytes) -> Pointer[Byte]
 
-pub fn take_from_bytes(Bytes) -> Ptr[Byte]
+pub fn[T] take_from_ref(Ref[T]) -> Pointer[T]
 
-pub fn[T] take_from_ref(Ref[T]) -> Ptr[T]
+pub fn[T, R] unsafe_borrow(T, (Pointer[Unit]) -> R raise?) -> R raise?
 
-pub fn[T, R] unsafe_borrow(T, (Ptr[Unit]) -> R raise?) -> R raise?
+pub fn[T] unsafe_decref(T) -> Unit
 
-pub fn[T] unsafe_move_into(Ptr[Unit]) -> T
+pub fn[T] unsafe_move_into(Pointer[Unit]) -> T
 
-pub fn[T] unsafe_take_from(T) -> Ptr[Unit]
+pub fn[T] unsafe_take_from(T) -> Pointer[Unit]
 
 // Errors
 
 // Types and methods
-#alias(Pointer)
+#alias(Ptr)
 #external
-pub type Ptr[_]
-pub fn[T] Ptr::byte_offset(Self[T], Int64) -> Self[T]
-pub fn[T] Ptr::byte_offset_from(Self[T], Self[T]) -> Int64
-pub fn[T, U] Ptr::cast(Self[T]) -> Self[U]
-pub fn[T] Ptr::is_not_null(Self[T]) -> Bool
-pub fn[T] Ptr::is_null(Self[T]) -> Bool
-pub fn[T] Ptr::load(Self[T]) -> T
-pub fn[T] Ptr::null() -> Self[T]
-pub fn[T] Ptr::offset(Self[T], Int64) -> Self[T]
-pub fn[T] Ptr::offset_from(Self[T], Self[T]) -> Int64
-pub fn[T] Ptr::op_get(Self[T], UInt64) -> T
-pub fn[T] Ptr::op_set(Self[T], UInt64, T) -> Unit
-pub fn Ptr::sizeof() -> UInt64
-pub fn[T] Ptr::store(Self[T], T) -> Unit
-pub fn[T] Ptr::to_uint64(Self[T]) -> UInt64
-pub impl[T] Compare for Ptr[T]
-pub impl[T] Eq for Ptr[T]
-pub impl[T] Borrow for Ptr[T]
-pub impl[T] FromPtr for Ptr[T]
-pub impl[T] IntoPtr for Ptr[T]
+pub type Pointer[_]
+pub fn[T] Pointer::byte_offset(Self[T], Int64) -> Self[T]
+pub fn[T] Pointer::byte_offset_from(Self[T], Self[T]) -> Int64
+pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
+pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
+pub fn[T] Pointer::is_null(Self[T]) -> Bool
+pub fn[T] Pointer::load(Self[T]) -> T
+pub fn[T] Pointer::null() -> Self[T]
+pub fn[T] Pointer::offset(Self[T], Int64) -> Self[T]
+pub fn[T] Pointer::offset_from(Self[T], Self[T]) -> Int64
+pub fn[T] Pointer::op_get(Self[T], UInt64) -> T
+pub fn[T] Pointer::op_set(Self[T], UInt64, T) -> Unit
+pub fn Pointer::sizeof() -> UInt64
+pub fn[T] Pointer::store(Self[T], T) -> Unit
+pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
+pub impl[T] Compare for Pointer[T]
+pub impl[T] Eq for Pointer[T]
+pub impl[T] Borrow for Pointer[T]
 
 // Type aliases
 
 // Traits
 pub(open) trait Borrow {
-  take_from(Self) -> Ptr[Unit]
-  move_into(Ptr[Unit]) -> Self
+  take_from(Self) -> Pointer[Unit]
+  move_into(Pointer[Unit]) -> Self
 }
 pub impl[T] Borrow for FixedArray[T]
 pub impl Borrow for Bytes
 
-pub(open) trait FromPtr {
-  from_ptr(Ptr[Unit]) -> Self
-}
-
-pub(open) trait IntoPtr {
-  into_ptr(Self) -> Ptr[Unit]
-}
-
 pub(open) trait MoveInto {
-  move_into(Ptr[Unit]) -> Self
+  move_into(Pointer[Unit]) -> Self
 }
 
 pub(open) trait TakeFrom {
-  take_from(Self) -> Ptr[Unit]
+  take_from(Self) -> Pointer[Unit]
 }
 

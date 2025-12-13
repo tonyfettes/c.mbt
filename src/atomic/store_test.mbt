@@ -21,7 +21,7 @@ test "store" {
     1,
     @atomic.sizeof((_ : Int) => ()),
   )
-  defer @memory.free(object)
+  defer @memory.free(object.to_pointer())
   @atomic.init_(object, 0)
   @json.inspect(@atomic.load(object), content=0)
   @atomic.store(object, 1)

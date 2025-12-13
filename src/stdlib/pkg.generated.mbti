@@ -11,11 +11,11 @@ pub fn atexit(FuncRef[() -> Unit]) -> Int
 
 pub fn[T] exit(Int) -> T
 
-pub fn[T : @pointer.IntoPtr] free(T) -> Unit
+pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
-pub fn[T : @string.Borrow] getenv(T) -> @pointer.Ptr[Byte]
+pub fn[T : @string.Borrow] getenv(T) -> @pointer.Pointer[Byte]
 
-pub fn[T] malloc(UInt64) -> @pointer.Ptr[T]
+pub fn[T] malloc(UInt64) -> @pointer.Pointer[T]
 
 pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 

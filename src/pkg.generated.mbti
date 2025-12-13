@@ -9,7 +9,7 @@ import(
 // Values
 pub fn atexit(FuncRef[() -> Unit]) -> Int
 
-pub fn[T] calloc(UInt64, UInt64) -> @pointer.Ptr[T]
+pub fn[T] calloc(UInt64, UInt64) -> @pointer.Pointer[T]
 
 pub fn[T] exit(Int) -> T
 
@@ -17,17 +17,17 @@ pub let exit_failure : Int
 
 pub let exit_success : Int
 
-pub fn[T : @pointer.IntoPtr] free(T) -> Unit
+pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
-pub fn[T : @string.Borrow] getenv(T) -> @pointer.Ptr[Byte]
+pub fn[T : @string.Borrow] getenv(T) -> @pointer.Pointer[Byte]
 
-pub fn[T] malloc(UInt64) -> @pointer.Ptr[T]
+pub fn[T] malloc(UInt64) -> @pointer.Pointer[T]
 
 pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 
 pub fn[Dst] memset(Dst, Byte, UInt64) -> Unit
 
-pub fn[T] realloc(@pointer.Ptr[T], UInt64) -> @pointer.Ptr[T]
+pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
 
 pub fn[T] sizeof((T) -> Unit) -> UInt64
 
@@ -40,7 +40,7 @@ pub fn[T : @string.Borrow] system(T) -> Int
 // Types and methods
 
 // Type aliases
-pub using @pointer {type Ptr}
+pub using @pointer {type Pointer as Ptr}
 
 // Traits
 
