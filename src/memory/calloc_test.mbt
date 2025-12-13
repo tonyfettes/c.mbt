@@ -14,9 +14,9 @@
 
 ///|
 test "calloc" {
-  let ptr : @c.Ptr[Int] = @memory.calloc(
+  let ptr : @pointer.Pointer[Int] = @memory.calloc(
     10,
-    @c.sizeof((ignore : (Int) -> Unit)),
+    @pointer.sizeof((ignore : (Int) -> Unit)),
   )
   defer @memory.free(ptr)
   for i in 0UL..<10 {

@@ -39,9 +39,9 @@ test "fetch_add/concurrent" {
     return
   }
   if !@feature.no_threads {
-    let counter : @c.Ptr[Int] = @memory.calloc(
+    let counter : @pointer.Pointer[Int] = @memory.calloc(
       1,
-      @c.sizeof((ignore : (Int) -> Unit)),
+      @pointer.sizeof((ignore : (Int) -> Unit)),
     )
     defer @memory.free(counter)
     counter.store(0)
@@ -65,7 +65,7 @@ test "fetch_add/concurrent" {
       @memory.free(thread)
     })
     for thread in threads {
-      @thrd.join(thread, @c.Ptr::null()) |> ignore()
+      @thrd.join(thread, @pointer.Pointer::null()) |> ignore()
     }
     println(counter.load())
     @json.inspect(
@@ -91,7 +91,7 @@ test "fetch_add/concurrent" {
       |> ignore()
     }
     for i in 0..<n_threads {
-      @thrd.join(threads[i], @c.Ptr::null()) |> ignore()
+      @thrd.join(threads[i], @pointer.Pointer::null()) |> ignore()
     }
     @json.inspect(@atomic.load(atomic_counter), content=10000)
   }

@@ -2,7 +2,8 @@
 package "tonyfettes/c/stdlib"
 
 import(
-  "tonyfettes/c"
+  "tonyfettes/c/pointer"
+  "tonyfettes/c/string"
 )
 
 // Values
@@ -10,19 +11,19 @@ pub fn atexit(FuncRef[() -> Unit]) -> Int
 
 pub fn[T] exit(Int) -> T
 
-pub fn[T : @c.ToPtr] free(T) -> Unit
+pub fn[T : @pointer.IntoPtr] free(T) -> Unit
 
-pub fn[T : @c.BytesLike] getenv(T) -> @c.Ptr[Byte]
+pub fn[T : @string.Borrow] getenv(T) -> @pointer.Ptr[Byte]
 
-pub fn[T] malloc(UInt64) -> @c.Ptr[T]
+pub fn[T] malloc(UInt64) -> @pointer.Ptr[T]
 
-pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy(Dst, Src, UInt64) -> Unit
+pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 
-pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy_from_bytes(Dst, Src, UInt64) -> Unit
+pub fn[Dst, Src] memcpy_from_bytes(Dst, Src, UInt64) -> Unit
 
-pub fn[Dst : @c.BytesLike, Src : @c.BytesLike] memcpy_to_bytes(Dst, Src, UInt64) -> Unit
+pub fn[Dst, Src] memcpy_to_bytes(Dst, Src, UInt64) -> Unit
 
-pub fn[T : @c.BytesLike] system(T) -> Int
+pub fn[T : @string.Borrow] system(T) -> Int
 
 // Errors
 

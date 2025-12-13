@@ -13,9 +13,10 @@
 // limitations under the License.
 
 ///|
-pub(all) struct Thrd(@c.Ptr[Unit])
+pub(all) struct Thrd(@pointer.Pointer[Unit])
 
-pub impl @c.ToPtr for Thrd with to_ptr(self : Thrd) -> @c.Ptr[Unit] {
+///|
+pub impl @pointer.IntoPtr for Thrd with into_ptr(self : Thrd) -> @pointer.Pointer[Unit] {
   self.0
 }
 

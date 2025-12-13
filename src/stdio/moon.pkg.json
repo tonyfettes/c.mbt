@@ -8,14 +8,11 @@
     "getchar.mbt": ["native", "llvm"],
     "stdio.mbt": ["native", "llvm"]
   },
-  "import": ["tonyfettes/c", "tonyfettes/c/errno"],
-  "native-stub": [
-    "stdio.c",
-    "fopen.c",
-    "fread.c",
-    "fwrite.c"
+  "import": [
+    "tonyfettes/c/errno",
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/string"
   ],
-  "test-import": [
-    "tonyfettes/c/memory"
-  ]
+  "native-stub": ["stdio.c", "fopen.c", "fread.c", "fwrite.c"],
+  "test-import": ["tonyfettes/c/memory"]
 }

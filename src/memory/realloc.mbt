@@ -13,9 +13,12 @@
 // limitations under the License.
 
 ///|
-extern "c" fn memory_realloc(ptr : @c.Ptr[Unit], size : UInt64) -> @c.Ptr[Unit] = "moonbit_tonyfettes_c_memory_realloc"
+extern "c" fn memory_realloc(
+  ptr : @pointer.Pointer[Unit],
+  size : UInt64,
+) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_realloc"
 
 ///|
-pub fn[T] realloc(ptr : @c.Ptr[T], size : UInt64) -> @c.Ptr[T] {
+pub fn[T] realloc(ptr : @pointer.Pointer[T], size : UInt64) -> @pointer.Pointer[T] {
   memory_realloc(ptr.cast(), size).cast()
 }

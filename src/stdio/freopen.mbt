@@ -14,18 +14,18 @@
 
 ///|
 extern "c" fn c_freopen(
-  path : @c.Ptr[Byte],
-  mode : @c.Ptr[Byte],
+  path : @pointer.Pointer[Byte],
+  mode : @pointer.Pointer[Byte],
   stream : FILE,
 ) -> FILE = "freopen"
 
 ///|
-pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(
+pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(
   path : Path,
   mode : Mode,
   stream : FILE,
 ) -> FILE raise @errno.Errno {
-  let file = @c.borrow_bytes_2(path, mode, (path, mode) => c_freopen(
+  let file = @string.borrow_2(path, mode, (path, mode) => c_freopen(
     path, mode, stream,
   ))
   if file.is_null() {

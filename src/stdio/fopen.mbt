@@ -14,14 +14,17 @@
 
 ///|
 #borrow(path, mode)
-extern "c" fn c_fopen(path : @c.Ptr[Byte], mode : @c.Ptr[Byte]) -> FILE = "moonbit_tonyfettes_c_stdio_fopen"
+extern "c" fn c_fopen(
+  path : @pointer.Pointer[Byte],
+  mode : @pointer.Pointer[Byte],
+) -> FILE = "moonbit_tonyfettes_c_stdio_fopen"
 
 ///|
-pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] fopen(
+pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(
   path : Path,
   mode : Mode,
 ) -> FILE raise @errno.Errno {
-  let file = @c.borrow_bytes_2(path, mode, (path, mode) => c_fopen(path, mode))
+  let file = @string.borrow_2(path, mode, (path, mode) => c_fopen(path, mode))
   if file.is_null() {
     raise @errno.Errno(@errno.get())
   } else {

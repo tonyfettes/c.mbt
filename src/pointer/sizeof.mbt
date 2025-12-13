@@ -13,10 +13,8 @@
 // limitations under the License.
 
 ///|
-#borrow(data)
-extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : FILE) -> Int = "fputs"
-
-///|
-pub fn[Data : @string.Borrow] fputs(data : Data, stream : FILE) -> Int {
-  @string.borrow(data, data => c_fputs(data, stream))
+pub fn[T] sizeof(_ : (T) -> Unit) -> UInt64 {
+  let ptr : Ptr[T] = Ptr::null()
+  let array = array_offset(move_into_array(ptr), 1)
+  take_from_array(array).byte_offset_from(ptr).reinterpret_as_uint64()
 }

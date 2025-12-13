@@ -1,0 +1,8 @@
+{
+  "native-stub": [
+    "pointer.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/memory"
+  ]
+}

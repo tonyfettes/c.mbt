@@ -2,10 +2,6 @@
   "targets": {
     "errno.mbt": ["native", "llvm"]
   },
-  "native-stub": [
-    "errno.c"
-  ],
-  "import": [
-    "tonyfettes/c"
-  ]
+  "native-stub": ["errno.c"],
+  "import": ["tonyfettes/c/pointer"]
 }

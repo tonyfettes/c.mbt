@@ -14,12 +14,16 @@
 
 ///|
 extern "c" fn memory_memset(
-  dst : @c.Ptr[Byte],
+  dst : @pointer.Pointer[Unit],
   val : Byte,
   len : UInt64,
 ) -> Unit = "moonbit_tonyfettes_c_memory_memset"
 
 ///|
-pub fn[Dst : @c.BytesLike] memset(dst : Dst, val : Byte, len : UInt64) -> Unit {
-  @c.borrow_bytes(dst, dst => memory_memset(dst, val, len))
+pub fn[Dst] memset(
+  dst : Dst,
+  val : Byte,
+  len : UInt64,
+) -> Unit {
+  @pointer.unsafe_borrow(dst, dst => memory_memset(dst, val, len))
 }

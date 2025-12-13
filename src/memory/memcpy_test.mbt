@@ -15,7 +15,7 @@
 ///|
 test "memcpy_from_bytes" {
   let bytes : Bytes = Bytes::makei(8, i => i.to_byte())
-  let ptr : @c.Ptr[Byte] = @memory.malloc(8)
+  let ptr : @pointer.Pointer[Byte] = @memory.malloc(8)
   defer @memory.free(ptr)
   @memory.memcpy_from_bytes(ptr, bytes, 8)
   @json.inspect(ptr[0], content=0)
@@ -31,7 +31,7 @@ test "memcpy_from_bytes" {
 ///|
 test "memcpy_to_bytes" {
   let bytes = Bytes::make(8, 0)
-  let ptr : @c.Ptr[Byte] = @memory.malloc(8)
+  let ptr : @pointer.Pointer[Byte] = @memory.malloc(8)
   defer @memory.free(ptr)
   ptr[0] = 0
   ptr[1] = 1

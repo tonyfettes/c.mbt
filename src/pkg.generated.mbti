@@ -2,79 +2,12 @@
 package "tonyfettes/c"
 
 // Values
-pub fn[T] borrow_array(FixedArray[T]) -> Ptr[T]
-
-pub fn[T : BytesLike, R] borrow_bytes(T, (Ptr[Byte]) -> R) -> R
-
-pub fn[A : BytesLike, B : BytesLike, R] borrow_bytes_2(A, B, (Ptr[Byte], Ptr[Byte]) -> R) -> R
-
-pub fn[A : BytesLike, R] borrow_bytes_n(FixedArray[A], (FixedArray[Ptr[Byte]]) -> R) -> R
-
-pub fn[T] borrow_ref(Ref[T]) -> Ptr[T]
-
-pub fn[T : Decref] decref(T) -> Unit
-
-pub let null : Ptr[Unit]
-
-pub fn[T] return_array(Ptr[T]) -> FixedArray[T]
-
-pub fn[T] return_ref(Ptr[T]) -> Ref[T]
-
-pub fn[T] sizeof((T) -> Unit) -> UInt64
-
-pub fn[T] unsafe_borrow(T) -> Ptr[Unit]
-
-pub fn[T] unsafe_return(Ptr[Unit]) -> T
-
-pub fn[T, R] with_array_borrowed(FixedArray[T], (Ptr[T]) -> R) -> R
-
-pub fn[T, R] with_ref_borrowed(Ref[T], (Ptr[T]) -> R) -> R
-
-pub fn[T, R] with_unsafe_borrowed(T, (Ptr[Unit]) -> R) -> R
 
 // Errors
 
 // Types and methods
-#alias(Pointer)
-#external
-pub type Ptr[_]
-pub fn[T] Ptr::add(Self[T], UInt64) -> Self[T]
-pub fn[T] Ptr::byte_offset_from(Self[T], Self[T]) -> Int64
-pub fn[T, U] Ptr::cast(Self[T]) -> Self[U]
-pub fn[T] Ptr::is_not_null(Self[T]) -> Bool
-pub fn[T] Ptr::is_null(Self[T]) -> Bool
-pub fn[T] Ptr::load(Self[T]) -> T
-pub fn[T] Ptr::null() -> Self[T]
-pub fn[T] Ptr::offset(Self[T], Int64) -> Self[T]
-pub fn[T] Ptr::offset_from(Self[T], Self[T]) -> Int64
-pub fn[T] Ptr::op_get(Self[T], UInt64) -> T
-pub fn[T] Ptr::op_set(Self[T], UInt64, T) -> Unit
-pub fn Ptr::sizeof() -> UInt64
-pub fn[T] Ptr::store(Self[T], T) -> Unit
-pub fn[T] Ptr::sub(Self[T], UInt64) -> Self[T]
-pub fn[T] Ptr::to_uint64(Self[T]) -> UInt64
-pub impl[T] Compare for Ptr[T]
-pub impl[T] Eq for Ptr[T]
-pub impl BytesLike for Ptr[Byte]
-pub impl[T] FromPtr for Ptr[T]
-pub impl[T] ToPtr for Ptr[T]
 
 // Type aliases
 
 // Traits
-trait BytesLike
-pub impl BytesLike for FixedArray[Byte]
-pub impl BytesLike for Bytes
-
-trait Decref
-pub impl[T] Decref for FixedArray[T]
-pub impl Decref for Bytes
-
-pub(open) trait FromPtr {
-  from_ptr(Ptr[Unit]) -> Self
-}
-
-pub(open) trait ToPtr {
-  to_ptr(Self) -> Ptr[Unit]
-}
 

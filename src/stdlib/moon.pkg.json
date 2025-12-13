@@ -2,6 +2,7 @@
   "import": [
     "tonyfettes/c/exit",
     "tonyfettes/c/memory",
-    "tonyfettes/c"
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/string"
   ]
 }

@@ -13,8 +13,4 @@
 // limitations under the License.
 
 ///|
-pub fn[T] sizeof(_ : (T) -> Unit) -> UInt64 {
-  let ptr : Ptr[T] = Ptr::null()
-  let array = array_offset(return_array(ptr), 1)
-  borrow_array(array).byte_offset_from(ptr).reinterpret_as_uint64()
-}
+pub type String = @pointer.Pointer[Byte]

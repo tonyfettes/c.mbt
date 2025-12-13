@@ -8,8 +8,5 @@
     "malloc.mbt": ["native", "llvm"],
     "memcpy.mbt": ["native", "llvm"]
   },
-  "native-stub": ["c.c", "pointer.c"],
-  "test-import": [
-    "tonyfettes/c/memory"
-  ]
+  "native-stub": ["c.c", "pointer.c"]
 }

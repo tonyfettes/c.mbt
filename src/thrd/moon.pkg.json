@@ -1,10 +1,4 @@
 {
-  "import": [
-    "tonyfettes/c"
-  ],
-  "native-stub": [
-    "create.c",
-    "join.c",
-    "thrd.c"
-  ]
+  "import": ["tonyfettes/c/pointer"],
+  "native-stub": ["create.c", "join.c", "thrd.c"]
 }

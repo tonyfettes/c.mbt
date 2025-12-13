@@ -2,17 +2,26 @@
 package "tonyfettes/c/string"
 
 import(
-  "tonyfettes/c"
+  "tonyfettes/c/pointer"
 )
 
 // Values
-pub fn[Str : @c.BytesLike] strlen(Str) -> UInt64
+pub fn[T : Borrow, R] borrow(T, (@pointer.Ptr[Byte]) -> R) -> R
+
+pub fn[A : Borrow, B : Borrow, R] borrow_2(A, B, (@pointer.Ptr[Byte], @pointer.Ptr[Byte]) -> R) -> R
+
+pub fn[Str : Borrow] strlen(Str) -> UInt64
 
 // Errors
 
 // Types and methods
 
 // Type aliases
+pub type String = @pointer.Ptr[Byte]
 
 // Traits
+trait Borrow
+pub impl Borrow for FixedArray[Byte]
+pub impl Borrow for Bytes
+pub impl Borrow for @pointer.Ptr[Byte]
 

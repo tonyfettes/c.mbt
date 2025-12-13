@@ -23,13 +23,13 @@ test "freopen" {
   @stdio.fclose(file)
   let file = @stdio.fopen(path, b"r")
   let buf : FixedArray[Byte] = FixedArray::make(1024, 0)
-  let n = @stdio.fread(buf, 1024, file)
+  let n = @stdio.fread(buf, 1, 1024, file)
   @json.inspect(
     @encoding/utf8.decode(buf.unsafe_reinterpret_as_bytes()[0:n.to_int()]),
     content="",
   )
   let redirect_file = @stdio.fopen(redirect_path, b"r")
-  let n = @stdio.fread(buf, 1024, redirect_file)
+  let n = @stdio.fread(buf, 1, 1024, redirect_file)
   @json.inspect(
     @encoding/utf8.decode(buf.unsafe_reinterpret_as_bytes()[0:n.to_int()]),
     content="Hello, freopen!\n",

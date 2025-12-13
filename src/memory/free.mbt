@@ -13,9 +13,9 @@
 // limitations under the License.
 
 ///|
-extern "c" fn memory_free(ptr : @c.Ptr[Unit]) = "moonbit_tonyfettes_c_memory_free"
+extern "c" fn memory_free(ptr : @pointer.Pointer[Unit]) = "moonbit_tonyfettes_c_memory_free"
 
 ///|
-pub fn[T : @c.ToPtr] free(ptr : T) -> Unit {
-  memory_free(ptr.to_ptr())
+pub fn[T : @pointer.IntoPtr] free(ptr : T) -> Unit {
+  memory_free(ptr.into_ptr())
 }

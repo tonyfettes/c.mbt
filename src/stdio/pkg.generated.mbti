@@ -2,8 +2,9 @@
 package "tonyfettes/c/stdio"
 
 import(
-  "tonyfettes/c"
   "tonyfettes/c/errno"
+  "tonyfettes/c/pointer"
+  "tonyfettes/c/string"
 )
 
 // Values
@@ -19,23 +20,23 @@ pub fn fflush(FILE) -> Unit raise @errno.Errno
 
 pub fn fgetc(FILE) -> Int
 
-pub fn[Data : @c.BytesLike] fgets(Data, Int, FILE) -> Data?
+pub fn[Data : @string.Borrow] fgets(Data, Int, FILE) -> Data?
 
-pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] fopen(Path, Mode) -> FILE raise @errno.Errno
+pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(Path, Mode) -> FILE raise @errno.Errno
 
-pub fn[Data : @c.BytesLike] fputs(Data, FILE) -> Int
+pub fn[Data : @string.Borrow] fputs(Data, FILE) -> Int
 
-pub fn[T : Fread] fread(T, UInt64, FILE) -> UInt64
+pub fn[T : @pointer.Borrow] fread(T, UInt64, UInt64, FILE) -> UInt64
 
-pub fn[Path : @c.BytesLike, Mode : @c.BytesLike] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
+pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
 
-pub fn[T : Fwrite] fwrite(T, UInt64, FILE) -> UInt64
+pub fn[T : @pointer.Borrow] fwrite(T, UInt64, UInt64, FILE) -> UInt64
 
 pub fn getchar() -> Int
 
-pub fn[S : @c.BytesLike] perror(S) -> Unit
+pub fn[S : @string.Borrow] perror(S) -> Unit
 
-pub fn[Path : @c.BytesLike] remove(Path) -> Unit raise @errno.Errno
+pub fn[Path : @string.Borrow] remove(Path) -> Unit raise @errno.Errno
 
 pub let stderr : FILE
 
@@ -55,12 +56,4 @@ pub fn FILE::null() -> Self
 // Type aliases
 
 // Traits
-trait Fread
-pub impl[T] Fread for FixedArray[T]
-pub impl[T] Fread for @c.Ptr[T]
-
-trait Fwrite
-pub impl[T] Fwrite for FixedArray[T]
-pub impl Fwrite for Bytes
-pub impl[T] Fwrite for @c.Ptr[T]
 

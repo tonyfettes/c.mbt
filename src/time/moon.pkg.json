@@ -1,5 +1,6 @@
 {
   "import": [
-    "tonyfettes/c"
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/string"
   ]
 }

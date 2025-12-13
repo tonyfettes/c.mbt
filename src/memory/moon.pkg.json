@@ -1,5 +1,7 @@
 {
-  "import": ["tonyfettes/c"],
+  "import": [
+    "tonyfettes/c/pointer"
+  ],
   "native-stub": [
     "calloc.c",
     "free.c",

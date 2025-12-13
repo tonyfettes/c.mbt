@@ -20,7 +20,7 @@ test "perror" {
   @stdio.fflush(@stdio.stderr)
   let file = @stdio.fopen(b"perror_test.txt", b"r")
   let buf : FixedArray[Byte] = FixedArray::make(1024, 0)
-  let n = @stdio.fread(buf, 1024, file)
+  let n = @stdio.fread(buf, 1, 1024, file)
   let output = @encoding/utf8.decode(
     buf.unsafe_reinterpret_as_bytes()[0:n.to_int()],
   )

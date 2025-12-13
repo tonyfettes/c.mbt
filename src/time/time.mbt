@@ -49,20 +49,20 @@ pub extern "c" fn mktime(tm : Tm) -> Time = "moonbit_tonyfettes_c_mktime"
 
 ///|
 extern "c" fn c_strftime(
-  str : @c.Ptr[Byte],
+  str : @pointer.Pointer[Byte],
   len : Int,
-  format : @c.Ptr[Byte],
+  format : @pointer.Pointer[Byte],
   tm : Tm,
 ) -> UInt64 = "moonbit_tonyfettes_c_strftime"
 
 ///|
-pub fn[T : @c.BytesLike, F : @c.BytesLike] strftime(
+pub fn[T : @string.Borrow, F : @string.Borrow] strftime(
   str : T,
   len : Int,
   format : F,
   tm : Tm,
 ) -> UInt64 {
-  @c.borrow_bytes_2(str, format, (str_ptr, format) => c_strftime(
+  @string.borrow_2(str, format, (str_ptr, format) => c_strftime(
     str_ptr, len, format, tm,
   ))
 }

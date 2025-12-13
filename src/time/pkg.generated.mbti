@@ -2,7 +2,7 @@
 package "tonyfettes/c/time"
 
 import(
-  "tonyfettes/c"
+  "tonyfettes/c/string"
 )
 
 // Values
@@ -16,7 +16,7 @@ pub fn localtime(Time) -> Tm
 
 pub fn mktime(Tm) -> Time
 
-pub fn[T : @c.BytesLike, F : @c.BytesLike] strftime(T, Int, F, Tm) -> UInt64
+pub fn[T : @string.Borrow, F : @string.Borrow] strftime(T, Int, F, Tm) -> UInt64
 
 pub fn time() -> Time
 

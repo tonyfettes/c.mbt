@@ -13,9 +13,9 @@
 // limitations under the License.
 
 ///|
-extern "c" fn memory_malloc(size : UInt64) -> @c.Ptr[Unit] = "moonbit_tonyfettes_c_memory_malloc"
+extern "c" fn memory_malloc(size : UInt64) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_malloc"
 
 ///|
-pub fn[T] malloc(size : UInt64) -> @c.Ptr[T] {
+pub fn[T] malloc(size : UInt64) -> @pointer.Pointer[T] {
   memory_malloc(size).cast()
 }

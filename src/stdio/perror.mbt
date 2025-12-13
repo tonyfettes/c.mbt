@@ -13,9 +13,9 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_perror(s : @c.Ptr[Byte]) = "perror"
+extern "c" fn c_perror(s : @pointer.Pointer[Byte]) = "perror"
 
 ///|
-pub fn[S : @c.BytesLike] perror(s : S) -> Unit {
-  @c.borrow_bytes(s, s => c_perror(s))
+pub fn[S : @string.Borrow] perror(s : S) -> Unit {
+  @string.borrow(s, s => c_perror(s))
 }

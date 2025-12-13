@@ -1,7 +1,5 @@
 {
-  "import": [
-    "tonyfettes/c"
-  ],
+  "import": ["tonyfettes/c/pointer"],
   "native-stub": [
     "compare_exchange.c",
     "exchange.c",

@@ -2,7 +2,7 @@
 package "tonyfettes/c/errno"
 
 import(
-  "tonyfettes/c"
+  "tonyfettes/c/pointer"
 )
 
 // Values
@@ -18,7 +18,7 @@ pub fn get() -> Int
 
 pub fn set(Int) -> Unit
 
-pub fn strerror(Int) -> @c.Ptr[Byte]
+pub fn strerror(Int) -> @pointer.Ptr[Byte]
 
 // Errors
 pub(all) suberror Errno Int

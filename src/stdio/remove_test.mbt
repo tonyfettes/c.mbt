@@ -15,7 +15,7 @@
 ///|
 test "remove" {
   let file = @stdio.fopen(b"remove_test.txt", b"w")
-  let _ = @stdio.fwrite(b"Test data", 9, file)
+  let _ = @stdio.fwrite(b"Test data", 1, 9, file)
   @stdio.fclose(file)
   @stdio.remove(b"remove_test.txt")
 }

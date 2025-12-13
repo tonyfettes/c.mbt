@@ -13,6 +13,8 @@
 // limitations under the License.
 
 ///|
-pub impl[T] @c.ToPtr for Atomic[T] with to_ptr(self : Atomic[T]) -> @c.Ptr[Unit] {
+pub impl[T] @pointer.IntoPtr for Atomic[T] with into_ptr(self : Atomic[T]) -> @pointer.Pointer[
+  Unit,
+] {
   self.0.cast()
 }
