@@ -12,14 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-///|
 extern "c" fn c_memcpy(
   dst : @pointer.Pointer[Unit],
   src : @pointer.Pointer[Unit],
   len : UInt64,
 ) -> Unit = "moonbit_tonyfettes_c_memory_memcpy"
 
-///|
+/// Copies memory from source to destination.
+///
+/// This function is a wrapper around the C `memcpy` function. It copies `len`
+/// bytes from the memory area `src` to the memory area `dst`. The memory areas
+/// must not overlap (use `memmove` for overlapping regions).
+///
+/// Parameters:
+/// - `dst`: The destination memory location
+/// - `src`: The source memory location
+/// - `len`: The number of bytes to copy
+///
+/// **Note**: If the memory regions overlap, the behavior is undefined. Both
+/// `dst` and `src` must be valid memory locations with at least `len` bytes accessible.
 #alias(memcpy_to_bytes)
 #alias(memcpy_from_bytes)
 #alias(copy)

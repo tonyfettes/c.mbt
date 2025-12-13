@@ -12,10 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-///|
 extern "c" fn memory_free(ptr : @pointer.Pointer[Unit]) = "moonbit_tonyfettes_c_memory_free"
 
-///|
+/// Frees previously allocated memory.
+///
+/// This function is a wrapper around the C `free` function. It deallocates
+/// the memory block pointed to by `ptr`, which must have been previously
+/// allocated by `malloc`, `calloc`, or `realloc`.
+///
+/// Parameters:
+/// - `ptr`: A pointer to the memory block to free
+///
+/// **Note**: After calling `free`, the pointer becomes invalid and should not be used.
+/// Freeing a null pointer is safe and does nothing. Freeing the same pointer twice
+/// or freeing a pointer not returned by allocation functions leads to undefined behavior.
 pub fn[T] free(ptr : @pointer.Pointer[T]) -> Unit {
   memory_free(ptr.cast())
 }

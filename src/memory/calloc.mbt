@@ -12,13 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-///|
 extern "c" fn memory_calloc(
   n : UInt64,
   size : UInt64,
 ) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_calloc"
 
-///|
+/// Allocates and zeroes memory on the heap.
+///
+/// This function is a wrapper around the C `calloc` function. It allocates
+/// memory for an array of `n` elements, each of `size` bytes, and initializes
+/// all bytes to zero.
+///
+/// Parameters:
+/// - `n`: The number of elements to allocate
+/// - `size`: The size of each element in bytes
+///
+/// Returns a pointer to the allocated and zeroed memory, or a null pointer if allocation fails.
+///
+/// **Note**: The caller is responsible for freeing the allocated memory using `free`.
 pub fn[T] calloc(n : UInt64, size : UInt64) -> @pointer.Pointer[T] {
   memory_calloc(n, size).cast()
 }

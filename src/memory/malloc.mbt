@@ -12,10 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-///|
 extern "c" fn memory_malloc(size : UInt64) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_malloc"
 
-///|
+/// Allocates memory on the heap.
+///
+/// This function is a wrapper around the C `malloc` function. It allocates
+/// a block of memory of the specified size and returns a pointer to it.
+/// The memory is not initialized.
+///
+/// Parameters:
+/// - `size`: The number of bytes to allocate
+///
+/// Returns a pointer to the allocated memory, or a null pointer if allocation fails.
+///
+/// **Note**: The caller is responsible for freeing the allocated memory using `free`.
 pub fn[T] malloc(size : UInt64) -> @pointer.Pointer[T] {
   memory_malloc(size).cast()
 }
