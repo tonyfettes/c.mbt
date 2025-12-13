@@ -111,15 +111,11 @@ pub impl[T] Compare for Pointer[T] with compare(
 }
 
 ///|
-extern "c" fn sizeof_pointer() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
-
-///|
 /// Returns the size of a pointer in bytes.
 ///
 /// On most platforms, this returns 8 for 64-bit systems or 4 for 32-bit systems.
-pub fn Pointer::sizeof() -> UInt64 {
-  sizeof_pointer()
-}
+#as_free_fn
+pub extern "c" fn Pointer::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
 
 ///|
 /// Adds an offset to a pointer and returns a new pointer.
@@ -237,10 +233,7 @@ pub fn[T] Pointer::op_set(self : Pointer[T], index : UInt64, value : T) -> Unit 
 ///
 /// Returns the value stored at this memory location.
 pub fn[T] Pointer::load(self : Pointer[T]) -> T {
-  let ref_ : Ref[T] = move_into_ref(self)
-  let value = ref_.val
-  ignore(take_from_ref(ref_))
-  value
+  self[0]
 }
 
 ///|
@@ -251,9 +244,7 @@ pub fn[T] Pointer::load(self : Pointer[T]) -> T {
 /// Parameters:
 /// - `value`: The value to store
 pub fn[T] Pointer::store(self : Pointer[T], value : T) -> Unit {
-  let ref_ : Ref[T] = move_into_ref(self)
-  ref_.val = value
-  ignore(take_from_ref(ref_))
+  self[0] = value
 }
 
 ///|

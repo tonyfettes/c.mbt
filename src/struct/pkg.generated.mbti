@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/type"
+
+// Values
+pub let byte : Type
+
+pub let double : Type
+
+pub let float : Type
+
+pub let int : Type
+
+pub let int16 : Type
+
+pub let int64 : Type
+
+pub let pointer : Type
+
+pub let uint : Type
+
+pub let uint16 : Type
+
+pub let uint64 : Type
+
+// Errors
+
+// Types and methods
+type Field
+pub fn Field::offset(Self) -> UInt64
+pub impl ToJson for Field
+
+type Struct
+pub fn Struct::field(Self, Type) -> Field
+pub fn Struct::finish(Self) -> Type
+pub fn Struct::new() -> Self
+
+type Type
+pub fn Type::align(Self) -> UInt64
+pub fn Type::new(size~ : UInt64, align~ : UInt64) -> Self
+pub fn Type::size(Self) -> UInt64
+pub impl Show for Type
+pub impl ToJson for Type
+
+// Type aliases
+
+// Traits
+

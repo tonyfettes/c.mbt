@@ -1,0 +1,10 @@
+{
+  "import": [
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/sizeof",
+    "tonyfettes/c/alignof"
+  ],
+  "test-import": [
+    "tonyfettes/c/memory"
+  ]
+}

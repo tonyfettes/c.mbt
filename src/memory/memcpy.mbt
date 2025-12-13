@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 extern "c" fn c_memcpy(
   dst : @pointer.Pointer[Unit],
   src : @pointer.Pointer[Unit],
   len : UInt64,
 ) -> Unit = "moonbit_tonyfettes_c_memory_memcpy"
 
+///|
 /// Copies memory from source to destination.
 ///
 /// This function is a wrapper around the C `memcpy` function. It copies `len`

@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 extern "c" fn memory_malloc(size : UInt64) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_malloc"
 
+///|
 /// Allocates memory on the heap.
 ///
 /// This function is a wrapper around the C `malloc` function. It allocates

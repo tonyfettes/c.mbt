@@ -16,8 +16,6 @@ pub fn move_into_bytes(Pointer[Byte]) -> Bytes
 
 pub fn[T] move_into_ref(Pointer[T]) -> Ref[T]
 
-pub let null : Pointer[Unit]
-
 pub fn[T] take_from_array(FixedArray[T]) -> Pointer[T]
 
 pub fn take_from_bytes(Bytes) -> Pointer[Byte]
@@ -41,9 +39,12 @@ pub type Pointer[_]
 pub fn[T] Pointer::byte_offset(Self[T], Int64) -> Self[T]
 pub fn[T] Pointer::byte_offset_from(Self[T], Self[T]) -> Int64
 pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
+pub fn[T] Pointer::cast_to_byte(Self[T]) -> Self[Byte]
+pub fn[T] Pointer::cast_to_unit(Self[T]) -> Self[Unit]
 pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
 pub fn[T] Pointer::load(Self[T]) -> T
+#as_free_fn
 pub fn[T] Pointer::null() -> Self[T]
 pub fn[T] Pointer::offset(Self[T], Int64) -> Self[T]
 pub fn[T] Pointer::offset_from(Self[T], Self[T]) -> Int64
@@ -55,6 +56,7 @@ pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 pub impl[T] Compare for Pointer[T]
 pub impl[T] Eq for Pointer[T]
 pub impl[T] Borrow for Pointer[T]
+pub impl[T] Store for Pointer[T]
 
 // Type aliases
 
@@ -69,6 +71,19 @@ pub impl Borrow for Bytes
 pub(open) trait MoveInto {
   move_into(Pointer[Unit]) -> Self
 }
+
+pub(open) trait Store {
+  store(Pointer[Self], Self) -> Unit
+}
+pub impl Store for Byte
+pub impl Store for Int
+pub impl Store for Int16
+pub impl Store for Int64
+pub impl Store for UInt
+pub impl Store for UInt16
+pub impl Store for UInt64
+pub impl Store for Float
+pub impl Store for Double
 
 pub(open) trait TakeFrom {
   take_from(Self) -> Pointer[Unit]

@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 extern "c" fn memory_realloc(
   ptr : @pointer.Pointer[Unit],
   size : UInt64,
 ) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_realloc"
 
+///|
 /// Reallocates a previously allocated memory block.
 ///
 /// This function is a wrapper around the C `realloc` function. It changes the

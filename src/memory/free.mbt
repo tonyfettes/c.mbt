@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 extern "c" fn memory_free(ptr : @pointer.Pointer[Unit]) = "moonbit_tonyfettes_c_memory_free"
 
+///|
 /// Frees previously allocated memory.
 ///
 /// This function is a wrapper around the C `free` function. It deallocates

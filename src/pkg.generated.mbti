@@ -27,9 +27,9 @@ pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 
 pub fn[Dst] memset(Dst, Byte, UInt64) -> Unit
 
-pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
+pub fn[T] null() -> @pointer.Pointer[T]
 
-pub fn[T] sizeof((T) -> Unit) -> UInt64
+pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
 
 pub fn[Str : @string.Borrow] strlen(Str) -> UInt64
 

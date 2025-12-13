@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 extern "c" fn memory_calloc(
   n : UInt64,
   size : UInt64,
 ) -> @pointer.Pointer[Unit] = "moonbit_tonyfettes_c_memory_calloc"
 
+///|
 /// Allocates and zeroes memory on the heap.
 ///
 /// This function is a wrapper around the C `calloc` function. It allocates

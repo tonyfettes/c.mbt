@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 extern "c" fn memory_memset(
   dst : @pointer.Pointer[Unit],
   val : Byte,
   len : UInt64,
 ) -> Unit = "moonbit_tonyfettes_c_memory_memset"
 
+///|
 /// Fills a memory block with a constant byte value.
 ///
 /// This function is a wrapper around the C `memset` function. It fills the first

@@ -13,15 +13,14 @@
 // limitations under the License.
 
 ///|
-pub(all) struct Thrd(@pointer.Pointer[Unit])
-
-///|
-pub fn Thrd::to_pointer(self : Thrd) -> @pointer.Pointer[Unit] {
-  self.0
-}
+#external
+type Thrd
 
 ///|
 pub extern "c" fn Thrd::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd"
+
+///|
+pub extern "c" fn Thrd::alignof() -> UInt64 = "moonbit_tonyfettes_c_alignof_thrd"
 
 ///|
 extern "c" fn thrd_success() -> Int = "moonbit_tonyfettes_c_thrd_success"

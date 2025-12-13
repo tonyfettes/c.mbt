@@ -2,6 +2,10 @@
 package "tonyfettes/c/sizeof"
 
 // Values
+pub const Byte : UInt64 = 1
+
+pub const Int : UInt64 = 4
+
 pub fn[T] sizeof((T) -> Unit) -> UInt64
 
 // Errors
@@ -9,7 +13,6 @@ pub fn[T] sizeof((T) -> Unit) -> UInt64
 // Types and methods
 
 // Type aliases
-pub type Sizeof[T] = ((T) -> Unit) -> UInt64
 
 // Traits
 

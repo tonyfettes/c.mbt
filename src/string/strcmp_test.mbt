@@ -20,4 +20,12 @@ test "strcmp" {
   assert_true(strcmp(a, b) < 0)
   assert_true(strcmp(b, a) > 0)
   assert_true(strcmp(a, c) == 0)
+  let d : @pointer.Pointer[Byte] = @memory.malloc(
+    @sizeof.Byte * a.length().to_uint64(),
+  )
+  defer @memory.free(d)
+  @memory.copy(d, a, a.length().to_uint64())
+  assert_true(strcmp(d, a) == 0)
+  assert_true(strcmp(d, b) < 0)
+  assert_true(strcmp(d, c) == 0)
 }

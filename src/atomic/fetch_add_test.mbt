@@ -39,17 +39,16 @@ test "fetch_add/concurrent" {
     return
   }
   if !@feature.no_threads {
-    let counter : @pointer.Pointer[Int] = @memory.calloc(
-      1,
-      @sizeof.sizeof((_ : Int) => ()),
-    )
+    let counter : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
     defer @memory.free(counter)
     counter.store(0)
-    let n_threads = NThreads
-    let threads : FixedArray[@thrd.Thrd] = FixedArray::makei(n_threads, _ => {
-      let thread : @thrd.Thrd = @memory.calloc(1, @thrd.Thrd::sizeof())
+    let threads : @pointer.Pointer[@thrd.Thrd] = @memory.calloc(
+      NThreads.to_uint64(),
+      @thrd.Thrd::sizeof(),
+    )
+    for i in 0..<NThreads {
       @thrd.create(
-        thread,
+        threads.offset(i.to_int64()),
         counter => {
           for _ in 0..<NIncrementsPerThread {
             counter.store(counter.load() + 1)
@@ -59,13 +58,11 @@ test "fetch_add/concurrent" {
         counter,
       )
       |> ignore()
-      thread
-    })
-    defer (for thread in threads {
-      @memory.free(thread.to_pointer())
-    })
-    for thread in threads {
-      @thrd.join(thread, @pointer.Pointer::null()) |> ignore()
+    }
+    defer @memory.free(threads)
+    for i in 0..<NThreads {
+      @thrd.join(threads.offset(i.to_int64()), @pointer.Pointer::null())
+      |> ignore()
     }
     println(counter.load())
     @json.inspect(
@@ -77,9 +74,9 @@ test "fetch_add/concurrent" {
       @atomic.sizeof((_ : Int) => ()),
     )
     @atomic.init_(atomic_counter, 0)
-    for thread in threads {
+    for i in 0..<NThreads {
       @thrd.create(
-        thread,
+        threads.offset(i.to_int64()),
         atomic_counter => {
           for _ in 0..<NIncrementsPerThread {
             @atomic.fetch_add(atomic_counter, 1) |> ignore()
@@ -90,8 +87,9 @@ test "fetch_add/concurrent" {
       )
       |> ignore()
     }
-    for i in 0..<n_threads {
-      @thrd.join(threads[i], @pointer.Pointer::null()) |> ignore()
+    for i in 0..<NThreads {
+      @thrd.join(threads.offset(i.to_int64()), @pointer.Pointer::null())
+      |> ignore()
     }
     @json.inspect(@atomic.load(atomic_counter), content=10000)
   }

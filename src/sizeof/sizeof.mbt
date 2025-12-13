@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+///|
 fn[T] array_offset(array : FixedArray[T], offset : Int64) -> FixedArray[T] = "%i64_add"
 
+///|
 /// Computes the size of a type in bytes.
 ///
 /// This function calculates the size of type `T` by using pointer arithmetic.
@@ -34,8 +36,79 @@ pub fn[T] sizeof(_ : (T) -> Unit) -> UInt64 {
   @pointer.take_from_array(array).byte_offset_from(ptr).reinterpret_as_uint64()
 }
 
-/// A type alias for the sizeof function signature.
-///
-/// This represents a function that takes a function type `(T) -> Unit` and
-/// returns the size of type `T` in bytes.
-pub type Sizeof[T] = ((T) -> Unit) -> UInt64
+///|
+pub const Byte = 1UL
+
+///|
+pub const Int16 = 2UL
+
+///|
+pub const UInt16 = 2UL
+
+///|
+pub const Int = 4UL
+
+///|
+pub const UInt = 4UL
+
+///|
+pub const Int64 = 8UL
+
+///|
+pub const UInt64 = 8UL
+
+///|
+pub const Float = 4UL
+
+///|
+pub const Double = 8UL
+
+///|
+pub(open) trait Sized {
+  size() -> UInt64
+}
+
+///|
+pub impl Sized for Byte with size() -> UInt64 {
+  1UL
+}
+
+///|
+pub impl Sized for Int16 with size() -> UInt64 {
+  2UL
+}
+
+///|
+pub impl Sized for UInt16 with size() -> UInt64 {
+  2UL
+}
+
+///|
+pub impl Sized for Int with size() -> UInt64 {
+  4UL
+}
+
+///|
+pub impl Sized for UInt with size() -> UInt64 {
+  4UL
+}
+
+///|
+pub impl Sized for Int64 with size() -> UInt64 {
+  8UL
+}
+
+///|
+pub impl Sized for UInt64 with size() -> UInt64 {
+  8UL
+}
+
+///|
+pub impl Sized for Float with size() -> UInt64 {
+  4UL
+}
+
+///|
+pub impl Sized for Double with size() -> UInt64 {
+  8UL
+}
