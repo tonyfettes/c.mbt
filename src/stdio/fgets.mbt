@@ -17,7 +17,7 @@ extern "c" fn c_fgets(
   data : @pointer.Pointer[Byte],
   size : Int,
   stream : File,
-) -> @pointer.Pointer[Byte] = "fgets"
+) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_stdio_fgets"
 
 ///|
 pub fn[Data : @string.Borrow] fgets(

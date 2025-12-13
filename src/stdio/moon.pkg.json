@@ -13,6 +13,6 @@
     "tonyfettes/c/pointer",
     "tonyfettes/c/string"
   ],
-  "native-stub": ["stdio.c", "fopen.c", "fread.c", "fwrite.c"],
+  "native-stub": ["stdio.c", "fopen.c", "fgets.c", "fread.c", "fwrite.c"],
   "test-import": ["tonyfettes/c/memory"]
 }
