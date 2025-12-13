@@ -13,6 +13,8 @@ pub using @memory {malloc, free, realloc, calloc, memcpy, memset}
 ///|
 pub type Ptr[T] = @pointer.Pointer[T]
 
+pub using @pointer {null}
+
 ///|
 pub using @stdlib {getenv, system}
 

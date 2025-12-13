@@ -33,12 +33,23 @@ pub type Pointer[_]
 pub fn[T, U] Pointer::cast(self : Pointer[T]) -> Pointer[U] = "%identity"
 
 ///|
+pub fn[T] Pointer::cast_to_unit(self : Pointer[T]) -> Pointer[Unit] {
+  self.cast()
+}
+
+///|
+pub fn[T] Pointer::cast_to_byte(self : Pointer[T]) -> Pointer[Byte] {
+  self.cast()
+}
+
+///|
 extern "c" fn pointer_null() -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_null"
 
 ///|
 /// Creates a null pointer of type `T`.
 ///
 /// Returns a null pointer that points to no valid memory location.
+#as_free_fn
 pub fn[T] Pointer::null() -> Pointer[T] {
   pointer_null().cast()
 }
