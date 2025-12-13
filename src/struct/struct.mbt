@@ -10,107 +10,103 @@ pub fn Layout::new() -> Layout {
 }
 
 ///|
-struct Field(UInt64)
+struct ArrayField[_](UInt64, UInt64)
 
 ///|
-pub impl ToJson for Field with to_json(self : Field) -> Json {
+pub fn[T] ArrayField::offset(self : ArrayField[T]) -> UInt64 {
+  self.0
+}
+
+///|
+pub fn[T] ArrayField::length(self : ArrayField[T]) -> UInt64 {
+  self.1
+}
+
+///|
+pub fn[T : @sizeof.Sized] ArrayField::sizeof(self : ArrayField[T]) -> UInt64 {
+  self.1 * T::size()
+}
+
+///|
+struct Field[_](UInt64)
+
+///|
+pub impl[T] ToJson for Field[T] with to_json(self : Field[T]) -> Json {
   { "offset": self.0 }
 }
 
 ///|
-pub fn Field::offset(self : Field) -> UInt64 {
+pub fn[T] Field::offset(self : Field[T]) -> UInt64 {
   self.0
 }
 
 ///|
 /// Adds a field to the struct being built, returning its offset.
-pub fn Layout::field(self : Layout, field : Type) -> Field {
+pub fn[T : Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Field[T] {
   // Save current offset
   let offset = self.offset
-  let field_align = field.align
+  let align = T::alignment()
   // Update struct alignment
-  if field_align > self.align {
-    self.align = field_align
+  if align > self.align {
+    self.align = align
   }
   // Update offset
-  self.offset = (self.offset + field_align - 1) / field_align * field_align +
-    field.size
+  self.offset = (self.offset + align - 1) / align * align + T::size()
   // Return field offset
   Field(offset)
 }
 
 ///|
-pub fn Layout::finish(self : Layout) -> Type {
-  let size = (self.offset + self.align - 1) / self.align * self.align
-  Type::{ size, align: self.align }
-}
-
-///|
-struct Reader {
-  mut pointer : @pointer.Pointer[Byte]
-}
-
-///|
-pub fn Reader::new(pointer : @pointer.Pointer[Byte]) -> Reader {
-  Reader::{ pointer, }
-}
-
-///|
-fn align_above(
-  pointer : @pointer.Pointer[Byte],
-  alignment : UInt64,
-) -> @pointer.Pointer[Byte] {
-  let address : UInt64 = pointer.to_uint64()
-  let remainder = address % alignment
-  if remainder == 0 {
-    return pointer
+pub fn[T : Aligned + @sizeof.Sized] Layout::array_field(
+  self : Layout,
+  length : UInt64,
+) -> ArrayField[T] {
+  // Save current offset
+  let offset = self.offset
+  let align = T::alignment()
+  // Update struct alignment
+  if align > self.align {
+    self.align = align
   }
-  pointer.offset(
-    alignment.reinterpret_as_int64() - remainder.reinterpret_as_int64(),
-  )
+  // Update offset
+  self.offset = (self.offset + align - 1) / align * align + length * T::size()
+  // Return field offset and length
+  ArrayField(offset, length)
 }
 
 ///|
-pub fn[T : @alignof.Aligned + @sizeof.Sized] Reader::read(self : Reader) -> T {
-  // Align pointer to field alignment
-  self.pointer = align_above(self.pointer, T::alignment())
-  // Read value from pointer
-  let value : T = self.pointer.cast().load()
-  // Advance pointer by field size
-  self.pointer = self.pointer.offset(T::size().reinterpret_as_int64())
-  // Return value
-  value
+pub fn Layout::size(self : Layout) -> UInt64 {
+  (self.offset + self.align - 1) / self.align * self.align
 }
 
 ///|
-pub fn Reader::read_int(self : Reader) -> Int {
-  self.read()
+pub fn Layout::align(self : Layout) -> UInt64 {
+  self.align
 }
 
 ///|
-pub fn Reader::read_byte(self : Reader) -> Byte {
-  self.read()
+pub(all) struct Struct(@pointer.Pointer[Unit])
+
+///|
+pub fn Struct::new(pointer : @pointer.Pointer[Unit]) -> Struct {
+  Struct(pointer)
 }
 
 ///|
-struct Writer {
-  mut pointer : @pointer.Pointer[Byte]
+pub fn[T : Read] Struct::op_get(self : Struct, field : Field[T]) -> T {
+  read(self.0.byte_add(field.0).cast())
 }
 
 ///|
-pub fn Writer::new(pointer : @pointer.Pointer[Byte]) -> Writer {
-  Writer::{ pointer, }
-}
-
-///|
-pub fn[T : @alignof.Aligned + @sizeof.Sized] Writer::write(
-  self : Writer,
+pub fn[T : Write] Struct::op_set(
+  self : Struct,
+  field : Field[T],
   value : T,
 ) -> Unit {
-  // Align pointer to field alignment
-  self.pointer = align_above(self.pointer, T::alignment())
-  // Write value to pointer
-  self.pointer.cast().store(value)
-  // Advance pointer by field size
-  self.pointer = self.pointer.offset(T::size().reinterpret_as_int64())
+  write(self.0.byte_add(field.0).cast(), value)
+}
+
+///|
+pub fn[T] Struct::get(self : Struct, field : Field[T]) -> @pointer.Pointer[T] {
+  self.0.byte_add(field.0).cast()
 }

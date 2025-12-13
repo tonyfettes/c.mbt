@@ -6,6 +6,7 @@
 /// if the value is moved or deallocated.
 ///
 /// Parameters:
+///
 /// - `value`: The value to extract a pointer from
 ///
 /// Returns a `Pointer[Unit]` pointing to the value's memory location.
@@ -15,6 +16,7 @@ pub fn[T] unsafe_take_from(value : T) -> Pointer[Unit] = "%identity"
 /// Extracts a pointer from a reference.
 ///
 /// Parameters:
+///
 /// - `value`: The reference to extract a pointer from
 ///
 /// Returns a `Pointer[T]` pointing to the referenced value.
@@ -24,6 +26,7 @@ pub fn[T] take_from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 /// Extracts a pointer from a fixed array.
 ///
 /// Parameters:
+///
 /// - `value`: The fixed array to extract a pointer from
 ///
 /// Returns a `Pointer[T]` pointing to the first element of the array.
@@ -33,6 +36,7 @@ pub fn[T] take_from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 /// Extracts a pointer from a bytes buffer.
 ///
 /// Parameters:
+///
 /// - `value`: The bytes buffer to extract a pointer from
 ///
 /// Returns a `Pointer[Byte]` pointing to the first byte of the buffer.
@@ -53,7 +57,8 @@ pub(open) trait TakeFrom {
 /// The pointer must point to valid memory of type `T`, or undefined behavior will occur.
 ///
 /// Parameters:
-/// - `ptr`: The pointer to convert
+///
+/// - `pointer`: The pointer to convert
 ///
 /// Returns a value of type `T`.
 pub fn[T] unsafe_move_into(ptr : Pointer[Unit]) -> T = "%identity"
@@ -62,7 +67,8 @@ pub fn[T] unsafe_move_into(ptr : Pointer[Unit]) -> T = "%identity"
 /// Converts a pointer into a reference.
 ///
 /// Parameters:
-/// - `ptr`: The pointer to convert
+///
+/// - `pointer`: The pointer to convert
 ///
 /// Returns a `Ref[T]` referencing the memory location.
 pub fn[T] move_into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
@@ -71,7 +77,8 @@ pub fn[T] move_into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 /// Converts a pointer into a fixed array.
 ///
 /// Parameters:
-/// - `ptr`: The pointer to convert
+///
+/// - `pointer`: The pointer to convert
 ///
 /// Returns a `FixedArray[T]` starting at the pointer's memory location.
 pub fn[T] move_into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
@@ -80,7 +87,8 @@ pub fn[T] move_into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 /// Converts a pointer into a bytes buffer.
 ///
 /// Parameters:
-/// - `ptr`: The pointer to convert
+///
+/// - `pointer`: The pointer to convert
 ///
 /// Returns a `Bytes` buffer starting at the pointer's memory location.
 pub fn move_into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
@@ -100,6 +108,7 @@ pub(open) trait MoveInto {
 /// and then restored. This ensures the reference remains valid after the operation.
 ///
 /// Parameters:
+///
 /// - `ref_`: The reference to borrow from
 /// - `f`: The function to call with the borrowed pointer
 ///
@@ -121,6 +130,7 @@ pub fn[T, R] borrow_ref(
 /// and then restored. This ensures the array remains valid after the operation.
 ///
 /// Parameters:
+///
 /// - `array`: The fixed array to borrow from
 /// - `f`: The function to call with the borrowed pointer
 ///
@@ -142,6 +152,7 @@ pub fn[T, R] borrow_array(
 /// and then restored. This ensures the buffer remains valid after the operation.
 ///
 /// Parameters:
+///
 /// - `bytes`: The bytes buffer to borrow from
 /// - `f`: The function to call with the borrowed pointer
 ///
@@ -164,6 +175,7 @@ pub fn[R] borrow_bytes(
 /// undefined behavior if not used carefully.
 ///
 /// Parameters:
+///
 /// - `value`: The value to borrow from
 /// - `f`: The function to call with the borrowed pointer
 ///
@@ -195,6 +207,7 @@ pub(open) trait Borrow {
 /// and then restored. This ensures the value remains valid after the operation.
 ///
 /// Parameters:
+///
 /// - `value`: The value to borrow from (must implement `Borrow`)
 /// - `f`: The function to call with the borrowed pointer
 ///
@@ -265,6 +278,7 @@ pub impl[T] Borrow for FixedArray[T] with move_into(ptr : Pointer[Unit]) -> Fixe
 /// **Warning**: This is a low-level operation that should be used with caution.
 ///
 /// Parameters:
+///
 /// - `value`: The value whose reference count should be decremented
 pub fn[T] unsafe_decref(value : T) -> Unit {
   let pointer = unsafe_take_from(value)

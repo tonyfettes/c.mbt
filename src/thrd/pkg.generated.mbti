@@ -3,6 +3,7 @@ package "tonyfettes/c/thrd"
 
 import(
   "tonyfettes/c/pointer"
+  "tonyfettes/c/sizeof"
 )
 
 // Values
@@ -24,8 +25,8 @@ pub let timedout : Int
 
 // Types and methods
 type Thrd
-pub fn Thrd::alignof() -> UInt64
 pub fn Thrd::sizeof() -> UInt64
+pub impl @sizeof.Sized for Thrd
 
 // Type aliases
 

@@ -118,6 +118,22 @@ pub impl[T] Compare for Pointer[T] with compare(
 pub extern "c" fn Pointer::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
 
 ///|
+pub impl[T] @sizeof.Sized for Pointer[T] with size() -> UInt64 {
+  Pointer::sizeof()
+}
+
+///|
+extern "c" fn pointer_add(
+  pointer : Pointer[Unit],
+  offset : UInt64,
+) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_add"
+
+///|
+pub fn[T] Pointer::byte_add(self : Pointer[T], offset : UInt64) -> Pointer[T] {
+  pointer_add(self.cast(), offset).cast()
+}
+
+///|
 /// Adds an offset to a pointer and returns a new pointer.
 ///
 /// Parameters:
@@ -127,13 +143,37 @@ pub extern "c" fn Pointer::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_poi
 ///
 /// Returns a new pointer that is offset from the original pointer by the
 /// specified number of elements.
-///
-/// **Note**: The offset is of type `Int64` and might be insufficient for very large
-/// offsets on some platforms.
-pub fn[T] Pointer::offset(self : Pointer[T], offset : Int64) -> Pointer[T] {
-  let array = move_into_array(self)
-  take_from_array(array_offset(array, offset))
+pub fn[T : @sizeof.Sized] Pointer::add(
+  self : Pointer[T],
+  offset : UInt64,
+) -> Pointer[T] {
+  self.byte_add(offset * T::size())
 }
+
+///|
+extern "c" fn pointer_sub(
+  pointer : Pointer[Unit],
+  offset : UInt64,
+) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_sub"
+
+///|
+pub fn[T] Pointer::byte_sub(self : Pointer[T], offset : UInt64) -> Pointer[T] {
+  pointer_sub(self.cast(), offset).cast()
+}
+
+///|
+pub fn[T : @sizeof.Sized] Pointer::sub(
+  self : Pointer[T],
+  offset : UInt64,
+) -> Pointer[T] {
+  self.byte_sub(offset * T::size())
+}
+
+///|
+extern "c" fn pointer_offset(
+  pointer : Pointer[Unit],
+  offset : Int64,
+) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_offset"
 
 ///|
 /// Adds a byte offset to a pointer and returns a new pointer.
@@ -147,15 +187,22 @@ pub fn[T] Pointer::offset(self : Pointer[T], offset : Int64) -> Pointer[T] {
 /// Returns a new pointer that is offset from the original pointer by the
 /// specified number of bytes.
 pub fn[T] Pointer::byte_offset(self : Pointer[T], offset : Int64) -> Pointer[T] {
-  let byte_self : Pointer[Byte] = self.cast()
-  byte_self.offset(offset).cast()
+  pointer_offset(self.cast(), offset).cast()
 }
 
 ///|
-fn[T] array_offset(array : FixedArray[T], offset : Int64) -> FixedArray[T] = "%i64_add"
+pub fn[T : @sizeof.Sized] Pointer::offset(
+  self : Pointer[T],
+  offset : Int64,
+) -> Pointer[T] {
+  self.byte_offset(offset * T::size().reinterpret_as_int64())
+}
 
 ///|
-fn[T] array_offset_from(array : FixedArray[T], from : FixedArray[T]) -> Int64 = "%i64_sub"
+extern "c" fn pointer_offset_from(
+  upper : Pointer[Unit],
+  lower : Pointer[Unit],
+) -> Int64 = "moonbit_tonyfettes_c_pointer_offset_from"
 
 ///|
 /// Calculates the offset between two pointers in elements.
@@ -167,11 +214,11 @@ fn[T] array_offset_from(array : FixedArray[T], from : FixedArray[T]) -> Int64 = 
 /// - `other`: The pointer to subtract from this pointer
 ///
 /// Returns the number of elements between the two pointers.
-pub fn[T] Pointer::offset_from(self : Pointer[T], other : Pointer[T]) -> Int64 {
-  let self_array = move_into_array(self)
-  let other_array = move_into_array(other)
-  let offset = array_offset_from(self_array, other_array)
-  offset
+pub fn[T : @sizeof.Sized] Pointer::offset_from(
+  self : Pointer[T],
+  other : Pointer[T],
+) -> Int64 {
+  self.byte_offset_from(other) / T::size().reinterpret_as_int64()
 }
 
 ///|
@@ -188,12 +235,7 @@ pub fn[T] Pointer::byte_offset_from(
   self : Pointer[T],
   other : Pointer[T],
 ) -> Int64 {
-  let self_array = move_into_array(self)
-  let other_array = move_into_array(other)
-  let byte_self : Pointer[Byte] = take_from_array(self_array).cast()
-  let byte_other : Pointer[Byte] = take_from_array(other_array).cast()
-  let offset = byte_self.offset_from(byte_other)
-  offset
+  pointer_offset_from(self.cast(), other.cast())
 }
 
 ///|
@@ -232,8 +274,8 @@ pub fn[T] Pointer::op_set(self : Pointer[T], index : UInt64, value : T) -> Unit 
 /// This is equivalent to dereferencing the pointer in C (`*pointer`).
 ///
 /// Returns the value stored at this memory location.
-pub fn[T] Pointer::load(self : Pointer[T]) -> T {
-  self[0]
+pub fn[T : Load] Pointer::load(self : Pointer[T]) -> T {
+  T::load(self)
 }
 
 ///|
@@ -243,8 +285,8 @@ pub fn[T] Pointer::load(self : Pointer[T]) -> T {
 ///
 /// Parameters:
 /// - `value`: The value to store
-pub fn[T] Pointer::store(self : Pointer[T], value : T) -> Unit {
-  self[0] = value
+pub fn[T : Store] Pointer::store(self : Pointer[T], value : T) -> Unit {
+  T::store(self, value)
 }
 
 ///|
@@ -258,4 +300,17 @@ extern "c" fn pointer_to_uint64(pointer : Pointer[Unit]) -> UInt64 = "moonbit_to
 /// Returns the memory address as a `UInt64`.
 pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
   pointer_to_uint64(self.cast())
+}
+
+///|
+pub fn Pointer::align(
+  self : Pointer[Unit],
+  alignment : UInt64,
+) -> Pointer[Unit] {
+  let address : UInt64 = self.to_uint64()
+  let remainder = address % alignment
+  if remainder == 0 {
+    return self
+  }
+  self.byte_add(alignment - remainder)
 }

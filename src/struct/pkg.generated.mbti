@@ -1,47 +1,90 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "tonyfettes/c/type"
+package "tonyfettes/c/struct"
+
+import(
+  "tonyfettes/c/pointer"
+  "tonyfettes/c/sizeof"
+)
 
 // Values
-pub let byte : Type
+pub fn[T : Read] read(@pointer.Pointer[T]) -> T
 
-pub let double : Type
-
-pub let float : Type
-
-pub let int : Type
-
-pub let int16 : Type
-
-pub let int64 : Type
-
-pub let pointer : Type
-
-pub let uint : Type
-
-pub let uint16 : Type
-
-pub let uint64 : Type
+pub fn[T : Write] write(@pointer.Pointer[T], T) -> Unit
 
 // Errors
 
 // Types and methods
-type Field
-pub fn Field::offset(Self) -> UInt64
-pub impl ToJson for Field
+type Field[_]
+pub fn[T] Field::offset(Self[T]) -> UInt64
+pub impl[T] ToJson for Field[T]
 
-type Struct
-pub fn Struct::field(Self, Type) -> Field
-pub fn Struct::finish(Self) -> Type
-pub fn Struct::new() -> Self
+type Layout
+pub fn Layout::align(Self) -> UInt64
+pub fn[T : Aligned + @sizeof.Sized] Layout::field(Self) -> Field[T]
+pub fn Layout::new() -> Self
+pub fn Layout::size(Self) -> UInt64
 
-type Type
-pub fn Type::align(Self) -> UInt64
-pub fn Type::new(size~ : UInt64, align~ : UInt64) -> Self
-pub fn Type::size(Self) -> UInt64
-pub impl Show for Type
-pub impl ToJson for Type
+type Reader
+pub fn Reader::new(@pointer.Pointer[Unit]) -> Self
+pub fn[T : Read] Reader::read(Self) -> T
+pub fn Reader::to_pointer(Self) -> @pointer.Pointer[Unit]
+
+pub(all) struct Struct(@pointer.Pointer[Unit])
+pub fn[T] Struct::get(Self, Field[T]) -> @pointer.Pointer[T]
+#deprecated
+pub fn Struct::inner(Self) -> @pointer.Pointer[Unit]
+pub fn Struct::new(@pointer.Pointer[Unit]) -> Self
+pub fn[T : Read] Struct::op_get(Self, Field[T]) -> T
+pub fn[T : Write] Struct::op_set(Self, Field[T], T) -> Unit
+
+type Writer
+pub fn Writer::new(@pointer.Pointer[Unit]) -> Self
+pub fn Writer::to_pointer(Self) -> @pointer.Pointer[Unit]
+pub fn[T : Write] Writer::write(Self, T) -> Unit
 
 // Type aliases
 
 // Traits
+trait Aligned
+pub impl Aligned for Bool
+pub impl Aligned for Byte
+pub impl Aligned for Int
+pub impl Aligned for Int16
+pub impl Aligned for Int64
+pub impl Aligned for UInt
+pub impl Aligned for UInt16
+pub impl Aligned for UInt64
+pub impl Aligned for Float
+pub impl Aligned for Double
+pub impl[T] Aligned for @pointer.Pointer[T]
+
+pub(open) trait Read {
+  read(Reader) -> Self
+}
+pub impl Read for Bool
+pub impl Read for Byte
+pub impl Read for Int
+pub impl Read for Int16
+pub impl Read for Int64
+pub impl Read for UInt
+pub impl Read for UInt16
+pub impl Read for UInt64
+pub impl Read for Float
+pub impl Read for Double
+pub impl[T] Read for @pointer.Pointer[T]
+
+pub(open) trait Write {
+  write(Writer, Self) -> Unit
+}
+pub impl Write for Bool
+pub impl Write for Byte
+pub impl Write for Int
+pub impl Write for Int16
+pub impl Write for Int64
+pub impl Write for UInt
+pub impl Write for UInt16
+pub impl Write for UInt64
+pub impl Write for Float
+pub impl Write for Double
+pub impl[T] Write for @pointer.Pointer[T]
 

@@ -13,28 +13,7 @@
 // limitations under the License.
 
 ///|
-fn[T] array_offset(array : FixedArray[T], offset : Int64) -> FixedArray[T] = "%i64_add"
-
-///|
-/// Computes the size of a type in bytes.
-///
-/// This function calculates the size of type `T` by using pointer arithmetic.
-/// It's similar to C's `sizeof` operator.
-///
-/// Parameters:
-/// - `_`: A function type `(T) -> Unit` used to infer the type `T`
-///
-/// Returns the size of type `T` in bytes as a `UInt64`.
-///
-/// Example:
-/// ```moonbit
-/// let size = sizeof((x : Int) => ())
-/// ```
-pub fn[T] sizeof(_ : (T) -> Unit) -> UInt64 {
-  let ptr : @pointer.Pointer[T] = @pointer.Pointer::null()
-  let array = array_offset(@pointer.move_into_array(ptr), 1)
-  @pointer.take_from_array(array).byte_offset_from(ptr).reinterpret_as_uint64()
-}
+pub const Bool = 1UL
 
 ///|
 pub const Byte = 1UL
@@ -66,6 +45,11 @@ pub const Double = 8UL
 ///|
 pub(open) trait Sized {
   size() -> UInt64
+}
+
+///|
+pub impl Sized for Bool with size() -> UInt64 {
+  1UL
 }
 
 ///|

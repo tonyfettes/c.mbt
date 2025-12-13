@@ -1,6 +1,7 @@
 {
   "import": [
-    "tonyfettes/c/pointer"
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/sizeof"
   ],
   "native-stub": ["create.c", "join.c", "thrd.c"]
 }

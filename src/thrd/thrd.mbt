@@ -20,7 +20,9 @@ type Thrd
 pub extern "c" fn Thrd::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd"
 
 ///|
-pub extern "c" fn Thrd::alignof() -> UInt64 = "moonbit_tonyfettes_c_alignof_thrd"
+pub impl @sizeof.Sized for Thrd with size() -> UInt64 {
+  Thrd::sizeof()
+}
 
 ///|
 extern "c" fn thrd_success() -> Int = "moonbit_tonyfettes_c_thrd_success"

@@ -2,19 +2,6 @@
 package "tonyfettes/c/alignof"
 
 // Values
-pub const Byte : UInt64 = 1
-
-pub const Int : UInt64 = 4
-
-pub const Int16 : UInt64 = 2
-
-pub const Int64 : UInt64 = 8
-
-pub const UInt : UInt64 = 4
-
-pub const UInt16 : UInt64 = 2
-
-pub const UInt64 : UInt64 = 8
 
 // Errors
 
@@ -23,14 +10,4 @@ pub const UInt64 : UInt64 = 8
 // Type aliases
 
 // Traits
-pub(open) trait Alignof {
-  alignof() -> UInt64
-}
-pub impl Alignof for Byte
-pub impl Alignof for Int
-pub impl Alignof for Int16
-pub impl Alignof for Int64
-pub impl Alignof for UInt
-pub impl Alignof for UInt16
-pub impl Alignof for UInt64
 

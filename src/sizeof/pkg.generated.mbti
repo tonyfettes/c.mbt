@@ -2,11 +2,25 @@
 package "tonyfettes/c/sizeof"
 
 // Values
+pub const Bool : UInt64 = 1
+
 pub const Byte : UInt64 = 1
+
+pub const Double : UInt64 = 8
+
+pub const Float : UInt64 = 4
 
 pub const Int : UInt64 = 4
 
-pub fn[T] sizeof((T) -> Unit) -> UInt64
+pub const Int16 : UInt64 = 2
+
+pub const Int64 : UInt64 = 8
+
+pub const UInt : UInt64 = 4
+
+pub const UInt16 : UInt64 = 2
+
+pub const UInt64 : UInt64 = 8
 
 // Errors
 
@@ -15,4 +29,17 @@ pub fn[T] sizeof((T) -> Unit) -> UInt64
 // Type aliases
 
 // Traits
+pub(open) trait Sized {
+  size() -> UInt64
+}
+pub impl Sized for Bool
+pub impl Sized for Byte
+pub impl Sized for Int
+pub impl Sized for Int16
+pub impl Sized for Int64
+pub impl Sized for UInt
+pub impl Sized for UInt16
+pub impl Sized for UInt64
+pub impl Sized for Float
+pub impl Sized for Double
 

@@ -1,9 +1,14 @@
 {
   "native-stub": [
-    "pointer.c"
+    "pointer.c",
+    "load.c",
+    "store.c"
   ],
   "test-import": [
     "tonyfettes/c/memory",
+    "tonyfettes/c/sizeof"
+  ],
+  "import": [
     "tonyfettes/c/sizeof"
   ]
 }

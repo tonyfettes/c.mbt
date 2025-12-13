@@ -13,35 +13,13 @@
 // limitations under the License.
 
 ///|
-pub const Byte = 1UL
-
-///|
-pub const Int16 = 2UL
-
-///|
-pub const UInt16 = 2UL
-
-///|
-pub const Int = 4UL
-
-///|
-pub const UInt = 4UL
-
-///|
-pub const Int64 = 8UL
-
-///|
-pub const UInt64 = 8UL
-
-///|
-pub const Float = 4UL
-
-///|
-pub const Double = 8UL
-
-///|
-pub(open) trait Aligned {
+trait Aligned {
   alignment() -> UInt64
+}
+
+///|
+pub impl Aligned for Bool with alignment() -> UInt64 {
+  1UL
 }
 
 ///|
@@ -87,4 +65,9 @@ pub impl Aligned for Float with alignment() -> UInt64 {
 ///|
 pub impl Aligned for Double with alignment() -> UInt64 {
   8UL
+}
+
+///|
+pub impl[T] Aligned for @pointer.Pointer[T] with alignment() -> UInt64 {
+  @pointer.sizeof()
 }

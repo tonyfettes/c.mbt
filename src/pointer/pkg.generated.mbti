@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/pointer"
 
+import(
+  "tonyfettes/c/sizeof"
+)
+
 // Values
 pub fn[T : Borrow, R] borrow(T, (Pointer[Unit]) -> R raise?) -> R raise?
 
@@ -36,27 +40,35 @@ pub fn[T] unsafe_take_from(T) -> Pointer[Unit]
 #alias(Ptr)
 #external
 pub type Pointer[_]
+pub fn[T : @sizeof.Sized] Pointer::add(Self[T], UInt64) -> Self[T]
+pub fn Pointer::align(Self[Unit], UInt64) -> Self[Unit]
+pub fn[T] Pointer::byte_add(Self[T], UInt64) -> Self[T]
 pub fn[T] Pointer::byte_offset(Self[T], Int64) -> Self[T]
 pub fn[T] Pointer::byte_offset_from(Self[T], Self[T]) -> Int64
+pub fn[T] Pointer::byte_sub(Self[T], UInt64) -> Self[T]
 pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::cast_to_byte(Self[T]) -> Self[Byte]
 pub fn[T] Pointer::cast_to_unit(Self[T]) -> Self[Unit]
 pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
-pub fn[T] Pointer::load(Self[T]) -> T
+pub fn[T : Load] Pointer::load(Self[T]) -> T
 #as_free_fn
 pub fn[T] Pointer::null() -> Self[T]
-pub fn[T] Pointer::offset(Self[T], Int64) -> Self[T]
-pub fn[T] Pointer::offset_from(Self[T], Self[T]) -> Int64
+pub fn[T : @sizeof.Sized] Pointer::offset(Self[T], Int64) -> Self[T]
+pub fn[T : @sizeof.Sized] Pointer::offset_from(Self[T], Self[T]) -> Int64
 pub fn[T] Pointer::op_get(Self[T], UInt64) -> T
 pub fn[T] Pointer::op_set(Self[T], UInt64, T) -> Unit
+#as_free_fn
 pub fn Pointer::sizeof() -> UInt64
-pub fn[T] Pointer::store(Self[T], T) -> Unit
+pub fn[T : Store] Pointer::store(Self[T], T) -> Unit
+pub fn[T : @sizeof.Sized] Pointer::sub(Self[T], UInt64) -> Self[T]
 pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 pub impl[T] Compare for Pointer[T]
 pub impl[T] Eq for Pointer[T]
 pub impl[T] Borrow for Pointer[T]
+pub impl[T] Load for Pointer[T]
 pub impl[T] Store for Pointer[T]
+pub impl[T] @sizeof.Sized for Pointer[T]
 
 // Type aliases
 
@@ -68,6 +80,20 @@ pub(open) trait Borrow {
 pub impl[T] Borrow for FixedArray[T]
 pub impl Borrow for Bytes
 
+pub(open) trait Load {
+  load(Pointer[Self]) -> Self
+}
+pub impl Load for Bool
+pub impl Load for Byte
+pub impl Load for Int
+pub impl Load for Int16
+pub impl Load for Int64
+pub impl Load for UInt
+pub impl Load for UInt16
+pub impl Load for UInt64
+pub impl Load for Float
+pub impl Load for Double
+
 pub(open) trait MoveInto {
   move_into(Pointer[Unit]) -> Self
 }
@@ -75,6 +101,7 @@ pub(open) trait MoveInto {
 pub(open) trait Store {
   store(Pointer[Self], Self) -> Unit
 }
+pub impl Store for Bool
 pub impl Store for Byte
 pub impl Store for Int
 pub impl Store for Int16
