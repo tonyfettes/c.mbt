@@ -10,6 +10,8 @@ pub fn[T : Borrow, R] borrow(T, (@pointer.Pointer[Byte]) -> R) -> R
 
 pub fn[A : Borrow, B : Borrow, R] borrow_2(A, B, (@pointer.Pointer[Byte], @pointer.Pointer[Byte]) -> R) -> R
 
+pub fn[Str1 : Borrow, Str2 : Borrow] strcmp(Str1, Str2) -> Int
+
 pub fn[Str : Borrow] strlen(Str) -> UInt64
 
 // Errors

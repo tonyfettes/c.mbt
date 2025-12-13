@@ -3,33 +3,34 @@ package "tonyfettes/c/stdio"
 
 import(
   "tonyfettes/c/errno"
+  "tonyfettes/c/pointer"
   "tonyfettes/c/string"
 )
 
 // Values
 pub let eof : Int
 
-pub fn fclose(FILE) -> Unit raise @errno.Errno
+pub fn fclose(File) -> Unit raise @errno.Errno
 
-pub fn feof(FILE) -> Bool
+pub fn feof(File) -> Bool
 
-pub fn ferror(FILE) -> Bool
+pub fn ferror(File) -> Bool
 
-pub fn fflush(FILE) -> Unit raise @errno.Errno
+pub fn fflush(File) -> Unit raise @errno.Errno
 
-pub fn fgetc(FILE) -> Int
+pub fn fgetc(File) -> Int
 
-pub fn[Data : @string.Borrow] fgets(Data, Int, FILE) -> Data?
+pub fn[Data : @string.Borrow] fgets(Data, Int, File) -> Data?
 
-pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(Path, Mode) -> FILE raise @errno.Errno
+pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(Path, Mode) -> File raise @errno.Errno
 
-pub fn[Data : @string.Borrow] fputs(Data, FILE) -> Int
+pub fn[Data : @string.Borrow] fputs(Data, File) -> Int
 
-pub fn[T : @string.Borrow] fread(T, UInt64, UInt64, FILE) -> UInt64
+pub fn[T : @string.Borrow] fread(T, UInt64, UInt64, File) -> UInt64
 
-pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(Path, Mode, FILE) -> FILE raise @errno.Errno
+pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(Path, Mode, File) -> File raise @errno.Errno
 
-pub fn[T : @string.Borrow] fwrite(T, UInt64, UInt64, FILE) -> UInt64
+pub fn[T : @string.Borrow] fwrite(T, UInt64, UInt64, File) -> UInt64
 
 pub fn getchar() -> Int
 
@@ -37,20 +38,18 @@ pub fn[S : @string.Borrow] perror(S) -> Unit
 
 pub fn[Path : @string.Borrow] remove(Path) -> Unit raise @errno.Errno
 
-pub let stderr : FILE
+pub let stderr : File
 
-pub let stdin : FILE
+pub let stdin : File
 
-pub let stdout : FILE
+pub let stdout : File
 
 // Errors
 
 // Types and methods
-#external
-pub type FILE
-pub fn FILE::is_not_null(Self) -> Bool
-pub fn FILE::is_null(Self) -> Bool
-pub fn FILE::null() -> Self
+pub(all) struct File(@pointer.Pointer[Unit])
+#deprecated
+pub fn File::inner(Self) -> @pointer.Pointer[Unit]
 
 // Type aliases
 

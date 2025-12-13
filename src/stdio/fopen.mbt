@@ -17,15 +17,15 @@
 extern "c" fn c_fopen(
   path : @pointer.Pointer[Byte],
   mode : @pointer.Pointer[Byte],
-) -> FILE = "moonbit_tonyfettes_c_stdio_fopen"
+) -> File = "moonbit_tonyfettes_c_stdio_fopen"
 
 ///|
 pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(
   path : Path,
   mode : Mode,
-) -> FILE raise @errno.Errno {
+) -> File raise @errno.Errno {
   let file = @string.borrow_2(path, mode, (path, mode) => c_fopen(path, mode))
-  if file.is_null() {
+  if file.0.is_null() {
     raise @errno.Errno(@errno.get())
   } else {
     file

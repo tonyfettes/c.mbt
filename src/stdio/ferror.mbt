@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn ferror(stream : FILE) -> Bool = "ferror"
+pub extern "c" fn ferror(stream : File) -> Bool = "ferror"

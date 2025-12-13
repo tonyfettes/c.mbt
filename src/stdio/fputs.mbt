@@ -14,9 +14,9 @@
 
 ///|
 #borrow(data)
-extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : FILE) -> Int = "fputs"
+extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : File) -> Int = "fputs"
 
 ///|
-pub fn[Data : @string.Borrow] fputs(data : Data, stream : FILE) -> Int {
+pub fn[Data : @string.Borrow] fputs(data : Data, stream : File) -> Int {
   @string.borrow(data, data => c_fputs(data, stream))
 }

@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn feof(stream : FILE) -> Bool = "feof"
+pub extern "c" fn feof(stream : File) -> Bool = "feof"

@@ -16,14 +16,14 @@
 extern "c" fn c_fgets(
   data : @pointer.Pointer[Byte],
   size : Int,
-  stream : FILE,
+  stream : File,
 ) -> @pointer.Pointer[Byte] = "fgets"
 
 ///|
 pub fn[Data : @string.Borrow] fgets(
   data : Data,
   size : Int,
-  stream : FILE,
+  stream : File,
 ) -> Data? {
   let result = @string.borrow(data, data => c_fgets(data, size, stream))
   if result.is_null() {

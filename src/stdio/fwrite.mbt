@@ -17,7 +17,7 @@ extern "c" fn c_fwrite(
   ptr : @pointer.Pointer[Byte],
   size : UInt64,
   n : UInt64,
-  stream : FILE,
+  stream : File,
 ) -> UInt64 = "moonbit_tonyfettes_c_stdio_fwrite"
 
 ///|
@@ -25,7 +25,7 @@ pub fn[T : @string.Borrow] fwrite(
   ptr : T,
   size : UInt64,
   n : UInt64,
-  stream : FILE,
+  stream : File,
 ) -> UInt64 {
   @string.borrow(ptr, ptr => c_fwrite(ptr, size, n, stream))
 }

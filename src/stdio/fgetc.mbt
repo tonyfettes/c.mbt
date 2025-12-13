@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn fgetc(stream : FILE) -> Int = "fgetc"
+pub extern "c" fn fgetc(stream : File) -> Int = "fgetc"
