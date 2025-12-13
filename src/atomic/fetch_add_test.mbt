@@ -19,7 +19,7 @@ test "fetch_add" {
   }
   let object : @atomic.Atomic[Int] = @memory.calloc(
     1,
-    @atomic.sizeof((ignore : (Int) -> Unit)),
+    @atomic.sizeof((_ : Int) => ()),
   )
   defer @memory.free(object)
   @atomic.init_(object, 0)
@@ -41,7 +41,7 @@ test "fetch_add/concurrent" {
   if !@feature.no_threads {
     let counter : @pointer.Pointer[Int] = @memory.calloc(
       1,
-      @sizeof.sizeof((ignore : (Int) -> Unit)),
+      @sizeof.sizeof((_ : Int) => ()),
     )
     defer @memory.free(counter)
     counter.store(0)
@@ -74,7 +74,7 @@ test "fetch_add/concurrent" {
     )
     let atomic_counter : @atomic.Atomic[Int] = @memory.calloc(
       1,
-      @atomic.sizeof((ignore : (Int) -> Unit)),
+      @atomic.sizeof((_ : Int) => ()),
     )
     @atomic.init_(atomic_counter, 0)
     for thread in threads {

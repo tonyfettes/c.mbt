@@ -17,7 +17,7 @@ test "memset" {
   let val : Byte = 0x7f
   let len : UInt64 = 16
   let ptr : @pointer.Pointer[Byte] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Byte) -> Unit)) * len,
+    @sizeof.sizeof((_ : Byte) => ()) * len,
   )
   defer @memory.free(ptr)
   @memory.memset(ptr, val, len)

@@ -19,7 +19,7 @@ test "exchange" {
   }
   let ptr : @atomic.Atomic[Int] = @memory.calloc(
     1,
-    @atomic.sizeof((ignore : (Int) -> Unit)),
+    @atomic.sizeof((_ : Int) => ()),
   )
   defer @memory.free(ptr)
   @atomic.init_(ptr, 0)

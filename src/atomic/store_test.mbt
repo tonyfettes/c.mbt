@@ -19,7 +19,7 @@ test "store" {
   }
   let object : @atomic.Atomic[Int] = @memory.calloc(
     1,
-    @atomic.sizeof((ignore : (Int) -> Unit)),
+    @atomic.sizeof((_ : Int) => ()),
   )
   defer @memory.free(object)
   @atomic.init_(object, 0)

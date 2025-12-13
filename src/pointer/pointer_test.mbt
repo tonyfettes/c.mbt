@@ -62,7 +62,7 @@ test "Pointer::offset_from" {
 test "Pointer[Byte]" {
   let val : Byte = 0x42
   let ptr : @pointer.Pointer[Byte] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Byte) -> Unit)),
+    @sizeof.sizeof((_ : Byte) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -73,7 +73,7 @@ test "Pointer[Byte]" {
 test "Pointer[Int16]" {
   let val : Int16 = 0x1234
   let ptr : @pointer.Pointer[Int16] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Int16) -> Unit)),
+    @sizeof.sizeof((_ : Int16) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -84,7 +84,7 @@ test "Pointer[Int16]" {
 test "Pointer[UInt16]" {
   let val : UInt16 = 0x1234
   let ptr : @pointer.Pointer[UInt16] = @memory.malloc(
-    @sizeof.sizeof((ignore : (UInt16) -> Unit)),
+    @sizeof.sizeof((_ : UInt16) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -95,7 +95,7 @@ test "Pointer[UInt16]" {
 test "Pointer[Int]" {
   let val : Int = 0x12345678
   let ptr : @pointer.Pointer[Int] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Int) -> Unit)),
+    @sizeof.sizeof((_ : Int) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -106,7 +106,7 @@ test "Pointer[Int]" {
 test "Pointer[UInt]" {
   let val : UInt = 0x12345678
   let ptr : @pointer.Pointer[UInt] = @memory.malloc(
-    @sizeof.sizeof((ignore : (UInt) -> Unit)),
+    @sizeof.sizeof((_ : UInt) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -117,7 +117,7 @@ test "Pointer[UInt]" {
 test "Pointer[Int64]" {
   let val : Int64 = 0x1234567890abcdef
   let ptr : @pointer.Pointer[Int64] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Int64) -> Unit)),
+    @sizeof.sizeof((_ : Int64) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -128,7 +128,7 @@ test "Pointer[Int64]" {
 test "Pointer[UInt64]" {
   let val : UInt64 = 0x1234567890abcdef
   let ptr : @pointer.Pointer[UInt64] = @memory.malloc(
-    @sizeof.sizeof((ignore : (UInt64) -> Unit)),
+    @sizeof.sizeof((_ : UInt64) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -139,7 +139,7 @@ test "Pointer[UInt64]" {
 test "Pointer[Float]" {
   let val : Float = 3.14159
   let ptr : @pointer.Pointer[Float] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Float) -> Unit)),
+    @sizeof.sizeof((_ : Float) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
@@ -150,7 +150,7 @@ test "Pointer[Float]" {
 test "Pointer[Double]" {
   let val : Double = 3.141592653589793
   let ptr : @pointer.Pointer[Double] = @memory.malloc(
-    @sizeof.sizeof((ignore : (Double) -> Unit)),
+    @sizeof.sizeof((_ : Double) => ()),
   )
   defer @memory.free(ptr)
   ptr.store(val)
