@@ -42,26 +42,26 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
 
 ///|
 pub impl Borrow for Bytes with take_from(self : Bytes) -> @pointer.Pointer[Byte] {
-  @pointer.take_from_bytes(self)
+  @pointer.from_bytes(self)
 }
 
 ///|
 pub impl Borrow for Bytes with move_into(ptr : @pointer.Pointer[Byte]) -> Bytes {
-  @pointer.move_into_bytes(ptr)
+  @pointer.into_bytes(ptr)
 }
 
 ///|
 pub impl Borrow for FixedArray[Byte] with take_from(self : FixedArray[Byte]) -> @pointer.Pointer[
   Byte,
 ] {
-  @pointer.take_from_array(self)
+  @pointer.from_array(self)
 }
 
 ///|
 pub impl Borrow for FixedArray[Byte] with move_into(
   ptr : @pointer.Pointer[Byte],
 ) -> FixedArray[Byte] {
-  @pointer.move_into_array(ptr)
+  @pointer.into_array(ptr)
 }
 
 ///|

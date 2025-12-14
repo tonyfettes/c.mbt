@@ -10,7 +10,7 @@
 /// - `value`: The value to extract a pointer from
 ///
 /// Returns a `Pointer[Unit]` pointing to the value's memory location.
-pub fn[T] unsafe_take_from(value : T) -> Pointer[Unit] = "%identity"
+pub fn[T] unsafe_from(value : T) -> Pointer[Unit] = "%identity"
 
 ///|
 /// Extracts a pointer from a reference.
@@ -20,7 +20,7 @@ pub fn[T] unsafe_take_from(value : T) -> Pointer[Unit] = "%identity"
 /// - `value`: The reference to extract a pointer from
 ///
 /// Returns a `Pointer[T]` pointing to the referenced value.
-pub fn[T] take_from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
+pub fn[T] from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 
 ///|
 /// Extracts a pointer from a fixed array.
@@ -30,7 +30,7 @@ pub fn[T] take_from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 /// - `value`: The fixed array to extract a pointer from
 ///
 /// Returns a `Pointer[T]` pointing to the first element of the array.
-pub fn[T] take_from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
+pub fn[T] from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 
 ///|
 /// Extracts a pointer from a bytes buffer.
@@ -40,14 +40,14 @@ pub fn[T] take_from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 /// - `value`: The bytes buffer to extract a pointer from
 ///
 /// Returns a `Pointer[Byte]` pointing to the first byte of the buffer.
-pub fn take_from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
+pub fn from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
 /// Trait for types from which a pointer can be extracted.
 ///
 /// Types implementing this trait can provide a pointer to their internal data.
-pub(open) trait TakeFrom {
-  take_from(Self) -> Pointer[Unit]
+pub(open) trait From {
+  from(Self) -> Pointer[Unit]
 }
 
 ///|
@@ -61,7 +61,7 @@ pub(open) trait TakeFrom {
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a value of type `T`.
-pub fn[T] unsafe_move_into(ptr : Pointer[Unit]) -> T = "%identity"
+pub fn[T] unsafe_into(ptr : Pointer[Unit]) -> T = "%identity"
 
 ///|
 /// Converts a pointer into a reference.
@@ -71,7 +71,7 @@ pub fn[T] unsafe_move_into(ptr : Pointer[Unit]) -> T = "%identity"
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a `Ref[T]` referencing the memory location.
-pub fn[T] move_into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
+pub fn[T] into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 
 ///|
 /// Converts a pointer into a fixed array.
@@ -81,7 +81,7 @@ pub fn[T] move_into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a `FixedArray[T]` starting at the pointer's memory location.
-pub fn[T] move_into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
+pub fn[T] into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 
 ///|
 /// Converts a pointer into a bytes buffer.
@@ -91,14 +91,14 @@ pub fn[T] move_into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a `Bytes` buffer starting at the pointer's memory location.
-pub fn move_into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
+pub fn into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
 
 ///|
 /// Trait for types that can be created from a pointer.
 ///
 /// Types implementing this trait can be reconstructed from a pointer to their data.
-pub(open) trait MoveInto {
-  move_into(Pointer[Unit]) -> Self
+pub(open) trait Into {
+  into(Pointer[Unit]) -> Self
 }
 
 ///|
@@ -117,9 +117,9 @@ pub fn[T, R] borrow_ref(
   ref_ : Ref[T],
   f : (Pointer[T]) -> R raise?,
 ) -> R raise? {
-  let ptr = take_from_ref(ref_)
+  let ptr = from_ref(ref_)
   let val : R = f(ptr)
-  let _ : Ref[T] = move_into_ref(ptr)
+  let _ : Ref[T] = into_ref(ptr)
   val
 }
 
@@ -139,9 +139,9 @@ pub fn[T, R] borrow_array(
   array : FixedArray[T],
   f : (Pointer[T]) -> R raise?,
 ) -> R raise? {
-  let ptr = take_from_array(array)
+  let ptr = from_array(array)
   let val : R = f(ptr)
-  let _ : FixedArray[T] = move_into_array(ptr)
+  let _ : FixedArray[T] = into_array(ptr)
   val
 }
 
@@ -161,9 +161,9 @@ pub fn[R] borrow_bytes(
   bytes : Bytes,
   f : (Pointer[Byte]) -> R raise?,
 ) -> R raise? {
-  let ptr = take_from_bytes(bytes)
+  let ptr = from_bytes(bytes)
   let val : R = f(ptr)
-  let _ : Bytes = move_into_bytes(ptr)
+  let _ : Bytes = into_bytes(ptr)
   val
 }
 
@@ -185,11 +185,11 @@ pub fn[T, R] unsafe_borrow(
   value : T,
   f : (Pointer[Unit]) -> R raise?,
 ) -> R raise? {
-  let ptr = unsafe_take_from(value)
+  let ptr = unsafe_from(value)
   let val : R = for {
     break f(ptr)
   }
-  let _ : T = unsafe_move_into(ptr)
+  let _ : T = unsafe_into(ptr)
   val
 }
 
@@ -198,10 +198,7 @@ pub fn[T, R] unsafe_borrow(
 ///
 /// Types implementing this trait can be safely converted to and from pointers,
 /// enabling temporary pointer access to their internal data.
-pub(open) trait Borrow {
-  take_from(Self) -> Pointer[Unit]
-  move_into(Pointer[Unit]) -> Self
-}
+pub(open) trait Borrow: From + Into {}
 
 ///|
 /// Borrows a pointer from a value that implements the `Borrow` trait.
@@ -220,57 +217,62 @@ pub fn[T : Borrow, R] borrow(
   value : T,
   f : (Pointer[Unit]) -> R raise?,
 ) -> R raise? {
-  let ptr = T::take_from(value)
+  let ptr = T::from(value)
   let val : R = for {
     break f(ptr)
   }
-  let _ : T = T::move_into(ptr)
+  let _ : T = T::into(ptr)
   val
 }
 
 ///|
 /// Implements `Borrow` for `Bytes` to extract a pointer.
-pub impl Borrow for Bytes with take_from(self : Bytes) -> Pointer[Unit] {
-  take_from_bytes(self).cast()
+pub impl From for Bytes with from(self : Bytes) -> Pointer[Unit] {
+  from_bytes(self).cast()
 }
 
 ///|
 /// Implements `Borrow` for `Bytes` to restore from a pointer.
-pub impl Borrow for Bytes with move_into(ptr : Pointer[Unit]) -> Bytes {
-  move_into_bytes(ptr.cast())
+pub impl Into for Bytes with into(ptr : Pointer[Unit]) -> Bytes {
+  into_bytes(ptr.cast())
 }
 
 ///|
+pub impl Borrow for Bytes
+
+///|
 /// Implements `Borrow` for `Pointer[T]` to cast to `Pointer[Unit]`.
-pub impl[T] Borrow for Pointer[T] with take_from(self : Pointer[T]) -> Pointer[
-  Unit,
-] {
+pub impl[T] From for Pointer[T] with from(self : Pointer[T]) -> Pointer[Unit] {
   self.cast()
 }
 
 ///|
 /// Implements `Borrow` for `Pointer[T]` to cast from `Pointer[Unit]`.
-pub impl[T] Borrow for Pointer[T] with move_into(ptr : Pointer[Unit]) -> Pointer[
-  T,
-] {
+pub impl[T] Into for Pointer[T] with into(ptr : Pointer[Unit]) -> Pointer[T] {
   ptr.cast()
 }
 
 ///|
+pub impl[T] Borrow for Pointer[T]
+
+///|
 /// Implements `Borrow` for `FixedArray[T]` to extract a pointer.
-pub impl[T] Borrow for FixedArray[T] with take_from(self : FixedArray[T]) -> Pointer[
+pub impl[T] From for FixedArray[T] with from(self : FixedArray[T]) -> Pointer[
   Unit,
 ] {
-  take_from_array(self).cast()
+  from_array(self).cast()
 }
 
 ///|
 /// Implements `Borrow` for `FixedArray[T]` to restore from a pointer.
-pub impl[T] Borrow for FixedArray[T] with move_into(ptr : Pointer[Unit]) -> FixedArray[
+pub impl[T] Into for FixedArray[T] with into(ptr : Pointer[Unit]) -> FixedArray[
   T,
 ] {
-  move_into_array(ptr.cast())
+  into_array(ptr.cast())
 }
+
+///|
+pub impl[T] Borrow for FixedArray[T]
 
 ///|
 /// Decrements the reference count of a value.
@@ -284,8 +286,8 @@ pub impl[T] Borrow for FixedArray[T] with move_into(ptr : Pointer[Unit]) -> Fixe
 ///
 /// - `value`: The value whose reference count should be decremented
 pub fn[T] unsafe_decref(value : T) -> Unit {
-  let pointer = unsafe_take_from(value)
-  let _ : T = unsafe_move_into(pointer)
-  let _ : T = unsafe_move_into(pointer)
+  let pointer = unsafe_from(value)
+  let _ : T = unsafe_into(pointer)
+  let _ : T = unsafe_into(pointer)
   ()
 }
