@@ -43,7 +43,7 @@ fn Reader::align(self : Reader, alignment : @stddef.Size) -> Unit {
 }
 
 ///|
-fn[T : Aligned + @sizeof.Sized + @pointer.Load] Reader::read_aligned(
+fn[T : @alignof.Aligned + @sizeof.Sized + @pointer.Load] Reader::read_aligned(
   self : Reader,
 ) -> T {
   // Align pointer to field alignment

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-trait Aligned {
+pub(open) trait Aligned {
   alignment() -> @stddef.Size
 }
 
@@ -65,6 +65,16 @@ pub impl Aligned for Float with alignment() -> @stddef.Size {
 ///|
 pub impl Aligned for Double with alignment() -> @stddef.Size {
   8UL
+}
+
+///|
+pub impl Aligned for @stddef.Size with alignment() -> @stddef.Size {
+  @stddef.Size::sizeof()
+}
+
+///|
+pub impl Aligned for @stddef.Ptrdiff with alignment() -> @stddef.Size {
+  @stddef.Ptrdiff::sizeof()
 }
 
 ///|

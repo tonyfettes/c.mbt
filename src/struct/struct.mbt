@@ -42,7 +42,7 @@ pub fn[T] Field::offset(self : Field[T]) -> @stddef.Size {
 
 ///|
 /// Adds a field to the struct being built, returning its offset.
-pub fn[T : Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Field[T] {
+pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Field[T] {
   // Save current offset
   let offset = self.offset
   let align = T::alignment()
@@ -57,7 +57,7 @@ pub fn[T : Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Field[T] {
 }
 
 ///|
-pub fn[T : Aligned + @sizeof.Sized] Layout::array_field(
+pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::array_field(
   self : Layout,
   length : @stddef.Size,
 ) -> ArrayField[T] {

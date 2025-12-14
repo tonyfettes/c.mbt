@@ -33,7 +33,7 @@ pub fn Writer::to_pointer(self : Writer) -> @pointer.Pointer[Unit] {
 }
 
 ///|
-fn[T : Aligned + @sizeof.Sized + @pointer.Store] Writer::write_aligned(
+fn[T : @alignof.Aligned + @sizeof.Sized + @pointer.Store] Writer::write_aligned(
   self : Writer,
   value : T,
 ) -> Unit {

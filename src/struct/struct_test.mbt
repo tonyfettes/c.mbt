@@ -34,7 +34,7 @@ test "Layout" {
   let name_what : Field[@pointer.Pointer[Byte]] = debug.field()
   let what : Field[@pointer.Pointer[Byte]] = debug.field()
   let source : Field[@pointer.Pointer[Byte]] = debug.field()
-  let srclen : Field[UInt64] = debug.field()
+  let srclen : Field[@stddef.Size] = debug.field()
   let current_line : Field[Int] = debug.field()
   let line_defined : Field[Int] = debug.field()
   let last_line_defined : Field[Int] = debug.field()

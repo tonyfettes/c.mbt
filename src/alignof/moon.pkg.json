@@ -1,3 +1,6 @@
 {
-  "import": []
+  "import": [
+    "tonyfettes/c/stddef",
+    "tonyfettes/c/pointer"
+  ]
 }

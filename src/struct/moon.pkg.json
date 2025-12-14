@@ -2,7 +2,8 @@
   "import": [
     "tonyfettes/c/pointer",
     "tonyfettes/c/sizeof",
-    "tonyfettes/c/stddef"
+    "tonyfettes/c/stddef",
+    "tonyfettes/c/alignof"
   ],
   "test-import": [
     "tonyfettes/c/memory"
