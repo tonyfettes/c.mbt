@@ -1,6 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/alignof"
 
+import(
+  "tonyfettes/c/pointer"
+  "tonyfettes/c/stddef"
+)
+
 // Values
 
 // Errors
@@ -10,4 +15,20 @@ package "tonyfettes/c/alignof"
 // Type aliases
 
 // Traits
+pub(open) trait Aligned {
+  alignment() -> @stddef.Size
+}
+pub impl Aligned for Bool
+pub impl Aligned for Byte
+pub impl Aligned for Int
+pub impl Aligned for Int16
+pub impl Aligned for Int64
+pub impl Aligned for UInt
+pub impl Aligned for UInt16
+pub impl Aligned for UInt64
+pub impl Aligned for Float
+pub impl Aligned for Double
+pub impl[T] Aligned for @pointer.Pointer[T]
+pub impl Aligned for @stddef.Ptrdiff
+pub impl Aligned for @stddef.Size
 

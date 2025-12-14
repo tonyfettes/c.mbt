@@ -14,6 +14,7 @@ pub(all) struct Ptrdiff(Int64)
 #deprecated
 pub fn Ptrdiff::inner(Self) -> Int64
 pub fn Ptrdiff::reinterpret_as_uint64(Self) -> UInt64
+pub fn Ptrdiff::sizeof() -> Size
 pub fn Ptrdiff::to_int64(Self) -> Int64
 pub impl Add for Ptrdiff
 pub impl Compare for Ptrdiff
@@ -32,6 +33,7 @@ pub(all) struct Size(UInt64)
 #deprecated
 pub fn Size::inner(Self) -> UInt64
 pub fn Size::reinterpret_as_int64(Self) -> Int64
+pub fn Size::sizeof() -> Self
 pub fn Size::to_int(Self) -> Int
 pub fn Size::to_uint64(Self) -> UInt64
 pub impl Add for Size
@@ -41,6 +43,7 @@ pub impl Div for Size
 pub impl Eq for Size
 pub impl Mod for Size
 pub impl Mul for Size
+pub impl Show for Size
 pub impl Sub for Size
 pub impl ToJson for Size
 pub impl @json.FromJson for Size

@@ -15,25 +15,25 @@ pub fn[R] borrow_bytes(Bytes, (Pointer[Byte]) -> R raise?) -> R raise?
 
 pub fn[T, R] borrow_ref(Ref[T], (Pointer[T]) -> R raise?) -> R raise?
 
-pub fn[T] move_into_array(Pointer[T]) -> FixedArray[T]
+pub fn[T] from_array(FixedArray[T]) -> Pointer[T]
 
-pub fn move_into_bytes(Pointer[Byte]) -> Bytes
+pub fn from_bytes(Bytes) -> Pointer[Byte]
 
-pub fn[T] move_into_ref(Pointer[T]) -> Ref[T]
+pub fn[T] from_ref(Ref[T]) -> Pointer[T]
 
-pub fn[T] take_from_array(FixedArray[T]) -> Pointer[T]
+pub fn[T] into_array(Pointer[T]) -> FixedArray[T]
 
-pub fn take_from_bytes(Bytes) -> Pointer[Byte]
+pub fn into_bytes(Pointer[Byte]) -> Bytes
 
-pub fn[T] take_from_ref(Ref[T]) -> Pointer[T]
+pub fn[T] into_ref(Pointer[T]) -> Ref[T]
 
 pub fn[T, R] unsafe_borrow(T, (Pointer[Unit]) -> R raise?) -> R raise?
 
 pub fn[T] unsafe_decref(T) -> Unit
 
-pub fn[T] unsafe_move_into(Pointer[Unit]) -> T
+pub fn[T] unsafe_from(T) -> Pointer[Unit]
 
-pub fn[T] unsafe_take_from(T) -> Pointer[Unit]
+pub fn[T] unsafe_into(Pointer[Unit]) -> T
 
 // Errors
 
@@ -68,6 +68,8 @@ pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 pub impl[T] Compare for Pointer[T]
 pub impl[T] Eq for Pointer[T]
 pub impl[T] Borrow for Pointer[T]
+pub impl[T] From for Pointer[T]
+pub impl[T] Into for Pointer[T]
 pub impl[T] Load for Pointer[T]
 pub impl[T] Store for Pointer[T]
 pub impl[T] @sizeof.Sized for Pointer[T]
@@ -75,12 +77,22 @@ pub impl[T] @sizeof.Sized for Pointer[T]
 // Type aliases
 
 // Traits
-pub(open) trait Borrow {
-  take_from(Self) -> Pointer[Unit]
-  move_into(Pointer[Unit]) -> Self
+pub(open) trait Borrow : From + Into {
 }
 pub impl[T] Borrow for FixedArray[T]
 pub impl Borrow for Bytes
+
+pub(open) trait From {
+  from(Self) -> Pointer[Unit]
+}
+pub impl[T] From for FixedArray[T]
+pub impl From for Bytes
+
+pub(open) trait Into {
+  into(Pointer[Unit]) -> Self
+}
+pub impl[T] Into for FixedArray[T]
+pub impl Into for Bytes
 
 pub(open) trait Load {
   load(Pointer[Self]) -> Self
@@ -96,10 +108,6 @@ pub impl Load for UInt64
 pub impl Load for Float
 pub impl Load for Double
 
-pub(open) trait MoveInto {
-  move_into(Pointer[Unit]) -> Self
-}
-
 pub(open) trait Store {
   store(Pointer[Self], Self) -> Unit
 }
@@ -113,8 +121,4 @@ pub impl Store for UInt16
 pub impl Store for UInt64
 pub impl Store for Float
 pub impl Store for Double
-
-pub(open) trait TakeFrom {
-  take_from(Self) -> Pointer[Unit]
-}
 

@@ -10,7 +10,15 @@ import(
 // Values
 pub fn atexit(FuncRef[() -> Unit]) -> Int
 
-pub fn[T] calloc(UInt64, UInt64) -> @pointer.Pointer[T]
+pub fn[T : @pointer.Borrow, R] borrow(T, (@pointer.Pointer[Unit]) -> R raise?) -> R raise?
+
+pub fn[T, R] borrow_array(FixedArray[T], (@pointer.Pointer[T]) -> R raise?) -> R raise?
+
+pub fn[R] borrow_bytes(Bytes, (@pointer.Pointer[Byte]) -> R raise?) -> R raise?
+
+pub fn[T, R] borrow_ref(Ref[T], (@pointer.Pointer[T]) -> R raise?) -> R raise?
+
+pub fn[T] calloc(UInt64, @stddef.Size) -> @pointer.Pointer[T]
 
 pub fn[T] exit(Int) -> T
 
@@ -24,13 +32,15 @@ pub fn[T : @string.Borrow] getenv(T) -> @pointer.Pointer[Byte]
 
 pub fn[T] malloc(@stddef.Size) -> @pointer.Pointer[T]
 
-pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
+pub fn[Dst, Src] memcpy(Dst, Src, @stddef.Size) -> Unit
 
 pub fn[Dst] memset(Dst, Byte, @stddef.Size) -> Unit
 
 pub fn[T] null() -> @pointer.Pointer[T]
 
 pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
+
+pub fn[Str1 : @string.Borrow, Str2 : @string.Borrow] strcmp(Str1, Str2) -> Int
 
 pub fn[Str : @string.Borrow] strlen(Str) -> UInt64
 
@@ -41,7 +51,13 @@ pub fn[T : @string.Borrow] system(T) -> Int
 // Types and methods
 
 // Type aliases
+pub using @pointer {type Pointer}
+
 pub using @pointer {type Pointer as Ptr}
+
+pub using @stddef {type Ptrdiff}
+
+pub using @stddef {type Size}
 
 // Traits
 

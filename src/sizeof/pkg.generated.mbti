@@ -46,5 +46,6 @@ pub impl Sized for UInt16
 pub impl Sized for UInt64
 pub impl Sized for Float
 pub impl Sized for Double
+pub impl Sized for @stddef.Ptrdiff
 pub impl Sized for @stddef.Size
 

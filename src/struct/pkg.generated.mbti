@@ -2,6 +2,7 @@
 package "tonyfettes/c/struct"
 
 import(
+  "tonyfettes/c/alignof"
   "tonyfettes/c/pointer"
   "tonyfettes/c/sizeof"
   "tonyfettes/c/stddef"
@@ -15,19 +16,19 @@ pub fn[T : Write] write(@pointer.Pointer[T], T) -> Unit
 // Errors
 
 // Types and methods
-type ArrayField[_]
-pub fn[T] ArrayField::length(Self[T]) -> @stddef.Size
-pub fn[T] ArrayField::offset(Self[T]) -> @stddef.Size
-pub fn[T : @sizeof.Sized] ArrayField::sizeof(Self[T]) -> @stddef.Size
-
 type Field[_]
 pub fn[T] Field::offset(Self[T]) -> @stddef.Size
 pub impl[T] ToJson for Field[T]
 
+type Flatten[T]
+pub fn[T : @pointer.Load + @sizeof.Sized] Flatten::op_get(Self[T], Int) -> T
+pub fn[T : @pointer.Store + @sizeof.Sized] Flatten::op_set(Self[T], Int, T) -> Unit
+pub impl[T] Read for Flatten[T]
+
 type Layout
-pub fn Layout::align(Self) -> @stddef.Size
-pub fn[T : Aligned + @sizeof.Sized] Layout::array_field(Self, @stddef.Size) -> ArrayField[T]
-pub fn[T : Aligned + @sizeof.Sized] Layout::field(Self) -> Field[T]
+pub fn Layout::alignment(Self) -> @stddef.Size
+pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::array_field(Self, @stddef.Size) -> Field[Flatten[T]]
+pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(Self) -> Field[T]
 pub fn Layout::new() -> Self
 pub fn Layout::size(Self) -> @stddef.Size
 
@@ -43,6 +44,7 @@ pub fn Struct::inner(Self) -> @pointer.Pointer[Unit]
 pub fn Struct::new(@pointer.Pointer[Unit]) -> Self
 pub fn[T : Read] Struct::op_get(Self, Field[T]) -> T
 pub fn[T : Write] Struct::op_set(Self, Field[T], T) -> Unit
+pub fn Struct::pointer(Self) -> @pointer.Pointer[Unit]
 
 type Writer
 pub fn Writer::new(@pointer.Pointer[Unit]) -> Self
@@ -50,21 +52,9 @@ pub fn Writer::to_pointer(Self) -> @pointer.Pointer[Unit]
 pub fn[T : Write] Writer::write(Self, T) -> Unit
 
 // Type aliases
+pub type ArrayField[T] = Field[Flatten[T]]
 
 // Traits
-trait Aligned
-pub impl Aligned for Bool
-pub impl Aligned for Byte
-pub impl Aligned for Int
-pub impl Aligned for Int16
-pub impl Aligned for Int64
-pub impl Aligned for UInt
-pub impl Aligned for UInt16
-pub impl Aligned for UInt64
-pub impl Aligned for Float
-pub impl Aligned for Double
-pub impl[T] Aligned for @pointer.Pointer[T]
-
 pub(open) trait Read {
   read(Reader) -> Self
 }
