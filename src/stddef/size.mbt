@@ -16,6 +16,11 @@
 pub(all) struct Size(UInt64)
 
 ///|
+pub impl Show for Size with output(self : Size, logger : &Logger) -> Unit {
+  self.0.output(logger)
+}
+
+///|
 pub impl ToJson for Size with to_json(self : Size) -> Json {
   Json::number(self.0.to_double(), repr=self.0.to_string())
 }
@@ -95,4 +100,12 @@ pub impl Compare for Size with compare(self : Size, other : Size) -> Int {
 ///|
 pub impl Default for Size with default() -> Size {
   Size(0UL)
+}
+
+///|
+extern "c" fn sizeof_size_t() -> UInt64 = "moonbit_tonyfettes_c_stddef_sizeof_size_t"
+
+///|
+pub fn Size::sizeof() -> Size {
+  Size(sizeof_size_t())
 }

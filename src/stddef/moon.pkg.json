@@ -1,1 +1,6 @@
-{}
+{
+  "native-stub": [
+    "ptrdiff.c",
+    "size.c"
+  ]
+}

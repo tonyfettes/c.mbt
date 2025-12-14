@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-using @stddef {type Size}
+using @stddef {type Size, type Ptrdiff}
 
 ///|
 pub const Bool = 1UL
@@ -101,9 +101,11 @@ pub impl Sized for Double with size() -> Size {
 }
 
 ///|
-extern "c" fn sizeof_size_t() -> UInt64 = "moonbit_tonyfettes_c_sizeof_size_t"
+pub impl Sized for Size with size() -> Size {
+  Size::sizeof()
+}
 
 ///|
-pub impl Sized for Size with size() -> Size {
-  sizeof_size_t()
+pub impl Sized for @stddef.Ptrdiff with size() -> Size {
+  Ptrdiff::sizeof()
 }

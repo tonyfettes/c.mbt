@@ -100,3 +100,11 @@ pub impl Neg for Ptrdiff with neg(self : Ptrdiff) -> Ptrdiff {
 pub impl Default for Ptrdiff with default() -> Ptrdiff {
   Ptrdiff(0L)
 }
+
+///|
+extern "c" fn sizeof_ptrdiff_t() -> UInt64 = "moonbit_tonyfettes_c_stddef_sizeof_ptrdiff_t"
+
+///|
+pub fn Ptrdiff::sizeof() -> Size {
+  Size(sizeof_ptrdiff_t())
+}
