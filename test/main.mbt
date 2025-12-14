@@ -59,6 +59,7 @@ pub fn[T] alignof(_ : (T) -> Unit) -> UInt64 {
 #valtype
 struct IPv4(Byte, Byte, Byte, Byte)
 
+///|
 #valtype
 struct Four16(Int16, Int16, Int16, Int16)
 
@@ -74,10 +75,14 @@ struct Complexf(Float, Float)
 #valtype
 struct Complex(Double, Double)
 
+///|
 #valtype
 enum FloatOrDouble {
   Float(Float)
 }
+
+///|
+using @nat {type Nat3, type Nat4}
 
 ///|
 fn main {
@@ -123,4 +128,34 @@ fn main {
   println("FourBool:        \{sizeof_array((_ : FourBool) => ())}")
   println("Four16:          \{sizeof_array((_ : Four16) => ())}")
   println("FloatOrDouble:   \{sizeof_array((_ : FloatOrDouble) => ())}")
+}
+
+///|
+type CArr[T, N] = @array.Static[T, N]
+
+///|
+type CPtr[T] = @c.Ptr[T]
+
+///|
+test {
+  // 4x3 matrix
+  let matrix : CArr[CArr[Int, Nat3], Nat4] = @c.malloc(@sizeof.Int * 3 * 4)
+  defer @c.free(matrix.0)
+  matrix[0][0] = 42
+  matrix[0][2] = 99
+  matrix[1][0] = 123
+  matrix[1][2] = 456
+  matrix[2][0] = 789
+  matrix[2][2] = 22
+  matrix[3][0] = 30
+  matrix[3][2] = 32
+  let int_ptr : CPtr[Int] = matrix.0.cast()
+  @json.inspect(int_ptr[0], content=42)
+  @json.inspect(int_ptr[2], content=99)
+  @json.inspect(int_ptr[3], content=123)
+  @json.inspect(int_ptr[5], content=456)
+  @json.inspect(int_ptr[6], content=789)
+  @json.inspect(int_ptr[8], content=22)
+  @json.inspect(int_ptr[9], content=30)
+  @json.inspect(int_ptr[11], content=32)
 }

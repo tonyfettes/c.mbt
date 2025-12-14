@@ -1,4 +1,11 @@
 {
   "is-main": true,
-  "native-stub": ["pointer.c"]
+  "native-stub": ["pointer.c"],
+  "import": [
+    "tonyfettes/c",
+    "tonyfettes/c/array",
+    "tonyfettes/c/nat",
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/sizeof"
+  ]
 }

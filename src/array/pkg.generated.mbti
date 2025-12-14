@@ -1,0 +1,31 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/array"
+
+import(
+  "tonyfettes/c/alignof"
+  "tonyfettes/c/nat"
+  "tonyfettes/c/sizeof"
+  "tonyfettes/c/stddef"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+type Array[T, Length]
+pub fn[T, N : Length] Array::length(Self[T, N]) -> @stddef.Size
+pub impl[T : @alignof.Aligned, N] @alignof.Aligned for Array[T, N]
+pub impl[T : @sizeof.Sized, N : Static] @sizeof.Sized for Array[T, N]
+
+// Type aliases
+
+// Traits
+trait Length
+pub impl[N : Length] Length for @nat.Succ[N]
+pub impl Length for @nat.Zero
+
+trait Static
+pub impl[N : Static] Static for @nat.Succ[N]
+pub impl Static for @nat.Zero
+

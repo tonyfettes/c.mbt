@@ -1,5 +1,10 @@
 {
   "name": "tonyfettes/c/test",
   "version": "0.1.0",
-  "preferred-target": "native"
+  "preferred-target": "native",
+  "deps": {
+    "tonyfettes/c": {
+      "path": ".."
+    }
+  }
 }
