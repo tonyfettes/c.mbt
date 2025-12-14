@@ -14,60 +14,60 @@
 
 ///|
 trait Aligned {
-  alignment() -> UInt64
+  alignment() -> @stddef.Size
 }
 
 ///|
-pub impl Aligned for Bool with alignment() -> UInt64 {
+pub impl Aligned for Bool with alignment() -> @stddef.Size {
   1UL
 }
 
 ///|
-pub impl Aligned for Byte with alignment() -> UInt64 {
+pub impl Aligned for Byte with alignment() -> @stddef.Size {
   1UL
 }
 
 ///|
-pub impl Aligned for Int16 with alignment() -> UInt64 {
+pub impl Aligned for Int16 with alignment() -> @stddef.Size {
   2UL
 }
 
 ///|
-pub impl Aligned for UInt16 with alignment() -> UInt64 {
+pub impl Aligned for UInt16 with alignment() -> @stddef.Size {
   2UL
 }
 
 ///|
-pub impl Aligned for Int with alignment() -> UInt64 {
+pub impl Aligned for Int with alignment() -> @stddef.Size {
   4UL
 }
 
 ///|
-pub impl Aligned for UInt with alignment() -> UInt64 {
+pub impl Aligned for UInt with alignment() -> @stddef.Size {
   4UL
 }
 
 ///|
-pub impl Aligned for Int64 with alignment() -> UInt64 {
+pub impl Aligned for Int64 with alignment() -> @stddef.Size {
   8UL
 }
 
 ///|
-pub impl Aligned for UInt64 with alignment() -> UInt64 {
+pub impl Aligned for UInt64 with alignment() -> @stddef.Size {
   8UL
 }
 
 ///|
-pub impl Aligned for Float with alignment() -> UInt64 {
+pub impl Aligned for Float with alignment() -> @stddef.Size {
   4UL
 }
 
 ///|
-pub impl Aligned for Double with alignment() -> UInt64 {
+pub impl Aligned for Double with alignment() -> @stddef.Size {
   8UL
 }
 
 ///|
-pub impl[T] Aligned for @pointer.Pointer[T] with alignment() -> UInt64 {
+pub impl[T] Aligned for @pointer.Pointer[T] with alignment() -> @stddef.Size {
   @pointer.sizeof()
 }

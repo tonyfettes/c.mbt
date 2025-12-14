@@ -31,6 +31,6 @@ extern "c" fn memory_memset(
 /// - `len`: The number of bytes to fill
 ///
 /// **Note**: The destination memory must have at least `len` bytes accessible.
-pub fn[Dst] memset(dst : Dst, val : Byte, len : UInt64) -> Unit {
-  @pointer.unsafe_borrow(dst, dst => memory_memset(dst, val, len))
+pub fn[Dst] memset(dst : Dst, val : Byte, len : @stddef.Size) -> Unit {
+  @pointer.unsafe_borrow(dst, dst => memory_memset(dst, val, len.to_uint64()))
 }

@@ -45,7 +45,7 @@ test "fwrite[@c.Pointer]" {
   let ptr : @pointer.Pointer[Byte] = @memory.malloc(13)
   defer @memory.free(ptr)
   for i in 0..<buf.length() {
-    ptr[i.to_uint64()] = buf[i]
+    ptr[i] = buf[i]
   }
   let n = @stdio.fwrite(ptr, 1, 13, file)
   @json.inspect(n, content="13")

@@ -1,0 +1,51 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/c/stddef"
+
+import(
+  "moonbitlang/core/json"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Ptrdiff(Int64)
+#deprecated
+pub fn Ptrdiff::inner(Self) -> Int64
+pub fn Ptrdiff::reinterpret_as_uint64(Self) -> UInt64
+pub fn Ptrdiff::to_int64(Self) -> Int64
+pub impl Add for Ptrdiff
+pub impl Compare for Ptrdiff
+pub impl Default for Ptrdiff
+pub impl Div for Ptrdiff
+pub impl Eq for Ptrdiff
+pub impl Mod for Ptrdiff
+pub impl Mul for Ptrdiff
+pub impl Neg for Ptrdiff
+pub impl Show for Ptrdiff
+pub impl Sub for Ptrdiff
+pub impl ToJson for Ptrdiff
+pub impl @json.FromJson for Ptrdiff
+
+pub(all) struct Size(UInt64)
+#deprecated
+pub fn Size::inner(Self) -> UInt64
+pub fn Size::reinterpret_as_int64(Self) -> Int64
+pub fn Size::to_int(Self) -> Int
+pub fn Size::to_uint64(Self) -> UInt64
+pub impl Add for Size
+pub impl Compare for Size
+pub impl Default for Size
+pub impl Div for Size
+pub impl Eq for Size
+pub impl Mod for Size
+pub impl Mul for Size
+pub impl Sub for Size
+pub impl ToJson for Size
+pub impl @json.FromJson for Size
+
+// Type aliases
+
+// Traits
+

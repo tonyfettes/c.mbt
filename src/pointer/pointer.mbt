@@ -111,14 +111,19 @@ pub impl[T] Compare for Pointer[T] with compare(
 }
 
 ///|
+extern "c" fn pointer_sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
+
+///|
 /// Returns the size of a pointer in bytes.
 ///
 /// On most platforms, this returns 8 for 64-bit systems or 4 for 32-bit systems.
 #as_free_fn
-pub extern "c" fn Pointer::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
+pub fn Pointer::sizeof() -> @stddef.Size {
+  @stddef.Size(pointer_sizeof())
+}
 
 ///|
-pub impl[T] @sizeof.Sized for Pointer[T] with size() -> UInt64 {
+pub impl[T] @sizeof.Sized for Pointer[T] with size() -> @stddef.Size {
   Pointer::sizeof()
 }
 
@@ -129,8 +134,11 @@ extern "c" fn pointer_add(
 ) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_add"
 
 ///|
-pub fn[T] Pointer::byte_add(self : Pointer[T], offset : UInt64) -> Pointer[T] {
-  pointer_add(self.cast(), offset).cast()
+pub fn[T] Pointer::byte_add(
+  self : Pointer[T],
+  offset : @stddef.Size,
+) -> Pointer[T] {
+  pointer_add(self.cast(), offset.to_uint64()).cast()
 }
 
 ///|
@@ -145,7 +153,7 @@ pub fn[T] Pointer::byte_add(self : Pointer[T], offset : UInt64) -> Pointer[T] {
 /// specified number of elements.
 pub fn[T : @sizeof.Sized] Pointer::add(
   self : Pointer[T],
-  offset : UInt64,
+  offset : @stddef.Size,
 ) -> Pointer[T] {
   self.byte_add(offset * T::size())
 }
@@ -153,18 +161,21 @@ pub fn[T : @sizeof.Sized] Pointer::add(
 ///|
 extern "c" fn pointer_sub(
   pointer : Pointer[Unit],
-  offset : UInt64,
+  offset : @stddef.Size,
 ) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_sub"
 
 ///|
-pub fn[T] Pointer::byte_sub(self : Pointer[T], offset : UInt64) -> Pointer[T] {
+pub fn[T] Pointer::byte_sub(
+  self : Pointer[T],
+  offset : @stddef.Size,
+) -> Pointer[T] {
   pointer_sub(self.cast(), offset).cast()
 }
 
 ///|
 pub fn[T : @sizeof.Sized] Pointer::sub(
   self : Pointer[T],
-  offset : UInt64,
+  offset : @stddef.Size,
 ) -> Pointer[T] {
   self.byte_sub(offset * T::size())
 }
@@ -186,14 +197,17 @@ extern "c" fn pointer_offset(
 ///
 /// Returns a new pointer that is offset from the original pointer by the
 /// specified number of bytes.
-pub fn[T] Pointer::byte_offset(self : Pointer[T], offset : Int64) -> Pointer[T] {
-  pointer_offset(self.cast(), offset).cast()
+pub fn[T] Pointer::byte_offset(
+  self : Pointer[T],
+  offset : @stddef.Ptrdiff,
+) -> Pointer[T] {
+  pointer_offset(self.cast(), offset.to_int64()).cast()
 }
 
 ///|
 pub fn[T : @sizeof.Sized] Pointer::offset(
   self : Pointer[T],
-  offset : Int64,
+  offset : @stddef.Ptrdiff,
 ) -> Pointer[T] {
   self.byte_offset(offset * T::size().reinterpret_as_int64())
 }
@@ -217,7 +231,7 @@ extern "c" fn pointer_offset_from(
 pub fn[T : @sizeof.Sized] Pointer::offset_from(
   self : Pointer[T],
   other : Pointer[T],
-) -> Int64 {
+) -> @stddef.Ptrdiff {
   self.byte_offset_from(other) / T::size().reinterpret_as_int64()
 }
 
@@ -234,7 +248,7 @@ pub fn[T : @sizeof.Sized] Pointer::offset_from(
 pub fn[T] Pointer::byte_offset_from(
   self : Pointer[T],
   other : Pointer[T],
-) -> Int64 {
+) -> @stddef.Ptrdiff {
   pointer_offset_from(self.cast(), other.cast())
 }
 
@@ -247,11 +261,11 @@ pub fn[T] Pointer::byte_offset_from(
 /// - `index`: The index to read from
 ///
 /// Returns the value at the specified index.
-pub fn[T] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
-  let array = move_into_array(self)
-  let value = array.unsafe_get(index.to_int())
-  ignore(take_from_array(array))
-  value
+pub fn[T : @sizeof.Sized + Load] Pointer::op_get(
+  self : Pointer[T],
+  index : Int,
+) -> T {
+  self.offset(@stddef.Ptrdiff(index.to_int64())).load()
 }
 
 ///|
@@ -262,10 +276,12 @@ pub fn[T] Pointer::op_get(self : Pointer[T], index : UInt64) -> T {
 /// Parameters:
 /// - `index`: The index to write to
 /// - `value`: The value to write
-pub fn[T] Pointer::op_set(self : Pointer[T], index : UInt64, value : T) -> Unit {
-  let array = move_into_array(self)
-  array.unsafe_set(index.to_int(), value)
-  ignore(take_from_array(array))
+pub fn[T : @sizeof.Sized + Store] Pointer::op_set(
+  self : Pointer[T],
+  index : Int,
+  value : T,
+) -> Unit {
+  self.offset(@stddef.Ptrdiff(index.to_int64())).store(value)
 }
 
 ///|
@@ -303,11 +319,16 @@ pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
 }
 
 ///|
+pub fn[T] Pointer::to_size(self : Pointer[T]) -> @stddef.Size {
+  @stddef.Size(pointer_to_uint64(self.cast()))
+}
+
+///|
 pub fn Pointer::align(
   self : Pointer[Unit],
-  alignment : UInt64,
+  alignment : @stddef.Size,
 ) -> Pointer[Unit] {
-  let address : UInt64 = self.to_uint64()
+  let address : @stddef.Size = self.to_size()
   let remainder = address % alignment
   if remainder == 0 {
     return self

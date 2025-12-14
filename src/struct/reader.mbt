@@ -38,7 +38,7 @@ pub fn[T : Read] Reader::read(self : Reader) -> T {
 }
 
 ///|
-fn Reader::align(self : Reader, alignment : UInt64) -> Unit {
+fn Reader::align(self : Reader, alignment : @stddef.Size) -> Unit {
   self.pointer = self.pointer.align(alignment)
 }
 

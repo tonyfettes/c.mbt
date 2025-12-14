@@ -41,12 +41,12 @@ pub impl Show for Errno with output(self : Errno, logger : &Logger) -> Unit {
   let Errno(value) = self
   let str = strerror(value)
   let mut len = 0
-  while str[len.to_uint64()] != 0 {
+  while str[len] != 0 {
     len += 1
   }
   let buf : FixedArray[Byte] = FixedArray::make(len, 0)
   for i in 0..<len {
-    buf[i] = str[i.to_uint64()]
+    buf[i] = str[i]
   }
   logger.write_string(
     @encoding/utf8.decode_lossy(buf.unsafe_reinterpret_as_bytes()),

@@ -3,6 +3,7 @@ package "tonyfettes/c/stdlib"
 
 import(
   "tonyfettes/c/pointer"
+  "tonyfettes/c/stddef"
   "tonyfettes/c/string"
 )
 
@@ -15,7 +16,7 @@ pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
 pub fn[T : @string.Borrow] getenv(T) -> @pointer.Pointer[Byte]
 
-pub fn[T] malloc(UInt64) -> @pointer.Pointer[T]
+pub fn[T] malloc(@stddef.Size) -> @pointer.Pointer[T]
 
 pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 

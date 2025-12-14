@@ -1,7 +1,8 @@
 {
   "import": [
     "tonyfettes/c/pointer",
-    "tonyfettes/c/sizeof"
+    "tonyfettes/c/sizeof",
+    "tonyfettes/c/stddef"
   ],
   "test-import": [
     "tonyfettes/c/memory"

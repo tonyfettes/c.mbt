@@ -28,6 +28,6 @@ extern "c" fn memory_malloc(size : UInt64) -> @pointer.Pointer[Unit] = "moonbit_
 /// Returns a pointer to the allocated memory, or a null pointer if allocation fails.
 ///
 /// **Note**: The caller is responsible for freeing the allocated memory using `free`.
-pub fn[T] malloc(size : UInt64) -> @pointer.Pointer[T] {
-  memory_malloc(size).cast()
+pub fn[T] malloc(size : @stddef.Size) -> @pointer.Pointer[T] {
+  memory_malloc(size.to_uint64()).cast()
 }

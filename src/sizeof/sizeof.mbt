@@ -13,6 +13,9 @@
 // limitations under the License.
 
 ///|
+using @stddef {type Size}
+
+///|
 pub const Bool = 1UL
 
 ///|
@@ -44,55 +47,63 @@ pub const Double = 8UL
 
 ///|
 pub(open) trait Sized {
-  size() -> UInt64
+  size() -> Size
 }
 
 ///|
-pub impl Sized for Bool with size() -> UInt64 {
+pub impl Sized for Bool with size() -> Size {
   1UL
 }
 
 ///|
-pub impl Sized for Byte with size() -> UInt64 {
+pub impl Sized for Byte with size() -> Size {
   1UL
 }
 
 ///|
-pub impl Sized for Int16 with size() -> UInt64 {
+pub impl Sized for Int16 with size() -> Size {
   2UL
 }
 
 ///|
-pub impl Sized for UInt16 with size() -> UInt64 {
+pub impl Sized for UInt16 with size() -> Size {
   2UL
 }
 
 ///|
-pub impl Sized for Int with size() -> UInt64 {
+pub impl Sized for Int with size() -> Size {
   4UL
 }
 
 ///|
-pub impl Sized for UInt with size() -> UInt64 {
+pub impl Sized for UInt with size() -> Size {
   4UL
 }
 
 ///|
-pub impl Sized for Int64 with size() -> UInt64 {
+pub impl Sized for Int64 with size() -> Size {
   8UL
 }
 
 ///|
-pub impl Sized for UInt64 with size() -> UInt64 {
+pub impl Sized for UInt64 with size() -> Size {
   8UL
 }
 
 ///|
-pub impl Sized for Float with size() -> UInt64 {
+pub impl Sized for Float with size() -> Size {
   4UL
 }
 
 ///|
-pub impl Sized for Double with size() -> UInt64 {
+pub impl Sized for Double with size() -> Size {
   8UL
+}
+
+///|
+extern "c" fn sizeof_size_t() -> UInt64 = "moonbit_tonyfettes_c_sizeof_size_t"
+
+///|
+pub impl Sized for Size with size() -> Size {
+  sizeof_size_t()
 }

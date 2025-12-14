@@ -3,6 +3,7 @@ package "tonyfettes/c/memory"
 
 import(
   "tonyfettes/c/pointer"
+  "tonyfettes/c/stddef"
 )
 
 // Values
@@ -10,14 +11,14 @@ pub fn[T] calloc(UInt64, UInt64) -> @pointer.Pointer[T]
 
 pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
-pub fn[T] malloc(UInt64) -> @pointer.Pointer[T]
+pub fn[T] malloc(@stddef.Size) -> @pointer.Pointer[T]
 
 #alias(copy)
 #alias(memcpy_from_bytes)
 #alias(memcpy_to_bytes)
 pub fn[Dst, Src] memcpy(Dst, Src, UInt64) -> Unit
 
-pub fn[Dst] memset(Dst, Byte, UInt64) -> Unit
+pub fn[Dst] memset(Dst, Byte, @stddef.Size) -> Unit
 
 pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
 

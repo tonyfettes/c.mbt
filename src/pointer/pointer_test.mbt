@@ -160,8 +160,8 @@ test "borrow_ref" {
 ///|
 test "borrow_array" {
   let arr : FixedArray[Int] = [1, 2, 3, 4, 5]
-  @pointer.borrow_array(arr, ptr => for i in 0UL..<arr.length().to_uint64() {
-    assert_eq(ptr[i], i.to_int() + 1)
+  @pointer.borrow_array(arr, ptr => for i in 0..<arr.length() {
+    assert_eq(ptr[i], i + 1)
   })
 }
 

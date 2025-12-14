@@ -9,6 +9,7 @@
     "tonyfettes/c/sizeof"
   ],
   "import": [
-    "tonyfettes/c/sizeof"
+    "tonyfettes/c/sizeof",
+    "tonyfettes/c/stddef"
   ]
 }

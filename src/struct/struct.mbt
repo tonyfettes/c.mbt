@@ -1,7 +1,7 @@
 ///|
 struct Layout {
-  mut offset : UInt64
-  mut align : UInt64
+  mut offset : @stddef.Size
+  mut align : @stddef.Size
 }
 
 ///|
@@ -10,25 +10,25 @@ pub fn Layout::new() -> Layout {
 }
 
 ///|
-struct ArrayField[_](UInt64, UInt64)
+struct ArrayField[_](@stddef.Size, @stddef.Size)
 
 ///|
-pub fn[T] ArrayField::offset(self : ArrayField[T]) -> UInt64 {
+pub fn[T] ArrayField::offset(self : ArrayField[T]) -> @stddef.Size {
   self.0
 }
 
 ///|
-pub fn[T] ArrayField::length(self : ArrayField[T]) -> UInt64 {
+pub fn[T] ArrayField::length(self : ArrayField[T]) -> @stddef.Size {
   self.1
 }
 
 ///|
-pub fn[T : @sizeof.Sized] ArrayField::sizeof(self : ArrayField[T]) -> UInt64 {
+pub fn[T : @sizeof.Sized] ArrayField::sizeof(self : ArrayField[T]) -> @stddef.Size {
   self.1 * T::size()
 }
 
 ///|
-struct Field[_](UInt64)
+struct Field[_](@stddef.Size)
 
 ///|
 pub impl[T] ToJson for Field[T] with to_json(self : Field[T]) -> Json {
@@ -36,7 +36,7 @@ pub impl[T] ToJson for Field[T] with to_json(self : Field[T]) -> Json {
 }
 
 ///|
-pub fn[T] Field::offset(self : Field[T]) -> UInt64 {
+pub fn[T] Field::offset(self : Field[T]) -> @stddef.Size {
   self.0
 }
 
@@ -59,7 +59,7 @@ pub fn[T : Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Field[T] {
 ///|
 pub fn[T : Aligned + @sizeof.Sized] Layout::array_field(
   self : Layout,
-  length : UInt64,
+  length : @stddef.Size,
 ) -> ArrayField[T] {
   // Save current offset
   let offset = self.offset
@@ -75,12 +75,12 @@ pub fn[T : Aligned + @sizeof.Sized] Layout::array_field(
 }
 
 ///|
-pub fn Layout::size(self : Layout) -> UInt64 {
+pub fn Layout::size(self : Layout) -> @stddef.Size {
   (self.offset + self.align - 1) / self.align * self.align
 }
 
 ///|
-pub fn Layout::align(self : Layout) -> UInt64 {
+pub fn Layout::align(self : Layout) -> @stddef.Size {
   self.align
 }
 

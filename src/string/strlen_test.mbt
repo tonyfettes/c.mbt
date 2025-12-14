@@ -26,8 +26,8 @@ test "strlen[Pointer[Byte]]" {
     @sizeof.Byte * s.length().to_uint64(),
   )
   defer @memory.free(ptr)
-  for i in 0UL..<s.length().to_uint64() {
-    ptr[i] = s[i.to_int()]
+  for i in 0..<s.length() {
+    ptr[i] = s[i]
   }
   let len : UInt64 = @string.strlen(ptr)
   @json.inspect(len, content="13")

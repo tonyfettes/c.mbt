@@ -4,6 +4,7 @@ package "tonyfettes/c/thrd"
 import(
   "tonyfettes/c/pointer"
   "tonyfettes/c/sizeof"
+  "tonyfettes/c/stddef"
 )
 
 // Values
