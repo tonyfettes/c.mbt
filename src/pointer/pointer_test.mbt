@@ -54,8 +54,8 @@ test "Pointer::offset" {
 ///|
 test "Pointer::offset_from" {
   let ptr : @pointer.Pointer[Byte] = @pointer.Pointer::null()
-  @json.inspect(ptr.offset(0x30).offset_from(ptr.offset(0x10)), content="32")
-  @json.inspect(ptr.offset(0x10).offset_from(ptr.offset(0x30)), content="-32")
+  @json.inspect(ptr.offset(0x30).offset_from(ptr.offset(0x10)), content=32)
+  @json.inspect(ptr.offset(0x10).offset_from(ptr.offset(0x30)), content=-32)
 }
 
 ///|

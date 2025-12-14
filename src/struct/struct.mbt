@@ -10,24 +10,6 @@ pub fn Layout::new() -> Layout {
 }
 
 ///|
-struct ArrayField[_](@stddef.Size, @stddef.Size)
-
-///|
-pub fn[T] ArrayField::offset(self : ArrayField[T]) -> @stddef.Size {
-  self.0
-}
-
-///|
-pub fn[T] ArrayField::length(self : ArrayField[T]) -> @stddef.Size {
-  self.1
-}
-
-///|
-pub fn[T : @sizeof.Sized] ArrayField::sizeof(self : ArrayField[T]) -> @stddef.Size {
-  self.1 * T::size()
-}
-
-///|
 struct Field[_](@stddef.Size)
 
 ///|
@@ -41,8 +23,38 @@ pub fn[T] Field::offset(self : Field[T]) -> @stddef.Size {
 }
 
 ///|
+struct Flatten[T](@pointer.Pointer[T])
+
+///|
+pub impl[T] Read for Flatten[T] with read(self : Reader) -> Flatten[T] {
+  self.pointer.cast()
+}
+
+///|
+pub fn[T : @pointer.Load + @sizeof.Sized] Flatten::op_get(
+  self : Flatten[T],
+  index : Int,
+) -> T {
+  self.0[index]
+}
+
+///|
+pub fn[T : @pointer.Store + @sizeof.Sized] Flatten::op_set(
+  self : Flatten[T],
+  index : Int,
+  value : T,
+) -> Unit {
+  self.0[index] = value
+}
+
+///|
+pub type ArrayField[T] = Field[Flatten[T]]
+
+///|
 /// Adds a field to the struct being built, returning its offset.
-pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Field[T] {
+pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(
+  self : Layout,
+) -> Field[T] {
   // Save current offset
   let offset = self.offset
   let align = T::alignment()
@@ -60,7 +72,7 @@ pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(self : Layout) -> Fie
 pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::array_field(
   self : Layout,
   length : @stddef.Size,
-) -> ArrayField[T] {
+) -> Field[Flatten[T]] {
   // Save current offset
   let offset = self.offset
   let align = T::alignment()
@@ -71,7 +83,7 @@ pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::array_field(
   // Update offset
   self.offset = (self.offset + align - 1) / align * align + length * T::size()
   // Return field offset and length
-  ArrayField(offset, length)
+  Field(offset)
 }
 
 ///|
@@ -80,12 +92,17 @@ pub fn Layout::size(self : Layout) -> @stddef.Size {
 }
 
 ///|
-pub fn Layout::align(self : Layout) -> @stddef.Size {
+pub fn Layout::alignment(self : Layout) -> @stddef.Size {
   self.align
 }
 
 ///|
 pub(all) struct Struct(@pointer.Pointer[Unit])
+
+///|
+pub fn Struct::pointer(self : Struct) -> @pointer.Pointer[Unit] {
+  self.0
+}
 
 ///|
 pub fn Struct::new(pointer : @pointer.Pointer[Unit]) -> Struct {

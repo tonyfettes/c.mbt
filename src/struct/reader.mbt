@@ -50,7 +50,7 @@ fn[T : @alignof.Aligned + @sizeof.Sized + @pointer.Load] Reader::read_aligned(
   self.align(T::alignment())
   // Read value from pointer
   let value : T = self.pointer.cast().load()
-  // Advance pointer by field size
+  // Advance pointer
   self.pointer = self.pointer.byte_add(T::size())
   // Return value
   value

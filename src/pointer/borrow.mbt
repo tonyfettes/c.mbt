@@ -180,12 +180,15 @@ pub fn[R] borrow_bytes(
 /// - `f`: The function to call with the borrowed pointer
 ///
 /// Returns the result of calling `f`.
+#locals(f)
 pub fn[T, R] unsafe_borrow(
   value : T,
   f : (Pointer[Unit]) -> R raise?,
 ) -> R raise? {
   let ptr = unsafe_take_from(value)
-  let val : R = f(ptr)
+  let val : R = for {
+    break f(ptr)
+  }
   let _ : T = unsafe_move_into(ptr)
   val
 }
