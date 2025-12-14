@@ -11,10 +11,10 @@ pub let exit_failure : Int = @exit.failure
 pub using @memory {malloc, free, realloc, calloc, memcpy, memset}
 
 ///|
-pub type Ptr[T] = @pointer.Pointer[T]
+pub type Ptr[T] = Pointer[T]
 
 ///|
-pub using @pointer {null}
+pub using @pointer {type Pointer, null}
 
 ///|
 pub using @stdlib {getenv, system}
