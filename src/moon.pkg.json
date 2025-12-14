@@ -14,6 +14,7 @@
     "tonyfettes/c/memory",
     "tonyfettes/c/pointer",
     "tonyfettes/c/stdlib",
-    "tonyfettes/c/string"
+    "tonyfettes/c/string",
+    "tonyfettes/c/stddef"
   ]
 }
