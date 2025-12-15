@@ -9,8 +9,6 @@ import(
 )
 
 // Values
-pub fn[T : Read] read(@pointer.Pointer[T]) -> T
-
 pub fn[T : Write] write(@pointer.Pointer[T], T) -> Unit
 
 // Errors
@@ -23,7 +21,7 @@ pub impl[T] ToJson for Field[T]
 type Flatten[T]
 pub fn[T : @pointer.Load + @sizeof.Sized] Flatten::op_get(Self[T], Int) -> T
 pub fn[T : @pointer.Store + @sizeof.Sized] Flatten::op_set(Self[T], Int, T) -> Unit
-pub impl[T] Read for Flatten[T]
+pub impl[T] @pointer.Load for Flatten[T]
 
 type Layout
 pub fn Layout::alignment(Self) -> @stddef.Size
@@ -32,18 +30,13 @@ pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(Self) -> Field[T]
 pub fn Layout::new() -> Self
 pub fn Layout::size(Self) -> @stddef.Size
 
-type Reader
-pub fn Reader::new(@pointer.Pointer[Unit]) -> Self
-pub fn[T : Read] Reader::read(Self) -> T
-pub fn Reader::to_pointer(Self) -> @pointer.Pointer[Unit]
-
 pub(all) struct Struct(@pointer.Pointer[Unit])
 pub fn[T] Struct::get(Self, Field[T]) -> @pointer.Pointer[T]
 #deprecated
 pub fn Struct::inner(Self) -> @pointer.Pointer[Unit]
 pub fn Struct::new(@pointer.Pointer[Unit]) -> Self
-pub fn[T : Read] Struct::op_get(Self, Field[T]) -> T
-pub fn[T : Write] Struct::op_set(Self, Field[T], T) -> Unit
+pub fn[T : @pointer.Load] Struct::op_get(Self, Field[T]) -> T
+pub fn[T : @pointer.Store] Struct::op_set(Self, Field[T], T) -> Unit
 pub fn Struct::pointer(Self) -> @pointer.Pointer[Unit]
 
 type Writer
@@ -55,21 +48,6 @@ pub fn[T : Write] Writer::write(Self, T) -> Unit
 pub type ArrayField[T] = Field[Flatten[T]]
 
 // Traits
-pub(open) trait Read {
-  read(Reader) -> Self
-}
-pub impl Read for Bool
-pub impl Read for Byte
-pub impl Read for Int
-pub impl Read for Int16
-pub impl Read for Int64
-pub impl Read for UInt
-pub impl Read for UInt16
-pub impl Read for UInt64
-pub impl Read for Float
-pub impl Read for Double
-pub impl[T] Read for @pointer.Pointer[T]
-
 pub(open) trait Write {
   write(Writer, Self) -> Unit
 }

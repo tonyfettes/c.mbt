@@ -7,9 +7,7 @@ package "tonyfettes/c/nat"
 
 // Types and methods
 #alias(Add1)
-pub(all) struct Succ[T](T)
-#deprecated
-pub fn[T] Succ::inner(Self[T]) -> T
+type Succ[T]
 
 #alias(Nat0)
 type Zero
