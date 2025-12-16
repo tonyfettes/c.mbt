@@ -2,11 +2,6 @@
 struct Static[T, _](@pointer.Pointer[T])
 
 ///|
-pub(open) trait ToSize {
-  to_size() -> @stddef.Size
-}
-
-///|
 pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N] with size() -> @stddef.Size {
   T::size() * @stddef.Size::from_uint64(@nat.to_uint64((_ : N) => ()))
 }
