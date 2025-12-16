@@ -32,7 +32,7 @@ pub fn[T : @string.Borrow] getenv(T) -> @pointer.Pointer[Byte]
 
 pub fn[T] malloc(@stddef.Size) -> @pointer.Pointer[T]
 
-pub fn[Dst, Src] memcpy(Dst, Src, @stddef.Size) -> Unit
+pub fn[Dst : @pointer.Borrow, Src : @pointer.Borrow] memcpy(Dst, Src, @stddef.Size) -> Unit
 
 pub fn[Dst] memset(Dst, Byte, @stddef.Size) -> Unit
 

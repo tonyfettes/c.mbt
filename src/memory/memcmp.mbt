@@ -13,3 +13,21 @@
 // limitations under the License.
 
 ///|
+extern "c" fn memory_memcmp(
+  dst : @pointer.Pointer[Unit],
+  src : @pointer.Pointer[Unit],
+  len : UInt64,
+) -> Unit = "moonbit_tonyfettes_c_memory_memcmp"
+
+///|
+pub fn[Lhs : @pointer.Borrow, Rhs : @pointer.Borrow] memcmp(
+  lhs : Lhs,
+  rhs : Rhs,
+  len : @stddef.Size,
+) -> Unit {
+  @pointer.borrow_2(lhs, rhs, (lhs, rhs) => memory_memcmp(
+    lhs,
+    rhs,
+    len.to_uint64(),
+  ))
+}

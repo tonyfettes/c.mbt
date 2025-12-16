@@ -36,10 +36,10 @@ extern "c" fn c_memcpy(
 #alias(memcpy_to_bytes)
 #alias(memcpy_from_bytes)
 #alias(copy)
-pub fn[Dst, Src] memcpy(dst : Dst, src : Src, len : @stddef.Size) -> Unit {
-  @pointer.unsafe_borrow(dst, dst => @pointer.unsafe_borrow(src, src => c_memcpy(
-    dst,
-    src,
-    len.to_uint64(),
-  )))
+pub fn[Dst : @pointer.Borrow, Src : @pointer.Borrow] memcpy(
+  dst : Dst,
+  src : Src,
+  len : @stddef.Size,
+) -> Unit {
+  @pointer.borrow_2(dst, src, (dst, src) => c_memcpy(dst, src, len.to_uint64()))
 }

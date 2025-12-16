@@ -13,10 +13,12 @@ pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
 pub fn[T] malloc(@stddef.Size) -> @pointer.Pointer[T]
 
+pub fn[Lhs : @pointer.Borrow, Rhs : @pointer.Borrow] memcmp(Lhs, Rhs, @stddef.Size) -> Unit
+
 #alias(copy)
 #alias(memcpy_from_bytes)
 #alias(memcpy_to_bytes)
-pub fn[Dst, Src] memcpy(Dst, Src, @stddef.Size) -> Unit
+pub fn[Dst : @pointer.Borrow, Src : @pointer.Borrow] memcpy(Dst, Src, @stddef.Size) -> Unit
 
 pub fn[Dst] memset(Dst, Byte, @stddef.Size) -> Unit
 

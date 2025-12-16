@@ -9,6 +9,8 @@ import(
 // Values
 pub fn[T : Borrow, R] borrow(T, (Pointer[Unit]) -> R raise?) -> R raise?
 
+pub fn[A : Borrow, B : Borrow, R] borrow_2(A, B, (Pointer[Unit], Pointer[Unit]) -> R raise?) -> R raise?
+
 pub fn[T, R] borrow_array(FixedArray[T], (Pointer[T]) -> R raise?) -> R raise?
 
 pub fn[R] borrow_bytes(Bytes, (Pointer[Byte]) -> R raise?) -> R raise?

@@ -18,11 +18,11 @@ pub fn[T : @string.Borrow] getenv(T) -> @pointer.Pointer[Byte]
 
 pub fn[T] malloc(@stddef.Size) -> @pointer.Pointer[T]
 
-pub fn[Dst, Src] memcpy(Dst, Src, @stddef.Size) -> Unit
+pub fn[Dst : @pointer.Borrow, Src : @pointer.Borrow] memcpy(Dst, Src, @stddef.Size) -> Unit
 
-pub fn[Dst, Src] memcpy_from_bytes(Dst, Src, @stddef.Size) -> Unit
+pub fn[Dst : @pointer.Borrow, Src : @pointer.Borrow] memcpy_from_bytes(Dst, Src, @stddef.Size) -> Unit
 
-pub fn[Dst, Src] memcpy_to_bytes(Dst, Src, @stddef.Size) -> Unit
+pub fn[Dst : @pointer.Borrow, Src : @pointer.Borrow] memcpy_to_bytes(Dst, Src, @stddef.Size) -> Unit
 
 pub fn[T : @string.Borrow] system(T) -> Int
 

@@ -226,6 +226,22 @@ pub fn[T : Borrow, R] borrow(
 }
 
 ///|
+pub fn[A : Borrow, B : Borrow, R] borrow_2(
+  a : A,
+  b : B,
+  f : (Pointer[Unit], Pointer[Unit]) -> R raise?,
+) -> R raise? {
+  let ptr_a = A::from(a)
+  let ptr_b = B::from(b)
+  let val : R = for {
+    break f(ptr_a, ptr_b)
+  }
+  let _ : A = A::into(ptr_a)
+  let _ : B = B::into(ptr_b)
+  val
+}
+
+///|
 /// Implements `Borrow` for `Bytes` to extract a pointer.
 pub impl From for Bytes with from(self : Bytes) -> Pointer[Unit] {
   from_bytes(self).cast()
