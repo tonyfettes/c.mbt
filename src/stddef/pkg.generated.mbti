@@ -30,6 +30,7 @@ pub impl ToJson for Ptrdiff
 pub impl @json.FromJson for Ptrdiff
 
 pub(all) struct Size(UInt64)
+pub fn Size::from_uint64(UInt64) -> Self
 #deprecated
 pub fn Size::inner(Self) -> UInt64
 pub fn Size::reinterpret_as_int64(Self) -> Int64

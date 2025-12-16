@@ -27,7 +27,7 @@ let sa_len : Field[Sockaddr, Byte] = @struct.field()
 let sa_family : Field[Sockaddr, Byte] = sa_len.next()
 
 ///|
-let sa_data : Field[Sockaddr, Flatten[Byte]] = sa_family.next_array(14)
+let sa_data : Field[Sockaddr, @array.Static[Byte, @nat.Od14[@nat.Z]]] = sa_family.next()
 
 ///|
 impl @sizeof.Sized for Sockaddr with size() -> @stddef.Size {
@@ -164,7 +164,7 @@ priv struct DebugLayout {
   is_tail_call : Field[Debug, Bool]
   f_transfer : Field[Debug, UInt16]
   n_transfer : Field[Debug, UInt16]
-  short_src : Field[Debug, Flatten[Byte]]
+  short_src : Field[Debug, @array.Dynamic[Byte]]
   i_ci : Field[Debug, @pointer.Pointer[Unit]]
   size : @stddef.Size
   alignment : @stddef.Size

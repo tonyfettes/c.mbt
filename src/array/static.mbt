@@ -1,24 +1,14 @@
 ///|
-pub(all) struct Static[T, _](@pointer.Pointer[T])
+struct Static[T, _](@pointer.Pointer[T])
 
 ///|
-trait Length {
+pub(open) trait ToSize {
   to_size() -> @stddef.Size
 }
 
 ///|
-pub impl Length for @nat.Zero with to_size() -> @stddef.Size {
-  0
-}
-
-///|
-pub impl[N : Length] Length for @nat.Succ[N] with to_size() -> @stddef.Size {
-  N::to_size() + 1
-}
-
-///|
-pub impl[T : @sizeof.Sized, N : Length] @sizeof.Sized for Static[T, N] with size() -> @stddef.Size {
-  T::size() * N::to_size()
+pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N] with size() -> @stddef.Size {
+  T::size() * @stddef.Size::from_uint64(@nat.to_uint64((_ : N) => ()))
 }
 
 ///|

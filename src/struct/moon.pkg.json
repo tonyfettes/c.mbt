@@ -3,9 +3,11 @@
     "tonyfettes/c/pointer",
     "tonyfettes/c/sizeof",
     "tonyfettes/c/stddef",
-    "tonyfettes/c/alignof"
+    "tonyfettes/c/alignof",
+    "tonyfettes/c/array"
   ],
   "test-import": [
-    "tonyfettes/c/memory"
+    "tonyfettes/c/memory",
+    "tonyfettes/nat"
   ]
 }

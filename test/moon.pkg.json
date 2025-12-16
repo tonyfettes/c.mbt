@@ -4,7 +4,7 @@
   "import": [
     "tonyfettes/c",
     "tonyfettes/c/array",
-    "tonyfettes/c/nat",
+    "tonyfettes/nat",
     "tonyfettes/c/pointer",
     "tonyfettes/c/sizeof"
   ]

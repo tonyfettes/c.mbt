@@ -3,7 +3,7 @@
     "tonyfettes/c/pointer",
     "tonyfettes/c/stddef",
     "tonyfettes/c/sizeof",
-    "tonyfettes/c/nat",
+    "tonyfettes/nat",
     "tonyfettes/c/alignof"
   ]
 }

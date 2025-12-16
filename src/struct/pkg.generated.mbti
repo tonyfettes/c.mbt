@@ -3,6 +3,7 @@ package "tonyfettes/c/struct"
 
 import(
   "tonyfettes/c/alignof"
+  "tonyfettes/c/array"
   "tonyfettes/c/pointer"
   "tonyfettes/c/sizeof"
   "tonyfettes/c/stddef"
@@ -16,7 +17,7 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] field() -> Field[S, T]
 // Types and methods
 type Builder
 pub fn Builder::alignment(Self) -> @stddef.Size
-pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(Self, @stddef.Size) -> Field[S, Flatten[T]]
+pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(Self, @stddef.Size) -> Field[S, @array.Dynamic[T]]
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(Self) -> Field[S, T]
 pub fn Builder::new() -> Self
 pub fn Builder::size(Self) -> @stddef.Size
@@ -25,16 +26,11 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::struct_field(Self) -> F
 type Field[_, _]
 pub fn[S, T] Field::alignment(Self[S, T]) -> @stddef.Size
 pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next(Self[S, C]) -> Self[S, N]
-pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(Self[S, C], @stddef.Size) -> Self[S, Flatten[N]]
+pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(Self[S, C], @stddef.Size) -> Self[S, @array.Dynamic[N]]
 pub fn[S, T] Field::next_offset(Self[S, T]) -> @stddef.Size
 pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(Self[S, C]) -> Self[S, Struct[N]]
 pub fn[S, T] Field::offset(Self[S, T]) -> @stddef.Size
 pub impl[S, T] ToJson for Field[S, T]
-
-type Flatten[T]
-pub fn[T : @pointer.Load + @sizeof.Sized] Flatten::op_get(Self[T], Int) -> T
-pub fn[T : @pointer.Store + @sizeof.Sized] Flatten::op_set(Self[T], Int, T) -> Unit
-pub impl[T] @pointer.Load for Flatten[T]
 
 pub(all) struct Struct[S](@pointer.Pointer[Struct[S]])
 pub fn[S, T] Struct::get(Self[S], Field[S, T]) -> @pointer.Pointer[T]
@@ -47,7 +43,6 @@ pub fn[S] Struct::pointer(Self[S]) -> @pointer.Pointer[Self[S]]
 pub impl[S] @pointer.Load for Struct[S]
 
 // Type aliases
-pub type ArrayField[S, T] = Field[S, Flatten[T]]
 
 // Traits
 

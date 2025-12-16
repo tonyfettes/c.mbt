@@ -47,6 +47,11 @@ pub impl @json.FromJson for Size with from_json(
 }
 
 ///|
+pub fn Size::from_uint64(value : UInt64) -> Size {
+  Size(value)
+}
+
+///|
 pub fn Size::to_int(self : Size) -> Int {
   self.0.to_int()
 }

@@ -44,36 +44,6 @@ pub fn[S, T] Field::next_offset(self : Field[S, T]) -> @stddef.Size {
 }
 
 ///|
-struct Flatten[T](@pointer.Pointer[T])
-
-///|
-pub impl[T] @pointer.Load for Flatten[T] with load(
-  self : @pointer.Pointer[Flatten[T]],
-) -> Flatten[T] {
-  Flatten(self.cast())
-}
-
-///|
-pub fn[T : @pointer.Load + @sizeof.Sized] Flatten::op_get(
-  self : Flatten[T],
-  index : Int,
-) -> T {
-  self.0[index]
-}
-
-///|
-pub fn[T : @pointer.Store + @sizeof.Sized] Flatten::op_set(
-  self : Flatten[T],
-  index : Int,
-  value : T,
-) -> Unit {
-  self.0[index] = value
-}
-
-///|
-pub type ArrayField[S, T] = Field[S, Flatten[T]]
-
-///|
 /// Adds a field to the struct being built, returning its offset.
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(
   self : Builder,
@@ -97,7 +67,7 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(
   self : Builder,
   length : @stddef.Size,
-) -> Field[S, Flatten[T]] {
+) -> Field[S, @array.Dynamic[T]] {
   // Update struct alignment
   let alignment = T::alignment()
   if alignment > self.align {
@@ -150,7 +120,7 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next(
 pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(
   self : Field[S, C],
   length : @stddef.Size,
-) -> Field[S, Flatten[N]] {
+) -> Field[S, @array.Dynamic[N]] {
   let alignment = if N::alignment() > self.alignment {
     N::alignment()
   } else {

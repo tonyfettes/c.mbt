@@ -3,10 +3,10 @@ package "tonyfettes/c/array"
 
 import(
   "tonyfettes/c/alignof"
-  "tonyfettes/c/nat"
   "tonyfettes/c/pointer"
   "tonyfettes/c/sizeof"
   "tonyfettes/c/stddef"
+  "tonyfettes/nat"
 )
 
 // Values
@@ -14,19 +14,19 @@ import(
 // Errors
 
 // Types and methods
-pub(all) struct Static[T, _](@pointer.Pointer[T])
-#deprecated
-pub fn[T, _] Static::inner(Self[T, _]) -> @pointer.Pointer[T]
+type Dynamic[T]
+pub fn[T : @pointer.Load + @sizeof.Sized] Dynamic::op_get(Self[T], Int) -> T
+pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::op_set(Self[T], Int, T) -> Unit
+pub impl[T] @pointer.Load for Dynamic[T]
+
+type Static[T, _]
 pub fn[T : @pointer.Load + @sizeof.Sized, N] Static::op_get(Self[T, N], Int) -> T
 pub fn[T : @pointer.Store + @sizeof.Sized, N] Static::op_set(Self[T, N], Int, T) -> Unit
 pub impl[T : @alignof.Aligned, N] @alignof.Aligned for Static[T, N]
 pub impl[T, N] @pointer.Load for Static[T, N]
-pub impl[T : @sizeof.Sized, N : Length] @sizeof.Sized for Static[T, N]
+pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N]
 
 // Type aliases
 
 // Traits
-trait Length
-pub impl[N : Length] Length for @nat.Succ[N]
-pub impl Length for @nat.Zero
 
