@@ -144,7 +144,7 @@ test "Pointer[Pointer[_]]" {
   let val : @pointer.Pointer[Byte] = @memory.malloc(16)
   defer @memory.free(val)
   let ptr : @pointer.Pointer[@pointer.Pointer[Byte]] = @memory.malloc(
-    @pointer.Pointer::sizeof()
+    @pointer.Pointer::sizeof(),
   )
   defer @memory.free(ptr)
   ptr.store(val)

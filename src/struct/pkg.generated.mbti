@@ -9,57 +9,45 @@ import(
 )
 
 // Values
-pub fn[T : Write] write(@pointer.Pointer[T], T) -> Unit
+pub fn[S, T : @alignof.Aligned + @sizeof.Sized] field() -> Field[S, T]
 
 // Errors
 
 // Types and methods
-type Field[_]
-pub fn[T] Field::offset(Self[T]) -> @stddef.Size
-pub impl[T] ToJson for Field[T]
+type Builder
+pub fn Builder::alignment(Self) -> @stddef.Size
+pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(Self, @stddef.Size) -> Field[S, Flatten[T]]
+pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(Self) -> Field[S, T]
+pub fn Builder::new() -> Self
+pub fn Builder::size(Self) -> @stddef.Size
+pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::struct_field(Self) -> Field[S, Struct[T]]
+
+type Field[_, _]
+pub fn[S, T] Field::alignment(Self[S, T]) -> @stddef.Size
+pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next(Self[S, C]) -> Self[S, N]
+pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(Self[S, C], @stddef.Size) -> Self[S, Flatten[N]]
+pub fn[S, T] Field::next_offset(Self[S, T]) -> @stddef.Size
+pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(Self[S, C]) -> Self[S, Struct[N]]
+pub fn[S, T] Field::offset(Self[S, T]) -> @stddef.Size
+pub impl[S, T] ToJson for Field[S, T]
 
 type Flatten[T]
 pub fn[T : @pointer.Load + @sizeof.Sized] Flatten::op_get(Self[T], Int) -> T
 pub fn[T : @pointer.Store + @sizeof.Sized] Flatten::op_set(Self[T], Int, T) -> Unit
 pub impl[T] @pointer.Load for Flatten[T]
 
-type Layout
-pub fn Layout::alignment(Self) -> @stddef.Size
-pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::array_field(Self, @stddef.Size) -> Field[Flatten[T]]
-pub fn[T : @alignof.Aligned + @sizeof.Sized] Layout::field(Self) -> Field[T]
-pub fn Layout::new() -> Self
-pub fn Layout::size(Self) -> @stddef.Size
-
-pub(all) struct Struct(@pointer.Pointer[Unit])
-pub fn[T] Struct::get(Self, Field[T]) -> @pointer.Pointer[T]
+pub(all) struct Struct[S](@pointer.Pointer[Struct[S]])
+pub fn[S, T] Struct::get(Self[S], Field[S, T]) -> @pointer.Pointer[T]
 #deprecated
-pub fn Struct::inner(Self) -> @pointer.Pointer[Unit]
-pub fn Struct::new(@pointer.Pointer[Unit]) -> Self
-pub fn[T : @pointer.Load] Struct::op_get(Self, Field[T]) -> T
-pub fn[T : @pointer.Store] Struct::op_set(Self, Field[T], T) -> Unit
-pub fn Struct::pointer(Self) -> @pointer.Pointer[Unit]
-
-type Writer
-pub fn Writer::new(@pointer.Pointer[Unit]) -> Self
-pub fn Writer::to_pointer(Self) -> @pointer.Pointer[Unit]
-pub fn[T : Write] Writer::write(Self, T) -> Unit
+pub fn[S] Struct::inner(Self[S]) -> @pointer.Pointer[Self[S]]
+pub fn[S] Struct::new(@pointer.Pointer[Self[S]]) -> Self[S]
+pub fn[S, T : @pointer.Load] Struct::op_get(Self[S], Field[S, T]) -> T
+pub fn[S, T : @pointer.Store] Struct::op_set(Self[S], Field[S, T], T) -> Unit
+pub fn[S] Struct::pointer(Self[S]) -> @pointer.Pointer[Self[S]]
+pub impl[S] @pointer.Load for Struct[S]
 
 // Type aliases
-pub type ArrayField[T] = Field[Flatten[T]]
+pub type ArrayField[S, T] = Field[S, Flatten[T]]
 
 // Traits
-pub(open) trait Write {
-  write(Writer, Self) -> Unit
-}
-pub impl Write for Bool
-pub impl Write for Byte
-pub impl Write for Int
-pub impl Write for Int16
-pub impl Write for Int64
-pub impl Write for UInt
-pub impl Write for UInt16
-pub impl Write for UInt64
-pub impl Write for Float
-pub impl Write for Double
-pub impl[T] Write for @pointer.Pointer[T]
 
