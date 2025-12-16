@@ -11,7 +11,8 @@
   "import": [
     "tonyfettes/c/errno",
     "tonyfettes/c/pointer",
-    "tonyfettes/c/string"
+    "tonyfettes/c/string",
+    "tonyfettes/c/stddef"
   ],
   "native-stub": ["stdio.c", "fopen.c", "fgets.c", "fread.c", "fwrite.c"],
   "test-import": ["tonyfettes/c/memory"]

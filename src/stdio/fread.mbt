@@ -23,9 +23,14 @@ extern "c" fn stdio_fread(
 ///|
 pub fn[T : @string.Borrow] fread(
   ptr : T,
-  size : UInt64,
-  n : UInt64,
+  size : @stddef.Size,
+  n : @stddef.Size,
   stream : File,
-) -> UInt64 {
-  @string.borrow(ptr, ptr => stdio_fread(ptr, size, n, stream))
+) -> @stddef.Size {
+  @string.borrow(ptr, ptr => stdio_fread(
+    ptr,
+    size.to_uint64(),
+    n.to_uint64(),
+    stream,
+  ))
 }
