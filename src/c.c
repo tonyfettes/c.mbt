@@ -15,9 +15,6 @@
  */
 
 #include "moonbit.h"
-#include <stddef.h>
-#include <stdint.h>
-#include <netdb.h>
 
 MOONBIT_FFI_EXPORT
 void *
