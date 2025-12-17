@@ -17,32 +17,16 @@ pub fn[R] borrow_bytes(Bytes, (Pointer[Byte]) -> R raise?) -> R raise?
 
 pub fn[T, R] borrow_ref(Ref[T], (Pointer[T]) -> R raise?) -> R raise?
 
-pub fn[T] from_array(FixedArray[T]) -> Pointer[T]
-
-pub fn from_bytes(Bytes) -> Pointer[Byte]
-
-pub fn[T] from_ref(Ref[T]) -> Pointer[T]
-
-pub fn[T] into_array(Pointer[T]) -> FixedArray[T]
-
-pub fn into_bytes(Pointer[Byte]) -> Bytes
-
-pub fn[T] into_ref(Pointer[T]) -> Ref[T]
-
 pub fn[T, R] unsafe_borrow(T, (Pointer[Unit]) -> R raise?) -> R raise?
 
 pub fn[T] unsafe_decref(T) -> Unit
-
-pub fn[T] unsafe_from(T) -> Pointer[Unit]
-
-pub fn[T] unsafe_into(Pointer[Unit]) -> T
 
 // Errors
 
 // Types and methods
 #alias(Ptr)
 #external
-pub type Pointer[_]
+pub(all) type Pointer[_]
 pub fn[T : @sizeof.Sized] Pointer::add(Self[T], @stddef.Size) -> Self[T]
 pub fn Pointer::align(Self[Unit], @stddef.Size) -> Self[Unit]
 pub fn[T] Pointer::byte_add(Self[T], @stddef.Size) -> Self[T]
@@ -52,6 +36,18 @@ pub fn[T] Pointer::byte_sub(Self[T], @stddef.Size) -> Self[T]
 pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::cast_to_byte(Self[T]) -> Self[Byte]
 pub fn[T] Pointer::cast_to_unit(Self[T]) -> Self[Unit]
+#as_free_fn
+pub fn[T] Pointer::from_array(FixedArray[T]) -> Self[T]
+#as_free_fn
+pub fn Pointer::from_bytes(Bytes) -> Self[Byte]
+#as_free_fn
+pub fn[T] Pointer::from_ref(Ref[T]) -> Self[T]
+#as_free_fn
+pub fn[T] Pointer::into_array(Self[T]) -> FixedArray[T]
+#as_free_fn
+pub fn Pointer::into_bytes(Self[Byte]) -> Bytes
+#as_free_fn
+pub fn[T] Pointer::into_ref(Self[T]) -> Ref[T]
 pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
 pub fn[T : Load] Pointer::load(Self[T]) -> T
@@ -67,6 +63,10 @@ pub fn[T : Store] Pointer::store(Self[T], T) -> Unit
 pub fn[T : @sizeof.Sized] Pointer::sub(Self[T], @stddef.Size) -> Self[T]
 pub fn[T] Pointer::to_size(Self[T]) -> @stddef.Size
 pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
+#as_free_fn
+pub fn[T] Pointer::unsafe_from(T) -> Self[Unit]
+#as_free_fn
+pub fn[T] Pointer::unsafe_into(Self[Unit]) -> T
 pub impl[T] Compare for Pointer[T]
 pub impl[T] Eq for Pointer[T]
 pub impl[T] Borrow for Pointer[T]

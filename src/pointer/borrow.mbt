@@ -10,7 +10,8 @@
 /// - `value`: The value to extract a pointer from
 ///
 /// Returns a `Pointer[Unit]` pointing to the value's memory location.
-pub fn[T] unsafe_from(value : T) -> Pointer[Unit] = "%identity"
+#as_free_fn
+pub fn[T] Pointer::unsafe_from(value : T) -> Pointer[Unit] = "%identity"
 
 ///|
 /// Extracts a pointer from a reference.
@@ -20,7 +21,8 @@ pub fn[T] unsafe_from(value : T) -> Pointer[Unit] = "%identity"
 /// - `value`: The reference to extract a pointer from
 ///
 /// Returns a `Pointer[T]` pointing to the referenced value.
-pub fn[T] from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
+#as_free_fn
+pub fn[T] Pointer::from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 
 ///|
 /// Extracts a pointer from a fixed array.
@@ -30,7 +32,8 @@ pub fn[T] from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 /// - `value`: The fixed array to extract a pointer from
 ///
 /// Returns a `Pointer[T]` pointing to the first element of the array.
-pub fn[T] from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
+#as_free_fn
+pub fn[T] Pointer::from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 
 ///|
 /// Extracts a pointer from a bytes buffer.
@@ -40,7 +43,8 @@ pub fn[T] from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 /// - `value`: The bytes buffer to extract a pointer from
 ///
 /// Returns a `Pointer[Byte]` pointing to the first byte of the buffer.
-pub fn from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
+#as_free_fn
+pub fn Pointer::from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
 /// Trait for types from which a pointer can be extracted.
@@ -61,7 +65,8 @@ pub(open) trait From {
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a value of type `T`.
-pub fn[T] unsafe_into(ptr : Pointer[Unit]) -> T = "%identity"
+#as_free_fn
+pub fn[T] Pointer::unsafe_into(ptr : Pointer[Unit]) -> T = "%identity"
 
 ///|
 /// Converts a pointer into a reference.
@@ -71,7 +76,8 @@ pub fn[T] unsafe_into(ptr : Pointer[Unit]) -> T = "%identity"
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a `Ref[T]` referencing the memory location.
-pub fn[T] into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
+#as_free_fn
+pub fn[T] Pointer::into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 
 ///|
 /// Converts a pointer into a fixed array.
@@ -81,7 +87,8 @@ pub fn[T] into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a `FixedArray[T]` starting at the pointer's memory location.
-pub fn[T] into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
+#as_free_fn
+pub fn[T] Pointer::into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 
 ///|
 /// Converts a pointer into a bytes buffer.
@@ -91,7 +98,8 @@ pub fn[T] into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 /// - `pointer`: The pointer to convert
 ///
 /// Returns a `Bytes` buffer starting at the pointer's memory location.
-pub fn into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
+#as_free_fn
+pub fn Pointer::into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
 
 ///|
 /// Trait for types that can be created from a pointer.

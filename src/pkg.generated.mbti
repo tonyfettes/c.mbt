@@ -18,7 +18,7 @@ pub fn[R] borrow_bytes(Bytes, (@pointer.Pointer[Byte]) -> R raise?) -> R raise?
 
 pub fn[T, R] borrow_ref(Ref[T], (@pointer.Pointer[T]) -> R raise?) -> R raise?
 
-pub fn[T] calloc(UInt64, @stddef.Size) -> @pointer.Pointer[T]
+pub fn[T] calloc(@stddef.Size, @stddef.Size) -> @pointer.Pointer[T]
 
 pub fn[T] exit(Int) -> T
 

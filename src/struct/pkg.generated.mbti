@@ -32,10 +32,9 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(Self[S, C]
 pub fn[S, T] Field::offset(Self[S, T]) -> @stddef.Size
 pub impl[S, T] ToJson for Field[S, T]
 
-pub(all) struct Struct[S](@pointer.Pointer[Struct[S]])
+#external
+pub(all) type Struct[S]
 pub fn[S, T] Struct::get(Self[S], Field[S, T]) -> @pointer.Pointer[T]
-#deprecated
-pub fn[S] Struct::inner(Self[S]) -> @pointer.Pointer[Self[S]]
 pub fn[S] Struct::new(@pointer.Pointer[Self[S]]) -> Self[S]
 pub fn[S, T : @pointer.Load] Struct::op_get(Self[S], Field[S, T]) -> T
 pub fn[S, T : @pointer.Store] Struct::op_set(Self[S], Field[S, T], T) -> Unit

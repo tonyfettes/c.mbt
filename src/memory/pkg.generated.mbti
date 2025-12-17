@@ -7,7 +7,7 @@ import(
 )
 
 // Values
-pub fn[T] calloc(UInt64, @stddef.Size) -> @pointer.Pointer[T]
+pub fn[T] calloc(@stddef.Size, @stddef.Size) -> @pointer.Pointer[T]
 
 pub fn[T] free(@pointer.Pointer[T]) -> Unit
 
