@@ -3,6 +3,7 @@ package "tonyfettes/c/string"
 
 import(
   "tonyfettes/c/pointer"
+  "tonyfettes/c/stddef"
 )
 
 // Values
@@ -12,7 +13,13 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(A, B, (@pointer.Pointer[Byte], @point
 
 pub fn[Str1 : Borrow, Str2 : Borrow] strcmp(Str1, Str2) -> Int
 
-pub fn[Str : Borrow] strlen(Str) -> UInt64
+pub fn[Str1 : Borrow, Str2 : Borrow] strcpy(Str1, Str2) -> Unit
+
+pub fn[Str : Borrow] strlen(Str) -> @stddef.Size
+
+pub fn[Str1 : Borrow, Str2 : Borrow] strncmp(Str1, Str2, @stddef.Size) -> Int
+
+pub fn[Str1 : Borrow, Str2 : Borrow] strncpy(Str1, Str2, @stddef.Size) -> Unit
 
 // Errors
 

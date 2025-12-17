@@ -16,6 +16,6 @@
 extern "c" fn string_strlen(s : @pointer.Pointer[Byte]) -> UInt64 = "moonbit_tonyfettes_c_string_strlen"
 
 ///|
-pub fn[Str : Borrow] strlen(s : Str) -> UInt64 {
+pub fn[Str : Borrow] strlen(s : Str) -> @stddef.Size {
   borrow(s, s => string_strlen(s))
 }

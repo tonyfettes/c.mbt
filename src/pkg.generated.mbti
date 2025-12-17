@@ -42,7 +42,7 @@ pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
 
 pub fn[Str1 : @string.Borrow, Str2 : @string.Borrow] strcmp(Str1, Str2) -> Int
 
-pub fn[Str : @string.Borrow] strlen(Str) -> UInt64
+pub fn[Str : @string.Borrow] strlen(Str) -> @stddef.Size
 
 pub fn[T : @string.Borrow] system(T) -> Int
 

@@ -15,8 +15,8 @@
 ///|
 test "strlen[Bytes]" {
   let s : Bytes = b"Hello, World!\x00"
-  let len : UInt64 = @string.strlen(s)
-  @json.inspect(len, content="13")
+  let len : @stddef.Size = @string.strlen(s)
+  @json.inspect(len, content=13)
 }
 
 ///|
@@ -29,6 +29,6 @@ test "strlen[Pointer[Byte]]" {
   for i in 0..<s.length() {
     ptr[i] = s[i]
   }
-  let len : UInt64 = @string.strlen(ptr)
-  @json.inspect(len, content="13")
+  let len : @stddef.Size = @string.strlen(ptr)
+  @json.inspect(len, content=13)
 }
