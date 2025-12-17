@@ -22,7 +22,7 @@ pub fn[T] Pointer::unsafe_from(value : T) -> Pointer[Unit] = "%identity"
 ///
 /// Returns a `Pointer[T]` pointing to the referenced value.
 #as_free_fn
-pub fn[T] Pointer::from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
+pub fn[T] Pointer::unsafe_from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 
 ///|
 /// Extracts a pointer from a fixed array.
@@ -33,7 +33,7 @@ pub fn[T] Pointer::from_ref(value : Ref[T]) -> Pointer[T] = "%identity"
 ///
 /// Returns a `Pointer[T]` pointing to the first element of the array.
 #as_free_fn
-pub fn[T] Pointer::from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
+pub fn[T] Pointer::unsafe_from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 
 ///|
 /// Extracts a pointer from a bytes buffer.
@@ -44,7 +44,7 @@ pub fn[T] Pointer::from_array(value : FixedArray[T]) -> Pointer[T] = "%identity"
 ///
 /// Returns a `Pointer[Byte]` pointing to the first byte of the buffer.
 #as_free_fn
-pub fn Pointer::from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
+pub fn Pointer::unsafe_from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
 /// Trait for types from which a pointer can be extracted.
@@ -77,7 +77,7 @@ pub fn[T] Pointer::unsafe_into(ptr : Pointer[Unit]) -> T = "%identity"
 ///
 /// Returns a `Ref[T]` referencing the memory location.
 #as_free_fn
-pub fn[T] Pointer::into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
+pub fn[T] Pointer::unsafe_into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 
 ///|
 /// Converts a pointer into a fixed array.
@@ -88,7 +88,7 @@ pub fn[T] Pointer::into_ref(ptr : Pointer[T]) -> Ref[T] = "%identity"
 ///
 /// Returns a `FixedArray[T]` starting at the pointer's memory location.
 #as_free_fn
-pub fn[T] Pointer::into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
+pub fn[T] Pointer::unsafe_into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 
 ///|
 /// Converts a pointer into a bytes buffer.
@@ -99,7 +99,7 @@ pub fn[T] Pointer::into_array(ptr : Pointer[T]) -> FixedArray[T] = "%identity"
 ///
 /// Returns a `Bytes` buffer starting at the pointer's memory location.
 #as_free_fn
-pub fn Pointer::into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
+pub fn Pointer::unsafe_into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
 
 ///|
 /// Trait for types that can be created from a pointer.
@@ -125,9 +125,9 @@ pub fn[T, R] borrow_ref(
   ref_ : Ref[T],
   f : (Pointer[T]) -> R raise?,
 ) -> R raise? {
-  let ptr = from_ref(ref_)
+  let ptr = unsafe_from_ref(ref_)
   let val : R = f(ptr)
-  let _ : Ref[T] = into_ref(ptr)
+  let _ : Ref[T] = unsafe_into_ref(ptr)
   val
 }
 
@@ -147,9 +147,9 @@ pub fn[T, R] borrow_array(
   array : FixedArray[T],
   f : (Pointer[T]) -> R raise?,
 ) -> R raise? {
-  let ptr = from_array(array)
+  let ptr = unsafe_from_array(array)
   let val : R = f(ptr)
-  let _ : FixedArray[T] = into_array(ptr)
+  let _ : FixedArray[T] = unsafe_into_array(ptr)
   val
 }
 
@@ -169,9 +169,9 @@ pub fn[R] borrow_bytes(
   bytes : Bytes,
   f : (Pointer[Byte]) -> R raise?,
 ) -> R raise? {
-  let ptr = from_bytes(bytes)
+  let ptr = unsafe_from_bytes(bytes)
   let val : R = f(ptr)
-  let _ : Bytes = into_bytes(ptr)
+  let _ : Bytes = unsafe_into_bytes(ptr)
   val
 }
 
@@ -252,13 +252,13 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
 ///|
 /// Implements `Borrow` for `Bytes` to extract a pointer.
 pub impl From for Bytes with from(self : Bytes) -> Pointer[Unit] {
-  from_bytes(self).cast()
+  unsafe_from_bytes(self).cast()
 }
 
 ///|
 /// Implements `Borrow` for `Bytes` to restore from a pointer.
 pub impl Into for Bytes with into(ptr : Pointer[Unit]) -> Bytes {
-  into_bytes(ptr.cast())
+  unsafe_into_bytes(ptr.cast())
 }
 
 ///|
@@ -284,7 +284,7 @@ pub impl[T] Borrow for Pointer[T]
 pub impl[T] From for FixedArray[T] with from(self : FixedArray[T]) -> Pointer[
   Unit,
 ] {
-  from_array(self).cast()
+  unsafe_from_array(self).cast()
 }
 
 ///|
@@ -292,7 +292,7 @@ pub impl[T] From for FixedArray[T] with from(self : FixedArray[T]) -> Pointer[
 pub impl[T] Into for FixedArray[T] with into(ptr : Pointer[Unit]) -> FixedArray[
   T,
 ] {
-  into_array(ptr.cast())
+  unsafe_into_array(ptr.cast())
 }
 
 ///|

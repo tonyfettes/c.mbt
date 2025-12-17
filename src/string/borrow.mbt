@@ -46,26 +46,26 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
 
 ///|
 pub impl Borrow for Bytes with from(self : Bytes) -> @pointer.Pointer[Byte] {
-  @pointer.from_bytes(self)
+  @pointer.unsafe_from_bytes(self)
 }
 
 ///|
 pub impl Borrow for Bytes with into(ptr : @pointer.Pointer[Byte]) -> Bytes {
-  @pointer.into_bytes(ptr)
+  @pointer.unsafe_into_bytes(ptr)
 }
 
 ///|
 pub impl Borrow for FixedArray[Byte] with from(self : FixedArray[Byte]) -> @pointer.Pointer[
   Byte,
 ] {
-  @pointer.from_array(self)
+  @pointer.unsafe_from_array(self)
 }
 
 ///|
 pub impl Borrow for FixedArray[Byte] with into(
   ptr : @pointer.Pointer[Byte],
 ) -> FixedArray[Byte] {
-  @pointer.into_array(ptr)
+  @pointer.unsafe_into_array(ptr)
 }
 
 ///|

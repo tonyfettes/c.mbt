@@ -36,18 +36,6 @@ pub fn[T] Pointer::byte_sub(Self[T], @stddef.Size) -> Self[T]
 pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::cast_to_byte(Self[T]) -> Self[Byte]
 pub fn[T] Pointer::cast_to_unit(Self[T]) -> Self[Unit]
-#as_free_fn
-pub fn[T] Pointer::from_array(FixedArray[T]) -> Self[T]
-#as_free_fn
-pub fn Pointer::from_bytes(Bytes) -> Self[Byte]
-#as_free_fn
-pub fn[T] Pointer::from_ref(Ref[T]) -> Self[T]
-#as_free_fn
-pub fn[T] Pointer::into_array(Self[T]) -> FixedArray[T]
-#as_free_fn
-pub fn Pointer::into_bytes(Self[Byte]) -> Bytes
-#as_free_fn
-pub fn[T] Pointer::into_ref(Self[T]) -> Ref[T]
 pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
 pub fn[T : Load] Pointer::load(Self[T]) -> T
@@ -66,7 +54,19 @@ pub fn[T] Pointer::to_uint64(Self[T]) -> UInt64
 #as_free_fn
 pub fn[T] Pointer::unsafe_from(T) -> Self[Unit]
 #as_free_fn
+pub fn[T] Pointer::unsafe_from_array(FixedArray[T]) -> Self[T]
+#as_free_fn
+pub fn Pointer::unsafe_from_bytes(Bytes) -> Self[Byte]
+#as_free_fn
+pub fn[T] Pointer::unsafe_from_ref(Ref[T]) -> Self[T]
+#as_free_fn
 pub fn[T] Pointer::unsafe_into(Self[Unit]) -> T
+#as_free_fn
+pub fn[T] Pointer::unsafe_into_array(Self[T]) -> FixedArray[T]
+#as_free_fn
+pub fn Pointer::unsafe_into_bytes(Self[Byte]) -> Bytes
+#as_free_fn
+pub fn[T] Pointer::unsafe_into_ref(Self[T]) -> Ref[T]
 pub impl[T] Compare for Pointer[T]
 pub impl[T] Eq for Pointer[T]
 pub impl[T] Borrow for Pointer[T]
