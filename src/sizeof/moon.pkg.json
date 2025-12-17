@@ -1,4 +1,9 @@
 {
+  "targets": {
+    "sizeof.mbt": [
+      "native"
+    ]
+  },
   "import": [
     "tonyfettes/c/stddef"
   ]

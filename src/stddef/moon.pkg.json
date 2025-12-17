@@ -1,4 +1,15 @@
 {
+  "targets": {
+    "ptrdiff.mbt": [
+      "native"
+    ],
+    "size_test.mbt": [
+      "native"
+    ],
+    "size.mbt": [
+      "native"
+    ]
+  },
   "native-stub": [
     "ptrdiff.c",
     "size.c"

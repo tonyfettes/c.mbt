@@ -1,4 +1,12 @@
 {
+  "targets": {
+    "struct_test.mbt": [
+      "native"
+    ],
+    "struct.mbt": [
+      "native"
+    ]
+  },
   "import": [
     "tonyfettes/c/pointer",
     "tonyfettes/c/sizeof",

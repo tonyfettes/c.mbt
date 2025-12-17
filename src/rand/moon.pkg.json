@@ -1,4 +1,21 @@
 {
+  "targets": {
+    "max.mbt": [
+      "native"
+    ],
+    "rand_test.mbt": [
+      "native"
+    ],
+    "rand.mbt": [
+      "native"
+    ],
+    "srand_test.mbt": [
+      "native"
+    ],
+    "srand.mbt": [
+      "native"
+    ]
+  },
   "native-stub": [
     "max.c",
     "rand.c",

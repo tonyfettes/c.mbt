@@ -1,3 +1,18 @@
 {
-  "native-stub": ["atomics.c", "threads.c", "version.c"]
+  "native-stub": [
+    "atomics.c",
+    "threads.c",
+    "version.c"
+  ],
+  "targets": {
+    "atomics.mbt": [
+      "native"
+    ],
+    "threads.mbt": [
+      "native"
+    ],
+    "version.mbt": [
+      "native"
+    ]
+  }
 }

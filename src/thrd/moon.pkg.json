@@ -1,8 +1,23 @@
 {
+  "targets": {
+    "create.mbt": [
+      "native"
+    ],
+    "join.mbt": [
+      "native"
+    ],
+    "thrd.mbt": [
+      "native"
+    ]
+  },
   "import": [
     "tonyfettes/c/pointer",
     "tonyfettes/c/sizeof",
     "tonyfettes/c/stddef"
   ],
-  "native-stub": ["create.c", "join.c", "thrd.c"]
+  "native-stub": [
+    "create.c",
+    "join.c",
+    "thrd.c"
+  ]
 }

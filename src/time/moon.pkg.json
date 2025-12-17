@@ -2,5 +2,13 @@
   "import": [
     "tonyfettes/c/pointer",
     "tonyfettes/c/string"
-  ]
+  ],
+  "targets": {
+    "time_test.mbt": [
+      "native"
+    ],
+    "time.mbt": [
+      "native"
+    ]
+  }
 }

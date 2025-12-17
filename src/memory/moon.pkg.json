@@ -13,5 +13,40 @@
   ],
   "test-import": [
     "tonyfettes/c/sizeof"
-  ]
+  ],
+  "targets": {
+    "memcpy_test.mbt": [
+      "native"
+    ],
+    "free.mbt": [
+      "native"
+    ],
+    "realloc.mbt": [
+      "native"
+    ],
+    "calloc.mbt": [
+      "native"
+    ],
+    "calloc_test.mbt": [
+      "native"
+    ],
+    "malloc.mbt": [
+      "native"
+    ],
+    "memset.mbt": [
+      "native"
+    ],
+    "memset_test.mbt": [
+      "native"
+    ],
+    "realloc_test.mbt": [
+      "native"
+    ],
+    "memcmp.mbt": [
+      "native"
+    ],
+    "memcpy.mbt": [
+      "native"
+    ]
+  }
 }

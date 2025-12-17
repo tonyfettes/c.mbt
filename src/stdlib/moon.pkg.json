@@ -4,5 +4,10 @@
     "tonyfettes/c/memory",
     "tonyfettes/c/pointer",
     "tonyfettes/c/string"
-  ]
+  ],
+  "targets": {
+    "stdlib.mbt": [
+      "native"
+    ]
+  }
 }

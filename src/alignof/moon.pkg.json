@@ -2,5 +2,10 @@
   "import": [
     "tonyfettes/c/stddef",
     "tonyfettes/c/pointer"
-  ]
+  ],
+  "targets": {
+    "align.mbt": [
+      "native"
+    ]
+  }
 }

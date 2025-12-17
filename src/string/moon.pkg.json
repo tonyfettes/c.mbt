@@ -1,5 +1,38 @@
 {
-  "import": ["tonyfettes/c/pointer", "tonyfettes/c/stddef"],
-  "native-stub": ["strlen.c", "strcmp.c", "strcpy.c"],
-  "test-import": ["tonyfettes/c/memory", "tonyfettes/c/sizeof"]
+  "import": [
+    "tonyfettes/c/pointer",
+    "tonyfettes/c/stddef"
+  ],
+  "native-stub": [
+    "strlen.c",
+    "strcmp.c",
+    "strcpy.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/memory",
+    "tonyfettes/c/sizeof"
+  ],
+  "targets": {
+    "strlen.mbt": [
+      "native"
+    ],
+    "strcmp.mbt": [
+      "native"
+    ],
+    "strcmp_test.mbt": [
+      "native"
+    ],
+    "borrow.mbt": [
+      "native"
+    ],
+    "strlen_test.mbt": [
+      "native"
+    ],
+    "strcpy.mbt": [
+      "native"
+    ],
+    "strcpy_test.mbt": [
+      "native"
+    ]
+  }
 }

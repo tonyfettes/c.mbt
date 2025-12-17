@@ -2,5 +2,19 @@
   "native-stub": [
     "exit.c",
     "atexit.c"
-  ]
+  ],
+  "targets": {
+    "atexit.mbt": [
+      "native"
+    ],
+    "atexit_test.mbt": [
+      "native"
+    ],
+    "exit.mbt": [
+      "native"
+    ],
+    "exit_test.mbt": [
+      "native"
+    ]
+  }
 }

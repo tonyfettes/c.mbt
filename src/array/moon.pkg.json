@@ -5,5 +5,13 @@
     "tonyfettes/c/sizeof",
     "tonyfettes/nat",
     "tonyfettes/c/alignof"
-  ]
+  ],
+  "targets": {
+    "dynamic.mbt": [
+      "native"
+    ],
+    "static.mbt": [
+      "native"
+    ]
+  }
 }

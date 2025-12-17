@@ -1,4 +1,21 @@
 {
+  "targets": {
+    "borrow.mbt": [
+      "native"
+    ],
+    "load.mbt": [
+      "native"
+    ],
+    "pointer_test.mbt": [
+      "native"
+    ],
+    "pointer.mbt": [
+      "native"
+    ],
+    "store.mbt": [
+      "native"
+    ]
+  },
   "native-stub": [
     "pointer.c",
     "load.c",

@@ -1,5 +1,19 @@
 {
-  "native-stub": ["setjmp.c"],
-  "test-import": ["tonyfettes/c/signal"],
-  "import": ["tonyfettes/c/pointer"]
+  "native-stub": [
+    "setjmp.c"
+  ],
+  "test-import": [
+    "tonyfettes/c/signal"
+  ],
+  "import": [
+    "tonyfettes/c/pointer"
+  ],
+  "targets": {
+    "setjmp.mbt": [
+      "native"
+    ],
+    "setjmp_test.mbt": [
+      "native"
+    ]
+  }
 }
