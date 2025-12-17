@@ -19,7 +19,7 @@
 /// for low-level memory operations and interoperability with C code.
 #external
 #alias(Ptr)
-pub type Pointer[_]
+pub(all) type Pointer[_]
 
 ///|
 /// Casts a pointer from one type to another.

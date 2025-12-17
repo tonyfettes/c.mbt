@@ -154,24 +154,21 @@ pub fn Builder::alignment(self : Builder) -> @stddef.Size {
 }
 
 ///|
-pub(all) struct Struct[S](@pointer.Pointer[Struct[S]])
+#external
+pub(all) type Struct[S]
 
 ///|
-pub fn[S] Struct::pointer(self : Struct[S]) -> @pointer.Pointer[Struct[S]] {
-  self.0
-}
+pub fn[S] Struct::pointer(self : Struct[S]) -> @pointer.Pointer[Struct[S]] = "%identity"
 
 ///|
-pub fn[S] Struct::new(pointer : @pointer.Pointer[Struct[S]]) -> Struct[S] {
-  Struct(pointer)
-}
+pub fn[S] Struct::new(pointer : @pointer.Pointer[Struct[S]]) -> Struct[S] = "%identity"
 
 ///|
 pub fn[S, T : @pointer.Load] Struct::op_get(
   self : Struct[S],
   field : Field[S, T],
 ) -> T {
-  self.0.byte_add(field.offset).cast().load()
+  self.pointer().byte_add(field.offset).cast().load()
 }
 
 ///|
@@ -180,7 +177,7 @@ pub fn[S, T : @pointer.Store] Struct::op_set(
   field : Field[S, T],
   value : T,
 ) -> Unit {
-  self.0.byte_add(field.offset).cast().store(value)
+  self.pointer().byte_add(field.offset).cast().store(value)
 }
 
 ///|
@@ -188,12 +185,12 @@ pub fn[S, T] Struct::get(
   self : Struct[S],
   field : Field[S, T],
 ) -> @pointer.Pointer[T] {
-  self.0.byte_add(field.offset).cast()
+  self.pointer().byte_add(field.offset).cast()
 }
 
 ///|
 pub impl[S] @pointer.Load for Struct[S] with load(
   pointer : @pointer.Pointer[Struct[S]],
 ) -> Struct[S] {
-  Struct(pointer)
+  Struct::new(pointer)
 }

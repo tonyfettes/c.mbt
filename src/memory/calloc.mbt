@@ -32,6 +32,6 @@ extern "c" fn memory_calloc(
 /// Returns a pointer to the allocated and zeroed memory, or a null pointer if allocation fails.
 ///
 /// **Note**: The caller is responsible for freeing the allocated memory using `free`.
-pub fn[T] calloc(n : UInt64, size : @stddef.Size) -> @pointer.Pointer[T] {
-  memory_calloc(n, size.to_uint64()).cast()
+pub fn[T] calloc(n : @stddef.Size, size : @stddef.Size) -> @pointer.Pointer[T] {
+  memory_calloc(n.to_uint64(), size.to_uint64()).cast()
 }

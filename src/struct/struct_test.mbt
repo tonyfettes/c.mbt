@@ -110,7 +110,9 @@ test "addrinfo" {
   @json.inspect(ai_next.offset(), content=48)
   @json.inspect(AddrInfo::size(), content=56)
   @json.inspect(AddrInfo::alignment(), content=8)
-  let object : @struct.Struct[AddrInfo] = @memory.calloc(1, AddrInfo::size())
+  let object : @struct.Struct[AddrInfo] = @struct.Struct::new(
+    @memory.calloc(1, AddrInfo::size()),
+  )
   defer @memory.free(object.pointer())
   object[ai_flags] = 123
   object[ai_family] = 456
@@ -217,7 +219,9 @@ test "Layout" {
   @json.inspect(debug.i_ci.offset(), content=128)
   @json.inspect(debug.size, content=136)
   @json.inspect(debug.alignment, content=8)
-  let object : @struct.Struct[Debug] = @memory.calloc(1, debug.size)
+  let object : @struct.Struct[Debug] = @struct.Struct::new(
+    @memory.calloc(1, debug.size),
+  )
   defer @memory.free(object.pointer())
   object[debug.event] = 42
   object[debug.current_line] = 2025
