@@ -96,6 +96,7 @@ def test_package(
         flags = windows_flags()
     if flags is None:
         raise Exception("Unsupported platform")
+    cc_sh = Path("scripts") / "cc.sh"
     moon_pkg_path = pkg_path / "moon.pkg.json"
     moon_pkg_text = modify_moon_pkg_json(moon_pkg_path, flags)
     print("==============================================")
@@ -105,7 +106,10 @@ def test_package(
     print("----------------------------------------------")
     env = os.environ.copy()
     if platform.system() != "Windows":
-        env["MOON_CC"] = flags["cc"] + " -g -fsanitize=address"
+        cc = flags["cc"]
+        cc_sh.write_text(f'#!/bin/sh\nexec {cc} -g -fsanitize=address "$@"\n')
+        cc_sh.chmod(0o755)
+        env["MOON_CC"] = str(cc_sh.absolute())
         env["MOON_AR"] = "/usr/bin/ar"
     if platform.system() != "Windows":
         env["ASAN_OPTIONS"] = "detect_leaks=1"
@@ -133,6 +137,7 @@ def test_package(
         )
     finally:
         moon_pkg_path.write_text(moon_pkg_text)
+        cc_sh.unlink(missing_ok=True)
 
 
 def main():
