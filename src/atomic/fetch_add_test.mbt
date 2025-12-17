@@ -46,6 +46,7 @@ test "fetch_add/concurrent" {
       NThreads.to_uint64(),
       @thrd.Thrd::sizeof(),
     )
+    defer @memory.free(threads)
     for i in 0..<NThreads {
       @thrd.create(
         threads.offset(i.to_int64()),
@@ -59,7 +60,6 @@ test "fetch_add/concurrent" {
       )
       |> ignore()
     }
-    defer @memory.free(threads)
     for i in 0..<NThreads {
       @thrd.join(threads.offset(i.to_int64()), @pointer.Pointer::null())
       |> ignore()
@@ -73,6 +73,7 @@ test "fetch_add/concurrent" {
       1,
       @atomic.sizeof((_ : Int) => ()),
     )
+    defer @memory.free(atomic_counter.to_pointer())
     @atomic.init_(atomic_counter, 0)
     for i in 0..<NThreads {
       @thrd.create(
