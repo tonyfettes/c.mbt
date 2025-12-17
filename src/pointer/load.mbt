@@ -48,6 +48,12 @@ extern "c" fn pointer_load_float(pointer : Pointer[Float]) -> Float = "moonbit_t
 extern "c" fn pointer_load_double(pointer : Pointer[Double]) -> Double = "moonbit_tonyfettes_c_pointer_load_double"
 
 ///|
+extern "c" fn pointer_load_ptrdiff(pointer : Pointer[@stddef.Ptrdiff]) -> Int64 = "moonbit_tonyfettes_c_pointer_load_ptrdiff"
+
+///|
+extern "c" fn pointer_load_size(pointer : Pointer[@stddef.Size]) -> UInt64 = "moonbit_tonyfettes_c_pointer_load_size"
+
+///|
 extern "c" fn pointer_load_pointer(
   pointer : Pointer[Pointer[Unit]],
 ) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_load_pointer"
@@ -107,4 +113,14 @@ pub impl[T] Load for Pointer[T] with load(pointer : Pointer[Pointer[T]]) -> Poin
   T,
 ] {
   pointer_load_pointer(pointer.cast()).cast()
+}
+
+///|
+pub impl Load for @stddef.Ptrdiff with load(pointer : Pointer[@stddef.Ptrdiff]) -> @stddef.Ptrdiff {
+  @stddef.Ptrdiff(pointer_load_ptrdiff(pointer))
+}
+
+///|
+pub impl Load for @stddef.Size with load(pointer : Pointer[@stddef.Size]) -> @stddef.Size {
+  @stddef.Size(pointer_load_size(pointer))
 }

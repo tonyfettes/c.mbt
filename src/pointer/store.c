@@ -83,3 +83,15 @@ void
 moonbit_tonyfettes_c_pointer_store_pointer(void **pointer, void *value) {
   *((void **)pointer) = value;
 }
+
+MOONBIT_FFI_EXPORT
+void
+moonbit_tonyfettes_c_pointer_store_ptrdiff(void *pointer, ptrdiff_t value) {
+  *((ptrdiff_t *)pointer) = value;
+}
+
+MOONBIT_FFI_EXPORT
+void
+moonbit_tonyfettes_c_pointer_store_size(void *pointer, size_t value) {
+  *((size_t *)pointer) = value;
+}

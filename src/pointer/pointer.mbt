@@ -335,3 +335,34 @@ pub fn Pointer::align(
   }
   self.byte_add(alignment - remainder)
 }
+
+///|
+pub(open) trait From {
+  from(Self) -> Pointer[Unit]
+}
+
+///|
+#as_free_fn
+pub fn[T : From] Pointer::from(value : T) -> Pointer[Unit] {
+  From::from(value)
+}
+
+///|
+pub impl[T] From for Pointer[T] with from(self : Pointer[T]) -> Pointer[Unit] {
+  self.cast()
+}
+
+///|
+pub(open) trait Into {
+  into(Pointer[Unit]) -> Self
+}
+
+///|
+pub fn[T : Into] Pointer::into(ptr : Pointer[Unit]) -> T {
+  Into::into(ptr)
+}
+
+///|
+pub impl[T] Into for Pointer[T] with into(self : Pointer[Unit]) -> Pointer[T] {
+  self.cast()
+}

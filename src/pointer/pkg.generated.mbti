@@ -36,6 +36,9 @@ pub fn[T] Pointer::byte_sub(Self[T], @stddef.Size) -> Self[T]
 pub fn[T, U] Pointer::cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::cast_to_byte(Self[T]) -> Self[Byte]
 pub fn[T] Pointer::cast_to_unit(Self[T]) -> Self[Unit]
+#as_free_fn
+pub fn[T : From] Pointer::from(T) -> Self[Unit]
+pub fn[T : Into] Pointer::into(Self[Unit]) -> T
 pub fn[T] Pointer::is_not_null(Self[T]) -> Bool
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
 pub fn[T : Load] Pointer::load(Self[T]) -> T
@@ -79,22 +82,18 @@ pub impl[T] @sizeof.Sized for Pointer[T]
 // Type aliases
 
 // Traits
-pub(open) trait Borrow : From + Into {
-}
+trait Borrow
 pub impl[T] Borrow for FixedArray[T]
 pub impl Borrow for Bytes
+pub impl[T] Borrow for Ref[T]
 
 pub(open) trait From {
   from(Self) -> Pointer[Unit]
 }
-pub impl[T] From for FixedArray[T]
-pub impl From for Bytes
 
 pub(open) trait Into {
   into(Pointer[Unit]) -> Self
 }
-pub impl[T] Into for FixedArray[T]
-pub impl Into for Bytes
 
 pub(open) trait Load {
   load(Pointer[Self]) -> Self
@@ -109,6 +108,8 @@ pub impl Load for UInt16
 pub impl Load for UInt64
 pub impl Load for Float
 pub impl Load for Double
+pub impl Load for @stddef.Ptrdiff
+pub impl Load for @stddef.Size
 
 pub(open) trait Store {
   store(Pointer[Self], Self) -> Unit
@@ -123,4 +124,6 @@ pub impl Store for UInt16
 pub impl Store for UInt64
 pub impl Store for Float
 pub impl Store for Double
+pub impl Store for @stddef.Ptrdiff
+pub impl Store for @stddef.Size
 

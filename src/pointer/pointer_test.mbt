@@ -177,3 +177,25 @@ test "borrow_bytes" {
     assert_eq(ptr[5], 0)
   })
 }
+
+///|
+test "Pointer[@stddef.Ptrdiff]" {
+  let val : @stddef.Ptrdiff = -1234567890
+  let ptr : @pointer.Pointer[@stddef.Ptrdiff] = @memory.malloc(
+    @stddef.Ptrdiff::sizeof(),
+  )
+  defer @memory.free(ptr)
+  ptr.store(val)
+  @json.inspect(ptr.load(), content=val.to_json())
+}
+
+///|
+test "Pointer[@stddef.Size]" {
+  let val : @stddef.Size = 1234567890
+  let ptr : @pointer.Pointer[@stddef.Size] = @memory.malloc(
+    @stddef.Size::sizeof(),
+  )
+  defer @memory.free(ptr)
+  ptr.store(val)
+  @json.inspect(ptr.load(), content=val.to_json())
+}

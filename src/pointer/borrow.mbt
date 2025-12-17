@@ -47,14 +47,6 @@ pub fn[T] Pointer::unsafe_from_array(value : FixedArray[T]) -> Pointer[T] = "%id
 pub fn Pointer::unsafe_from_bytes(value : Bytes) -> Pointer[Byte] = "%identity"
 
 ///|
-/// Trait for types from which a pointer can be extracted.
-///
-/// Types implementing this trait can provide a pointer to their internal data.
-pub(open) trait From {
-  from(Self) -> Pointer[Unit]
-}
-
-///|
 /// Unsafely converts a pointer back into a value.
 ///
 /// **Warning**: This is an unsafe operation that should be used with extreme caution.
@@ -100,14 +92,6 @@ pub fn[T] Pointer::unsafe_into_array(ptr : Pointer[T]) -> FixedArray[T] = "%iden
 /// Returns a `Bytes` buffer starting at the pointer's memory location.
 #as_free_fn
 pub fn Pointer::unsafe_into_bytes(ptr : Pointer[Byte]) -> Bytes = "%identity"
-
-///|
-/// Trait for types that can be created from a pointer.
-///
-/// Types implementing this trait can be reconstructed from a pointer to their data.
-pub(open) trait Into {
-  into(Pointer[Unit]) -> Self
-}
 
 ///|
 /// Borrows a pointer from a reference for the duration of a function call.
@@ -206,7 +190,10 @@ pub fn[T, R] unsafe_borrow(
 ///
 /// Types implementing this trait can be safely converted to and from pointers,
 /// enabling temporary pointer access to their internal data.
-pub(open) trait Borrow: From + Into {}
+trait Borrow {
+  unsafe_from(Self) -> Pointer[Unit]
+  unsafe_into(Pointer[Unit]) -> Self
+}
 
 ///|
 /// Borrows a pointer from a value that implements the `Borrow` trait.
@@ -225,11 +212,11 @@ pub fn[T : Borrow, R] borrow(
   value : T,
   f : (Pointer[Unit]) -> R raise?,
 ) -> R raise? {
-  let ptr = T::from(value)
+  let ptr = T::unsafe_from(value)
   let val : R = for {
     break f(ptr)
   }
-  let _ : T = T::into(ptr)
+  let _ : T = T::unsafe_into(ptr)
   val
 }
 
@@ -239,49 +226,47 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
   b : B,
   f : (Pointer[Unit], Pointer[Unit]) -> R raise?,
 ) -> R raise? {
-  let ptr_a = A::from(a)
-  let ptr_b = B::from(b)
+  let ptr_a = A::unsafe_from(a)
+  let ptr_b = B::unsafe_from(b)
   let val : R = for {
     break f(ptr_a, ptr_b)
   }
-  let _ : A = A::into(ptr_a)
-  let _ : B = B::into(ptr_b)
+  let _ : A = A::unsafe_into(ptr_a)
+  let _ : B = B::unsafe_into(ptr_b)
   val
 }
 
 ///|
 /// Implements `Borrow` for `Bytes` to extract a pointer.
-pub impl From for Bytes with from(self : Bytes) -> Pointer[Unit] {
+pub impl Borrow for Bytes with unsafe_from(self : Bytes) -> Pointer[Unit] {
   unsafe_from_bytes(self).cast()
 }
 
 ///|
 /// Implements `Borrow` for `Bytes` to restore from a pointer.
-pub impl Into for Bytes with into(ptr : Pointer[Unit]) -> Bytes {
+pub impl Borrow for Bytes with unsafe_into(ptr : Pointer[Unit]) -> Bytes {
   unsafe_into_bytes(ptr.cast())
 }
 
 ///|
-pub impl Borrow for Bytes
-
-///|
 /// Implements `Borrow` for `Pointer[T]` to cast to `Pointer[Unit]`.
-pub impl[T] From for Pointer[T] with from(self : Pointer[T]) -> Pointer[Unit] {
+pub impl[T] Borrow for Pointer[T] with unsafe_from(self : Pointer[T]) -> Pointer[
+  Unit,
+] {
   self.cast()
 }
 
 ///|
 /// Implements `Borrow` for `Pointer[T]` to cast from `Pointer[Unit]`.
-pub impl[T] Into for Pointer[T] with into(ptr : Pointer[Unit]) -> Pointer[T] {
+pub impl[T] Borrow for Pointer[T] with unsafe_into(ptr : Pointer[Unit]) -> Pointer[
+  T,
+] {
   ptr.cast()
 }
 
 ///|
-pub impl[T] Borrow for Pointer[T]
-
-///|
 /// Implements `Borrow` for `FixedArray[T]` to extract a pointer.
-pub impl[T] From for FixedArray[T] with from(self : FixedArray[T]) -> Pointer[
+pub impl[T] Borrow for FixedArray[T] with unsafe_from(self : FixedArray[T]) -> Pointer[
   Unit,
 ] {
   unsafe_from_array(self).cast()
@@ -289,14 +274,21 @@ pub impl[T] From for FixedArray[T] with from(self : FixedArray[T]) -> Pointer[
 
 ///|
 /// Implements `Borrow` for `FixedArray[T]` to restore from a pointer.
-pub impl[T] Into for FixedArray[T] with into(ptr : Pointer[Unit]) -> FixedArray[
+pub impl[T] Borrow for FixedArray[T] with unsafe_into(ptr : Pointer[Unit]) -> FixedArray[
   T,
 ] {
   unsafe_into_array(ptr.cast())
 }
 
 ///|
-pub impl[T] Borrow for FixedArray[T]
+pub impl[T] Borrow for Ref[T] with unsafe_from(self : Ref[T]) -> Pointer[Unit] {
+  unsafe_from_ref(self).cast()
+}
+
+///|
+pub impl[T] Borrow for Ref[T] with unsafe_into(ptr : Pointer[Unit]) -> Ref[T] {
+  unsafe_into_ref(ptr.cast())
+}
 
 ///|
 /// Decrements the reference count of a value.
