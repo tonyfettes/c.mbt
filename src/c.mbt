@@ -31,6 +31,7 @@ pub type Ptr[T] = Pointer[T]
 pub using @pointer {
   type Pointer,
   null,
+  unsafe_borrow,
   borrow,
   borrow_bytes,
   borrow_array,
