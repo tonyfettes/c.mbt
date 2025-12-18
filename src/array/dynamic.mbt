@@ -24,3 +24,8 @@ pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::op_set(
 ) -> Unit {
   self.0[index] = value
 }
+
+///|
+pub fn[T] Dynamic::pointer(self : Dynamic[T]) -> @pointer.Pointer[T] {
+  self.0
+}
