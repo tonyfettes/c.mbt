@@ -1,7 +1,3 @@
 target/
 .mooncakes/
-
-# cmake
-/build/
-/install/
-compile_flags.txt
+publish/
