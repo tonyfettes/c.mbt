@@ -99,10 +99,12 @@
     "stdio.c",
     "fopen.c",
     "fgets.c",
+    "fputs.c",
     "fread.c",
     "fwrite.c"
   ],
   "test-import": [
-    "tonyfettes/c/memory"
+    "tonyfettes/c/memory",
+    "tonyfettes/c/sizeof"
   ]
 }

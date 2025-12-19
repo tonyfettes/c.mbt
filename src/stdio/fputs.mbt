@@ -13,10 +13,17 @@
 // limitations under the License.
 
 ///|
-#borrow(data)
-extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : File) -> Int = "fputs"
+extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : File) -> Int = "moonbit_tonyfettes_c_stdio_fputs"
 
 ///|
+/// Writes a string to the specified file stream.
+///
+/// Parameters:
+///
+/// * `data` : The string data to write to the stream.
+/// * `stream` : The file stream to write to.
+///
+/// Returns a non-negative integer on success, or EOF on error.
 pub fn[Data : @string.Borrow] fputs(data : Data, stream : File) -> Int {
   @string.borrow(data, data => c_fputs(data, stream))
 }
