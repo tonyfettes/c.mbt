@@ -1,6 +1,6 @@
 {
   "name": "tonyfettes/c",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "deps": {
     "tonyfettes/nat": "0.1.0"
   },
