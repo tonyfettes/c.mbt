@@ -24,7 +24,7 @@ test "perror" {
   let output = @encoding/utf8.decode(
     buf.unsafe_reinterpret_as_bytes()[0:n.to_int()],
   )
-  @json.inspect(output.contains("Test perror message"), content=true)
+  json_inspect(output.contains("Test perror message"), content=true)
   @stdio.fclose(file)
   @stdio.remove(b"perror_test.txt")
 }

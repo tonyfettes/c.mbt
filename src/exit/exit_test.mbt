@@ -14,6 +14,6 @@
 
 ///|
 test "exit_code" {
-  @json.inspect(@exit.success, content=0)
-  @json.inspect(@exit.failure, content=1)
+  json_inspect(@exit.success, content=0)
+  json_inspect(@exit.failure, content=1)
 }

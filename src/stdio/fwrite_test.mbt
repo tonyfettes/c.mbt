@@ -17,9 +17,9 @@ test "fwrite[Bytes]" {
   let path = b"fwrite.txt"
   let file = @stdio.fopen(path, b"w")
   let n = @stdio.fwrite(b"Hello, world!", 1, 13, file)
-  @json.inspect(n, content="13")
-  @json.inspect(@stdio.feof(file), content=false)
-  @json.inspect(@stdio.ferror(file), content=false)
+  json_inspect(n, content="13")
+  json_inspect(@stdio.feof(file), content=false)
+  json_inspect(@stdio.ferror(file), content=false)
   @stdio.fclose(file)
   @stdio.remove(path)
 }
@@ -30,9 +30,9 @@ test "fwrite[FixedArray]" {
   let file = @stdio.fopen(path, b"w")
   let buf = b"Hello, world!".to_fixedarray()
   let n = @stdio.fwrite(buf, 1, buf.length().to_uint64(), file)
-  @json.inspect(n, content="13")
-  @json.inspect(@stdio.feof(file), content=false)
-  @json.inspect(@stdio.ferror(file), content=false)
+  json_inspect(n, content="13")
+  json_inspect(@stdio.feof(file), content=false)
+  json_inspect(@stdio.ferror(file), content=false)
   @stdio.fclose(file)
   @stdio.remove(path)
 }
@@ -48,9 +48,9 @@ test "fwrite[@c.Pointer]" {
     ptr[i] = buf[i]
   }
   let n = @stdio.fwrite(ptr, 1, 13, file)
-  @json.inspect(n, content="13")
-  @json.inspect(@stdio.feof(file), content=false)
-  @json.inspect(@stdio.ferror(file), content=false)
+  json_inspect(n, content="13")
+  json_inspect(@stdio.feof(file), content=false)
+  json_inspect(@stdio.ferror(file), content=false)
   @stdio.fclose(file)
   @stdio.remove(path)
 }

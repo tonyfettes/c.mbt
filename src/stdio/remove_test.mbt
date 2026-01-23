@@ -22,7 +22,7 @@ test "remove" {
 
 ///|
 test "remove/non-existent" {
-  @json.inspect(
+  json_inspect(
     (try? @stdio.remove(b"non_existent_file.txt")) is Err(_),
     content=true,
   )

@@ -20,6 +20,6 @@ test "memset" {
   defer @memory.free(ptr)
   @memory.memset(ptr, val, len)
   for i in 0..<len.to_int() {
-    @json.inspect(ptr[i], content=val.to_json())
+    json_inspect(ptr[i], content=val.to_json())
   }
 }

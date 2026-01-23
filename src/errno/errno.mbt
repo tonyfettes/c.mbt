@@ -19,7 +19,9 @@ pub extern "c" fn get() -> Int = "moonbit_tonyfettes_c_errno_get"
 pub extern "c" fn set(value : Int) = "moonbit_tonyfettes_c_errno_set"
 
 ///|
-pub(all) suberror Errno Int
+pub(all) suberror Errno {
+  Errno(Int)
+}
 
 ///|
 pub extern "c" fn strerror(value : Int) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_errno_strerror"

@@ -20,19 +20,19 @@ test "Size::sizeof" {
 ///|
 test "Size::to_int" {
   let size = @stddef.Size(42UL)
-  @json.inspect(size.to_int(), content=42)
+  json_inspect(size.to_int(), content=42)
 }
 
 ///|
 test "Size::to_uint64" {
   let size = @stddef.Size(42UL)
-  @json.inspect(size.to_uint64(), content="42")
+  json_inspect(size.to_uint64(), content="42")
 }
 
 ///|
 test "Size::reinterpret_as_int64" {
   let size = @stddef.Size(42UL)
-  @json.inspect(size.reinterpret_as_int64(), content="42")
+  json_inspect(size.reinterpret_as_int64(), content="42")
 }
 
 ///|
@@ -47,5 +47,5 @@ test "Size::to_json" {
 ///|
 test "Size::from_json" {
   let size : @stddef.Size = @json.from_json(42)
-  @json.inspect(size.to_uint64(), content="42")
+  json_inspect(size.to_uint64(), content="42")
 }

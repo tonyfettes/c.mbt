@@ -26,17 +26,17 @@ test "compare_exchange_strong" {
   let expected : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
   defer @memory.free(expected)
   expected.store(1)
-  @json.inspect(
+  json_inspect(
     @atomic.compare_exchange_strong(object, expected, 2),
     content=true,
   )
-  @json.inspect(@atomic.load(object), content=2)
-  @json.inspect(
+  json_inspect(@atomic.load(object), content=2)
+  json_inspect(
     @atomic.compare_exchange_strong(object, expected, 3),
     content=false,
   )
-  @json.inspect(@atomic.load(object), content=2)
-  @json.inspect(expected.load(), content=2)
+  json_inspect(@atomic.load(object), content=2)
+  json_inspect(expected.load(), content=2)
 }
 
 ///|
@@ -53,15 +53,15 @@ test "compare_exchange_weak" {
   let expected : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
   defer @memory.free(expected)
   expected.store(1)
-  @json.inspect(
+  json_inspect(
     @atomic.compare_exchange_weak(object, expected, 2),
     content=true,
   )
-  @json.inspect(@atomic.load(object), content=2)
-  @json.inspect(
+  json_inspect(@atomic.load(object), content=2)
+  json_inspect(
     @atomic.compare_exchange_weak(object, expected, 3),
     content=false,
   )
-  @json.inspect(@atomic.load(object), content=2)
-  @json.inspect(expected.load(), content=2)
+  json_inspect(@atomic.load(object), content=2)
+  json_inspect(expected.load(), content=2)
 }

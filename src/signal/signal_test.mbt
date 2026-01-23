@@ -14,7 +14,7 @@
 
 ///|
 test "signal/sig-ign" {
-  @json.inspect(
+  json_inspect(
     @signal.signal(@signal.sigint, @signal.sig_ign) != @signal.sig_err,
     content=true,
   )
@@ -27,7 +27,7 @@ let last_signal : Ref[Int] = Ref::new(0)
 
 ///|
 test "signal" {
-  @json.inspect(
+  json_inspect(
     @signal.signal(
       @signal.sigint,
       @signal.handler(sig => last_signal.val = sig),
@@ -37,15 +37,15 @@ test "signal" {
   )
   @signal.raise_(@signal.sigint)
   ignore(@signal.signal(@signal.sigint, @signal.sig_dfl))
-  @json.inspect(last_signal.val == @signal.sigint, content=true)
+  json_inspect(last_signal.val == @signal.sigint, content=true)
 }
 
 ///|
 test "signal/values" {
-  @json.inspect(@signal.sigabrt > 0, content=true)
-  @json.inspect(@signal.sigfpe > 0, content=true)
-  @json.inspect(@signal.sigill > 0, content=true)
-  @json.inspect(@signal.sigint > 0, content=true)
-  @json.inspect(@signal.sigsegv > 0, content=true)
-  @json.inspect(@signal.sigterm > 0, content=true)
+  json_inspect(@signal.sigabrt > 0, content=true)
+  json_inspect(@signal.sigfpe > 0, content=true)
+  json_inspect(@signal.sigill > 0, content=true)
+  json_inspect(@signal.sigint > 0, content=true)
+  json_inspect(@signal.sigsegv > 0, content=true)
+  json_inspect(@signal.sigterm > 0, content=true)
 }

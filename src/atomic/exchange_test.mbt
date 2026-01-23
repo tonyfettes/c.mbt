@@ -23,6 +23,6 @@ test "exchange" {
   )
   defer @memory.free(ptr.to_pointer())
   @atomic.init_(ptr, 0)
-  @json.inspect(@atomic.exchange(ptr, 1), content=0)
-  @json.inspect(@atomic.load(ptr), content=1)
+  json_inspect(@atomic.exchange(ptr, 1), content=0)
+  json_inspect(@atomic.load(ptr), content=1)
 }

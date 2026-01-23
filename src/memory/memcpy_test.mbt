@@ -18,14 +18,14 @@ test "memcpy_from_bytes" {
   let ptr : @pointer.Pointer[Byte] = @memory.malloc(8)
   defer @memory.free(ptr)
   @memory.memcpy_from_bytes(ptr, bytes, 8)
-  @json.inspect(ptr[0], content=0)
-  @json.inspect(ptr[1], content=1)
-  @json.inspect(ptr[2], content=2)
-  @json.inspect(ptr[3], content=3)
-  @json.inspect(ptr[4], content=4)
-  @json.inspect(ptr[5], content=5)
-  @json.inspect(ptr[6], content=6)
-  @json.inspect(ptr[7], content=7)
+  json_inspect(ptr[0], content=0)
+  json_inspect(ptr[1], content=1)
+  json_inspect(ptr[2], content=2)
+  json_inspect(ptr[3], content=3)
+  json_inspect(ptr[4], content=4)
+  json_inspect(ptr[5], content=5)
+  json_inspect(ptr[6], content=6)
+  json_inspect(ptr[7], content=7)
 }
 
 ///|

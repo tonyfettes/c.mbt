@@ -36,7 +36,7 @@ test "ctype/is" {
       results.push((value, (byte, byte)))
     }
   }
-  @json.inspect(results, content=[
+  json_inspect(results, content=[
     [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 8]],
     [[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [9, 13]],
     [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [14, 31]],
@@ -59,9 +59,9 @@ test "ctype/to" {
   let lower = b"abcdefghijklmnopqrstuvwxyz"
   let upper = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   for i, byte in lower {
-    @json.inspect(@ctype.toupper(byte), content=upper[i].to_json())
+    json_inspect(@ctype.toupper(byte), content=upper[i].to_json())
   }
   for i, byte in upper {
-    @json.inspect(@ctype.tolower(byte), content=lower[i].to_json())
+    json_inspect(@ctype.tolower(byte), content=lower[i].to_json())
   }
 }

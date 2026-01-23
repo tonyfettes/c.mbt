@@ -23,7 +23,7 @@ test "fputs" {
   @stdio.fclose(file)
   let file = @stdio.fopen(path, b"r")
   let n = @stdio.fread(read, @sizeof.Byte, text.length().to_uint64(), file)
-  @json.inspect(
+  json_inspect(
     @encoding/utf8.decode(read.unsafe_reinterpret_as_bytes()[0:n.to_int()]),
     content="Hello, world!",
   )

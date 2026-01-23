@@ -36,11 +36,11 @@ test "intercept abort" {
     @signal.sigabrt,
     @signal.handler(_ => @setjmp.longjmp(
       abort_env,
-      Failure("intercepted abort"),
+      @builtin.Failure("intercepted abort"),
     )),
   )
   defer ignore(@signal.signal(@signal.sigabrt, sigabrt_handler))
-  @json.inspect(
+  json_inspect(
     @setjmp.setjmp(abort_env, status => match status {
       None => {
         abort("This abort should be intercepted")

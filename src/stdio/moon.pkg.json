@@ -1,93 +1,32 @@
 {
   "targets": {
-    "fflush.mbt": [
-      "native",
-      "llvm"
-    ],
-    "fgetc.mbt": [
-      "native",
-      "llvm"
-    ],
-    "fgets.mbt": [
-      "native",
-      "llvm"
-    ],
-    "FILE.mbt": [
-      "native",
-      "llvm"
-    ],
-    "getchar_test.mbt": [
-      "native",
-      "llvm"
-    ],
-    "getchar.mbt": [
-      "native",
-      "llvm"
-    ],
-    "stdio.mbt": [
-      "native",
-      "llvm"
-    ],
-    "fclose.mbt": [
-      "native"
-    ],
-    "feof.mbt": [
-      "native"
-    ],
-    "ferror.mbt": [
-      "native"
-    ],
-    "fflush_test.mbt": [
-      "native"
-    ],
-    "fgets_test.mbt": [
-      "native"
-    ],
-    "fopen_test.mbt": [
-      "native"
-    ],
-    "freopen_test.mbt": [
-      "native"
-    ],
-    "perror_test.mbt": [
-      "native"
-    ],
-    "remove_test.mbt": [
-      "native"
-    ],
-    "stdio_test.mbt": [
-      "native"
-    ],
-    "fopen.mbt": [
-      "native"
-    ],
-    "fputs.mbt": [
-      "native"
-    ],
-    "freopen.mbt": [
-      "native"
-    ],
-    "fwrite.mbt": [
-      "native"
-    ],
-    "perror.mbt": [
-      "native"
-    ],
-    "remove.mbt": [
-      "native"
-    ],
-    "file.mbt": [
-      "native"
-    ],
-    "fwrite_test.mbt": [
-      "native"
-    ],
-    "fread.mbt": [
-      "native"
-    ],
-    "fread_test.mbt": [
-      "native"
-    ]
+    "fflush.mbt": ["native", "llvm"],
+    "fgetc.mbt": ["native", "llvm"],
+    "fgets.mbt": ["native", "llvm"],
+    "FILE.mbt": ["native", "llvm"],
+    "getchar_test.mbt": ["native", "llvm"],
+    "getchar.mbt": ["native", "llvm"],
+    "stdio.mbt": ["native", "llvm"],
+    "fclose.mbt": ["native"],
+    "feof.mbt": ["native"],
+    "ferror.mbt": ["native"],
+    "fflush_test.mbt": ["native"],
+    "fgets_test.mbt": ["native"],
+    "fopen_test.mbt": ["native"],
+    "freopen_test.mbt": ["native"],
+    "perror_test.mbt": ["native"],
+    "remove_test.mbt": ["native"],
+    "stdio_test.mbt": ["native"],
+    "fopen.mbt": ["native"],
+    "fputs.mbt": ["native"],
+    "freopen.mbt": ["native"],
+    "fwrite.mbt": ["native"],
+    "perror.mbt": ["native"],
+    "remove.mbt": ["native"],
+    "file.mbt": ["native"],
+    "fwrite_test.mbt": ["native"],
+    "fread.mbt": ["native"],
+    "fread_test.mbt": ["native"]
   },
   "import": [
     "tonyfettes/c/errno",
@@ -105,6 +44,7 @@
   ],
   "test-import": [
     "tonyfettes/c/memory",
-    "tonyfettes/c/sizeof"
+    "tonyfettes/c/sizeof",
+    { "path": "moonbitlang/core/encoding/utf8", "alias": "encoding/utf8" }
   ]
 }

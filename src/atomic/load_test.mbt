@@ -23,5 +23,5 @@ test "load" {
   )
   defer @memory.free(ptr.to_pointer())
   @atomic.init_(ptr, 0)
-  @json.inspect(@atomic.load(ptr), content=0)
+  json_inspect(@atomic.load(ptr), content=0)
 }

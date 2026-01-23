@@ -23,6 +23,6 @@ test "fetch_sub" {
   )
   defer @memory.free(object.to_pointer())
   @atomic.init_(object, 3)
-  @json.inspect(@atomic.fetch_sub(object, 1), content=3)
-  @json.inspect(@atomic.load(object), content=2)
+  json_inspect(@atomic.fetch_sub(object, 1), content=3)
+  json_inspect(@atomic.load(object), content=2)
 }

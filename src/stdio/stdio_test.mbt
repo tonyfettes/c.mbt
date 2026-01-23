@@ -14,8 +14,8 @@
 
 ///|
 test "stdio" {
-  @json.inspect(@stdio.eof, content=-1)
-  @json.inspect(@stdio.stdin.0.is_not_null(), content=true)
-  @json.inspect(@stdio.stdout.0.is_not_null(), content=true)
-  @json.inspect(@stdio.stderr.0.is_not_null(), content=true)
+  json_inspect(@stdio.eof, content=-1)
+  json_inspect(@stdio.stdin.0.is_not_null(), content=true)
+  json_inspect(@stdio.stdout.0.is_not_null(), content=true)
+  json_inspect(@stdio.stderr.0.is_not_null(), content=true)
 }

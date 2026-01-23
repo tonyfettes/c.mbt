@@ -23,8 +23,8 @@ test "fetch_add" {
   )
   defer @memory.free(object.to_pointer())
   @atomic.init_(object, 0)
-  @json.inspect(@atomic.fetch_add(object, 1), content=0)
-  @json.inspect(@atomic.load(object), content=1)
+  json_inspect(@atomic.fetch_add(object, 1), content=0)
+  json_inspect(@atomic.load(object), content=1)
 }
 
 ///|
@@ -65,7 +65,7 @@ test "fetch_add/concurrent" {
       |> ignore()
     }
     println(counter.load())
-    @json.inspect(
+    json_inspect(
       counter.load() < NThreads * NIncrementsPerThread,
       content=true,
     )
@@ -92,6 +92,6 @@ test "fetch_add/concurrent" {
       @thrd.join(threads.offset(i.to_int64()), @pointer.Pointer::null())
       |> ignore()
     }
-    @json.inspect(@atomic.load(atomic_counter), content=10000)
+    json_inspect(@atomic.load(atomic_counter), content=10000)
   }
 }

@@ -1,146 +1,53 @@
 {
-  "native-stub": [
-    "fpclassify.c",
-    "nan.c"
-  ],
+  "native-stub": ["fpclassify.c", "nan.c"],
   "targets": {
-    "pow.mbt": [
-      "native"
-    ],
-    "fabs.mbt": [
-      "native"
-    ],
-    "fabs_test.mbt": [
-      "native"
-    ],
-    "pow_test.mbt": [
-      "native"
-    ],
-    "fpclassify_test.mbt": [
-      "native"
-    ],
-    "fpclassify.mbt": [
-      "native"
-    ],
-    "nan.mbt": [
-      "native"
-    ],
-    "nan_test.mbt": [
-      "native"
-    ],
-    "exp.mbt": [
-      "native"
-    ],
-    "exp_test.mbt": [
-      "native"
-    ],
-    "log.mbt": [
-      "native"
-    ],
-    "log_test.mbt": [
-      "native"
-    ],
-    "log10.mbt": [
-      "native"
-    ],
-    "log10_test.mbt": [
-      "native"
-    ],
-    "sqrt.mbt": [
-      "native"
-    ],
-    "sqrt_test.mbt": [
-      "native"
-    ],
-    "sin.mbt": [
-      "native"
-    ],
-    "sin_test.mbt": [
-      "native"
-    ],
-    "cos.mbt": [
-      "native"
-    ],
-    "cos_test.mbt": [
-      "native"
-    ],
-    "tan.mbt": [
-      "native"
-    ],
-    "tan_test.mbt": [
-      "native"
-    ],
-    "asin.mbt": [
-      "native"
-    ],
-    "asin_test.mbt": [
-      "native"
-    ],
-    "acos.mbt": [
-      "native"
-    ],
-    "acos_test.mbt": [
-      "native"
-    ],
-    "atan.mbt": [
-      "native"
-    ],
-    "atan_test.mbt": [
-      "native"
-    ],
-    "atan2.mbt": [
-      "native"
-    ],
-    "atan2_test.mbt": [
-      "native"
-    ],
-    "sinh.mbt": [
-      "native"
-    ],
-    "sinh_test.mbt": [
-      "native"
-    ],
-    "cosh.mbt": [
-      "native"
-    ],
-    "cosh_test.mbt": [
-      "native"
-    ],
-    "tanh.mbt": [
-      "native"
-    ],
-    "tanh_test.mbt": [
-      "native"
-    ],
-    "ceil.mbt": [
-      "native"
-    ],
-    "ceil_test.mbt": [
-      "native"
-    ],
-    "floor.mbt": [
-      "native"
-    ],
-    "floor_test.mbt": [
-      "native"
-    ],
-    "round.mbt": [
-      "native"
-    ],
-    "round_test.mbt": [
-      "native"
-    ],
-    "fmod.mbt": [
-      "native"
-    ],
-    "fmod_test.mbt": [
-      "native"
-    ],
-    "ldexp.mbt": [
-      "native"
-    ],
-    "ldexp_test.mbt": [
-      "native"
-    ]
-  }
+    "pow.mbt": ["native"],
+    "fabs.mbt": ["native"],
+    "fabs_test.mbt": ["native"],
+    "pow_test.mbt": ["native"],
+    "fpclassify_test.mbt": ["native"],
+    "fpclassify.mbt": ["native"],
+    "nan.mbt": ["native"],
+    "nan_test.mbt": ["native"],
+    "exp.mbt": ["native"],
+    "exp_test.mbt": ["native"],
+    "log.mbt": ["native"],
+    "log_test.mbt": ["native"],
+    "log10.mbt": ["native"],
+    "log10_test.mbt": ["native"],
+    "sqrt.mbt": ["native"],
+    "sqrt_test.mbt": ["native"],
+    "sin.mbt": ["native"],
+    "sin_test.mbt": ["native"],
+    "cos.mbt": ["native"],
+    "cos_test.mbt": ["native"],
+    "tan.mbt": ["native"],
+    "tan_test.mbt": ["native"],
+    "asin.mbt": ["native"],
+    "asin_test.mbt": ["native"],
+    "acos.mbt": ["native"],
+    "acos_test.mbt": ["native"],
+    "atan.mbt": ["native"],
+    "atan_test.mbt": ["native"],
+    "atan2.mbt": ["native"],
+    "atan2_test.mbt": ["native"],
+    "sinh.mbt": ["native"],
+    "sinh_test.mbt": ["native"],
+    "cosh.mbt": ["native"],
+    "cosh_test.mbt": ["native"],
+    "tanh.mbt": ["native"],
+    "tanh_test.mbt": ["native"],
+    "ceil.mbt": ["native"],
+    "ceil_test.mbt": ["native"],
+    "floor.mbt": ["native"],
+    "floor_test.mbt": ["native"],
+    "round.mbt": ["native"],
+    "round_test.mbt": ["native"],
+    "fmod.mbt": ["native"],
+    "fmod_test.mbt": ["native"],
+    "ldexp.mbt": ["native"],
+    "ldexp_test.mbt": ["native"]
+  },
+  "import": ["moonbitlang/core/float"],
+  "test-import": ["moonbitlang/core/double"]
 }

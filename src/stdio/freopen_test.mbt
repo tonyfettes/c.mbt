@@ -24,13 +24,13 @@ test "freopen" {
   let file = @stdio.fopen(path, b"r")
   let buf : FixedArray[Byte] = FixedArray::make(1024, 0)
   let n = @stdio.fread(buf, 1, 1024, file)
-  @json.inspect(
+  json_inspect(
     @encoding/utf8.decode(buf.unsafe_reinterpret_as_bytes()[0:n.to_int()]),
     content="",
   )
   let redirect_file = @stdio.fopen(redirect_path, b"r")
   let n = @stdio.fread(buf, 1, 1024, redirect_file)
-  @json.inspect(
+  json_inspect(
     @encoding/utf8.decode(buf.unsafe_reinterpret_as_bytes()[0:n.to_int()]),
     content="Hello, freopen!\n",
   )
@@ -43,5 +43,5 @@ test "freopen" {
 test "freopen/non-existent" {
   let path = b"non_existent_freopen_test.txt"
   let result = try? @stdio.freopen(path, b"r", @stdio.stdin)
-  @json.inspect(result is Err(_), content=true)
+  json_inspect(result is Err(_), content=true)
 }

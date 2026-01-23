@@ -42,11 +42,11 @@ impl @alignof.Aligned for Sockaddr with alignment() -> @stddef.Size {
 
 ///|
 test "Sockaddr" {
-  @json.inspect(sa_len.offset(), content=0)
-  @json.inspect(sa_family.offset(), content=1)
-  @json.inspect(sa_data.offset(), content=2)
-  @json.inspect(Sockaddr::size(), content=16)
-  @json.inspect(Sockaddr::alignment(), content=1)
+  json_inspect(sa_len.offset(), content=0)
+  json_inspect(sa_family.offset(), content=1)
+  json_inspect(sa_data.offset(), content=2)
+  json_inspect(Sockaddr::size(), content=16)
+  json_inspect(Sockaddr::alignment(), content=1)
 }
 
 ///|
@@ -100,16 +100,16 @@ impl @alignof.Aligned for AddrInfo with alignment() -> @stddef.Size {
 
 ///|
 test "addrinfo" {
-  @json.inspect(ai_flags.offset(), content=0)
-  @json.inspect(ai_family.offset(), content=4)
-  @json.inspect(ai_socktype.offset(), content=8)
-  @json.inspect(ai_protocol.offset(), content=12)
-  @json.inspect(ai_addrlen.offset(), content=16)
-  @json.inspect(ai_canonname.offset(), content=24)
-  @json.inspect(ai_addr.offset(), content=32)
-  @json.inspect(ai_next.offset(), content=48)
-  @json.inspect(AddrInfo::size(), content=56)
-  @json.inspect(AddrInfo::alignment(), content=8)
+  json_inspect(ai_flags.offset(), content=0)
+  json_inspect(ai_family.offset(), content=4)
+  json_inspect(ai_socktype.offset(), content=8)
+  json_inspect(ai_protocol.offset(), content=12)
+  json_inspect(ai_addrlen.offset(), content=16)
+  json_inspect(ai_canonname.offset(), content=24)
+  json_inspect(ai_addr.offset(), content=32)
+  json_inspect(ai_next.offset(), content=48)
+  json_inspect(AddrInfo::size(), content=56)
+  json_inspect(AddrInfo::alignment(), content=8)
   let object : @struct.Struct[AddrInfo] = @struct.Struct::new(
     @memory.calloc(1, AddrInfo::size()),
   )
@@ -122,8 +122,8 @@ test "addrinfo" {
   object[ai_canonname] = @pointer.null()
   object[ai_addr][sa_family] = 14
   object[ai_next] = @pointer.null()
-  @json.inspect(object[ai_flags], content=123)
-  @json.inspect(object[ai_family], content=456)
+  json_inspect(object[ai_flags], content=123)
+  json_inspect(object[ai_family], content=456)
 }
 
 ///|
@@ -200,25 +200,25 @@ let debug : DebugLayout = {
 
 ///|
 test "Layout" {
-  @json.inspect(debug.event.offset(), content=0)
-  @json.inspect(debug.name.offset(), content=8)
-  @json.inspect(debug.name_what.offset(), content=16)
-  @json.inspect(debug.what.offset(), content=24)
-  @json.inspect(debug.source.offset(), content=32)
-  @json.inspect(debug.src_len.offset(), content=40)
-  @json.inspect(debug.current_line.offset(), content=48)
-  @json.inspect(debug.line_defined.offset(), content=52)
-  @json.inspect(debug.last_line_defined.offset(), content=56)
-  @json.inspect(debug.n_ups.offset(), content=60)
-  @json.inspect(debug.n_params.offset(), content=61)
-  @json.inspect(debug.is_var_arg.offset(), content=62)
-  @json.inspect(debug.is_tail_call.offset(), content=63)
-  @json.inspect(debug.f_transfer.offset(), content=64)
-  @json.inspect(debug.n_transfer.offset(), content=66)
-  @json.inspect(debug.short_src.offset(), content=68)
-  @json.inspect(debug.i_ci.offset(), content=128)
-  @json.inspect(debug.size, content=136)
-  @json.inspect(debug.alignment, content=8)
+  json_inspect(debug.event.offset(), content=0)
+  json_inspect(debug.name.offset(), content=8)
+  json_inspect(debug.name_what.offset(), content=16)
+  json_inspect(debug.what.offset(), content=24)
+  json_inspect(debug.source.offset(), content=32)
+  json_inspect(debug.src_len.offset(), content=40)
+  json_inspect(debug.current_line.offset(), content=48)
+  json_inspect(debug.line_defined.offset(), content=52)
+  json_inspect(debug.last_line_defined.offset(), content=56)
+  json_inspect(debug.n_ups.offset(), content=60)
+  json_inspect(debug.n_params.offset(), content=61)
+  json_inspect(debug.is_var_arg.offset(), content=62)
+  json_inspect(debug.is_tail_call.offset(), content=63)
+  json_inspect(debug.f_transfer.offset(), content=64)
+  json_inspect(debug.n_transfer.offset(), content=66)
+  json_inspect(debug.short_src.offset(), content=68)
+  json_inspect(debug.i_ci.offset(), content=128)
+  json_inspect(debug.size, content=136)
+  json_inspect(debug.alignment, content=8)
   let object : @struct.Struct[Debug] = @struct.Struct::new(
     @memory.calloc(1, debug.size),
   )
@@ -228,18 +228,18 @@ test "Layout" {
   object[debug.short_src][0] = b'L'
   object[debug.short_src][1] = b'U'
   object[debug.short_src][2] = b'A'
-  @json.inspect(object[debug.event], content=42)
-  @json.inspect(object[debug.current_line], content=2025)
-  @json.inspect(object[debug.short_src][0], content=76)
-  @json.inspect(object[debug.short_src][1], content=85)
-  @json.inspect(object[debug.short_src][2], content=65)
+  json_inspect(object[debug.event], content=42)
+  json_inspect(object[debug.current_line], content=2025)
+  json_inspect(object[debug.short_src][0], content=76)
+  json_inspect(object[debug.short_src][1], content=85)
+  json_inspect(object[debug.short_src][2], content=65)
   let dump : FixedArray[Byte] = FixedArray::make(debug.size.to_int(), 0)
   @pointer.borrow_array(dump, dump => @memory.memcpy(
     dump,
     object.pointer(),
     debug.size,
   ))
-  @json.inspect(dump.iterator(), content=[
+  json_inspect(dump.iter(), content=[
     42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 233, 7, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 85, 65, 0, 0, 0, 0, 0,

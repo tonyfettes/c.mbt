@@ -1,17 +1,14 @@
 {
   "targets": {
-    "ptrdiff.mbt": [
-      "native"
-    ],
-    "size_test.mbt": [
-      "native"
-    ],
-    "size.mbt": [
-      "native"
-    ]
+    "ptrdiff.mbt": ["native"],
+    "size_test.mbt": ["native"],
+    "size.mbt": ["native"]
   },
-  "native-stub": [
-    "ptrdiff.c",
-    "size.c"
+  "native-stub": ["ptrdiff.c", "size.c"],
+  "import": [
+    "moonbitlang/core/json",
+    "moonbitlang/core/uint64",
+    "moonbitlang/core/strconv",
+    "moonbitlang/core/encoding/utf8"
   ]
 }

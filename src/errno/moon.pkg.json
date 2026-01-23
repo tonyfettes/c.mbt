@@ -1,17 +1,14 @@
 {
   "targets": {
-    "errno.mbt": [
-      "native",
-      "llvm"
-    ],
-    "error_test.mbt": [
-      "native"
-    ]
+    "errno.mbt": ["native", "llvm"],
+    "error_test.mbt": ["native"]
   },
-  "native-stub": [
-    "errno.c"
-  ],
+  "native-stub": ["errno.c"],
   "import": [
-    "tonyfettes/c/pointer"
+    "tonyfettes/c/pointer",
+    {
+      "path": "moonbitlang/core/encoding/utf8",
+      "alias": "encoding/utf8"
+    }
   ]
 }
