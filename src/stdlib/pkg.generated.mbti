@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/stdlib"
 
-import(
-  "tonyfettes/c/pointer"
-  "tonyfettes/c/stddef"
-  "tonyfettes/c/string"
-)
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/stddef",
+  "tonyfettes/c/string",
+}
 
 // Values
 pub fn atexit(FuncRef[() -> Unit]) -> Int

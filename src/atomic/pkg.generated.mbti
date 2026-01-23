@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/atomic"
 
-import(
-  "tonyfettes/c/pointer"
-)
+import {
+  "tonyfettes/c/pointer",
+}
 
 // Values
 pub fn[T : CompareExchangeStrong] compare_exchange_strong(Atomic[T], @pointer.Pointer[T], T) -> Bool

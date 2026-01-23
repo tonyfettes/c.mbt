@@ -1,12 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/stdio"
 
-import(
-  "tonyfettes/c/errno"
-  "tonyfettes/c/pointer"
-  "tonyfettes/c/stddef"
-  "tonyfettes/c/string"
-)
+import {
+  "tonyfettes/c/errno",
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/stddef",
+  "tonyfettes/c/string",
+}
 
 // Values
 pub let eof : Int

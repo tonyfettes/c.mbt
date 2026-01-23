@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/signal"
 
-import(
-  "tonyfettes/c/errno"
-)
+import {
+  "tonyfettes/c/errno",
+}
 
 // Values
 pub fn handler(FuncRef[(Int) -> Unit]) -> Handler

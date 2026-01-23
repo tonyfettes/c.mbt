@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/sizeof"
 
-import(
-  "tonyfettes/c/stddef"
-)
+import {
+  "tonyfettes/c/stddef",
+}
 
 // Values
 pub const Bool : UInt64 = 1

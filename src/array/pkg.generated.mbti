@@ -1,13 +1,13 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/array"
 
-import(
-  "tonyfettes/c/alignof"
-  "tonyfettes/c/pointer"
-  "tonyfettes/c/sizeof"
-  "tonyfettes/c/stddef"
-  "tonyfettes/nat"
-)
+import {
+  "tonyfettes/c/alignof",
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/sizeof",
+  "tonyfettes/c/stddef",
+  "tonyfettes/nat",
+}
 
 // Values
 
@@ -17,6 +17,7 @@ import(
 type Dynamic[T]
 pub fn[T : @pointer.Load + @sizeof.Sized] Dynamic::op_get(Self[T], Int) -> T
 pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::op_set(Self[T], Int, T) -> Unit
+pub fn[T] Dynamic::pointer(Self[T]) -> @pointer.Pointer[T]
 pub impl[T] @pointer.Load for Dynamic[T]
 
 type Static[T, _]

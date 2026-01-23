@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/time"
 
-import(
-  "tonyfettes/c/string"
-)
+import {
+  "tonyfettes/c/string",
+}
 
 // Values
 pub fn clock() -> Clock

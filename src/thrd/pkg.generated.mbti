@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/thrd"
 
-import(
-  "tonyfettes/c/pointer"
-  "tonyfettes/c/sizeof"
-  "tonyfettes/c/stddef"
-)
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/sizeof",
+  "tonyfettes/c/stddef",
+}
 
 // Values
 pub let busy : Int

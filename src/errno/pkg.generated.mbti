@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/errno"
 
-import(
-  "tonyfettes/c/pointer"
-)
+import {
+  "tonyfettes/c/pointer",
+}
 
 // Values
 pub let edom : Int
@@ -21,7 +21,9 @@ pub fn set(Int) -> Unit
 pub fn strerror(Int) -> @pointer.Pointer[Byte]
 
 // Errors
-pub(all) suberror Errno Int
+pub(all) suberror Errno {
+  Errno(Int)
+}
 pub impl Show for Errno
 pub impl ToJson for Errno
 

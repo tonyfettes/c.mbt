@@ -1,13 +1,13 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/c/struct"
 
-import(
-  "tonyfettes/c/alignof"
-  "tonyfettes/c/array"
-  "tonyfettes/c/pointer"
-  "tonyfettes/c/sizeof"
-  "tonyfettes/c/stddef"
-)
+import {
+  "tonyfettes/c/alignof",
+  "tonyfettes/c/array",
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/sizeof",
+  "tonyfettes/c/stddef",
+}
 
 // Values
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] field() -> Field[S, T]
