@@ -65,10 +65,7 @@ test "fetch_add/concurrent" {
       |> ignore()
     }
     println(counter.load())
-    json_inspect(
-      counter.load() < NThreads * NIncrementsPerThread,
-      content=true,
-    )
+    json_inspect(counter.load() < NThreads * NIncrementsPerThread, content=true)
     let atomic_counter : @atomic.Atomic[Int] = @memory.calloc(
       1,
       @atomic.sizeof((_ : Int) => ()),

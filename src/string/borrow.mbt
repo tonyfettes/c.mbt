@@ -62,9 +62,9 @@ pub impl Borrow for FixedArray[Byte] with from(self : FixedArray[Byte]) -> @poin
 }
 
 ///|
-pub impl Borrow for FixedArray[Byte] with into(
-  ptr : @pointer.Pointer[Byte],
-) -> FixedArray[Byte] {
+pub impl Borrow for FixedArray[Byte] with into(ptr : @pointer.Pointer[Byte]) -> FixedArray[
+  Byte,
+] {
   @pointer.unsafe_into_array(ptr)
 }
 

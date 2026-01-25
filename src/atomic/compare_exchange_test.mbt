@@ -53,10 +53,7 @@ test "compare_exchange_weak" {
   let expected : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
   defer @memory.free(expected)
   expected.store(1)
-  json_inspect(
-    @atomic.compare_exchange_weak(object, expected, 2),
-    content=true,
-  )
+  json_inspect(@atomic.compare_exchange_weak(object, expected, 2), content=true)
   json_inspect(@atomic.load(object), content=2)
   json_inspect(
     @atomic.compare_exchange_weak(object, expected, 3),
