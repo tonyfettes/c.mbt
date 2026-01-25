@@ -16,6 +16,7 @@
 
 from pathlib import Path
 import shutil
+import json
 
 
 def package():
@@ -30,6 +31,32 @@ def package():
             shutil.copy2(src_file, pub_dir / filename)
 
     shutil.copytree(src_dir, pub_dir / "src", dirs_exist_ok=True)
+
+    # Remove *_test.mbt files
+    for test_file in (pub_dir / "src").rglob("*_test.mbt"):
+        test_file.unlink()
+
+    # Clean moon.pkg.json files
+    for pkg_file in (pub_dir / "src").rglob("moon.pkg.json"):
+        with open(pkg_file, "r") as f:
+            pkg = json.load(f)
+
+        # Remove test-import field
+        pkg.pop("test-import", None)
+
+        # Remove *_test.mbt entries from targets
+        if "targets" in pkg:
+            pkg["targets"] = {
+                k: v for k, v in pkg["targets"].items()
+                if not k.endswith("_test.mbt")
+            }
+            # Remove targets if empty
+            if not pkg["targets"]:
+                del pkg["targets"]
+
+        with open(pkg_file, "w") as f:
+            json.dump(pkg, f, indent=2)
+            f.write("\n")
 
 
 if __name__ == "__main__":
