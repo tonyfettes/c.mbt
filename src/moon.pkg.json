@@ -1,46 +1,15 @@
 {
   "targets": {
-    "nullable.mbt": [
-      "native",
-      "llvm"
-    ],
-    "pointer.mbt": [
-      "native",
-      "llvm"
-    ],
-    "atexit_test.mbt": [
-      "native",
-      "llvm"
-    ],
-    "atexit.mbt": [
-      "native",
-      "llvm"
-    ],
-    "exit.mbt": [
-      "native",
-      "llvm"
-    ],
-    "malloc.mbt": [
-      "native",
-      "llvm"
-    ],
-    "memcpy.mbt": [
-      "native",
-      "llvm"
-    ],
-    "c.mbt": [
-      "native"
-    ]
+    "c.mbt": ["native", "llvm"]
   },
-  "native-stub": [
-    "c.c"
-  ],
+  "native-stub": ["c.c"],
   "import": [
     "tonyfettes/c/exit",
     "tonyfettes/c/memory",
     "tonyfettes/c/pointer",
     "tonyfettes/c/stdlib",
     "tonyfettes/c/string",
-    "tonyfettes/c/stddef"
+    "tonyfettes/c/stddef",
+    "tonyfettes/c/rand"
   ]
 }

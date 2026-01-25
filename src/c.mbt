@@ -46,3 +46,9 @@ pub using @string {strlen, strcmp}
 
 ///|
 pub using @stddef {type Size, type Ptrdiff}
+
+///|
+pub using @rand {rand, srand}
+
+///|
+pub let rand_max : Int = @rand.max
