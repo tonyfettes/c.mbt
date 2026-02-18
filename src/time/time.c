@@ -46,6 +46,12 @@ moonbit_tonyfettes_c_gmtime(const uint64_t time) {
 }
 
 MOONBIT_FFI_EXPORT
+const char *
+moonbit_tonyfettes_c_asctime(const struct tm *tm) {
+  return asctime(tm);
+}
+
+MOONBIT_FFI_EXPORT
 int32_t
 moonbit_tonyfettes_c_tm_sec(const struct tm *tm) {
   return (int32_t)tm->tm_sec;

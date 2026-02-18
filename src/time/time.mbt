@@ -32,6 +32,9 @@ pub extern "c" fn localtime(time : Time) -> Tm = "moonbit_tonyfettes_c_localtime
 pub extern "c" fn gmtime(time : Time) -> Tm = "moonbit_tonyfettes_c_gmtime"
 
 ///|
+pub extern "c" fn asctime(tm : Tm) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_asctime"
+
+///|
 pub extern "c" fn Tm::sec(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_sec"
 
 ///|
