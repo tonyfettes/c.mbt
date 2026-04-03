@@ -1,0 +1,22 @@
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/stddef",
+}
+
+import {
+  "tonyfettes/c/memory",
+  "tonyfettes/c/sizeof",
+} for "test"
+
+options(
+  "native-stub": [ "strlen.c", "strcmp.c", "strcpy.c" ],
+  targets: {
+    "borrow.mbt": [ "native" ],
+    "strcmp.mbt": [ "native" ],
+    "strcmp_test.mbt": [ "native" ],
+    "strcpy.mbt": [ "native" ],
+    "strcpy_test.mbt": [ "native" ],
+    "strlen.mbt": [ "native" ],
+    "strlen_test.mbt": [ "native" ],
+  },
+)

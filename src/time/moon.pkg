@@ -1,0 +1,8 @@
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/string",
+}
+
+options(
+  targets: { "time.mbt": [ "native" ], "time_test.mbt": [ "native" ] },
+)

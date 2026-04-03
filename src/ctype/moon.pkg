@@ -1,0 +1,3 @@
+options(
+  targets: { "ctype.mbt": [ "native" ], "ctype_test.mbt": [ "native" ] },
+)

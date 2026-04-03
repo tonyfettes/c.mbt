@@ -1,0 +1,15 @@
+import {
+  "moonbitlang/core/json",
+  "moonbitlang/core/uint64",
+  "moonbitlang/core/strconv",
+  "moonbitlang/core/encoding/utf8",
+}
+
+options(
+  "native-stub": [ "ptrdiff.c", "size.c" ],
+  targets: {
+    "ptrdiff.mbt": [ "native" ],
+    "size.mbt": [ "native" ],
+    "size_test.mbt": [ "native" ],
+  },
+)

@@ -1,0 +1,32 @@
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/stddef",
+}
+
+import {
+  "tonyfettes/c/sizeof",
+} for "test"
+
+options(
+  "native-stub": [
+    "calloc.c",
+    "free.c",
+    "malloc.c",
+    "memcpy.c",
+    "memset.c",
+    "realloc.c",
+  ],
+  targets: {
+    "calloc.mbt": [ "native" ],
+    "calloc_test.mbt": [ "native" ],
+    "free.mbt": [ "native" ],
+    "malloc.mbt": [ "native" ],
+    "memcmp.mbt": [ "native" ],
+    "memcpy.mbt": [ "native" ],
+    "memcpy_test.mbt": [ "native" ],
+    "memset.mbt": [ "native" ],
+    "memset_test.mbt": [ "native" ],
+    "realloc.mbt": [ "native" ],
+    "realloc_test.mbt": [ "native" ],
+  },
+)

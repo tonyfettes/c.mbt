@@ -36,7 +36,7 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
 ) -> R {
   let ptr_a = Borrow::from(a)
   let ptr_b = Borrow::from(b)
-  let val : R = for {
+  let val : R = for ;; {
     break f(ptr_a, ptr_b)
   }
   let _ : A = Borrow::into(ptr_a)

@@ -1,0 +1,52 @@
+import {
+  "tonyfettes/c/errno",
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/string",
+  "tonyfettes/c/stddef",
+}
+
+import {
+  "tonyfettes/c/memory",
+  "tonyfettes/c/sizeof",
+  "moonbitlang/core/encoding/utf8" @encoding/utf8,
+} for "test"
+
+options(
+  "native-stub": [
+    "stdio.c",
+    "fopen.c",
+    "fgets.c",
+    "fputs.c",
+    "fread.c",
+    "fwrite.c",
+  ],
+  targets: {
+    "FILE.mbt": [ "native", "llvm" ],
+    "fclose.mbt": [ "native" ],
+    "feof.mbt": [ "native" ],
+    "ferror.mbt": [ "native" ],
+    "fflush.mbt": [ "native", "llvm" ],
+    "fflush_test.mbt": [ "native" ],
+    "fgetc.mbt": [ "native", "llvm" ],
+    "fgets.mbt": [ "native", "llvm" ],
+    "fgets_test.mbt": [ "native" ],
+    "file.mbt": [ "native" ],
+    "fopen.mbt": [ "native" ],
+    "fopen_test.mbt": [ "native" ],
+    "fputs.mbt": [ "native" ],
+    "fread.mbt": [ "native" ],
+    "fread_test.mbt": [ "native" ],
+    "freopen.mbt": [ "native" ],
+    "freopen_test.mbt": [ "native" ],
+    "fwrite.mbt": [ "native" ],
+    "fwrite_test.mbt": [ "native" ],
+    "getchar.mbt": [ "native", "llvm" ],
+    "getchar_test.mbt": [ "native", "llvm" ],
+    "perror.mbt": [ "native" ],
+    "perror_test.mbt": [ "native" ],
+    "remove.mbt": [ "native" ],
+    "remove_test.mbt": [ "native" ],
+    "stdio.mbt": [ "native", "llvm" ],
+    "stdio_test.mbt": [ "native" ],
+  },
+)

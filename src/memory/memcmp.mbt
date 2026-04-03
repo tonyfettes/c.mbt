@@ -25,9 +25,7 @@ pub fn[Lhs : @pointer.Borrow, Rhs : @pointer.Borrow] memcmp(
   rhs : Rhs,
   len : @stddef.Size,
 ) -> Unit {
-  @pointer.borrow_2(lhs, rhs, (lhs, rhs) => memory_memcmp(
-    lhs,
-    rhs,
-    len.to_uint64(),
-  ))
+  @pointer.borrow_2(lhs, rhs, (lhs, rhs) => {
+    memory_memcmp(lhs, rhs, len.to_uint64())
+  })
 }

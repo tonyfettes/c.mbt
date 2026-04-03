@@ -25,9 +25,9 @@ pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(
   mode : Mode,
   stream : File,
 ) -> File raise @errno.Errno {
-  let file = @string.borrow_2(path, mode, (path, mode) => c_freopen(
-    path, mode, stream,
-  ))
+  let file = @string.borrow_2(path, mode, (path, mode) => {
+    c_freopen(path, mode, stream)
+  })
   if file.0.is_null() {
     raise @errno.Errno(@errno.get())
   } else {

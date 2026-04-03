@@ -1,0 +1,13 @@
+import {
+  "tonyfettes/c/pointer",
+}
+
+import {
+  "tonyfettes/c/signal",
+  "moonbitlang/core/builtin",
+} for "test"
+
+options(
+  "native-stub": [ "setjmp.c" ],
+  targets: { "setjmp.mbt": [ "native" ], "setjmp_test.mbt": [ "native" ] },
+)

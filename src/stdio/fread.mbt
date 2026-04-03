@@ -27,10 +27,7 @@ pub fn[T : @string.Borrow] fread(
   n : @stddef.Size,
   stream : File,
 ) -> @stddef.Size {
-  @string.borrow(ptr, ptr => stdio_fread(
-    ptr,
-    size.to_uint64(),
-    n.to_uint64(),
-    stream,
-  ))
+  @string.borrow(ptr, ptr => {
+    stdio_fread(ptr, size.to_uint64(), n.to_uint64(), stream)
+  })
 }

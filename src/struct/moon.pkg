@@ -1,0 +1,16 @@
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/sizeof",
+  "tonyfettes/c/stddef",
+  "tonyfettes/c/alignof",
+  "tonyfettes/c/array",
+}
+
+import {
+  "tonyfettes/c/memory",
+  "tonyfettes/nat",
+} for "test"
+
+options(
+  targets: { "struct.mbt": [ "native" ], "struct_test.mbt": [ "native" ] },
+)

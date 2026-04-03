@@ -51,12 +51,14 @@ extern "c" fn c_setjmp(
 ///|
 pub fn[T, R] setjmp(env : JmpBuf[T], cb : (T?) -> R) -> R {
   let r : FixedArray[R?] = [None]
-  c_setjmp(env.env, (f, status) => f(status), status => if status == 0 {
-    r[0] = Some(cb(None))
-  } else {
-    @pointer.unsafe_decref(env.env)
-    @pointer.unsafe_decref(r)
-    r[0] = Some(cb(env.val))
+  c_setjmp(env.env, (f, status) => f(status), status => {
+    if status == 0 {
+      r[0] = Some(cb(None))
+    } else {
+      @pointer.unsafe_decref(env.env)
+      @pointer.unsafe_decref(r)
+      r[0] = Some(cb(env.val))
+    }
   })
   r[0].unwrap()
 }

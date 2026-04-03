@@ -1,0 +1,10 @@
+import {
+  "tonyfettes/c/exit",
+  "tonyfettes/c/memory",
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/string",
+}
+
+options(
+  targets: { "stdlib.mbt": [ "native" ] },
+)

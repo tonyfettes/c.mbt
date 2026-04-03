@@ -1,0 +1,48 @@
+import {
+  "tonyfettes/c/pointer",
+}
+
+import {
+  "tonyfettes/c/memory",
+  "tonyfettes/c/thrd",
+  "tonyfettes/c/feature",
+  "tonyfettes/c/sizeof",
+} for "test"
+
+options(
+  "native-stub": [
+    "compare_exchange.c",
+    "exchange.c",
+    "fetch_add.c",
+    "fetch_and.c",
+    "fetch_or.c",
+    "fetch_sub.c",
+    "init.c",
+    "load.c",
+    "sizeof.c",
+    "store.c",
+  ],
+  targets: {
+    "atomic.mbt": [ "native" ],
+    "atomic_test.mbt": [ "native" ],
+    "compare_exchange.mbt": [ "native" ],
+    "compare_exchange_test.mbt": [ "native" ],
+    "exchange.mbt": [ "native" ],
+    "exchange_test.mbt": [ "native" ],
+    "fetch_add.mbt": [ "native" ],
+    "fetch_add_test.mbt": [ "native" ],
+    "fetch_and.mbt": [ "native" ],
+    "fetch_and_test.mbt": [ "native" ],
+    "fetch_or.mbt": [ "native" ],
+    "fetch_or_test.mbt": [ "native" ],
+    "fetch_sub.mbt": [ "native" ],
+    "fetch_sub_test.mbt": [ "native" ],
+    "init.mbt": [ "native" ],
+    "load.mbt": [ "native" ],
+    "load_test.mbt": [ "native" ],
+    "pointer.mbt": [ "native" ],
+    "sizeof.mbt": [ "native" ],
+    "store.mbt": [ "native" ],
+    "store_test.mbt": [ "native" ],
+  },
+)

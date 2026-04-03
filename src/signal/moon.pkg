@@ -1,0 +1,11 @@
+import {
+  "tonyfettes/c/errno",
+}
+
+options(
+  "native-stub": [ "signal.c" ],
+  targets: {
+    "signal.mbt": [ "native", "llvm" ],
+    "signal_test.mbt": [ "native" ],
+  },
+)

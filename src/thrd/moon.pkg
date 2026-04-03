@@ -1,0 +1,14 @@
+import {
+  "tonyfettes/c/pointer",
+  "tonyfettes/c/sizeof",
+  "tonyfettes/c/stddef",
+}
+
+options(
+  "native-stub": [ "create.c", "join.c", "thrd.c" ],
+  targets: {
+    "create.mbt": [ "native" ],
+    "join.mbt": [ "native" ],
+    "thrd.mbt": [ "native" ],
+  },
+)

@@ -1,0 +1,8 @@
+import {
+  "tonyfettes/c/stddef",
+  "tonyfettes/c/pointer",
+}
+
+options(
+  targets: { "align.mbt": [ "native" ] },
+)

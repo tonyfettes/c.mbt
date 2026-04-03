@@ -192,7 +192,7 @@ pub fn[T, R] unsafe_borrow(
   f : (Pointer[Unit]) -> R raise?,
 ) -> R raise? {
   let ptr = unsafe_from(value)
-  let val : R = for {
+  let val : R = for ;; {
     break f(ptr)
   }
   let _ : T = unsafe_into(ptr)
@@ -227,7 +227,7 @@ pub fn[T : Borrow, R] borrow(
   f : (Pointer[Unit]) -> R raise?,
 ) -> R raise? {
   let ptr = T::unsafe_from(value)
-  let val : R = for {
+  let val : R = for ;; {
     break f(ptr)
   }
   let _ : T = T::unsafe_into(ptr)
@@ -242,7 +242,7 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
 ) -> R raise? {
   let ptr_a = A::unsafe_from(a)
   let ptr_b = B::unsafe_from(b)
-  let val : R = for {
+  let val : R = for ;; {
     break f(ptr_a, ptr_b)
   }
   let _ : A = A::unsafe_into(ptr_a)

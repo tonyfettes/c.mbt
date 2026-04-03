@@ -79,9 +79,9 @@ pub fn[T : @string.Borrow, F : @string.Borrow] strftime(
   format : F,
   tm : Tm,
 ) -> UInt64 {
-  @string.borrow_2(str, format, (str_ptr, format) => c_strftime(
-    str_ptr, len, format, tm,
-  ))
+  @string.borrow_2(str, format, (str_ptr, format) => {
+    c_strftime(str_ptr, len, format, tm)
+  })
 }
 
 ///|

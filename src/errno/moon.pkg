@@ -1,0 +1,9 @@
+import {
+  "tonyfettes/c/pointer",
+  "moonbitlang/core/encoding/utf8" @encoding/utf8,
+}
+
+options(
+  "native-stub": [ "errno.c" ],
+  targets: { "errno.mbt": [ "native", "llvm" ], "error_test.mbt": [ "native" ] },
+)

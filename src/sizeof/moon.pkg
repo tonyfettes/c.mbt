@@ -1,0 +1,7 @@
+import {
+  "tonyfettes/c/stddef",
+}
+
+options(
+  targets: { "sizeof.mbt": [ "native" ] },
+)

@@ -1,9 +1,0 @@
-{
-  "native-stub": ["setjmp.c"],
-  "test-import": ["tonyfettes/c/signal", "moonbitlang/core/builtin"],
-  "import": ["tonyfettes/c/pointer"],
-  "targets": {
-    "setjmp.mbt": ["native"],
-    "setjmp_test.mbt": ["native"]
-  }
-}

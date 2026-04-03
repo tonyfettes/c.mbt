@@ -1,0 +1,10 @@
+options(
+  "native-stub": [ "max.c", "rand.c", "srand.c" ],
+  targets: {
+    "max.mbt": [ "native" ],
+    "rand.mbt": [ "native" ],
+    "rand_test.mbt": [ "native" ],
+    "srand.mbt": [ "native" ],
+    "srand_test.mbt": [ "native" ],
+  },
+)
