@@ -33,7 +33,7 @@ pub impl @json.FromJson for Ptrdiff with from_json(
   match json {
     Number(num, repr=None) => Ptrdiff(num.to_int64())
     Number(_, repr=Some(repr)) =>
-      @strconv.parse_int64(repr) catch {
+      @string.parse_int64(repr) catch {
         error =>
           raise @json.JsonDecodeError(
             (json_path, "Invalid Ptrdiff \{repr}: \{error}"),

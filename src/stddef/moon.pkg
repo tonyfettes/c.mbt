@@ -1,7 +1,7 @@
 import {
   "moonbitlang/core/json",
   "moonbitlang/core/uint64",
-  "moonbitlang/core/strconv",
+  "moonbitlang/core/string",
   "moonbitlang/core/encoding/utf8",
 }
 

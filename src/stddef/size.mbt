@@ -33,7 +33,7 @@ pub impl @json.FromJson for Size with from_json(
   match json {
     Number(num, repr=None) => Size(num.to_uint64())
     Number(_, repr=Some(repr)) =>
-      @strconv.parse_uint64(repr) catch {
+      @string.parse_uint64(repr) catch {
         error =>
           raise @json.JsonDecodeError(
             (json_path, "Invalid Size \{repr}: \{error}"),

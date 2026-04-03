@@ -37,7 +37,7 @@ test "Size::reinterpret_as_int64" {
 
 ///|
 test "Size::to_json" {
-  let original = @stddef.Size(@uint64.max_value)
+  let original = @stddef.Size(@uint64.MAX_VALUE)
   let json = original.to_json()
   inspect(json.stringify(indent=2), content="18446744073709551615")
   let parsed : @stddef.Size = @json.from_json(json)
