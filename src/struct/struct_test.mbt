@@ -234,9 +234,11 @@ test "Layout" {
   json_inspect(object[debug.short_src][1], content=85)
   json_inspect(object[debug.short_src][2], content=65)
   let dump : FixedArray[Byte] = FixedArray::make(debug.size.to_int(), 0)
-  @pointer.borrow_array(dump, dump => {
-    @memory.memcpy(dump, object.pointer(), debug.size)
-  })
+  @pointer.borrow_array(dump, dump => @memory.memcpy(
+    dump,
+    object.pointer(),
+    debug.size,
+  ))
   json_inspect(dump.iter(), content=[
     42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 233, 7, 0,

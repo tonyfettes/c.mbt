@@ -145,6 +145,19 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(
 }
 
 ///|
+pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(
+  self : Field[S, C],
+) -> Field[S, Struct[N]] {
+  let alignment = if N::alignment() > self.alignment {
+    N::alignment()
+  } else {
+    self.alignment
+  }
+  let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
+  Field::{ offset, size: N::size(), alignment }
+}
+
+///|
 pub fn Builder::size(self : Builder) -> @stddef.Size {
   (self.offset + self.align - 1) / self.align * self.align
 }
@@ -155,21 +168,43 @@ pub fn Builder::alignment(self : Builder) -> @stddef.Size {
 }
 
 ///|
-pub(all) struct Struct[_](Bytes)
+#external
+pub(all) type Struct[S]
 
 ///|
-pub fn[S, T : @pointer.Load] get(
-  pointer : @pointer.Pointer[Struct[S]],
+pub fn[S] Struct::pointer(self : Struct[S]) -> @pointer.Pointer[Struct[S]] = "%identity"
+
+///|
+pub fn[S] Struct::new(pointer : @pointer.Pointer[Struct[S]]) -> Struct[S] = "%identity"
+
+///|
+pub fn[S, T : @pointer.Load] Struct::op_get(
+  self : Struct[S],
   field : Field[S, T],
 ) -> T {
-  pointer.byte_add(field.offset).cast().load()
+  self.pointer().byte_add(field.offset).cast().load()
 }
 
 ///|
-pub fn[S, T : @pointer.Store] set(
-  pointer : @pointer.Pointer[Struct[S]],
+pub fn[S, T : @pointer.Store] Struct::op_set(
+  self : Struct[S],
   field : Field[S, T],
   value : T,
 ) -> Unit {
-  pointer.byte_add(field.offset).cast().store(value)
+  self.pointer().byte_add(field.offset).cast().store(value)
+}
+
+///|
+pub fn[S, T] Struct::get(
+  self : Struct[S],
+  field : Field[S, T],
+) -> @pointer.Pointer[T] {
+  self.pointer().byte_add(field.offset).cast()
+}
+
+///|
+pub impl[S] @pointer.Load for Struct[S] with load(
+  pointer : @pointer.Pointer[Struct[S]],
+) -> Struct[S] {
+  Struct::new(pointer)
 }
