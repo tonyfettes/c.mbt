@@ -18,6 +18,6 @@ extern "c" fn c_fflush(stream : File) -> Int = "fflush"
 ///|
 pub fn fflush(stream : File) -> Unit raise @errno.Errno {
   if c_fflush(stream) != 0 {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   }
 }

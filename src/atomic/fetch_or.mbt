@@ -14,13 +14,13 @@
 
 ///|
 pub(open) trait FetchOr {
-  fetch_or(ptr : Atomic[Self], value : Self) -> Self = _
-  fetch_or_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
+  fn fetch_or(ptr : Atomic[Self], value : Self) -> Self = _
+  fn fetch_or_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
 }
 
 ///|
-impl FetchOr with fetch_or(ptr : Atomic[Self], value : Self) -> Self {
-  FetchOr::fetch_or_explicit(ptr, value, MemoryOrder::SeqCst)
+impl FetchOr with fn fetch_or(ptr : Atomic[Self], value : Self) -> Self {
+  FetchOr::fetch_or_explicit(ptr, value, SeqCst)
 }
 
 ///|
@@ -36,7 +36,7 @@ extern "c" fn atomic_fetch_or_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_fetch_or_explicit_int"
 
 ///|
-pub impl FetchOr for Int with fetch_or_explicit(
+pub impl FetchOr for Int with fn fetch_or_explicit(
   object : Atomic[Int],
   operand : Int,
   order : MemoryOrder,

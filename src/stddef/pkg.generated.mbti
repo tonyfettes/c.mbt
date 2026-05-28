@@ -11,8 +11,6 @@ import {
 
 // Types and methods
 pub(all) struct Ptrdiff(Int64)
-#deprecated
-pub fn Ptrdiff::inner(Self) -> Int64
 pub fn Ptrdiff::reinterpret_as_uint64(Self) -> UInt64
 pub fn Ptrdiff::sizeof() -> Size
 pub fn Ptrdiff::to_int64(Self) -> Int64
@@ -31,8 +29,6 @@ pub impl @json.FromJson for Ptrdiff
 
 pub(all) struct Size(UInt64)
 pub fn Size::from_uint64(UInt64) -> Self
-#deprecated
-pub fn Size::inner(Self) -> UInt64
 pub fn Size::reinterpret_as_int64(Self) -> Int64
 pub fn Size::sizeof() -> Self
 pub fn Size::to_int(Self) -> Int

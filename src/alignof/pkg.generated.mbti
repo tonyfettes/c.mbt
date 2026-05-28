@@ -16,7 +16,7 @@ import {
 
 // Traits
 pub(open) trait Aligned {
-  alignment() -> @stddef.Size
+  fn alignment() -> @stddef.Size
 }
 pub impl Aligned for Bool
 pub impl Aligned for Byte

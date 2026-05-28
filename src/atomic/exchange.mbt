@@ -14,13 +14,13 @@
 
 ///|
 pub(open) trait Exchange {
-  exchange(ptr : Atomic[Self], value : Self) -> Self = _
-  exchange_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
+  fn exchange(ptr : Atomic[Self], value : Self) -> Self = _
+  fn exchange_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
 }
 
 ///|
-impl Exchange with exchange(ptr : Atomic[Self], value : Self) -> Self {
-  Exchange::exchange_explicit(ptr, value, MemoryOrder::SeqCst)
+impl Exchange with fn exchange(ptr : Atomic[Self], value : Self) -> Self {
+  Exchange::exchange_explicit(ptr, value, SeqCst)
 }
 
 ///|
@@ -36,7 +36,7 @@ extern "c" fn atomic_exchange_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_exchange_explicit_int"
 
 ///|
-pub impl Exchange for Int with exchange_explicit(
+pub impl Exchange for Int with fn exchange_explicit(
   object : Atomic[Int],
   desired : Int,
   order : MemoryOrder,

@@ -26,7 +26,7 @@ pub fn[Path : @string.Borrow, Mode : @string.Borrow] fopen(
 ) -> File raise @errno.Errno {
   let file = @string.borrow_2(path, mode, (path, mode) => c_fopen(path, mode))
   if file.0.is_null() {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   } else {
     file
   }

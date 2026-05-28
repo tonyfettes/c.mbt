@@ -26,7 +26,7 @@ let sizeof_jmp_buf : Int = c_sizeof_jmp_buf().to_int()
 
 ///|
 pub fn[T] JmpBuf::new() -> JmpBuf[T] {
-  JmpBuf::{ env: Bytes::make(sizeof_jmp_buf, 0), val: None }
+  { env: Bytes::make(sizeof_jmp_buf, 0), val: None }
 }
 
 ///|

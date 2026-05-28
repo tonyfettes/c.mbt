@@ -29,7 +29,7 @@ pub fn[Path : @string.Borrow, Mode : @string.Borrow] freopen(
     c_freopen(path, mode, stream)
   })
   if file.0.is_null() {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   } else {
     file
   }

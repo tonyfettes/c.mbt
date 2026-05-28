@@ -16,17 +16,17 @@
 pub(all) struct Ptrdiff(Int64)
 
 ///|
-pub impl Show for Ptrdiff with output(self : Ptrdiff, logger : &Logger) -> Unit {
+pub impl Show for Ptrdiff with fn output(self : Ptrdiff, logger : &Logger) -> Unit {
   self.0.output(logger)
 }
 
 ///|
-pub impl ToJson for Ptrdiff with to_json(self : Ptrdiff) -> Json {
+pub impl ToJson for Ptrdiff with fn to_json(self : Ptrdiff) -> Json {
   Json::number(self.0.to_double(), repr=self.0.to_string())
 }
 
 ///|
-pub impl @json.FromJson for Ptrdiff with from_json(
+pub impl @json.FromJson for Ptrdiff with fn from_json(
   json : Json,
   json_path : @json.JsonPath,
 ) -> Ptrdiff {
@@ -35,13 +35,13 @@ pub impl @json.FromJson for Ptrdiff with from_json(
     Number(_, repr=Some(repr)) =>
       @string.parse_int64(repr) catch {
         error =>
-          raise @json.JsonDecodeError(
+          raise JsonDecodeError(
             (json_path, "Invalid Ptrdiff \{repr}: \{error}"),
           )
       }
     _ =>
-      raise @json.JsonDecodeError(
-        (json_path, "Expected Ptrdiff as number, got \{json}"),
+      raise JsonDecodeError(
+        (json_path, "Expected Ptrdiff as number, got \{@debug.to_repr(json)}"),
       )
   }
 }
@@ -57,47 +57,47 @@ pub fn Ptrdiff::reinterpret_as_uint64(self : Ptrdiff) -> UInt64 {
 }
 
 ///|
-pub impl Add for Ptrdiff with add(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
+pub impl Add for Ptrdiff with fn add(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 + other.0)
 }
 
 ///|
-pub impl Sub for Ptrdiff with sub(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
+pub impl Sub for Ptrdiff with fn sub(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 - other.0)
 }
 
 ///|
-pub impl Mul for Ptrdiff with mul(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
+pub impl Mul for Ptrdiff with fn mul(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 * other.0)
 }
 
 ///|
-pub impl Div for Ptrdiff with div(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
+pub impl Div for Ptrdiff with fn div(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 / other.0)
 }
 
 ///|
-pub impl Mod for Ptrdiff with mod(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
+pub impl Mod for Ptrdiff with fn mod(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 % other.0)
 }
 
 ///|
-pub impl Eq for Ptrdiff with equal(self : Ptrdiff, other : Ptrdiff) -> Bool {
+pub impl Eq for Ptrdiff with fn equal(self : Ptrdiff, other : Ptrdiff) -> Bool {
   self.0 == other.0
 }
 
 ///|
-pub impl Compare for Ptrdiff with compare(self : Ptrdiff, other : Ptrdiff) -> Int {
+pub impl Compare for Ptrdiff with fn compare(self : Ptrdiff, other : Ptrdiff) -> Int {
   self.0.compare(other.0)
 }
 
 ///|
-pub impl Neg for Ptrdiff with neg(self : Ptrdiff) -> Ptrdiff {
+pub impl Neg for Ptrdiff with fn neg(self : Ptrdiff) -> Ptrdiff {
   Ptrdiff(-self.0)
 }
 
 ///|
-pub impl Default for Ptrdiff with default() -> Ptrdiff {
+pub impl Default for Ptrdiff with fn default() -> Ptrdiff {
   Ptrdiff(0L)
 }
 

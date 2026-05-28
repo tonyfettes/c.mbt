@@ -14,6 +14,6 @@
 
 ///|
 test "nanf" {
-  json_inspect(@math.is_nan(@math.nanf("1")), content=true)
-  json_inspect(@math.is_nan(@math.nan("0xF")), content=true)
+  json_inspect(@math.is_nan(@math.nanf(b"1")), content=true)
+  json_inspect(@math.is_nan(@math.nan(b"0xF")), content=true)
 }

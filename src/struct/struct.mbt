@@ -20,7 +20,7 @@ struct Builder {
 
 ///|
 pub fn Builder::new() -> Builder {
-  Builder::{ offset: 0, align: 1 }
+  { offset: 0, align: 1 }
 }
 
 ///|
@@ -32,11 +32,11 @@ struct Field[_, _] {
 
 ///|
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] field() -> Field[S, T] {
-  Field::{ offset: 0, size: T::size(), alignment: T::alignment() }
+  { offset: 0, size: T::size(), alignment: T::alignment() }
 }
 
 ///|
-pub impl[S, T] ToJson for Field[S, T] with to_json(self : Field[S, T]) -> Json {
+pub impl[S, T] ToJson for Field[S, T] with fn to_json(self : Field[S, T]) -> Json {
   { "offset": self.offset, "size": self.size, "alignment": self.alignment }
 }
 
@@ -74,7 +74,7 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(
   // Update offset
   self.offset = self.offset + T::size()
   // Return field offset
-  Field::{ offset, size: T::size(), alignment }
+  { offset, size: T::size(), alignment }
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(
   // Update offset
   self.offset = self.offset + T::size() * length
   // Return field offset and length
-  Field::{ offset, size: T::size() * length, alignment }
+  { offset, size: T::size() * length, alignment }
 }
 
 ///|
@@ -114,7 +114,7 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::struct_field(
   // Update offset
   self.offset = self.offset + size
   // Return field offset
-  Field::{ offset, size, alignment }
+  { offset, size, alignment }
 }
 
 ///|
@@ -127,7 +127,7 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next(
     self.alignment
   }
   let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
-  Field::{ offset, size: N::size(), alignment }
+  { offset, size: N::size(), alignment }
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(
     self.alignment
   }
   let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
-  Field::{ offset, size: N::size() * length, alignment }
+  { offset, size: N::size() * length, alignment }
 }
 
 ///|
@@ -154,7 +154,7 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(
     self.alignment
   }
   let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
-  Field::{ offset, size: N::size(), alignment }
+  { offset, size: N::size(), alignment }
 }
 
 ///|
@@ -203,7 +203,7 @@ pub fn[S, T] Struct::get(
 }
 
 ///|
-pub impl[S] @pointer.Load for Struct[S] with load(
+pub impl[S] @pointer.Load for Struct[S] with fn load(
   pointer : @pointer.Pointer[Struct[S]],
 ) -> Struct[S] {
   Struct::new(pointer)

@@ -16,17 +16,17 @@
 pub(all) struct Size(UInt64)
 
 ///|
-pub impl Show for Size with output(self : Size, logger : &Logger) -> Unit {
+pub impl Show for Size with fn output(self : Size, logger : &Logger) -> Unit {
   self.0.output(logger)
 }
 
 ///|
-pub impl ToJson for Size with to_json(self : Size) -> Json {
+pub impl ToJson for Size with fn to_json(self : Size) -> Json {
   Json::number(self.0.to_double(), repr=self.0.to_string())
 }
 
 ///|
-pub impl @json.FromJson for Size with from_json(
+pub impl @json.FromJson for Size with fn from_json(
   json : Json,
   json_path : @json.JsonPath,
 ) -> Size {
@@ -35,13 +35,11 @@ pub impl @json.FromJson for Size with from_json(
     Number(_, repr=Some(repr)) =>
       @string.parse_uint64(repr) catch {
         error =>
-          raise @json.JsonDecodeError(
-            (json_path, "Invalid Size \{repr}: \{error}"),
-          )
+          raise JsonDecodeError((json_path, "Invalid Size \{repr}: \{error}"))
       }
     _ =>
-      raise @json.JsonDecodeError(
-        (json_path, "Expected Size as number, got \{json}"),
+      raise JsonDecodeError(
+        (json_path, "Expected Size as number, got \{@debug.to_repr(json)}"),
       )
   }
 }
@@ -68,42 +66,42 @@ pub fn Size::reinterpret_as_int64(self : Size) -> Int64 {
 }
 
 ///|
-pub impl Add for Size with add(self : Size, other : Size) -> Size {
+pub impl Add for Size with fn add(self : Size, other : Size) -> Size {
   Size(self.0 + other.0)
 }
 
 ///|
-pub impl Sub for Size with sub(self : Size, other : Size) -> Size {
+pub impl Sub for Size with fn sub(self : Size, other : Size) -> Size {
   Size(self.0 - other.0)
 }
 
 ///|
-pub impl Mul for Size with mul(self : Size, other : Size) -> Size {
+pub impl Mul for Size with fn mul(self : Size, other : Size) -> Size {
   Size(self.0 * other.0)
 }
 
 ///|
-pub impl Div for Size with div(self : Size, other : Size) -> Size {
+pub impl Div for Size with fn div(self : Size, other : Size) -> Size {
   Size(self.0 / other.0)
 }
 
 ///|
-pub impl Mod for Size with mod(self : Size, other : Size) -> Size {
+pub impl Mod for Size with fn mod(self : Size, other : Size) -> Size {
   Size(self.0 % other.0)
 }
 
 ///|
-pub impl Eq for Size with equal(self : Size, other : Size) -> Bool {
+pub impl Eq for Size with fn equal(self : Size, other : Size) -> Bool {
   self.0 == other.0
 }
 
 ///|
-pub impl Compare for Size with compare(self : Size, other : Size) -> Int {
+pub impl Compare for Size with fn compare(self : Size, other : Size) -> Int {
   self.0.compare(other.0)
 }
 
 ///|
-pub impl Default for Size with default() -> Size {
+pub impl Default for Size with fn default() -> Size {
   Size(0UL)
 }
 

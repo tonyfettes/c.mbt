@@ -19,6 +19,6 @@ extern "c" fn c_fclose(stream : File) -> Int = "fclose"
 pub fn fclose(stream : File) -> Unit raise @errno.Errno {
   let result = c_fclose(stream)
   if result != 0 {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   }
 }

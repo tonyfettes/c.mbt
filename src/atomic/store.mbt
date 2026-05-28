@@ -14,13 +14,13 @@
 
 ///|
 pub(open) trait Store {
-  store(ptr : Atomic[Self], value : Self) -> Unit = _
-  store_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Unit
+  fn store(ptr : Atomic[Self], value : Self) -> Unit = _
+  fn store_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Unit
 }
 
 ///|
-impl Store with store(ptr : Atomic[Self], value : Self) -> Unit {
-  Store::store_explicit(ptr, value, MemoryOrder::SeqCst)
+impl Store with fn store(ptr : Atomic[Self], value : Self) -> Unit {
+  Store::store_explicit(ptr, value, SeqCst)
 }
 
 ///|
@@ -36,7 +36,7 @@ extern "c" fn atomic_store_explicit_int(
 ) = "moonbit_tonyfettes_c_atomic_store_explicit_int"
 
 ///|
-pub impl Store for Int with store_explicit(
+pub impl Store for Int with fn store_explicit(
   ptr : Atomic[Int],
   value : Int,
   order : MemoryOrder,

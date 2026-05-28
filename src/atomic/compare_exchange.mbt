@@ -14,12 +14,12 @@
 
 ///|
 pub(open) trait CompareExchangeStrong {
-  compare_exchange_strong(
+  fn compare_exchange_strong(
     ptr : Atomic[Self],
     expected : @pointer.Pointer[Self],
     desired : Self,
   ) -> Bool = _
-  compare_exchange_strong_explicit(
+  fn compare_exchange_strong_explicit(
     ptr : Atomic[Self],
     expected : @pointer.Pointer[Self],
     desired : Self,
@@ -29,7 +29,7 @@ pub(open) trait CompareExchangeStrong {
 }
 
 ///|
-impl CompareExchangeStrong with compare_exchange_strong(
+impl CompareExchangeStrong with fn compare_exchange_strong(
   ptr : Atomic[Self],
   expected : @pointer.Pointer[Self],
   desired : Self,
@@ -38,8 +38,8 @@ impl CompareExchangeStrong with compare_exchange_strong(
     ptr,
     expected,
     desired,
-    MemoryOrder::SeqCst,
-    MemoryOrder::SeqCst,
+    SeqCst,
+    SeqCst,
   )
 }
 
@@ -62,7 +62,7 @@ extern "c" fn atomic_compare_exchange_strong_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_compare_exchange_strong_explicit_int"
 
 ///|
-pub impl CompareExchangeStrong for Int with compare_exchange_strong_explicit(
+pub impl CompareExchangeStrong for Int with fn compare_exchange_strong_explicit(
   object : Atomic[Int],
   expected : @pointer.Pointer[Int],
   desired : Int,
@@ -77,12 +77,12 @@ pub impl CompareExchangeStrong for Int with compare_exchange_strong_explicit(
 
 ///|
 pub(open) trait CompareExchangeWeak {
-  compare_exchange_weak(
+  fn compare_exchange_weak(
     ptr : Atomic[Self],
     expected : @pointer.Pointer[Self],
     desired : Self,
   ) -> Bool = _
-  compare_exchange_weak_explicit(
+  fn compare_exchange_weak_explicit(
     ptr : Atomic[Self],
     expected : @pointer.Pointer[Self],
     desired : Self,
@@ -92,7 +92,7 @@ pub(open) trait CompareExchangeWeak {
 }
 
 ///|
-impl CompareExchangeWeak with compare_exchange_weak(
+impl CompareExchangeWeak with fn compare_exchange_weak(
   ptr : Atomic[Self],
   expected : @pointer.Pointer[Self],
   desired : Self,
@@ -101,8 +101,8 @@ impl CompareExchangeWeak with compare_exchange_weak(
     ptr,
     expected,
     desired,
-    MemoryOrder::SeqCst,
-    MemoryOrder::SeqCst,
+    SeqCst,
+    SeqCst,
   )
 }
 
@@ -125,7 +125,7 @@ extern "c" fn atomic_compare_exchange_weak_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_compare_exchange_weak_explicit_int"
 
 ///|
-pub impl CompareExchangeWeak for Int with compare_exchange_weak_explicit(
+pub impl CompareExchangeWeak for Int with fn compare_exchange_weak_explicit(
   object : Atomic[Int],
   expected : @pointer.Pointer[Int],
   desired : Int,

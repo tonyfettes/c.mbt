@@ -153,7 +153,7 @@ test "Pointer[Pointer[_]]" {
 
 ///|
 test "borrow_ref" {
-  let val : Ref[Int] = Ref::new(42)
+  let val : Ref[Int] = Ref(42)
   @pointer.borrow_ref(val, ptr => json_inspect(ptr.load(), content=42))
 }
 
@@ -171,11 +171,11 @@ test "borrow_array" {
 test "borrow_bytes" {
   let bytes = b"Hello"
   @pointer.borrow_bytes(bytes, ptr => {
-    assert_eq(ptr[0], 'H')
-    assert_eq(ptr[1], 'e')
-    assert_eq(ptr[2], 'l')
-    assert_eq(ptr[3], 'l')
-    assert_eq(ptr[4], 'o')
+    assert_eq(ptr[0], b'H')
+    assert_eq(ptr[1], b'e')
+    assert_eq(ptr[2], b'l')
+    assert_eq(ptr[3], b'l')
+    assert_eq(ptr[4], b'o')
     assert_eq(ptr[5], 0)
   })
 }
