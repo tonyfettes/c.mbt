@@ -118,8 +118,7 @@ pub enum FpCategory {
   Infinite
   Nan
   Unknown(Int)
-}
-pub impl ToJson for FpCategory
+} derive(ToJson)
 
 // Type aliases
 

@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ pub type Handler
 extern "c" fn Handler::equal(self : Handler, other : Handler) -> Int = "moonbit_tonyfettes_c_signal_handler_equal"
 
 ///|
-pub impl Eq for Handler with equal(self : Handler, other : Handler) -> Bool {
+pub impl Eq for Handler with fn equal(self : Handler, other : Handler) -> Bool {
   Handler::equal(self, other) != 0
 }
 
@@ -41,7 +41,7 @@ extern "c" fn c_raise(sig : Int) -> Int = "raise"
 ///|
 pub fn raise_(sig : Int) -> Unit raise @errno.Errno {
   if c_raise(sig) != 0 {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   }
 }
 

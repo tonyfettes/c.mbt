@@ -2,10 +2,13 @@
 package "tonyfettes/c/time"
 
 import {
+  "tonyfettes/c/pointer",
   "tonyfettes/c/string",
 }
 
 // Values
+pub fn asctime(Tm) -> @pointer.Pointer[Byte]
+
 pub fn clock() -> Clock
 
 pub fn difftime(Time, Time) -> Double

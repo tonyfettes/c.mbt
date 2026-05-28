@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,6 @@ extern "c" fn c_fclose(stream : File) -> Int = "fclose"
 pub fn fclose(stream : File) -> Unit raise @errno.Errno {
   let result = c_fclose(stream)
   if result != 0 {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   }
 }

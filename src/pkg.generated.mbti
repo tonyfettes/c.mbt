@@ -2,6 +2,7 @@
 package "tonyfettes/c"
 
 import {
+  "moonbitlang/core/ref",
   "tonyfettes/c/pointer",
   "tonyfettes/c/stddef",
   "tonyfettes/c/string",
@@ -16,7 +17,7 @@ pub fn[T, R] borrow_array(FixedArray[T], (@pointer.Pointer[T]) -> R raise?) -> R
 
 pub fn[R] borrow_bytes(Bytes, (@pointer.Pointer[Byte]) -> R raise?) -> R raise?
 
-pub fn[T, R] borrow_ref(Ref[T], (@pointer.Pointer[T]) -> R raise?) -> R raise?
+pub fn[T, R] borrow_ref(@ref.Ref[T], (@pointer.Pointer[T]) -> R raise?) -> R raise?
 
 pub fn[T] calloc(@stddef.Size, @stddef.Size) -> @pointer.Pointer[T]
 
@@ -38,7 +39,13 @@ pub fn[Dst] memset(Dst, Byte, @stddef.Size) -> Unit
 
 pub fn[T] null() -> @pointer.Pointer[T]
 
+pub fn rand() -> Int
+
+pub let rand_max : Int
+
 pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
+
+pub fn srand(UInt) -> Unit
 
 pub fn[Str1 : @string.Borrow, Str2 : @string.Borrow] strcmp(Str1, Str2) -> Int
 

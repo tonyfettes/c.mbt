@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-
-# Copyright 2025 International Digital Economy Academy
+# Copyright 2026 International Digital Economy Academy
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -72,6 +71,28 @@ def modify_moon_pkg_json(moon_pkg_path: Path, flags: dict[str, str]) -> str:
     return moon_pkg_text
 
 
+def modify_moon_pkg(moon_pkg_path: Path, flags: dict[str, str]) -> str:
+    moon_pkg_text = moon_pkg_path.read_text()
+    options_marker = "options(\n"
+    if options_marker not in moon_pkg_text:
+        raise Exception(f"No options block found in {moon_pkg_path}")
+    link_config = f'  link: {{ "native": {json.dumps(flags, sort_keys=True)} }},\n'
+    moon_pkg_path.write_text(
+        moon_pkg_text.replace(options_marker, options_marker + link_config, 1)
+    )
+    return moon_pkg_text
+
+
+def modify_package_config(pkg_path: Path, flags: dict[str, str]) -> tuple[Path, str]:
+    moon_pkg_json_path = pkg_path / "moon.pkg.json"
+    if moon_pkg_json_path.exists():
+        return moon_pkg_json_path, modify_moon_pkg_json(moon_pkg_json_path, flags)
+    moon_pkg_path = pkg_path / "moon.pkg"
+    if moon_pkg_path.exists():
+        return moon_pkg_path, modify_moon_pkg(moon_pkg_path, flags)
+    raise FileNotFoundError(f"No moon.pkg or moon.pkg.json found in {pkg_path}")
+
+
 def test_package(
     pkg_path: Path,
     target: str | None,
@@ -96,8 +117,7 @@ def test_package(
     if flags is None:
         raise Exception("Unsupported platform")
     cc_sh = Path("scripts") / "cc.sh"
-    moon_pkg_path = pkg_path / "moon.pkg.json"
-    moon_pkg_text = modify_moon_pkg_json(moon_pkg_path, flags)
+    moon_pkg_path, moon_pkg_text = modify_package_config(pkg_path, flags)
     print("==============================================")
     print("Running test with the following configuration:")
     print("----------------------------------------------")

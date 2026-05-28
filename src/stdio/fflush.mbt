@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,6 @@ extern "c" fn c_fflush(stream : File) -> Int = "fflush"
 ///|
 pub fn fflush(stream : File) -> Unit raise @errno.Errno {
   if c_fflush(stream) != 0 {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   }
 }

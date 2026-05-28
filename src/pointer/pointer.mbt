@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,10 @@ extern "c" fn Pointer::pointer_equal(
 /// Implements equality comparison for pointers.
 ///
 /// Two pointers are equal if they point to the same memory location.
-pub impl[T] Eq for Pointer[T] with equal(self : Pointer[T], other : Pointer[T]) -> Bool {
+pub impl[T] Eq for Pointer[T] with fn equal(
+  self : Pointer[T],
+  other : Pointer[T],
+) -> Bool {
   self.cast().pointer_equal(other.cast())
 }
 
@@ -103,7 +106,7 @@ extern "c" fn pointer_compare(
 /// - negative value if `self` < `other`
 /// - zero if `self` == `other`
 /// - positive value if `self` > `other`
-pub impl[T] Compare for Pointer[T] with compare(
+pub impl[T] Compare for Pointer[T] with fn compare(
   self : Pointer[T],
   other : Pointer[T],
 ) -> Int {
@@ -119,11 +122,11 @@ extern "c" fn pointer_sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
 /// On most platforms, this returns 8 for 64-bit systems or 4 for 32-bit systems.
 #as_free_fn
 pub fn Pointer::sizeof() -> @stddef.Size {
-  @stddef.Size(pointer_sizeof())
+  Size(pointer_sizeof())
 }
 
 ///|
-pub impl[T] @sizeof.Sized for Pointer[T] with size() -> @stddef.Size {
+pub impl[T] @sizeof.Sized for Pointer[T] with fn size() -> @stddef.Size {
   Pointer::sizeof()
 }
 
@@ -265,7 +268,7 @@ pub fn[T : @sizeof.Sized + Load] Pointer::op_get(
   self : Pointer[T],
   index : Int,
 ) -> T {
-  self.offset(@stddef.Ptrdiff(index.to_int64())).load()
+  self.offset(Ptrdiff(index.to_int64())).load()
 }
 
 ///|
@@ -281,7 +284,7 @@ pub fn[T : @sizeof.Sized + Store] Pointer::op_set(
   index : Int,
   value : T,
 ) -> Unit {
-  self.offset(@stddef.Ptrdiff(index.to_int64())).store(value)
+  self.offset(Ptrdiff(index.to_int64())).store(value)
 }
 
 ///|
@@ -320,7 +323,7 @@ pub fn[T] Pointer::to_uint64(self : Pointer[T]) -> UInt64 {
 
 ///|
 pub fn[T] Pointer::to_size(self : Pointer[T]) -> @stddef.Size {
-  @stddef.Size(pointer_to_uint64(self.cast()))
+  Size(pointer_to_uint64(self.cast()))
 }
 
 ///|
@@ -338,7 +341,7 @@ pub fn Pointer::align(
 
 ///|
 pub(open) trait From {
-  from(Self) -> Pointer[Unit]
+  fn from(Self) -> Pointer[Unit]
 }
 
 ///|
@@ -348,13 +351,13 @@ pub fn[T : From] Pointer::from(value : T) -> Pointer[Unit] {
 }
 
 ///|
-pub impl[T] From for Pointer[T] with from(self : Pointer[T]) -> Pointer[Unit] {
+pub impl[T] From for Pointer[T] with fn from(self : Pointer[T]) -> Pointer[Unit] {
   self.cast()
 }
 
 ///|
 pub(open) trait Into {
-  into(Pointer[Unit]) -> Self
+  fn into(Pointer[Unit]) -> Self
 }
 
 ///|
@@ -363,6 +366,6 @@ pub fn[T : Into] Pointer::into(ptr : Pointer[Unit]) -> T {
 }
 
 ///|
-pub impl[T] Into for Pointer[T] with into(self : Pointer[Unit]) -> Pointer[T] {
+pub impl[T] Into for Pointer[T] with fn into(self : Pointer[Unit]) -> Pointer[T] {
   self.cast()
 }

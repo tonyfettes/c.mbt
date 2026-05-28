@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,6 @@ extern "c" fn c_remove(path : @pointer.Pointer[Byte]) -> Int = "remove"
 pub fn[Path : @string.Borrow] remove(path : Path) -> Unit raise @errno.Errno {
   let result = @string.borrow(path, path => c_remove(path))
   if result != 0 {
-    raise @errno.Errno(@errno.get())
+    raise Errno(@errno.get())
   }
 }

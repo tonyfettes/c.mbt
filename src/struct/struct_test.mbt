@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,12 +30,12 @@ let sa_family : Field[Sockaddr, Byte] = sa_len.next()
 let sa_data : Field[Sockaddr, @array.Static[Byte, @nat.Od14[@nat.Z]]] = sa_family.next()
 
 ///|
-impl @sizeof.Sized for Sockaddr with size() -> @stddef.Size {
+impl @sizeof.Sized for Sockaddr with fn size() -> @stddef.Size {
   sa_data.next_offset()
 }
 
 ///|
-impl @alignof.Aligned for Sockaddr with alignment() -> @stddef.Size {
+impl @alignof.Aligned for Sockaddr with fn alignment() -> @stddef.Size {
   let sa_end : Field[Sockaddr, Byte] = sa_data.next()
   sa_end.alignment()
 }
@@ -88,12 +88,12 @@ let ai_addr : Field[AddrInfo, @struct.Struct[Sockaddr]] = ai_canonname.next_stru
 let ai_next : Field[AddrInfo, @pointer.Pointer[@struct.Struct[AddrInfo]]] = ai_addr.next()
 
 ///|
-impl @sizeof.Sized for AddrInfo with size() -> @stddef.Size {
+impl @sizeof.Sized for AddrInfo with fn size() -> @stddef.Size {
   ai_next.next_offset()
 }
 
 ///|
-impl @alignof.Aligned for AddrInfo with alignment() -> @stddef.Size {
+impl @alignof.Aligned for AddrInfo with fn alignment() -> @stddef.Size {
   let ai_end : Field[AddrInfo, Byte] = ai_next.next()
   ai_end.alignment()
 }
@@ -175,7 +175,7 @@ priv struct DebugLayout {
 ///|
 let debug : DebugLayout = {
   let builder = @struct.Builder::new()
-  DebugLayout::{
+  {
     event: builder.field(),
     name: builder.field(),
     name_what: builder.field(),
@@ -234,11 +234,9 @@ test "Layout" {
   json_inspect(object[debug.short_src][1], content=85)
   json_inspect(object[debug.short_src][2], content=65)
   let dump : FixedArray[Byte] = FixedArray::make(debug.size.to_int(), 0)
-  @pointer.borrow_array(dump, dump => @memory.memcpy(
-    dump,
-    object.pointer(),
-    debug.size,
-  ))
+  @pointer.borrow_array(dump, dump => {
+    @memory.memcpy(dump, object.pointer(), debug.size)
+  })
   json_inspect(dump.iter(), content=[
     42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 233, 7, 0,

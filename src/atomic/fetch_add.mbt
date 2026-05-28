@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
 
 ///|
 pub(open) trait FetchAdd {
-  fetch_add(ptr : Atomic[Self], value : Self) -> Self = _
-  fetch_add_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
+  fn fetch_add(ptr : Atomic[Self], value : Self) -> Self = _
+  fn fetch_add_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
 }
 
 ///|
-impl FetchAdd with fetch_add(ptr : Atomic[Self], value : Self) -> Self {
-  FetchAdd::fetch_add_explicit(ptr, value, MemoryOrder::SeqCst)
+impl FetchAdd with fn fetch_add(ptr : Atomic[Self], value : Self) -> Self {
+  FetchAdd::fetch_add_explicit(ptr, value, SeqCst)
 }
 
 ///|
@@ -36,7 +36,7 @@ extern "c" fn atomic_fetch_add_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_fetch_add_explicit_int"
 
 ///|
-pub impl FetchAdd for Int with fetch_add_explicit(
+pub impl FetchAdd for Int with fn fetch_add_explicit(
   ptr : Atomic[Int],
   value : Int,
   order : MemoryOrder,

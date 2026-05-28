@@ -34,7 +34,7 @@ pub const UInt64 : UInt64 = 8
 
 // Traits
 pub(open) trait Sized {
-  size() -> @stddef.Size
+  fn size() -> @stddef.Size
 }
 pub impl Sized for Bool
 pub impl Sized for Byte

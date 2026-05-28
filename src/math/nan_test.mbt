@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,6 @@
 
 ///|
 test "nanf" {
-  json_inspect(@math.is_nan(@math.nanf("1")), content=true)
-  json_inspect(@math.is_nan(@math.nan("0xF")), content=true)
+  json_inspect(@math.is_nan(@math.nanf(b"1")), content=true)
+  json_inspect(@math.is_nan(@math.nan(b"0xF")), content=true)
 }

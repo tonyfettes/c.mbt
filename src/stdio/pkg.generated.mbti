@@ -49,8 +49,6 @@ pub let stdout : File
 
 // Types and methods
 pub(all) struct File(@pointer.Pointer[Unit])
-#deprecated
-pub fn File::inner(Self) -> @pointer.Pointer[Unit]
 
 // Type aliases
 

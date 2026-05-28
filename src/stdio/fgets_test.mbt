@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ test "fgets" {
   let buf : FixedArray[Byte] = FixedArray::make(64, 0)
   json_inspect(@stdio.fgets(buf, 64, file) is Some(_), content=true)
   let buf = buf.unsafe_reinterpret_as_bytes()
-  json_inspect(buf is [.. "Hello, Moonbit!\n", ..], content=true)
+  json_inspect(buf is [.. b"Hello, Moonbit!\n", ..], content=true)
   @stdio.fclose(file)
   @stdio.remove(b"fgets_text.txt")
 }

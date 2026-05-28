@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 ///|
 pub(open) trait Load {
-  load(Pointer[Self]) -> Self
+  fn load(Pointer[Self]) -> Self
 }
 
 ///|
@@ -59,68 +59,70 @@ extern "c" fn pointer_load_pointer(
 ) -> Pointer[Unit] = "moonbit_tonyfettes_c_pointer_load_pointer"
 
 ///|
-pub impl Load for Bool with load(pointer : Pointer[Bool]) -> Bool {
+pub impl Load for Bool with fn load(pointer : Pointer[Bool]) -> Bool {
   pointer_load_bool(pointer)
 }
 
 ///|
-pub impl Load for Byte with load(pointer : Pointer[Byte]) -> Byte {
+pub impl Load for Byte with fn load(pointer : Pointer[Byte]) -> Byte {
   pointer_load_byte(pointer)
 }
 
 ///|
-pub impl Load for Int16 with load(pointer : Pointer[Int16]) -> Int16 {
+pub impl Load for Int16 with fn load(pointer : Pointer[Int16]) -> Int16 {
   pointer_load_int16(pointer)
 }
 
 ///|
-pub impl Load for UInt16 with load(pointer : Pointer[UInt16]) -> UInt16 {
+pub impl Load for UInt16 with fn load(pointer : Pointer[UInt16]) -> UInt16 {
   pointer_load_uint16(pointer)
 }
 
 ///|
-pub impl Load for Int with load(pointer : Pointer[Int]) -> Int {
+pub impl Load for Int with fn load(pointer : Pointer[Int]) -> Int {
   pointer_load_int(pointer)
 }
 
 ///|
-pub impl Load for UInt with load(pointer : Pointer[UInt]) -> UInt {
+pub impl Load for UInt with fn load(pointer : Pointer[UInt]) -> UInt {
   pointer_load_uint(pointer)
 }
 
 ///|
-pub impl Load for Int64 with load(pointer : Pointer[Int64]) -> Int64 {
+pub impl Load for Int64 with fn load(pointer : Pointer[Int64]) -> Int64 {
   pointer_load_int64(pointer)
 }
 
 ///|
-pub impl Load for UInt64 with load(pointer : Pointer[UInt64]) -> UInt64 {
+pub impl Load for UInt64 with fn load(pointer : Pointer[UInt64]) -> UInt64 {
   pointer_load_uint64(pointer)
 }
 
 ///|
-pub impl Load for Float with load(pointer : Pointer[Float]) -> Float {
+pub impl Load for Float with fn load(pointer : Pointer[Float]) -> Float {
   pointer_load_float(pointer)
 }
 
 ///|
-pub impl Load for Double with load(pointer : Pointer[Double]) -> Double {
+pub impl Load for Double with fn load(pointer : Pointer[Double]) -> Double {
   pointer_load_double(pointer)
 }
 
 ///|
-pub impl[T] Load for Pointer[T] with load(pointer : Pointer[Pointer[T]]) -> Pointer[
+pub impl[T] Load for Pointer[T] with fn load(pointer : Pointer[Pointer[T]]) -> Pointer[
   T,
 ] {
   pointer_load_pointer(pointer.cast()).cast()
 }
 
 ///|
-pub impl Load for @stddef.Ptrdiff with load(pointer : Pointer[@stddef.Ptrdiff]) -> @stddef.Ptrdiff {
-  @stddef.Ptrdiff(pointer_load_ptrdiff(pointer))
+pub impl Load for @stddef.Ptrdiff with fn load(
+  pointer : Pointer[@stddef.Ptrdiff],
+) -> @stddef.Ptrdiff {
+  Ptrdiff(pointer_load_ptrdiff(pointer))
 }
 
 ///|
-pub impl Load for @stddef.Size with load(pointer : Pointer[@stddef.Size]) -> @stddef.Size {
-  @stddef.Size(pointer_load_size(pointer))
+pub impl Load for @stddef.Size with fn load(pointer : Pointer[@stddef.Size]) -> @stddef.Size {
+  Size(pointer_load_size(pointer))
 }

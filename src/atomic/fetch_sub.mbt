@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
 
 ///|
 pub(open) trait FetchSub {
-  fetch_sub(ptr : Atomic[Self], value : Self) -> Self = _
-  fetch_sub_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
+  fn fetch_sub(ptr : Atomic[Self], value : Self) -> Self = _
+  fn fetch_sub_explicit(ptr : Atomic[Self], value : Self, order : MemoryOrder) -> Self
 }
 
 ///|
-impl FetchSub with fetch_sub(ptr : Atomic[Self], value : Self) -> Self {
-  FetchSub::fetch_sub_explicit(ptr, value, MemoryOrder::SeqCst)
+impl FetchSub with fn fetch_sub(ptr : Atomic[Self], value : Self) -> Self {
+  FetchSub::fetch_sub_explicit(ptr, value, SeqCst)
 }
 
 ///|
@@ -36,7 +36,7 @@ extern "c" fn atomic_fetch_sub_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_fetch_sub_explicit_int"
 
 ///|
-pub impl FetchSub for Int with fetch_sub_explicit(
+pub impl FetchSub for Int with fn fetch_sub_explicit(
   object : Atomic[Int],
   operand : Int,
   order : MemoryOrder,

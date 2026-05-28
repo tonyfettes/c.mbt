@@ -32,8 +32,6 @@ pub fn[T : Store] store(Atomic[T], T) -> Unit
 
 // Types and methods
 pub(all) struct Atomic[T](@pointer.Pointer[T])
-#deprecated
-pub fn[T] Atomic::inner(Self[T]) -> @pointer.Pointer[T]
 pub fn[T] Atomic::to_pointer(Self[T]) -> @pointer.Pointer[Unit]
 
 pub(all) enum MemoryOrder {
@@ -49,66 +47,66 @@ pub(all) enum MemoryOrder {
 
 // Traits
 pub(open) trait CompareExchangeStrong {
-  compare_exchange_strong(Atomic[Self], @pointer.Pointer[Self], Self) -> Bool = _
-  compare_exchange_strong_explicit(Atomic[Self], @pointer.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
+  fn compare_exchange_strong(Atomic[Self], @pointer.Pointer[Self], Self) -> Bool = _
+  fn compare_exchange_strong_explicit(Atomic[Self], @pointer.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
 }
 pub impl CompareExchangeStrong for Int
 
 pub(open) trait CompareExchangeWeak {
-  compare_exchange_weak(Atomic[Self], @pointer.Pointer[Self], Self) -> Bool = _
-  compare_exchange_weak_explicit(Atomic[Self], @pointer.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
+  fn compare_exchange_weak(Atomic[Self], @pointer.Pointer[Self], Self) -> Bool = _
+  fn compare_exchange_weak_explicit(Atomic[Self], @pointer.Pointer[Self], Self, MemoryOrder, MemoryOrder) -> Bool
 }
 pub impl CompareExchangeWeak for Int
 
 pub(open) trait Exchange {
-  exchange(Atomic[Self], Self) -> Self = _
-  exchange_explicit(Atomic[Self], Self, MemoryOrder) -> Self
+  fn exchange(Atomic[Self], Self) -> Self = _
+  fn exchange_explicit(Atomic[Self], Self, MemoryOrder) -> Self
 }
 pub impl Exchange for Int
 
 pub(open) trait FetchAdd {
-  fetch_add(Atomic[Self], Self) -> Self = _
-  fetch_add_explicit(Atomic[Self], Self, MemoryOrder) -> Self
+  fn fetch_add(Atomic[Self], Self) -> Self = _
+  fn fetch_add_explicit(Atomic[Self], Self, MemoryOrder) -> Self
 }
 pub impl FetchAdd for Int
 
 pub(open) trait FetchAnd {
-  fetch_and(Atomic[Self], Self) -> Self = _
-  fetch_and_explicit(Atomic[Self], Self, MemoryOrder) -> Self
+  fn fetch_and(Atomic[Self], Self) -> Self = _
+  fn fetch_and_explicit(Atomic[Self], Self, MemoryOrder) -> Self
 }
 pub impl FetchAnd for Int
 
 pub(open) trait FetchOr {
-  fetch_or(Atomic[Self], Self) -> Self = _
-  fetch_or_explicit(Atomic[Self], Self, MemoryOrder) -> Self
+  fn fetch_or(Atomic[Self], Self) -> Self = _
+  fn fetch_or_explicit(Atomic[Self], Self, MemoryOrder) -> Self
 }
 pub impl FetchOr for Int
 
 pub(open) trait FetchSub {
-  fetch_sub(Atomic[Self], Self) -> Self = _
-  fetch_sub_explicit(Atomic[Self], Self, MemoryOrder) -> Self
+  fn fetch_sub(Atomic[Self], Self) -> Self = _
+  fn fetch_sub_explicit(Atomic[Self], Self, MemoryOrder) -> Self
 }
 pub impl FetchSub for Int
 
 pub(open) trait Init {
-  init(Atomic[Self], Self) -> Unit
+  fn init(Atomic[Self], Self) -> Unit
 }
 pub impl Init for Int
 
 pub(open) trait Load {
-  load(Atomic[Self]) -> Self = _
-  load_explicit(Atomic[Self], MemoryOrder) -> Self
+  fn load(Atomic[Self]) -> Self = _
+  fn load_explicit(Atomic[Self], MemoryOrder) -> Self
 }
 pub impl Load for Int
 
 pub(open) trait Sizeof {
-  sizeof() -> UInt64
+  fn sizeof() -> UInt64
 }
 pub impl Sizeof for Int
 
 pub(open) trait Store {
-  store(Atomic[Self], Self) -> Unit = _
-  store_explicit(Atomic[Self], Self, MemoryOrder) -> Unit
+  fn store(Atomic[Self], Self) -> Unit = _
+  fn store_explicit(Atomic[Self], Self, MemoryOrder) -> Unit
 }
 pub impl Store for Int
 

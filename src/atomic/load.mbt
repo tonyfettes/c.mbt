@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
 
 ///|
 pub(open) trait Load {
-  load(ptr : Atomic[Self]) -> Self = _
-  load_explicit(ptr : Atomic[Self], order : MemoryOrder) -> Self
+  fn load(ptr : Atomic[Self]) -> Self = _
+  fn load_explicit(ptr : Atomic[Self], order : MemoryOrder) -> Self
 }
 
 ///|
-impl Load with load(ptr : Atomic[Self]) -> Self {
-  Load::load_explicit(ptr, MemoryOrder::SeqCst)
+impl Load with fn load(ptr : Atomic[Self]) -> Self {
+  Load::load_explicit(ptr, SeqCst)
 }
 
 ///|
@@ -35,6 +35,9 @@ extern "c" fn atomic_load_explicit_int(
 ) -> Int = "moonbit_tonyfettes_c_atomic_load_explicit_int"
 
 ///|
-pub impl Load for Int with load_explicit(ptr : Atomic[Int], order : MemoryOrder) -> Int {
+pub impl Load for Int with fn load_explicit(
+  ptr : Atomic[Int],
+  order : MemoryOrder,
+) -> Int {
   atomic_load_explicit_int(ptr, order)
 }

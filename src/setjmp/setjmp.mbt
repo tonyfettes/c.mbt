@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ let sizeof_jmp_buf : Int = c_sizeof_jmp_buf().to_int()
 
 ///|
 pub fn[T] JmpBuf::new() -> JmpBuf[T] {
-  JmpBuf::{ env: Bytes::make(sizeof_jmp_buf, 0), val: None }
+  { env: Bytes::make(sizeof_jmp_buf, 0), val: None }
 }
 
 ///|
