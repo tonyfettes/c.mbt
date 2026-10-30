@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn ctype_isalnum(c : Int) -> Int = "isalnum"
+extern "c" fn ctype_isalnum(c : Int32) -> Int32 = "isalnum"
 
 ///|
 pub fn isalnum(c : Byte) -> Bool {
@@ -21,7 +21,7 @@ pub fn isalnum(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isalpha(c : Int) -> Int = "isalpha"
+extern "c" fn ctype_isalpha(c : Int32) -> Int32 = "isalpha"
 
 ///|
 pub fn isalpha(c : Byte) -> Bool {
@@ -29,7 +29,7 @@ pub fn isalpha(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_islower(c : Int) -> Int = "islower"
+extern "c" fn ctype_islower(c : Int32) -> Int32 = "islower"
 
 ///|
 pub fn islower(c : Byte) -> Bool {
@@ -37,7 +37,7 @@ pub fn islower(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isupper(c : Int) -> Int = "isupper"
+extern "c" fn ctype_isupper(c : Int32) -> Int32 = "isupper"
 
 ///|
 pub fn isupper(c : Byte) -> Bool {
@@ -45,7 +45,7 @@ pub fn isupper(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isdigit(c : Int) -> Int = "isdigit"
+extern "c" fn ctype_isdigit(c : Int32) -> Int32 = "isdigit"
 
 ///|
 pub fn isdigit(c : Byte) -> Bool {
@@ -53,7 +53,7 @@ pub fn isdigit(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isxdigit(c : Int) -> Int = "isxdigit"
+extern "c" fn ctype_isxdigit(c : Int32) -> Int32 = "isxdigit"
 
 ///|
 pub fn isxdigit(c : Byte) -> Bool {
@@ -61,7 +61,7 @@ pub fn isxdigit(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_iscntrl(c : Int) -> Int = "iscntrl"
+extern "c" fn ctype_iscntrl(c : Int32) -> Int32 = "iscntrl"
 
 ///|
 pub fn iscntrl(c : Byte) -> Bool {
@@ -69,7 +69,7 @@ pub fn iscntrl(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isgraph(c : Int) -> Int = "isgraph"
+extern "c" fn ctype_isgraph(c : Int32) -> Int32 = "isgraph"
 
 ///|
 pub fn isgraph(c : Byte) -> Bool {
@@ -77,7 +77,7 @@ pub fn isgraph(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isblank(c : Int) -> Int = "isblank"
+extern "c" fn ctype_isblank(c : Int32) -> Int32 = "isblank"
 
 ///|
 pub fn isblank(c : Byte) -> Bool {
@@ -85,7 +85,7 @@ pub fn isblank(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isspace(c : Int) -> Int = "isspace"
+extern "c" fn ctype_isspace(c : Int32) -> Int32 = "isspace"
 
 ///|
 pub fn isspace(c : Byte) -> Bool {
@@ -93,7 +93,7 @@ pub fn isspace(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_isprint(c : Int) -> Int = "isprint"
+extern "c" fn ctype_isprint(c : Int32) -> Int32 = "isprint"
 
 ///|
 pub fn isprint(c : Byte) -> Bool {
@@ -101,7 +101,7 @@ pub fn isprint(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_ispunct(c : Int) -> Int = "ispunct"
+extern "c" fn ctype_ispunct(c : Int32) -> Int32 = "ispunct"
 
 ///|
 pub fn ispunct(c : Byte) -> Bool {
@@ -109,7 +109,7 @@ pub fn ispunct(c : Byte) -> Bool {
 }
 
 ///|
-extern "c" fn ctype_tolower(c : Int) -> Int = "tolower"
+extern "c" fn ctype_tolower(c : Int32) -> Int32 = "tolower"
 
 ///|
 pub fn tolower(c : Byte) -> Byte {
@@ -117,7 +117,7 @@ pub fn tolower(c : Byte) -> Byte {
 }
 
 ///|
-extern "c" fn ctype_toupper(c : Int) -> Int = "toupper"
+extern "c" fn ctype_toupper(c : Int32) -> Int32 = "toupper"
 
 ///|
 pub fn toupper(c : Byte) -> Byte {

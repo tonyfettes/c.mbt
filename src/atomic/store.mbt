@@ -30,15 +30,15 @@ pub fn[T : Store] store(ptr : Atomic[T], val : T) -> Unit {
 
 ///|
 extern "c" fn atomic_store_explicit_int(
-  object : Atomic[Int],
-  value : Int,
+  object : Atomic[Int32],
+  value : Int32,
   order : MemoryOrder,
 ) = "moonbit_tonyfettes_c_atomic_store_explicit_int"
 
 ///|
-pub impl Store for Int with fn store_explicit(
-  ptr : Atomic[Int],
-  value : Int,
+pub impl Store for Int32 with fn store_explicit(
+  ptr : Atomic[Int32],
+  value : Int32,
   order : MemoryOrder,
 ) -> Unit {
   atomic_store_explicit_int(ptr, value, order)

@@ -17,9 +17,9 @@ test "load" {
   if !supports_atomics {
     return
   }
-  let ptr : @atomic.Atomic[Int] = @memory.calloc(
+  let ptr : @atomic.Atomic[Int32] = @memory.calloc(
     1,
-    @atomic.sizeof((_ : Int) => ()),
+    @atomic.sizeof((_ : Int32) => ()),
   )
   defer @memory.free(ptr.to_pointer())
   @atomic.init_(ptr, 0)

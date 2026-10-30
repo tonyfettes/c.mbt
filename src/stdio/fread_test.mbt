@@ -14,23 +14,33 @@
 
 ///|
 test "fread[FixedArray[_]]" {
-  let file = @stdio.fopen(b"moon.mod.json", b"r")
+  let path = b"fread_text.txt"
+  let writer = @stdio.fopen(path, b"w")
+  let _ = @stdio.fwrite(b"Hello, World", 1, 12, writer)
+  @stdio.fclose(writer)
+  let file = @stdio.fopen(path, b"r")
   let buf : FixedArray[Byte] = FixedArray::make(1024, 0)
   let n = @stdio.fread(buf, 1, 1024, file)
-  json_inspect(n, content=438)
+  json_inspect(n, content=12)
   json_inspect(@stdio.feof(file), content=true)
   json_inspect(@stdio.ferror(file), content=false)
   @stdio.fclose(file)
+  @stdio.remove(path)
 }
 
 ///|
 test "fread[@c.Pointer[_]]" {
-  let file = @stdio.fopen(b"moon.mod.json", b"r")
+  let path = b"fread_ptr_text.txt"
+  let writer = @stdio.fopen(path, b"w")
+  let _ = @stdio.fwrite(b"Hello, World", 1, 12, writer)
+  @stdio.fclose(writer)
+  let file = @stdio.fopen(path, b"r")
   let buf : @pointer.Pointer[Byte] = @memory.malloc(1024)
   defer @memory.free(buf)
   let n = @stdio.fread(buf, 1, 1024, file)
-  json_inspect(n, content=438)
+  json_inspect(n, content=12)
   json_inspect(@stdio.feof(file), content=true)
   json_inspect(@stdio.ferror(file), content=false)
   @stdio.fclose(file)
+  @stdio.remove(path)
 }

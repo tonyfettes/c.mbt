@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : File) -> Int = "moonbit_tonyfettes_c_stdio_fputs"
+extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : File) -> Int32 = "moonbit_tonyfettes_c_stdio_fputs"
 
 ///|
 /// Writes a string to the specified file stream.
@@ -24,6 +24,6 @@ extern "c" fn c_fputs(data : @pointer.Pointer[Byte], stream : File) -> Int = "mo
 /// * `stream` : The file stream to write to.
 ///
 /// Returns a non-negative integer on success, or EOF on error.
-pub fn[Data : @string.Borrow] fputs(data : Data, stream : File) -> Int {
+pub fn[Data : @string.Borrow] fputs(data : Data, stream : File) -> Int32 {
   @string.borrow(data, data => c_fputs(data, stream))
 }

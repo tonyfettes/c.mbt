@@ -22,16 +22,16 @@ struct JmpBuf[T] {
 extern "c" fn c_sizeof_jmp_buf() -> UInt64 = "moonbit_tonyfettes_c_sizeof_jmp_buf"
 
 ///|
-let sizeof_jmp_buf : Int = c_sizeof_jmp_buf().to_int()
+let sizeof_jmp_buf : Int32 = c_sizeof_jmp_buf().to_int()
 
 ///|
 pub fn[T] JmpBuf::new() -> JmpBuf[T] {
-  { env: Bytes::make(sizeof_jmp_buf, 0), val: None }
+  { env: Bytes::make(sizeof_jmp_buf, 0), val: None, }
 }
 
 ///|
 #owned(env)
-extern "c" fn c_longjmp(env : Bytes, val : Int) = "moonbit_tonyfettes_c_longjmp"
+extern "c" fn c_longjmp(env : Bytes, val : Int32) = "moonbit_tonyfettes_c_longjmp"
 
 ///|
 pub fn[T, X] longjmp(env : JmpBuf[T], val : T) -> X {
@@ -44,8 +44,8 @@ pub fn[T, X] longjmp(env : JmpBuf[T], val : T) -> X {
 #borrow(env)
 extern "c" fn c_setjmp(
   env : Bytes,
-  func : FuncRef[((Int) -> Unit, Int) -> Unit],
-  data : (Int) -> Unit,
+  func : FuncRef[((Int32) -> Unit, Int32) -> Unit],
+  data : (Int32) -> Unit,
 ) = "moonbit_tonyfettes_c_setjmp"
 
 ///|

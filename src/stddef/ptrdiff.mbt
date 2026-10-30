@@ -17,13 +17,19 @@ pub(all) struct Ptrdiff(Int64)
 
 ///|
 pub impl Show for Ptrdiff with fn output(self : Ptrdiff, logger : &Logger) -> Unit {
-  self.0.output(logger)
+  Show::output(self.0, logger)
 }
+
+///|
+pub extend Ptrdiff with Show::{to_string, output}
 
 ///|
 pub impl ToJson for Ptrdiff with fn to_json(self : Ptrdiff) -> Json {
   Json::number(self.0.to_double(), repr=self.0.to_string())
 }
+
+///|
+pub extend Ptrdiff with ToJson::{to_json}
 
 ///|
 pub impl @json.FromJson for Ptrdiff with fn from_json(
@@ -41,10 +47,13 @@ pub impl @json.FromJson for Ptrdiff with fn from_json(
       }
     _ =>
       raise JsonDecodeError(
-        (json_path, "Expected Ptrdiff as number, got \{@debug.to_repr(json)}"),
+        (json_path, "Expected Ptrdiff as number, got \{Repr(json)}"),
       )
   }
 }
+
+///|
+pub extend Ptrdiff with @json.FromJson::{from_json}
 
 ///|
 pub fn Ptrdiff::to_int64(self : Ptrdiff) -> Int64 {
@@ -62,9 +71,15 @@ pub impl Add for Ptrdiff with fn add(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff
 }
 
 ///|
+pub extend Ptrdiff with Add::{add}
+
+///|
 pub impl Sub for Ptrdiff with fn sub(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 - other.0)
 }
+
+///|
+pub extend Ptrdiff with Sub::{sub}
 
 ///|
 pub impl Mul for Ptrdiff with fn mul(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
@@ -72,9 +87,15 @@ pub impl Mul for Ptrdiff with fn mul(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff
 }
 
 ///|
+pub extend Ptrdiff with Mul::{mul}
+
+///|
 pub impl Div for Ptrdiff with fn div(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
   Ptrdiff(self.0 / other.0)
 }
+
+///|
+pub extend Ptrdiff with Div::{div}
 
 ///|
 pub impl Mod for Ptrdiff with fn mod(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff {
@@ -82,14 +103,23 @@ pub impl Mod for Ptrdiff with fn mod(self : Ptrdiff, other : Ptrdiff) -> Ptrdiff
 }
 
 ///|
+pub extend Ptrdiff with Mod::{mod}
+
+///|
 pub impl Eq for Ptrdiff with fn equal(self : Ptrdiff, other : Ptrdiff) -> Bool {
   self.0 == other.0
 }
 
 ///|
-pub impl Compare for Ptrdiff with fn compare(self : Ptrdiff, other : Ptrdiff) -> Int {
+pub extend Ptrdiff with Eq::{not_equal, equal}
+
+///|
+pub impl Compare for Ptrdiff with fn compare(self : Ptrdiff, other : Ptrdiff) -> Int32 {
   self.0.compare(other.0)
 }
+
+///|
+pub extend Ptrdiff with Compare::{op_lt, op_le, op_ge, compare, op_gt}
 
 ///|
 pub impl Neg for Ptrdiff with fn neg(self : Ptrdiff) -> Ptrdiff {
@@ -97,9 +127,15 @@ pub impl Neg for Ptrdiff with fn neg(self : Ptrdiff) -> Ptrdiff {
 }
 
 ///|
+pub extend Ptrdiff with Neg::{neg}
+
+///|
 pub impl Default for Ptrdiff with fn default() -> Ptrdiff {
   Ptrdiff(0L)
 }
+
+///|
+pub extend Ptrdiff with Default::{default}
 
 ///|
 extern "c" fn sizeof_ptrdiff_t() -> UInt64 = "moonbit_tonyfettes_c_stddef_sizeof_ptrdiff_t"

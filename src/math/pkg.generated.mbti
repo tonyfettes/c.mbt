@@ -119,6 +119,7 @@ pub enum FpCategory {
   Nan
   Unknown(Int)
 } derive(ToJson)
+pub fn FpCategory::to_json(Self) -> Json
 
 // Type aliases
 
@@ -138,4 +139,3 @@ pub impl IsInf for Double
 trait IsNaN
 pub impl IsNaN for Float
 pub impl IsNaN for Double
-

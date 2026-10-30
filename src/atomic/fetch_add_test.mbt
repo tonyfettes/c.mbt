@@ -17,9 +17,9 @@ test "fetch_add" {
   if !supports_atomics {
     return
   }
-  let object : @atomic.Atomic[Int] = @memory.calloc(
+  let object : @atomic.Atomic[Int32] = @memory.calloc(
     1,
-    @atomic.sizeof((_ : Int) => ()),
+    @atomic.sizeof((_ : Int32) => ()),
   )
   defer @memory.free(object.to_pointer())
   @atomic.init_(object, 0)
@@ -39,7 +39,7 @@ test "fetch_add/concurrent" {
     return
   }
   if !@feature.no_threads {
-    let counter : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
+    let counter : @pointer.Pointer[Int32] = @memory.calloc(1, @sizeof.Int)
     defer @memory.free(counter)
     counter.store(0)
     let threads : @pointer.Pointer[@thrd.Thrd] = @memory.calloc(
@@ -66,9 +66,9 @@ test "fetch_add/concurrent" {
     }
     println(counter.load())
     json_inspect(counter.load() < NThreads * NIncrementsPerThread, content=true)
-    let atomic_counter : @atomic.Atomic[Int] = @memory.calloc(
+    let atomic_counter : @atomic.Atomic[Int32] = @memory.calloc(
       1,
-      @atomic.sizeof((_ : Int) => ()),
+      @atomic.sizeof((_ : Int32) => ()),
     )
     defer @memory.free(atomic_counter.to_pointer())
     @atomic.init_(atomic_counter, 0)

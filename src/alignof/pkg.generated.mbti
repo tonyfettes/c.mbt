@@ -31,4 +31,3 @@ pub impl Aligned for Double
 pub impl[T] Aligned for @pointer.Pointer[T]
 pub impl Aligned for @stddef.Ptrdiff
 pub impl Aligned for @stddef.Size
-

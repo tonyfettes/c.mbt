@@ -109,4 +109,3 @@ pub(open) trait Store {
   fn store_explicit(Atomic[Self], Self, MemoryOrder) -> Unit
 }
 pub impl Store for Int
-

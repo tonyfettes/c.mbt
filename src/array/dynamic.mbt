@@ -16,24 +16,29 @@
 struct Dynamic[T](@pointer.Pointer[T])
 
 ///|
-pub impl[T] @pointer.Load for Dynamic[T] with load(
+pub impl[T] @pointer.Load for Dynamic[T] with fn load(
   self : @pointer.Pointer[Dynamic[T]],
 ) -> Dynamic[T] {
   Dynamic(self.cast())
 }
 
 ///|
-pub fn[T : @pointer.Load + @sizeof.Sized] Dynamic::op_get(
+pub extend Dynamic with @pointer.Load::{load}
+
+///|
+#alias("_[_]")
+pub fn[T : @pointer.Load + @sizeof.Sized] Dynamic::get(
   self : Dynamic[T],
-  index : Int,
+  index : Int32,
 ) -> T {
   self.0[index]
 }
 
 ///|
-pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::op_set(
+#alias("_[_]=_")
+pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::set(
   self : Dynamic[T],
-  index : Int,
+  index : Int32,
   value : T,
 ) -> Unit {
   self.0[index] = value

@@ -15,9 +15,9 @@
 ///|
 test "ctype/is" {
   let table : FixedArray[Byte] = FixedArray::makei(128, i => i.to_byte())
-  let results : Array[(FixedArray[Int], (Byte, Byte))] = []
+  let results : Array[(FixedArray[Int32], (Byte, Byte))] = []
   for byte in table {
-    let value : FixedArray[Int] = [
+    let value : FixedArray[Int32] = [
       @ctype.iscntrl(byte).to_int(),
       @ctype.isprint(byte).to_int(),
       @ctype.isspace(byte).to_int(),
@@ -59,9 +59,9 @@ test "ctype/to" {
   let lower = b"abcdefghijklmnopqrstuvwxyz"
   let upper = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   for i, byte in lower {
-    json_inspect(@ctype.toupper(byte), content=upper[i].to_json())
+    json_inspect(@ctype.toupper(byte), content=Json(upper[i]))
   }
   for i, byte in upper {
-    json_inspect(@ctype.tolower(byte), content=lower[i].to_json())
+    json_inspect(@ctype.tolower(byte), content=Json(lower[i]))
   }
 }

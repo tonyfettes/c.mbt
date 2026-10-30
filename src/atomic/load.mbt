@@ -30,14 +30,14 @@ pub fn[T : Load] load(ptr : Atomic[T]) -> T {
 
 ///|
 extern "c" fn atomic_load_explicit_int(
-  object : Atomic[Int],
+  object : Atomic[Int32],
   order : MemoryOrder,
-) -> Int = "moonbit_tonyfettes_c_atomic_load_explicit_int"
+) -> Int32 = "moonbit_tonyfettes_c_atomic_load_explicit_int"
 
 ///|
-pub impl Load for Int with fn load_explicit(
-  ptr : Atomic[Int],
+pub impl Load for Int32 with fn load_explicit(
+  ptr : Atomic[Int32],
   order : MemoryOrder,
-) -> Int {
+) -> Int32 {
   atomic_load_explicit_int(ptr, order)
 }

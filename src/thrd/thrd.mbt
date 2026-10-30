@@ -20,36 +20,39 @@ type Thrd
 pub extern "c" fn Thrd::sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_thrd"
 
 ///|
-pub impl @sizeof.Sized for Thrd with size() -> @stddef.Size {
+pub impl @sizeof.Sized for Thrd with fn size() -> @stddef.Size {
   Thrd::sizeof()
 }
 
 ///|
-extern "c" fn thrd_success() -> Int = "moonbit_tonyfettes_c_thrd_success"
+pub extend Thrd with @sizeof.Sized::{size}
 
 ///|
-pub let success : Int = thrd_success()
+extern "c" fn thrd_success() -> Int32 = "moonbit_tonyfettes_c_thrd_success"
 
 ///|
-extern "c" fn thrd_nomem() -> Int = "moonbit_tonyfettes_c_thrd_nomem"
+pub let success : Int32 = thrd_success()
 
 ///|
-pub let nomem : Int = thrd_nomem()
+extern "c" fn thrd_nomem() -> Int32 = "moonbit_tonyfettes_c_thrd_nomem"
 
 ///|
-extern "c" fn thrd_timedout() -> Int = "moonbit_tonyfettes_c_thrd_timedout"
+pub let nomem : Int32 = thrd_nomem()
 
 ///|
-pub let timedout : Int = thrd_timedout()
+extern "c" fn thrd_timedout() -> Int32 = "moonbit_tonyfettes_c_thrd_timedout"
 
 ///|
-extern "c" fn thrd_busy() -> Int = "moonbit_tonyfettes_c_thrd_busy"
+pub let timedout : Int32 = thrd_timedout()
 
 ///|
-pub let busy : Int = thrd_busy()
+extern "c" fn thrd_busy() -> Int32 = "moonbit_tonyfettes_c_thrd_busy"
 
 ///|
-extern "c" fn thrd_error() -> Int = "moonbit_tonyfettes_c_thrd_error"
+pub let busy : Int32 = thrd_busy()
 
 ///|
-pub let error : Int = thrd_error()
+extern "c" fn thrd_error() -> Int32 = "moonbit_tonyfettes_c_thrd_error"
+
+///|
+pub let error : Int32 = thrd_error()

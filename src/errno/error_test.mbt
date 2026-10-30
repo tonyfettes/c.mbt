@@ -14,9 +14,9 @@
 
 ///|
 test "strerror" {
-  let str = strerror(@errno.edom)
+  let str = @errno.strerror(@errno.edom)
   json_inspect(str.is_not_null(), content=true)
-  let str = strerror(@errno.erange)
+  let str = @errno.strerror(@errno.erange)
   json_inspect(str.is_not_null(), content=true)
 }
 
@@ -31,15 +31,15 @@ test "Errno/Show" {
 ///|
 test "Errno/ToJson" {
   let error = @errno.Errno(@errno.edom)
-  let json = error.to_json()
+  let json = Json(error)
   json_inspect(
-    json is ["Errno", [errno, _]] && errno == @errno.edom.to_json(),
+    json is ["Errno", [errno, _]] && errno == Json(@errno.edom),
     content=true,
   )
   let error = @errno.Errno(@errno.erange)
-  let json = error.to_json()
+  let json = Json(error)
   json_inspect(
-    json is ["Errno", [errno, _]] && errno == @errno.erange.to_json(),
+    json is ["Errno", [errno, _]] && errno == Json(@errno.erange),
     content=true,
   )
 }

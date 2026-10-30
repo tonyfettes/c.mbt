@@ -94,10 +94,13 @@ pub impl[T] Eq for Pointer[T] with fn equal(
 }
 
 ///|
+pub extend Pointer with Eq::{not_equal, equal}
+
+///|
 extern "c" fn pointer_compare(
   lower : Pointer[Byte],
   upper : Pointer[Byte],
-) -> Int = "moonbit_tonyfettes_c_pointer_compare"
+) -> Int32 = "moonbit_tonyfettes_c_pointer_compare"
 
 ///|
 /// Implements comparison for pointers.
@@ -109,9 +112,12 @@ extern "c" fn pointer_compare(
 pub impl[T] Compare for Pointer[T] with fn compare(
   self : Pointer[T],
   other : Pointer[T],
-) -> Int {
+) -> Int32 {
   pointer_compare(self.cast(), other.cast())
 }
+
+///|
+pub extend Pointer with Compare::{op_lt, op_le, op_ge, compare, op_gt}
 
 ///|
 extern "c" fn pointer_sizeof() -> UInt64 = "moonbit_tonyfettes_c_sizeof_pointer"
@@ -129,6 +135,9 @@ pub fn Pointer::sizeof() -> @stddef.Size {
 pub impl[T] @sizeof.Sized for Pointer[T] with fn size() -> @stddef.Size {
   Pointer::sizeof()
 }
+
+///|
+pub extend Pointer with @sizeof.Sized::{size}
 
 ///|
 extern "c" fn pointer_add(
@@ -264,9 +273,10 @@ pub fn[T] Pointer::byte_offset_from(
 /// - `index`: The index to read from
 ///
 /// Returns the value at the specified index.
-pub fn[T : @sizeof.Sized + Load] Pointer::op_get(
+#alias("_[_]")
+pub fn[T : @sizeof.Sized + Load] Pointer::at(
   self : Pointer[T],
-  index : Int,
+  index : Int32,
 ) -> T {
   self.offset(Ptrdiff(index.to_int64())).load()
 }
@@ -279,9 +289,10 @@ pub fn[T : @sizeof.Sized + Load] Pointer::op_get(
 /// Parameters:
 /// - `index`: The index to write to
 /// - `value`: The value to write
-pub fn[T : @sizeof.Sized + Store] Pointer::op_set(
+#alias("_[_]=_")
+pub fn[T : @sizeof.Sized + Store] Pointer::set(
   self : Pointer[T],
-  index : Int,
+  index : Int32,
   value : T,
 ) -> Unit {
   self.offset(Ptrdiff(index.to_int64())).store(value)

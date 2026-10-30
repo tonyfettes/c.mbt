@@ -1,10 +1,11 @@
 import {
   "moonbitlang/core/json",
-  "moonbitlang/core/debug",
-  "moonbitlang/core/uint64",
   "moonbitlang/core/string",
-  "moonbitlang/core/encoding/utf8",
 }
+
+import {
+  "moonbitlang/core/uint64",
+} for "test"
 
 options(
   "native-stub": [ "ptrdiff.c", "size.c" ],

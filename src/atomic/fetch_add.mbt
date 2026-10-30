@@ -30,16 +30,16 @@ pub fn[T : FetchAdd] fetch_add(ptr : Atomic[T], value : T) -> T {
 
 ///|
 extern "c" fn atomic_fetch_add_explicit_int(
-  object : Atomic[Int],
-  value : Int,
+  object : Atomic[Int32],
+  value : Int32,
   order : MemoryOrder,
-) -> Int = "moonbit_tonyfettes_c_atomic_fetch_add_explicit_int"
+) -> Int32 = "moonbit_tonyfettes_c_atomic_fetch_add_explicit_int"
 
 ///|
-pub impl FetchAdd for Int with fn fetch_add_explicit(
-  ptr : Atomic[Int],
-  value : Int,
+pub impl FetchAdd for Int32 with fn fetch_add_explicit(
+  ptr : Atomic[Int32],
+  value : Int32,
   order : MemoryOrder,
-) -> Int {
+) -> Int32 {
   atomic_fetch_add_explicit_int(ptr, value, order)
 }

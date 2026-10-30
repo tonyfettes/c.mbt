@@ -15,7 +15,7 @@
 ///|
 test "setjmp" {
   let env = @setjmp.JmpBuf::new()
-  fn foo(status : Int) -> Unit {
+  fn foo(status : Int32) -> Unit {
     println("foo(\{status}) called")
     @setjmp.longjmp(env, status)
   }

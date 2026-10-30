@@ -22,8 +22,9 @@ test "remove" {
 
 ///|
 test "remove/non-existent" {
-  json_inspect(
-    (try? @stdio.remove(b"non_existent_file.txt")) is Err(_),
-    content=true,
-  )
+  try @stdio.remove(b"non_existent_file.txt") catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected @stdio.remove to raise")
+  }
 }

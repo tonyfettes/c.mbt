@@ -24,6 +24,9 @@ pub fn strerror(Int) -> @pointer.Pointer[Byte]
 pub(all) suberror Errno {
   Errno(Int)
 }
+pub fn Errno::output(Self, &Logger) -> Unit
+pub fn Errno::to_json(Self) -> Json
+pub fn Errno::to_string(Self) -> String
 pub impl Show for Errno
 pub impl ToJson for Errno
 
@@ -32,4 +35,3 @@ pub impl ToJson for Errno
 // Type aliases
 
 // Traits
-

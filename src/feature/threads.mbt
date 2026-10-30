@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn feature_no_threads() -> Int = "moonbit_tonyfettes_c_feature_no_threads"
+extern "c" fn feature_no_threads() -> Int32 = "moonbit_tonyfettes_c_feature_no_threads"
 
 ///|
 pub let no_threads : Bool = feature_no_threads() != 0

@@ -13,23 +13,23 @@
 // limitations under the License.
 
 ///|
-extern "c" fn _exit(status : Int) = "exit"
+extern "c" fn _exit(status : Int32) = "exit"
 
 ///|
 #coverage.skip
-pub fn[T] exit(status : Int) -> T {
+pub fn[T] exit(status : Int32) -> T {
   _exit(status)
   abort("exit should never return")
 }
 
 ///|
-extern "c" fn exit_success() -> Int = "moonbit_tonyfettes_c_exit_success"
+extern "c" fn exit_success() -> Int32 = "moonbit_tonyfettes_c_exit_success"
 
 ///|
-extern "c" fn exit_failure() -> Int = "moonbit_tonyfettes_c_exit_failure"
+extern "c" fn exit_failure() -> Int32 = "moonbit_tonyfettes_c_exit_failure"
 
 ///|
-pub let success : Int = exit_success()
+pub let success : Int32 = exit_success()
 
 ///|
-pub let failure : Int = exit_failure()
+pub let failure : Int32 = exit_failure()

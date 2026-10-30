@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_fclose(stream : File) -> Int = "fclose"
+extern "c" fn c_fclose(stream : File) -> Int32 = "fclose"
 
 ///|
 pub fn fclose(stream : File) -> Unit raise @errno.Errno {

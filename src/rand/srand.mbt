@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn srand(seed : UInt) = "moonbit_tonyfettes_c_rand_srand"
+pub extern "c" fn srand(seed : UInt32) = "moonbit_tonyfettes_c_rand_srand"

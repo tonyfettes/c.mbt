@@ -15,14 +15,14 @@
 ///|
 extern "c" fn c_fgets(
   data : @pointer.Pointer[Byte],
-  size : Int,
+  size : Int32,
   stream : File,
 ) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_stdio_fgets"
 
 ///|
 pub fn[Data : @string.Borrow] fgets(
   data : Data,
-  size : Int,
+  size : Int32,
   stream : File,
 ) -> Data? {
   let result = @string.borrow(data, data => c_fgets(data, size, stream))

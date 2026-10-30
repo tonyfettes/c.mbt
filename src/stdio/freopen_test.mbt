@@ -42,6 +42,9 @@ test "freopen" {
 ///|
 test "freopen/non-existent" {
   let path = b"non_existent_freopen_test.txt"
-  let result = try? @stdio.freopen(path, b"r", @stdio.stdin)
-  json_inspect(result is Err(_), content=true)
+  try @stdio.freopen(path, b"r", @stdio.stdin) |> ignore() catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected @stdio.freopen to raise")
+  }
 }

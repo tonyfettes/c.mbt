@@ -21,13 +21,13 @@
 priv type Sockaddr
 
 ///|
-let sa_len : Field[Sockaddr, Byte] = @struct.field()
+let sa_len : @struct.Field[Sockaddr, Byte] = @struct.field()
 
 ///|
-let sa_family : Field[Sockaddr, Byte] = sa_len.next()
+let sa_family : @struct.Field[Sockaddr, Byte] = sa_len.next()
 
 ///|
-let sa_data : Field[Sockaddr, @array.Static[Byte, @nat.Od14[@nat.Z]]] = sa_family.next()
+let sa_data : @struct.Field[Sockaddr, @array.Static[Byte, @nat.Od14[@nat.Z]]] = sa_family.next()
 
 ///|
 impl @sizeof.Sized for Sockaddr with fn size() -> @stddef.Size {
@@ -35,10 +35,16 @@ impl @sizeof.Sized for Sockaddr with fn size() -> @stddef.Size {
 }
 
 ///|
+extend Sockaddr with @sizeof.Sized::{size}
+
+///|
 impl @alignof.Aligned for Sockaddr with fn alignment() -> @stddef.Size {
-  let sa_end : Field[Sockaddr, Byte] = sa_data.next()
+  let sa_end : @struct.Field[Sockaddr, Byte] = sa_data.next()
   sa_end.alignment()
 }
+
+///|
+extend Sockaddr with @alignof.Aligned::{alignment}
 
 ///|
 test "Sockaddr" {
@@ -64,28 +70,31 @@ test "Sockaddr" {
 priv type AddrInfo
 
 ///|
-let ai_flags : Field[AddrInfo, Int] = @struct.field()
+let ai_flags : @struct.Field[AddrInfo, Int32] = @struct.field()
 
 ///|
-let ai_family : Field[AddrInfo, Int] = ai_flags.next()
+let ai_family : @struct.Field[AddrInfo, Int32] = ai_flags.next()
 
 ///|
-let ai_socktype : Field[AddrInfo, Int] = ai_family.next()
+let ai_socktype : @struct.Field[AddrInfo, Int32] = ai_family.next()
 
 ///|
-let ai_protocol : Field[AddrInfo, Int] = ai_socktype.next()
+let ai_protocol : @struct.Field[AddrInfo, Int32] = ai_socktype.next()
 
 ///|
-let ai_addrlen : Field[AddrInfo, UInt] = ai_protocol.next()
+let ai_addrlen : @struct.Field[AddrInfo, UInt32] = ai_protocol.next()
 
 ///|
-let ai_canonname : Field[AddrInfo, @pointer.Pointer[Byte]] = ai_addrlen.next()
+let ai_canonname : @struct.Field[AddrInfo, @pointer.Pointer[Byte]] = ai_addrlen.next()
 
 ///|
-let ai_addr : Field[AddrInfo, @struct.Struct[Sockaddr]] = ai_canonname.next_struct()
+let ai_addr : @struct.Field[AddrInfo, @struct.Struct[Sockaddr]] = ai_canonname.next_struct()
 
 ///|
-let ai_next : Field[AddrInfo, @pointer.Pointer[@struct.Struct[AddrInfo]]] = ai_addr.next()
+let ai_next : @struct.Field[
+  AddrInfo,
+  @pointer.Pointer[@struct.Struct[AddrInfo]],
+] = ai_addr.next()
 
 ///|
 impl @sizeof.Sized for AddrInfo with fn size() -> @stddef.Size {
@@ -93,10 +102,16 @@ impl @sizeof.Sized for AddrInfo with fn size() -> @stddef.Size {
 }
 
 ///|
+extend AddrInfo with @sizeof.Sized::{size}
+
+///|
 impl @alignof.Aligned for AddrInfo with fn alignment() -> @stddef.Size {
-  let ai_end : Field[AddrInfo, Byte] = ai_next.next()
+  let ai_end : @struct.Field[AddrInfo, Byte] = ai_next.next()
   ai_end.alignment()
 }
+
+///|
+extend AddrInfo with @alignof.Aligned::{alignment}
 
 ///|
 test "addrinfo" {
@@ -151,23 +166,23 @@ priv type Debug
 
 ///|
 priv struct DebugLayout {
-  event : Field[Debug, Int]
-  name : Field[Debug, @pointer.Pointer[Byte]]
-  name_what : Field[Debug, @pointer.Pointer[Byte]]
-  what : Field[Debug, @pointer.Pointer[Byte]]
-  source : Field[Debug, @pointer.Pointer[Byte]]
-  src_len : Field[Debug, @stddef.Size]
-  current_line : Field[Debug, Int]
-  line_defined : Field[Debug, Int]
-  last_line_defined : Field[Debug, Int]
-  n_ups : Field[Debug, Byte]
-  n_params : Field[Debug, Byte]
-  is_var_arg : Field[Debug, Bool]
-  is_tail_call : Field[Debug, Bool]
-  f_transfer : Field[Debug, UInt16]
-  n_transfer : Field[Debug, UInt16]
-  short_src : Field[Debug, @array.Dynamic[Byte]]
-  i_ci : Field[Debug, @pointer.Pointer[Unit]]
+  event : @struct.Field[Debug, Int32]
+  name : @struct.Field[Debug, @pointer.Pointer[Byte]]
+  name_what : @struct.Field[Debug, @pointer.Pointer[Byte]]
+  what : @struct.Field[Debug, @pointer.Pointer[Byte]]
+  source : @struct.Field[Debug, @pointer.Pointer[Byte]]
+  src_len : @struct.Field[Debug, @stddef.Size]
+  current_line : @struct.Field[Debug, Int32]
+  line_defined : @struct.Field[Debug, Int32]
+  last_line_defined : @struct.Field[Debug, Int32]
+  n_ups : @struct.Field[Debug, Byte]
+  n_params : @struct.Field[Debug, Byte]
+  is_var_arg : @struct.Field[Debug, Bool]
+  is_tail_call : @struct.Field[Debug, Bool]
+  f_transfer : @struct.Field[Debug, UInt16]
+  n_transfer : @struct.Field[Debug, UInt16]
+  short_src : @struct.Field[Debug, @array.Dynamic[Byte]]
+  i_ci : @struct.Field[Debug, @pointer.Pointer[Unit]]
   size : @stddef.Size
   alignment : @stddef.Size
 }

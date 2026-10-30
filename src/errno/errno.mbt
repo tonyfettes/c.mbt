@@ -13,33 +13,33 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn get() -> Int = "moonbit_tonyfettes_c_errno_get"
+pub extern "c" fn get() -> Int32 = "moonbit_tonyfettes_c_errno_get"
 
 ///|
-pub extern "c" fn set(value : Int) = "moonbit_tonyfettes_c_errno_set"
+pub extern "c" fn set(value : Int32) = "moonbit_tonyfettes_c_errno_set"
 
 ///|
 pub(all) suberror Errno {
-  Errno(Int)
+  Errno(Int32)
 }
 
 ///|
-pub extern "c" fn strerror(value : Int) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_errno_strerror"
+pub extern "c" fn strerror(value : Int32) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_errno_strerror"
 
 ///|
-pub extern "c" fn errno_edom() -> Int = "moonbit_tonyfettes_c_errno_edom"
+pub extern "c" fn errno_edom() -> Int32 = "moonbit_tonyfettes_c_errno_edom"
 
 ///|
-pub let edom : Int = errno_edom()
+pub let edom : Int32 = errno_edom()
 
 ///|
-pub extern "c" fn errno_erange() -> Int = "moonbit_tonyfettes_c_errno_erange"
+pub extern "c" fn errno_erange() -> Int32 = "moonbit_tonyfettes_c_errno_erange"
 
 ///|
-pub let erange : Int = errno_erange()
+pub let erange : Int32 = errno_erange()
 
 ///|
-pub impl Show for Errno with output(self : Errno, logger : &Logger) -> Unit {
+pub impl Show for Errno with fn output(self : Errno, logger : &Logger) -> Unit {
   let Errno(value) = self
   let str = strerror(value)
   let mut len = 0
@@ -56,7 +56,13 @@ pub impl Show for Errno with output(self : Errno, logger : &Logger) -> Unit {
 }
 
 ///|
-pub impl ToJson for Errno with to_json(self : Errno) -> Json {
+pub extend Errno with Show::{to_string, output}
+
+///|
+pub impl ToJson for Errno with fn to_json(self : Errno) -> Json {
   let Errno(value) = self
   ["Errno", [value, self.to_string()]]
 }
+
+///|
+pub extend Errno with ToJson::{to_json}

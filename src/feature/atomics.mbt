@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn feature_no_atomics() -> Int = "moonbit_tonyfettes_c_feature_no_atomics"
+extern "c" fn feature_no_atomics() -> Int32 = "moonbit_tonyfettes_c_feature_no_atomics"
 
 ///|
 pub let no_atomics : Bool = feature_no_atomics() != 0

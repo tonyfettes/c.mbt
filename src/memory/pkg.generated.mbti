@@ -31,4 +31,3 @@ pub fn[T] realloc(@pointer.Pointer[T], UInt64) -> @pointer.Pointer[T]
 // Type aliases
 
 // Traits
-

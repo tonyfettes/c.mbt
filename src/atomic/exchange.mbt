@@ -30,16 +30,16 @@ pub fn[T : Exchange] exchange(ptr : Atomic[T], val : T) -> T {
 
 ///|
 extern "c" fn atomic_exchange_explicit_int(
-  object : Atomic[Int],
-  desired : Int,
+  object : Atomic[Int32],
+  desired : Int32,
   order : MemoryOrder,
-) -> Int = "moonbit_tonyfettes_c_atomic_exchange_explicit_int"
+) -> Int32 = "moonbit_tonyfettes_c_atomic_exchange_explicit_int"
 
 ///|
-pub impl Exchange for Int with fn exchange_explicit(
-  object : Atomic[Int],
-  desired : Int,
+pub impl Exchange for Int32 with fn exchange_explicit(
+  object : Atomic[Int32],
+  desired : Int32,
   order : MemoryOrder,
-) -> Int {
+) -> Int32 {
   atomic_exchange_explicit_int(object, desired, order)
 }

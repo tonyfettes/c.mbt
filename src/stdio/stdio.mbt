@@ -13,10 +13,10 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_EOF() -> Int = "moonbit_tonyfettes_c_stdio_EOF"
+extern "c" fn c_EOF() -> Int32 = "moonbit_tonyfettes_c_stdio_EOF"
 
 ///|
-pub let eof : Int = c_EOF()
+pub let eof : Int32 = c_EOF()
 
 ///|
 extern "c" fn c_stdin() -> File = "moonbit_tonyfettes_c_stdio_stdin"

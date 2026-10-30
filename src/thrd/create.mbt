@@ -15,9 +15,9 @@
 ///|
 extern "c" fn thrd_create(
   thread : @pointer.Pointer[Thrd],
-  func : FuncRef[(@pointer.Pointer[Unit]) -> Int],
+  func : FuncRef[(@pointer.Pointer[Unit]) -> Int32],
   data : @pointer.Pointer[Unit],
-) -> Int = "moonbit_tonyfettes_c_thrd_create"
+) -> Int32 = "moonbit_tonyfettes_c_thrd_create"
 
 ///|
 fn[T, U] FuncRef::cast(self : FuncRef[T]) -> FuncRef[U] = "%identity"
@@ -25,8 +25,8 @@ fn[T, U] FuncRef::cast(self : FuncRef[T]) -> FuncRef[U] = "%identity"
 ///|
 pub fn[T] create(
   thread : @pointer.Pointer[Thrd],
-  func : FuncRef[(@pointer.Pointer[T]) -> Int],
+  func : FuncRef[(@pointer.Pointer[T]) -> Int32],
   data : @pointer.Pointer[T],
-) -> Int {
+) -> Int32 {
   thrd_create(thread, func.cast(), data.cast())
 }

@@ -17,13 +17,19 @@ pub(all) struct Size(UInt64)
 
 ///|
 pub impl Show for Size with fn output(self : Size, logger : &Logger) -> Unit {
-  self.0.output(logger)
+  Show::output(self.0, logger)
 }
+
+///|
+pub extend Size with Show::{to_string, output}
 
 ///|
 pub impl ToJson for Size with fn to_json(self : Size) -> Json {
   Json::number(self.0.to_double(), repr=self.0.to_string())
 }
+
+///|
+pub extend Size with ToJson::{to_json}
 
 ///|
 pub impl @json.FromJson for Size with fn from_json(
@@ -39,10 +45,13 @@ pub impl @json.FromJson for Size with fn from_json(
       }
     _ =>
       raise JsonDecodeError(
-        (json_path, "Expected Size as number, got \{@debug.to_repr(json)}"),
+        (json_path, "Expected Size as number, got \{Repr(json)}"),
       )
   }
 }
+
+///|
+pub extend Size with @json.FromJson::{from_json}
 
 ///|
 pub fn Size::from_uint64(value : UInt64) -> Size {
@@ -50,7 +59,7 @@ pub fn Size::from_uint64(value : UInt64) -> Size {
 }
 
 ///|
-pub fn Size::to_int(self : Size) -> Int {
+pub fn Size::to_int(self : Size) -> Int32 {
   self.0.to_int()
 }
 
@@ -71,9 +80,15 @@ pub impl Add for Size with fn add(self : Size, other : Size) -> Size {
 }
 
 ///|
+pub extend Size with Add::{add}
+
+///|
 pub impl Sub for Size with fn sub(self : Size, other : Size) -> Size {
   Size(self.0 - other.0)
 }
+
+///|
+pub extend Size with Sub::{sub}
 
 ///|
 pub impl Mul for Size with fn mul(self : Size, other : Size) -> Size {
@@ -81,9 +96,15 @@ pub impl Mul for Size with fn mul(self : Size, other : Size) -> Size {
 }
 
 ///|
+pub extend Size with Mul::{mul}
+
+///|
 pub impl Div for Size with fn div(self : Size, other : Size) -> Size {
   Size(self.0 / other.0)
 }
+
+///|
+pub extend Size with Div::{div}
 
 ///|
 pub impl Mod for Size with fn mod(self : Size, other : Size) -> Size {
@@ -91,19 +112,31 @@ pub impl Mod for Size with fn mod(self : Size, other : Size) -> Size {
 }
 
 ///|
+pub extend Size with Mod::{mod}
+
+///|
 pub impl Eq for Size with fn equal(self : Size, other : Size) -> Bool {
   self.0 == other.0
 }
 
 ///|
-pub impl Compare for Size with fn compare(self : Size, other : Size) -> Int {
+pub extend Size with Eq::{not_equal, equal}
+
+///|
+pub impl Compare for Size with fn compare(self : Size, other : Size) -> Int32 {
   self.0.compare(other.0)
 }
+
+///|
+pub extend Size with Compare::{op_lt, op_le, op_ge, compare, op_gt}
 
 ///|
 pub impl Default for Size with fn default() -> Size {
   Size(0UL)
 }
+
+///|
+pub extend Size with Default::{default}
 
 ///|
 extern "c" fn sizeof_size_t() -> UInt64 = "moonbit_tonyfettes_c_stddef_sizeof_size_t"

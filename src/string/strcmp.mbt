@@ -16,10 +16,10 @@
 extern "c" fn string_strcmp(
   s1 : @pointer.Pointer[Byte],
   s2 : @pointer.Pointer[Byte],
-) -> Int = "moonbit_tonyfettes_c_string_strcmp"
+) -> Int32 = "moonbit_tonyfettes_c_string_strcmp"
 
 ///|
-pub fn[Str1 : Borrow, Str2 : Borrow] strcmp(s1 : Str1, s2 : Str2) -> Int {
+pub fn[Str1 : Borrow, Str2 : Borrow] strcmp(s1 : Str1, s2 : Str2) -> Int32 {
   borrow_2(s1, s2, (s1, s2) => string_strcmp(s1, s2))
 }
 
@@ -28,13 +28,13 @@ extern "c" fn string_strncmp(
   s1 : @pointer.Pointer[Byte],
   s2 : @pointer.Pointer[Byte],
   n : UInt64,
-) -> Int = "moonbit_tonyfettes_c_string_strncmp"
+) -> Int32 = "moonbit_tonyfettes_c_string_strncmp"
 
 ///|
 pub fn[Str1 : Borrow, Str2 : Borrow] strncmp(
   s1 : Str1,
   s2 : Str2,
   n : @stddef.Size,
-) -> Int {
+) -> Int32 {
   borrow_2(s1, s2, (s1, s2) => string_strncmp(s1, s2, n.to_uint64()))
 }

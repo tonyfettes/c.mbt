@@ -35,9 +35,10 @@ pub let sigterm : Int
 // Types and methods
 #external
 pub type Handler
+pub fn Handler::equal(Self, Self) -> Bool
+pub fn Handler::not_equal(Self, Self) -> Bool
 pub impl Eq for Handler
 
 // Type aliases
 
 // Traits
-

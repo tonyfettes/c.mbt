@@ -16,10 +16,10 @@
 pub using @exit {exit, atexit}
 
 ///|
-pub let exit_success : Int = @exit.success
+pub let exit_success : Int32 = @exit.success
 
 ///|
-pub let exit_failure : Int = @exit.failure
+pub let exit_failure : Int32 = @exit.failure
 
 ///|
 pub using @memory {malloc, free, realloc, calloc, memcpy, memset}
@@ -51,4 +51,4 @@ pub using @stddef {type Size, type Ptrdiff}
 pub using @rand {rand, srand}
 
 ///|
-pub let rand_max : Int = @rand.max
+pub let rand_max : Int32 = @rand.max

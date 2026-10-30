@@ -64,7 +64,7 @@ test "Pointer[Byte]" {
   let ptr : @pointer.Pointer[Byte] = @memory.malloc(@sizeof.Byte)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -73,7 +73,7 @@ test "Pointer[Int16]" {
   let ptr : @pointer.Pointer[Int16] = @memory.malloc(@sizeof.Int16)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -82,25 +82,25 @@ test "Pointer[UInt16]" {
   let ptr : @pointer.Pointer[UInt16] = @memory.malloc(@sizeof.UInt16)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
 test "Pointer[Int]" {
-  let val : Int = 0x12345678
-  let ptr : @pointer.Pointer[Int] = @memory.malloc(@sizeof.Int)
+  let val : Int32 = 0x12345678
+  let ptr : @pointer.Pointer[Int32] = @memory.malloc(@sizeof.Int)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
 test "Pointer[UInt]" {
-  let val : UInt = 0x12345678
-  let ptr : @pointer.Pointer[UInt] = @memory.malloc(@sizeof.UInt)
+  let val : UInt32 = 0x12345678
+  let ptr : @pointer.Pointer[UInt32] = @memory.malloc(@sizeof.UInt)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -109,7 +109,7 @@ test "Pointer[Int64]" {
   let ptr : @pointer.Pointer[Int64] = @memory.malloc(@sizeof.Int64)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -118,7 +118,7 @@ test "Pointer[UInt64]" {
   let ptr : @pointer.Pointer[UInt64] = @memory.malloc(@sizeof.UInt64)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -127,7 +127,7 @@ test "Pointer[Float]" {
   let ptr : @pointer.Pointer[Float] = @memory.malloc(@sizeof.Float)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -136,7 +136,7 @@ test "Pointer[Double]" {
   let ptr : @pointer.Pointer[Double] = @memory.malloc(@sizeof.Double)
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -153,13 +153,13 @@ test "Pointer[Pointer[_]]" {
 
 ///|
 test "borrow_ref" {
-  let val : Ref[Int] = Ref(42)
+  let val : Ref[Int32] = Ref(42)
   @pointer.borrow_ref(val, ptr => json_inspect(ptr.load(), content=42))
 }
 
 ///|
 test "borrow_array" {
-  let arr : FixedArray[Int] = [1, 2, 3, 4, 5]
+  let arr : FixedArray[Int32] = [1, 2, 3, 4, 5]
   @pointer.borrow_array(arr, ptr => {
     for i in 0..<arr.length() {
       assert_eq(ptr[i], i + 1)
@@ -188,7 +188,7 @@ test "Pointer[@stddef.Ptrdiff]" {
   )
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }
 
 ///|
@@ -199,5 +199,5 @@ test "Pointer[@stddef.Size]" {
   )
   defer @memory.free(ptr)
   ptr.store(val)
-  json_inspect(ptr.load(), content=val.to_json())
+  json_inspect(ptr.load(), content=Json(val))
 }

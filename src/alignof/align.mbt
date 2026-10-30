@@ -14,70 +14,70 @@
 
 ///|
 pub(open) trait Aligned {
-  alignment() -> @stddef.Size
+  fn alignment() -> @stddef.Size
 }
 
 ///|
-pub impl Aligned for Bool with alignment() -> @stddef.Size {
+pub impl Aligned for Bool with fn alignment() -> @stddef.Size {
   1UL
 }
 
 ///|
-pub impl Aligned for Byte with alignment() -> @stddef.Size {
+pub impl Aligned for Byte with fn alignment() -> @stddef.Size {
   1UL
 }
 
 ///|
-pub impl Aligned for Int16 with alignment() -> @stddef.Size {
+pub impl Aligned for Int16 with fn alignment() -> @stddef.Size {
   2UL
 }
 
 ///|
-pub impl Aligned for UInt16 with alignment() -> @stddef.Size {
+pub impl Aligned for UInt16 with fn alignment() -> @stddef.Size {
   2UL
 }
 
 ///|
-pub impl Aligned for Int with alignment() -> @stddef.Size {
+pub impl Aligned for Int32 with fn alignment() -> @stddef.Size {
   4UL
 }
 
 ///|
-pub impl Aligned for UInt with alignment() -> @stddef.Size {
+pub impl Aligned for UInt32 with fn alignment() -> @stddef.Size {
   4UL
 }
 
 ///|
-pub impl Aligned for Int64 with alignment() -> @stddef.Size {
+pub impl Aligned for Int64 with fn alignment() -> @stddef.Size {
   8UL
 }
 
 ///|
-pub impl Aligned for UInt64 with alignment() -> @stddef.Size {
+pub impl Aligned for UInt64 with fn alignment() -> @stddef.Size {
   8UL
 }
 
 ///|
-pub impl Aligned for Float with alignment() -> @stddef.Size {
+pub impl Aligned for Float with fn alignment() -> @stddef.Size {
   4UL
 }
 
 ///|
-pub impl Aligned for Double with alignment() -> @stddef.Size {
+pub impl Aligned for Double with fn alignment() -> @stddef.Size {
   8UL
 }
 
 ///|
-pub impl Aligned for @stddef.Size with alignment() -> @stddef.Size {
+pub impl Aligned for @stddef.Size with fn alignment() -> @stddef.Size {
   @stddef.Size::sizeof()
 }
 
 ///|
-pub impl Aligned for @stddef.Ptrdiff with alignment() -> @stddef.Size {
+pub impl Aligned for @stddef.Ptrdiff with fn alignment() -> @stddef.Size {
   @stddef.Ptrdiff::sizeof()
 }
 
 ///|
-pub impl[T] Aligned for @pointer.Pointer[T] with alignment() -> @stddef.Size {
+pub impl[T] Aligned for @pointer.Pointer[T] with fn alignment() -> @stddef.Size {
   @pointer.sizeof()
 }

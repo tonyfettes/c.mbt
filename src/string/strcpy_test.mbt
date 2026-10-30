@@ -19,8 +19,8 @@ test "strcpy" {
   // Allocate memory for a copy of `src` plus null terminator
   let dst : @pointer.Pointer[Byte] = @memory.calloc(@sizeof.Byte, src_len + 1)
   defer @memory.free(dst)
-  strcpy(dst, src)
-  assert_true(strcmp(dst, src) == 0)
+  @string.strcpy(dst, src)
+  assert_true(@string.strcmp(dst, src) == 0)
 }
 
 ///|
@@ -32,8 +32,8 @@ test "strncpy" {
   defer @memory.free(dst)
   // Copy only part of the string
   let n = 5UL
-  strncpy(dst, src, n)
+  @string.strncpy(dst, src, n)
   // Manually null-terminate the destination
   dst.add(n).store(0)
-  assert_true(strcmp(dst, b"hello") == 0)
+  assert_true(@string.strcmp(dst, b"hello") == 0)
 }

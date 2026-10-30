@@ -1,0 +1,10 @@
+target
+target/
+.mooncakes/
+publish/
+_build/
+.cache
+.github
+.vscode
+compile_flags.txt
+.clang-format

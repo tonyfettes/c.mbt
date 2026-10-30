@@ -54,18 +54,18 @@ pub fn[T : CompareExchangeStrong] compare_exchange_strong(
 
 ///|
 extern "c" fn atomic_compare_exchange_strong_explicit_int(
-  object : Atomic[Int],
-  expected : @pointer.Pointer[Int],
-  desired : Int,
+  object : Atomic[Int32],
+  expected : @pointer.Pointer[Int32],
+  desired : Int32,
   success : MemoryOrder,
   failure : MemoryOrder,
-) -> Int = "moonbit_tonyfettes_c_atomic_compare_exchange_strong_explicit_int"
+) -> Int32 = "moonbit_tonyfettes_c_atomic_compare_exchange_strong_explicit_int"
 
 ///|
-pub impl CompareExchangeStrong for Int with fn compare_exchange_strong_explicit(
-  object : Atomic[Int],
-  expected : @pointer.Pointer[Int],
-  desired : Int,
+pub impl CompareExchangeStrong for Int32 with fn compare_exchange_strong_explicit(
+  object : Atomic[Int32],
+  expected : @pointer.Pointer[Int32],
+  desired : Int32,
   success : MemoryOrder,
   failure : MemoryOrder,
 ) -> Bool {
@@ -117,18 +117,18 @@ pub fn[T : CompareExchangeWeak] compare_exchange_weak(
 
 ///|
 extern "c" fn atomic_compare_exchange_weak_explicit_int(
-  object : Atomic[Int],
-  expected : @pointer.Pointer[Int],
-  desired : Int,
+  object : Atomic[Int32],
+  expected : @pointer.Pointer[Int32],
+  desired : Int32,
   success : MemoryOrder,
   failure : MemoryOrder,
-) -> Int = "moonbit_tonyfettes_c_atomic_compare_exchange_weak_explicit_int"
+) -> Int32 = "moonbit_tonyfettes_c_atomic_compare_exchange_weak_explicit_int"
 
 ///|
-pub impl CompareExchangeWeak for Int with fn compare_exchange_weak_explicit(
-  object : Atomic[Int],
-  expected : @pointer.Pointer[Int],
-  desired : Int,
+pub impl CompareExchangeWeak for Int32 with fn compare_exchange_weak_explicit(
+  object : Atomic[Int32],
+  expected : @pointer.Pointer[Int32],
+  desired : Int32,
   success : MemoryOrder,
   failure : MemoryOrder,
 ) -> Bool {

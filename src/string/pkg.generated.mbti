@@ -32,4 +32,3 @@ trait Borrow
 pub impl Borrow for FixedArray[Byte]
 pub impl Borrow for Bytes
 pub impl Borrow for @pointer.Pointer[Byte]
-

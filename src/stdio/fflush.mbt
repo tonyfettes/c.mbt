@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn c_fflush(stream : File) -> Int = "fflush"
+extern "c" fn c_fflush(stream : File) -> Int32 = "fflush"
 
 ///|
 pub fn fflush(stream : File) -> Unit raise @errno.Errno {

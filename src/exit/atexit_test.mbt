@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-pub let value : Ref[Int] = Ref(-1)
+pub let value : Ref[Int32] = Ref(-1)
 
 ///|
 test "atexit" {

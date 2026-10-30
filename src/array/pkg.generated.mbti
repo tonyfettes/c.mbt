@@ -15,14 +15,22 @@ import {
 
 // Types and methods
 type Dynamic[T]
-pub fn[T : @pointer.Load + @sizeof.Sized] Dynamic::op_get(Self[T], Int) -> T
-pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::op_set(Self[T], Int, T) -> Unit
+#alias("_[_]")
+pub fn[T : @pointer.Load + @sizeof.Sized] Dynamic::get(Self[T], Int) -> T
+pub fn[T] Dynamic::load(@pointer.Pointer[Self[T]]) -> Self[T]
 pub fn[T] Dynamic::pointer(Self[T]) -> @pointer.Pointer[T]
+#alias("_[_]=_")
+pub fn[T : @pointer.Store + @sizeof.Sized] Dynamic::set(Self[T], Int, T) -> Unit
 pub impl[T] @pointer.Load for Dynamic[T]
 
 type Static[T, _]
-pub fn[T : @pointer.Load + @sizeof.Sized, N] Static::op_get(Self[T, N], Int) -> T
-pub fn[T : @pointer.Store + @sizeof.Sized, N] Static::op_set(Self[T, N], Int, T) -> Unit
+pub fn[T : @alignof.Aligned, N] Static::alignment() -> @stddef.Size
+#alias("_[_]")
+pub fn[T : @pointer.Load + @sizeof.Sized, N] Static::get(Self[T, N], Int) -> T
+pub fn[T, N] Static::load(@pointer.Pointer[Self[T, N]]) -> Self[T, N]
+#alias("_[_]=_")
+pub fn[T : @pointer.Store + @sizeof.Sized, N] Static::set(Self[T, N], Int, T) -> Unit
+pub fn[T : @sizeof.Sized, N : @nat.ToUInt64] Static::size() -> @stddef.Size
 pub impl[T : @alignof.Aligned, N] @alignof.Aligned for Static[T, N]
 pub impl[T, N] @pointer.Load for Static[T, N]
 pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N]
@@ -30,4 +38,3 @@ pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N]
 // Type aliases
 
 // Traits
-

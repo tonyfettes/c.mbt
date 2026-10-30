@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn getchar() -> Int = "getchar"
+pub extern "c" fn getchar() -> Int32 = "getchar"

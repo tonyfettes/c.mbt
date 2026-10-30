@@ -35,31 +35,31 @@ pub extern "c" fn gmtime(time : Time) -> Tm = "moonbit_tonyfettes_c_gmtime"
 pub extern "c" fn asctime(tm : Tm) -> @pointer.Pointer[Byte] = "moonbit_tonyfettes_c_asctime"
 
 ///|
-pub extern "c" fn Tm::sec(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_sec"
+pub extern "c" fn Tm::sec(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_sec"
 
 ///|
-pub extern "c" fn Tm::min(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_min"
+pub extern "c" fn Tm::min(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_min"
 
 ///|
-pub extern "c" fn Tm::hour(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_hour"
+pub extern "c" fn Tm::hour(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_hour"
 
 ///|
-pub extern "c" fn Tm::mday(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_mday"
+pub extern "c" fn Tm::mday(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_mday"
 
 ///|
-pub extern "c" fn Tm::mon(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_mon"
+pub extern "c" fn Tm::mon(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_mon"
 
 ///|
-pub extern "c" fn Tm::year(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_year"
+pub extern "c" fn Tm::year(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_year"
 
 ///|
-pub extern "c" fn Tm::wday(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_wday"
+pub extern "c" fn Tm::wday(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_wday"
 
 ///|
-pub extern "c" fn Tm::yday(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_yday"
+pub extern "c" fn Tm::yday(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_yday"
 
 ///|
-pub extern "c" fn Tm::isdst(self : Tm) -> Int = "moonbit_tonyfettes_c_tm_isdst"
+pub extern "c" fn Tm::isdst(self : Tm) -> Int32 = "moonbit_tonyfettes_c_tm_isdst"
 
 ///|
 pub extern "c" fn mktime(tm : Tm) -> Time = "moonbit_tonyfettes_c_mktime"
@@ -67,7 +67,7 @@ pub extern "c" fn mktime(tm : Tm) -> Time = "moonbit_tonyfettes_c_mktime"
 ///|
 extern "c" fn c_strftime(
   str : @pointer.Pointer[Byte],
-  len : Int,
+  len : Int32,
   format : @pointer.Pointer[Byte],
   tm : Tm,
 ) -> UInt64 = "moonbit_tonyfettes_c_strftime"
@@ -75,7 +75,7 @@ extern "c" fn c_strftime(
 ///|
 pub fn[T : @string.Borrow, F : @string.Borrow] strftime(
   str : T,
-  len : Int,
+  len : Int32,
   format : F,
   tm : Tm,
 ) -> UInt64 {

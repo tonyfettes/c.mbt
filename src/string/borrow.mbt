@@ -14,8 +14,8 @@
 
 ///|
 trait Borrow {
-  from(Self) -> @pointer.Pointer[Byte]
-  into(ptr : @pointer.Pointer[Byte]) -> Self
+  fn from(Self) -> @pointer.Pointer[Byte]
+  fn into(ptr : @pointer.Pointer[Byte]) -> Self
 }
 
 ///|
@@ -45,38 +45,38 @@ pub fn[A : Borrow, B : Borrow, R] borrow_2(
 }
 
 ///|
-pub impl Borrow for Bytes with from(self : Bytes) -> @pointer.Pointer[Byte] {
+pub impl Borrow for Bytes with fn from(self : Bytes) -> @pointer.Pointer[Byte] {
   @pointer.unsafe_from_bytes(self)
 }
 
 ///|
-pub impl Borrow for Bytes with into(ptr : @pointer.Pointer[Byte]) -> Bytes {
+pub impl Borrow for Bytes with fn into(ptr : @pointer.Pointer[Byte]) -> Bytes {
   @pointer.unsafe_into_bytes(ptr)
 }
 
 ///|
-pub impl Borrow for FixedArray[Byte] with from(self : FixedArray[Byte]) -> @pointer.Pointer[
+pub impl Borrow for FixedArray[Byte] with fn from(self : FixedArray[Byte]) -> @pointer.Pointer[
   Byte,
 ] {
   @pointer.unsafe_from_array(self)
 }
 
 ///|
-pub impl Borrow for FixedArray[Byte] with into(ptr : @pointer.Pointer[Byte]) -> FixedArray[
+pub impl Borrow for FixedArray[Byte] with fn into(ptr : @pointer.Pointer[Byte]) -> FixedArray[
   Byte,
 ] {
   @pointer.unsafe_into_array(ptr)
 }
 
 ///|
-pub impl Borrow for @pointer.Pointer[Byte] with from(
+pub impl Borrow for @pointer.Pointer[Byte] with fn from(
   self : @pointer.Pointer[Byte],
 ) -> @pointer.Pointer[Byte] {
   self
 }
 
 ///|
-pub impl Borrow for @pointer.Pointer[Byte] with into(
+pub impl Borrow for @pointer.Pointer[Byte] with fn into(
   ptr : @pointer.Pointer[Byte],
 ) -> @pointer.Pointer[Byte] {
   ptr

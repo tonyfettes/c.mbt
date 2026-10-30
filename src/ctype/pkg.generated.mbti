@@ -37,4 +37,3 @@ pub fn toupper(Byte) -> Byte
 // Type aliases
 
 // Traits
-

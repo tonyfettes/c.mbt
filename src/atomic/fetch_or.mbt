@@ -30,16 +30,16 @@ pub fn[T : FetchOr] fetch_or(ptr : Atomic[T], value : T) -> T {
 
 ///|
 extern "c" fn atomic_fetch_or_explicit_int(
-  object : Atomic[Int],
-  operand : Int,
+  object : Atomic[Int32],
+  operand : Int32,
   order : MemoryOrder,
-) -> Int = "moonbit_tonyfettes_c_atomic_fetch_or_explicit_int"
+) -> Int32 = "moonbit_tonyfettes_c_atomic_fetch_or_explicit_int"
 
 ///|
-pub impl FetchOr for Int with fn fetch_or_explicit(
-  object : Atomic[Int],
-  operand : Int,
+pub impl FetchOr for Int32 with fn fetch_or_explicit(
+  object : Atomic[Int32],
+  operand : Int32,
   order : MemoryOrder,
-) -> Int {
+) -> Int32 {
   atomic_fetch_or_explicit_int(object, operand, order)
 }

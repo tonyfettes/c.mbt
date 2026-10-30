@@ -15,5 +15,5 @@
 ///|
 pub extern "c" fn join(
   thr : @pointer.Pointer[Thrd],
-  res : @pointer.Pointer[Int],
-) -> Int = "moonbit_tonyfettes_c_thrd_join"
+  res : @pointer.Pointer[Int32],
+) -> Int32 = "moonbit_tonyfettes_c_thrd_join"

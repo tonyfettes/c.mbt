@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-extern "c" fn rand_max() -> Int = "moonbit_tonyfettes_c_rand_max"
+extern "c" fn rand_max() -> Int32 = "moonbit_tonyfettes_c_rand_max"
 
 ///|
-pub let max : Int = rand_max()
+pub let max : Int32 = rand_max()

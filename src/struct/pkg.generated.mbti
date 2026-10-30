@@ -30,18 +30,21 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(Self[S, C],
 pub fn[S, T] Field::next_offset(Self[S, T]) -> @stddef.Size
 pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(Self[S, C]) -> Self[S, Struct[N]]
 pub fn[S, T] Field::offset(Self[S, T]) -> @stddef.Size
+pub fn[S, T] Field::to_json(Self[S, T]) -> Json
 pub impl[S, T] ToJson for Field[S, T]
 
 #external
 pub(all) type Struct[S]
+#alias("_[_]")
+pub fn[S, T : @pointer.Load] Struct::at(Self[S], Field[S, T]) -> T
 pub fn[S, T] Struct::get(Self[S], Field[S, T]) -> @pointer.Pointer[T]
+pub fn[S] Struct::load(@pointer.Pointer[Self[S]]) -> Self[S]
 pub fn[S] Struct::new(@pointer.Pointer[Self[S]]) -> Self[S]
-pub fn[S, T : @pointer.Load] Struct::op_get(Self[S], Field[S, T]) -> T
-pub fn[S, T : @pointer.Store] Struct::op_set(Self[S], Field[S, T], T) -> Unit
 pub fn[S] Struct::pointer(Self[S]) -> @pointer.Pointer[Self[S]]
+#alias("_[_]=_")
+pub fn[S, T : @pointer.Store] Struct::set(Self[S], Field[S, T], T) -> Unit
 pub impl[S] @pointer.Load for Struct[S]
 
 // Type aliases
 
 // Traits
-

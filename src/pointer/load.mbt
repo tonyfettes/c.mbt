@@ -30,10 +30,10 @@ extern "c" fn pointer_load_int16(pointer : Pointer[Int16]) -> Int16 = "moonbit_t
 extern "c" fn pointer_load_uint16(pointer : Pointer[UInt16]) -> UInt16 = "moonbit_tonyfettes_c_pointer_load_uint16"
 
 ///|
-extern "c" fn pointer_load_int(pointer : Pointer[Int]) -> Int = "moonbit_tonyfettes_c_pointer_load_int"
+extern "c" fn pointer_load_int(pointer : Pointer[Int32]) -> Int32 = "moonbit_tonyfettes_c_pointer_load_int"
 
 ///|
-extern "c" fn pointer_load_uint(pointer : Pointer[UInt]) -> UInt = "moonbit_tonyfettes_c_pointer_load_uint"
+extern "c" fn pointer_load_uint(pointer : Pointer[UInt32]) -> UInt32 = "moonbit_tonyfettes_c_pointer_load_uint"
 
 ///|
 extern "c" fn pointer_load_int64(pointer : Pointer[Int64]) -> Int64 = "moonbit_tonyfettes_c_pointer_load_int64"
@@ -79,12 +79,12 @@ pub impl Load for UInt16 with fn load(pointer : Pointer[UInt16]) -> UInt16 {
 }
 
 ///|
-pub impl Load for Int with fn load(pointer : Pointer[Int]) -> Int {
+pub impl Load for Int32 with fn load(pointer : Pointer[Int32]) -> Int32 {
   pointer_load_int(pointer)
 }
 
 ///|
-pub impl Load for UInt with fn load(pointer : Pointer[UInt]) -> UInt {
+pub impl Load for UInt32 with fn load(pointer : Pointer[UInt32]) -> UInt32 {
   pointer_load_uint(pointer)
 }
 

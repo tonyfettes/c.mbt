@@ -27,9 +27,9 @@ pub fn[T : @string.Borrow] getenv(name : T) -> @pointer.Pointer[Byte] {
 }
 
 ///|
-extern "c" fn c_system(command : @pointer.Pointer[Byte]) -> Int = "system"
+extern "c" fn c_system(command : @pointer.Pointer[Byte]) -> Int32 = "system"
 
 ///|
-pub fn[T : @string.Borrow] system(command : T) -> Int {
+pub fn[T : @string.Borrow] system(command : T) -> Int32 {
   @string.borrow(command, ptr => c_system(ptr))
 }

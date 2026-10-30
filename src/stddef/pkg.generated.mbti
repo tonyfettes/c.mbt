@@ -11,9 +11,27 @@ import {
 
 // Types and methods
 pub(all) struct Ptrdiff(Int64)
+pub fn Ptrdiff::add(Self, Self) -> Self
+pub fn Ptrdiff::compare(Self, Self) -> Int
+pub fn Ptrdiff::default() -> Self
+pub fn Ptrdiff::div(Self, Self) -> Self
+pub fn Ptrdiff::equal(Self, Self) -> Bool
+pub fn Ptrdiff::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Ptrdiff::mod(Self, Self) -> Self
+pub fn Ptrdiff::mul(Self, Self) -> Self
+pub fn Ptrdiff::neg(Self) -> Self
+pub fn Ptrdiff::not_equal(Self, Self) -> Bool
+pub fn Ptrdiff::op_ge(Self, Self) -> Bool
+pub fn Ptrdiff::op_gt(Self, Self) -> Bool
+pub fn Ptrdiff::op_le(Self, Self) -> Bool
+pub fn Ptrdiff::op_lt(Self, Self) -> Bool
+pub fn Ptrdiff::output(Self, &Logger) -> Unit
 pub fn Ptrdiff::reinterpret_as_uint64(Self) -> UInt64
 pub fn Ptrdiff::sizeof() -> Size
+pub fn Ptrdiff::sub(Self, Self) -> Self
 pub fn Ptrdiff::to_int64(Self) -> Int64
+pub fn Ptrdiff::to_json(Self) -> Json
+pub fn Ptrdiff::to_string(Self) -> String
 pub impl Add for Ptrdiff
 pub impl Compare for Ptrdiff
 pub impl Default for Ptrdiff
@@ -28,10 +46,27 @@ pub impl ToJson for Ptrdiff
 pub impl @json.FromJson for Ptrdiff
 
 pub(all) struct Size(UInt64)
+pub fn Size::add(Self, Self) -> Self
+pub fn Size::compare(Self, Self) -> Int
+pub fn Size::default() -> Self
+pub fn Size::div(Self, Self) -> Self
+pub fn Size::equal(Self, Self) -> Bool
+pub fn Size::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
 pub fn Size::from_uint64(UInt64) -> Self
+pub fn Size::mod(Self, Self) -> Self
+pub fn Size::mul(Self, Self) -> Self
+pub fn Size::not_equal(Self, Self) -> Bool
+pub fn Size::op_ge(Self, Self) -> Bool
+pub fn Size::op_gt(Self, Self) -> Bool
+pub fn Size::op_le(Self, Self) -> Bool
+pub fn Size::op_lt(Self, Self) -> Bool
+pub fn Size::output(Self, &Logger) -> Unit
 pub fn Size::reinterpret_as_int64(Self) -> Int64
 pub fn Size::sizeof() -> Self
+pub fn Size::sub(Self, Self) -> Self
 pub fn Size::to_int(Self) -> Int
+pub fn Size::to_json(Self) -> Json
+pub fn Size::to_string(Self) -> String
 pub fn Size::to_uint64(Self) -> UInt64
 pub impl Add for Size
 pub impl Compare for Size
@@ -48,4 +83,3 @@ pub impl @json.FromJson for Size
 // Type aliases
 
 // Traits
-

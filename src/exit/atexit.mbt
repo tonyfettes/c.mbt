@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn atexit(func : FuncRef[() -> Unit]) -> Int = "atexit"
+pub extern "c" fn atexit(func : FuncRef[() -> Unit]) -> Int32 = "atexit"

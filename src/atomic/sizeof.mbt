@@ -17,11 +17,11 @@ extern "c" fn atomic_sizeof_int() -> UInt64 = "moonbit_tonyfettes_c_atomic_sizeo
 
 ///|
 pub(open) trait Sizeof {
-  sizeof() -> UInt64
+  fn sizeof() -> UInt64
 }
 
 ///|
-pub impl Sizeof for Int with sizeof() -> UInt64 {
+pub impl Sizeof for Int32 with fn sizeof() -> UInt64 {
   atomic_sizeof_int()
 }
 

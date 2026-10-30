@@ -15,4 +15,3 @@ pub fn[T] JmpBuf::new() -> Self[T]
 // Type aliases
 
 // Traits
-

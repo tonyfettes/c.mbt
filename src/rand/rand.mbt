@@ -13,4 +13,4 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn rand() -> Int = "moonbit_tonyfettes_c_rand_rand"
+pub extern "c" fn rand() -> Int32 = "moonbit_tonyfettes_c_rand_rand"

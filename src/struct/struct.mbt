@@ -20,7 +20,7 @@ struct Builder {
 
 ///|
 pub fn Builder::new() -> Builder {
-  { offset: 0, align: 1 }
+  { offset: 0, align: 1, }
 }
 
 ///|
@@ -31,14 +31,34 @@ struct Field[_, _] {
 }
 
 ///|
+/// Resolves the size of `T`. The callback only pins `T`: a type parameter with
+/// several trait bounds cannot call `T::size()` directly.
+fn[T : @sizeof.Sized] size_of(_ : FuncRef[(T) -> Unit]) -> @stddef.Size {
+  T::size()
+}
+
+///|
+/// Resolves the alignment of `T`. See `size_of` for the callback argument.
+fn[T : @alignof.Aligned] alignment_of(_ : FuncRef[(T) -> Unit]) -> @stddef.Size {
+  T::alignment()
+}
+
+///|
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] field() -> Field[S, T] {
-  { offset: 0, size: T::size(), alignment: T::alignment() }
+  {
+    offset: 0,
+    size: size_of((_ : T) => ()),
+    alignment: alignment_of((_ : T) => ()),
+  }
 }
 
 ///|
 pub impl[S, T] ToJson for Field[S, T] with fn to_json(self : Field[S, T]) -> Json {
   { "offset": self.offset, "size": self.size, "alignment": self.alignment }
 }
+
+///|
+pub extend Field with ToJson::{to_json}
 
 ///|
 pub fn[S, T] Field::offset(self : Field[S, T]) -> @stddef.Size {
@@ -62,8 +82,9 @@ pub fn[S, T] Field::next_offset(self : Field[S, T]) -> @stddef.Size {
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(
   self : Builder,
 ) -> Field[S, T] {
+  let size = size_of((_ : T) => ())
   // Update struct alignment
-  let alignment = T::alignment()
+  let alignment = alignment_of((_ : T) => ())
   if alignment > self.align {
     self.align = alignment
   }
@@ -72,9 +93,9 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::field(
   // Save current offset
   let offset = self.offset
   // Update offset
-  self.offset = self.offset + T::size()
+  self.offset = self.offset + size
   // Return field offset
-  { offset, size: T::size(), alignment }
+  { offset, size, alignment, }
 }
 
 ///|
@@ -82,8 +103,9 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(
   self : Builder,
   length : @stddef.Size,
 ) -> Field[S, @array.Dynamic[T]] {
+  let size = size_of((_ : T) => ()) * length
   // Update struct alignment
-  let alignment = T::alignment()
+  let alignment = alignment_of((_ : T) => ())
   if alignment > self.align {
     self.align = alignment
   }
@@ -92,17 +114,17 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::array_field(
   // Save current offset
   let offset = self.offset
   // Update offset
-  self.offset = self.offset + T::size() * length
+  self.offset = self.offset + size
   // Return field offset and length
-  { offset, size: T::size() * length, alignment }
+  { offset, size, alignment, }
 }
 
 ///|
 pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::struct_field(
   self : Builder,
 ) -> Field[S, Struct[T]] {
-  let size = T::size()
-  let alignment = T::alignment()
+  let size = size_of((_ : T) => ())
+  let alignment = alignment_of((_ : T) => ())
   // Update struct alignment
   if alignment > self.align {
     self.align = alignment
@@ -114,20 +136,20 @@ pub fn[S, T : @alignof.Aligned + @sizeof.Sized] Builder::struct_field(
   // Update offset
   self.offset = self.offset + size
   // Return field offset
-  { offset, size, alignment }
+  { offset, size, alignment, }
 }
 
 ///|
 pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next(
   self : Field[S, C],
 ) -> Field[S, N] {
-  let alignment = if N::alignment() > self.alignment {
-    N::alignment()
+  let alignment = if alignment_of((_ : N) => ()) > self.alignment {
+    alignment_of((_ : N) => ())
   } else {
     self.alignment
   }
   let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
-  { offset, size: N::size(), alignment }
+  { offset, size: size_of((_ : N) => ()), alignment, }
 }
 
 ///|
@@ -135,26 +157,26 @@ pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_array(
   self : Field[S, C],
   length : @stddef.Size,
 ) -> Field[S, @array.Dynamic[N]] {
-  let alignment = if N::alignment() > self.alignment {
-    N::alignment()
+  let alignment = if alignment_of((_ : N) => ()) > self.alignment {
+    alignment_of((_ : N) => ())
   } else {
     self.alignment
   }
   let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
-  { offset, size: N::size() * length, alignment }
+  { offset, size: size_of((_ : N) => ()) * length, alignment, }
 }
 
 ///|
 pub fn[S, C, N : @alignof.Aligned + @sizeof.Sized] Field::next_struct(
   self : Field[S, C],
 ) -> Field[S, Struct[N]] {
-  let alignment = if N::alignment() > self.alignment {
-    N::alignment()
+  let alignment = if alignment_of((_ : N) => ()) > self.alignment {
+    alignment_of((_ : N) => ())
   } else {
     self.alignment
   }
   let offset = (self.offset + self.size + alignment - 1) / alignment * alignment
-  { offset, size: N::size(), alignment }
+  { offset, size: size_of((_ : N) => ()), alignment, }
 }
 
 ///|
@@ -178,7 +200,8 @@ pub fn[S] Struct::pointer(self : Struct[S]) -> @pointer.Pointer[Struct[S]] = "%i
 pub fn[S] Struct::new(pointer : @pointer.Pointer[Struct[S]]) -> Struct[S] = "%identity"
 
 ///|
-pub fn[S, T : @pointer.Load] Struct::op_get(
+#alias("_[_]")
+pub fn[S, T : @pointer.Load] Struct::at(
   self : Struct[S],
   field : Field[S, T],
 ) -> T {
@@ -186,7 +209,8 @@ pub fn[S, T : @pointer.Load] Struct::op_get(
 }
 
 ///|
-pub fn[S, T : @pointer.Store] Struct::op_set(
+#alias("_[_]=_")
+pub fn[S, T : @pointer.Store] Struct::set(
   self : Struct[S],
   field : Field[S, T],
   value : T,
@@ -208,3 +232,6 @@ pub impl[S] @pointer.Load for Struct[S] with fn load(
 ) -> Struct[S] {
   Struct::new(pointer)
 }
+
+///|
+pub extend Struct with @pointer.Load::{load}

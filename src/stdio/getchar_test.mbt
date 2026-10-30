@@ -15,7 +15,7 @@
 ///|
 test "getchar" {
   let c = @stdio.getchar()
-  json_inspect(c, content=@stdio.eof.to_json())
+  json_inspect(c, content=Json(@stdio.eof))
   let file = @stdio.fopen(b"getchar_test.txt", b"w")
   let _ = @stdio.fwrite(b"A", 1, 1, file)
   @stdio.fclose(file)

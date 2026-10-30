@@ -17,13 +17,13 @@ test "compare_exchange_strong" {
   if !supports_atomics {
     return
   }
-  let object : @atomic.Atomic[Int] = @memory.calloc(
+  let object : @atomic.Atomic[Int32] = @memory.calloc(
     1,
-    @atomic.sizeof((_ : Int) => ()),
+    @atomic.sizeof((_ : Int32) => ()),
   )
   defer @memory.free(object.to_pointer())
   @atomic.init_(object, 1)
-  let expected : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
+  let expected : @pointer.Pointer[Int32] = @memory.calloc(1, @sizeof.Int)
   defer @memory.free(expected)
   expected.store(1)
   json_inspect(
@@ -44,13 +44,13 @@ test "compare_exchange_weak" {
   if !supports_atomics {
     return
   }
-  let object : @atomic.Atomic[Int] = @memory.calloc(
+  let object : @atomic.Atomic[Int32] = @memory.calloc(
     1,
-    @atomic.sizeof((_ : Int) => ()),
+    @atomic.sizeof((_ : Int32) => ()),
   )
   defer @memory.free(object.to_pointer())
   @atomic.init_(object, 1)
-  let expected : @pointer.Pointer[Int] = @memory.calloc(1, @sizeof.Int)
+  let expected : @pointer.Pointer[Int32] = @memory.calloc(1, @sizeof.Int)
   defer @memory.free(expected)
   expected.store(1)
   json_inspect(@atomic.compare_exchange_weak(object, expected, 2), content=true)

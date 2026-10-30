@@ -47,65 +47,65 @@ pub const Double = 8UL
 
 ///|
 pub(open) trait Sized {
-  size() -> Size
+  fn size() -> Size
 }
 
 ///|
-pub impl Sized for Bool with size() -> Size {
+pub impl Sized for Bool with fn size() -> Size {
   1UL
 }
 
 ///|
-pub impl Sized for Byte with size() -> Size {
+pub impl Sized for Byte with fn size() -> Size {
   1UL
 }
 
 ///|
-pub impl Sized for Int16 with size() -> Size {
+pub impl Sized for Int16 with fn size() -> Size {
   2UL
 }
 
 ///|
-pub impl Sized for UInt16 with size() -> Size {
+pub impl Sized for UInt16 with fn size() -> Size {
   2UL
 }
 
 ///|
-pub impl Sized for Int with size() -> Size {
+pub impl Sized for Int32 with fn size() -> Size {
   4UL
 }
 
 ///|
-pub impl Sized for UInt with size() -> Size {
+pub impl Sized for UInt32 with fn size() -> Size {
   4UL
 }
 
 ///|
-pub impl Sized for Int64 with size() -> Size {
+pub impl Sized for Int64 with fn size() -> Size {
   8UL
 }
 
 ///|
-pub impl Sized for UInt64 with size() -> Size {
+pub impl Sized for UInt64 with fn size() -> Size {
   8UL
 }
 
 ///|
-pub impl Sized for Float with size() -> Size {
+pub impl Sized for Float with fn size() -> Size {
   4UL
 }
 
 ///|
-pub impl Sized for Double with size() -> Size {
+pub impl Sized for Double with fn size() -> Size {
   8UL
 }
 
 ///|
-pub impl Sized for Size with size() -> Size {
+pub impl Sized for Size with fn size() -> Size {
   Size::sizeof()
 }
 
 ///|
-pub impl Sized for @stddef.Ptrdiff with size() -> Size {
+pub impl Sized for @stddef.Ptrdiff with fn size() -> Size {
   Ptrdiff::sizeof()
 }

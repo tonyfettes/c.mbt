@@ -16,34 +16,45 @@
 struct Static[T, _](@pointer.Pointer[T])
 
 ///|
-pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N] with size() -> @stddef.Size {
+pub impl[T : @sizeof.Sized, N : @nat.ToUInt64] @sizeof.Sized for Static[T, N] with fn size() -> @stddef.Size {
   T::size() * @stddef.Size::from_uint64(@nat.to_uint64((_ : N) => ()))
 }
 
 ///|
-pub impl[T : @alignof.Aligned, N] @alignof.Aligned for Static[T, N] with alignment() -> @stddef.Size {
+pub extend Static with @sizeof.Sized::{size}
+
+///|
+pub impl[T : @alignof.Aligned, N] @alignof.Aligned for Static[T, N] with fn alignment() -> @stddef.Size {
   T::alignment()
 }
 
 ///|
-pub impl[T, N] @pointer.Load for Static[T, N] with load(
+pub extend Static with @alignof.Aligned::{alignment}
+
+///|
+pub impl[T, N] @pointer.Load for Static[T, N] with fn load(
   self : @pointer.Pointer[Static[T, N]],
 ) -> Static[T, N] {
   Static(self.cast())
 }
 
 ///|
-pub fn[T : @pointer.Load + @sizeof.Sized, N] Static::op_get(
+pub extend Static with @pointer.Load::{load}
+
+///|
+#alias("_[_]")
+pub fn[T : @pointer.Load + @sizeof.Sized, N] Static::get(
   self : Static[T, N],
-  index : Int,
+  index : Int32,
 ) -> T {
   self.0[index]
 }
 
 ///|
-pub fn[T : @pointer.Store + @sizeof.Sized, N] Static::op_set(
+#alias("_[_]=_")
+pub fn[T : @pointer.Store + @sizeof.Sized, N] Static::set(
   self : Static[T, N],
-  index : Int,
+  index : Int32,
   value : T,
 ) -> Unit {
   self.0[index] = value

@@ -17,9 +17,9 @@ test "fetch_and" {
   if !supports_atomics {
     return
   }
-  let object : @atomic.Atomic[Int] = @memory.calloc(
+  let object : @atomic.Atomic[Int32] = @memory.calloc(
     1,
-    @atomic.sizeof((_ : Int) => ()),
+    @atomic.sizeof((_ : Int32) => ()),
   )
   defer @memory.free(object.to_pointer())
   @atomic.init_(object, 2)

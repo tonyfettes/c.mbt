@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-pub extern "c" fn ldexp(x : Double, exp : Int) -> Double = "ldexp"
+pub extern "c" fn ldexp(x : Double, exp : Int32) -> Double = "ldexp"
 
 ///|
-pub extern "c" fn ldexpf(x : Float, exp : Int) -> Float = "ldexpf"
+pub extern "c" fn ldexpf(x : Float, exp : Int32) -> Float = "ldexpf"

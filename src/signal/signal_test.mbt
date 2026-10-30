@@ -23,7 +23,7 @@ test "signal/sig-ign" {
 }
 
 ///|
-let last_signal : Ref[Int] = Ref(0)
+let last_signal : Ref[Int32] = Ref(0)
 
 ///|
 test "signal" {
