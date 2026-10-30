@@ -1,6 +1,6 @@
 name = "tonyfettes/c"
 
-version = "0.7.8"
+version = "0.8.0"
 
 import {
   "tonyfettes/nat@0.1.2",
